@@ -1,29 +1,37 @@
 package fr.lsmbo.msda.recover.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 import javax.swing.RowFilter.ComparisonType;
 
+import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.filters.BasicFilter;
 import fr.lsmbo.msda.recover.filters.ChargeStatesFilter;
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
+import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.PrecursorIntensityFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
+import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
 
 public class FiltersController {
 	
@@ -36,6 +44,8 @@ public class FiltersController {
 	private FragmentIntensityFilter filterFI = new FragmentIntensityFilter();
 	private WrongChargeFilter filterWC = new WrongChargeFilter();
 	private IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
+	private IonReporterFilter filterIR = new IonReporterFilter();
+	
 	
 	private ObservableList<String> modeBaselineList = FXCollections.observableArrayList("Average of all peaks","Median of all peaks");
 	private ObservableList<String> comparatorIntensity = FXCollections.observableArrayList("=","#",">",">=","<","<=");
@@ -46,6 +56,7 @@ public class FiltersController {
 	private ObservableList<Control> controlPI = FXCollections.observableArrayList();
 	private ObservableList<Control> controlFI = FXCollections.observableArrayList();
 	private ObservableList<Control> controlIS = FXCollections.observableArrayList();
+	private ObservableList<Control> controlIR = FXCollections.observableArrayList();
 	
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
 	
@@ -132,6 +143,22 @@ public class FiltersController {
 	private CheckBox checkBoxIdentifiedSpectraFilter;
 	@FXML
 	private TextArea titles;
+	@FXML
+	private Button buttonIdentifiedSpectra;
+	
+	/********************************
+	 Control for Ion ReporterFilter
+	 ********************************/
+	@FXML 
+	private CheckBox checkBoxIonReporterFilter;
+	@FXML
+	private TextField mozIonReporter;
+	@FXML
+	private TextField toleranceIonReporter;
+	@FXML
+	private TextField nameIonReporter;
+	@FXML
+	private Button buttonIonReporter;
 	
 	//Buttons
 	@FXML 
@@ -148,7 +175,8 @@ public class FiltersController {
 		controlCS.addAll(charge1, charge2, charge3, charge4, charge5, chargeOver5, chargeUnknown);
 		controlPI.addAll(comparatorPrecursorIntensity, precursorIntensity);
 		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
-		controlIS.addAll(titles);
+		controlIS.addAll(buttonIdentifiedSpectra, titles);
+		controlIR.addAll(mozIonReporter, toleranceIonReporter, nameIonReporter, buttonIonReporter);
 		
 		//disable all control
 		
@@ -158,6 +186,7 @@ public class FiltersController {
 		setDisableControl(controlPI,"disable");
 		setDisableControl(controlFI,"disable");
 		setDisableControl(controlIS,"disable");
+		setDisableControl(controlIR,"disable");
 		
 		//Initialize values and set the first value for choice boxes
 		modeBaseline.setItems(modeBaselineList);
@@ -200,11 +229,16 @@ public class FiltersController {
 		if (checkBoxIdentifiedSpectraFilter.isSelected()){
 			applyFilterISToSpectrum();
 		}
+		//filterIR
+		if (checkBoxIonReporterFilter.isSelected()){
+			applyFilterIRToSpectrum();
+		}
 		//initialize variable nbRecover after apply filter
 		Spectra.checkRecoveredSpectra();
 		
-		if (arrayAlert.size() == 0)
+		if (arrayAlert.size() == 0){
 			dialogStage.close();
+		}
 		else
 			arrayAlert.clear();
 }
@@ -218,7 +252,7 @@ High Intensity Threshold Filter
 			setDisableControl(controlHIT, "enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlHIT, "disable");;
 	}
 	@FXML
 	private void applyFilterHITToSpectrum(){
@@ -288,7 +322,7 @@ Low Intensity Threshold Filter
 			setDisableControl(controlLIT,"enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlLIT, "disable");;
 	}
 	
 	@FXML
@@ -332,7 +366,7 @@ Charge State Filter
 			setDisableControl(controlCS,"enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlCS, "disable");;
 	}
 	
 	@FXML
@@ -372,7 +406,7 @@ Precursor Intensity Filter
 			setDisableControl(controlPI, "enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlPI, "disable");;
 	}
 	
 	@FXML
@@ -407,7 +441,7 @@ Fragment Intensity Filter
 			setDisableControl(controlFI, "enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlFI, "disable");
 	}
 	
 	@FXML
@@ -457,9 +491,8 @@ Identified Spectra Filter
 			setDisableControl(controlIS, "enable");
 		}
 		else
-			initialize();
+			setDisableControl(controlIS, "disable");;
 	}
-	
 	
 	@FXML
 	private void applyFilterISToSpectrum(){
@@ -475,6 +508,34 @@ Identified Spectra Filter
 				}
 			}
 		RecoverController.filterUsed = true;
+	}
+/********************************
+Ion Reporter Filter
+********************************/
+	@FXML
+	private void checkIonReporterFilter(){
+		if (checkBoxIonReporterFilter.isSelected()){
+			setDisableControl(controlIR, "enable");
+		}
+		else
+			setDisableControl(controlIR, "disable");;
+	}
+	
+	@FXML
+	private void applyFilterIRToSpectrum(){
+		Float mozIonReporterFloat = changeTextFieldToFloat(mozIonReporter);
+		Float toleranceIonReporterFloat = changeTextFieldToFloat(toleranceIonReporter);
+		filterIR.setParameters(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat);
+		for (int i=0; i < nb; i++){
+			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+			if (RecoverController.filterUsed){
+				spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
+			}
+			else{
+				spectrum.setIsRecover(filterIR.isValid(spectrum));
+			}
+		}
+	RecoverController.filterUsed = true;
 	}
 	
 	@FXML

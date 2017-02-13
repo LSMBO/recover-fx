@@ -63,9 +63,9 @@
             <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="620.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="216.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="620.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
    		</rowConstraints>
    		<children>
@@ -180,12 +180,33 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
-            <TextArea fx:id="titles" prefHeight="402.0" prefWidth="851.0" GridPane.columnSpan="7" GridPane.rowIndex="20" />
-            <Label text="Please insert below the title of your spectrum you want to identify. One title per line !" GridPane.columnSpan="7" GridPane.rowIndex="19">
+            <Button fx:id="buttonIdentifiedSpectra" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="18" />
+            <TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="19" />
+            <CheckBox fx:id="checkBoxIonReporterFilter" onAction="#checkIonReporterFilter" mnemonicParsing="false" text="Filter ion reporter" GridPane.columnSpan="3" GridPane.rowIndex="20">
                <GridPane.margin>
-                  <Insets left="5.0" />
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </CheckBox>
+            <Button fx:id="buttonIonReporter" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="20" />
+            <TextField fx:id="mozIonReporter" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+            <TextField fx:id="toleranceIonReporter" GridPane.columnIndex="2" GridPane.rowIndex="22" />
+            <TextField fx:id="nameIonReporter" GridPane.columnIndex="3" GridPane.rowIndex="22" />
+            <Label contentDisplay="CENTER" text="m/z" GridPane.columnIndex="1" GridPane.rowIndex="21">
+               <GridPane.margin>
+                  <Insets left="90.0" />
                </GridPane.margin>
             </Label>
+            <Label text="tolerance" GridPane.columnIndex="2" GridPane.rowIndex="21">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <Label text="name" GridPane.columnIndex="3" GridPane.rowIndex="21">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin>
+            </Label>
+            
    		</children>
    	</GridPane>
    </center>

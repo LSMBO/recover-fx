@@ -298,7 +298,6 @@ public class RecoverController {
 			e.printStackTrace();
 			
 		}
-		
 	}
 	
 	@FXML
