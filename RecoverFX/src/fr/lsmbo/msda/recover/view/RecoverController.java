@@ -7,13 +7,13 @@ import java.util.Optional;
 import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.ui.ExtensionFileFilter;
+
 
 import fr.lsmbo.msda.recover.io.PeaklistRecovered;
 import fr.lsmbo.msda.recover.Main;
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
-import fr.lsmbo.msda.recover.filters.Filter;
+
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -27,7 +27,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;

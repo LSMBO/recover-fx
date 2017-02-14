@@ -180,14 +180,14 @@
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
-            <Button fx:id="buttonIdentifiedSpectra" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="18" />
-            <TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="19" />
+            <Button fx:id="buttonIdentifiedSpectra" onAction="#openISFilter" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="18" />
+<!--             <TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="19" /> -->
             <CheckBox fx:id="checkBoxIonReporterFilter" onAction="#checkIonReporterFilter" mnemonicParsing="false" text="Filter ion reporter" GridPane.columnSpan="3" GridPane.rowIndex="20">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
-            <Button fx:id="buttonIonReporter" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="20" />
+            <Button fx:id="buttonIonReporter" onAction="#openIRFilter" mnemonicParsing="false" text="..." GridPane.columnIndex="2" GridPane.rowIndex="20" />
             <TextField fx:id="mozIonReporter" GridPane.columnIndex="1" GridPane.rowIndex="22" />
             <TextField fx:id="toleranceIonReporter" GridPane.columnIndex="2" GridPane.rowIndex="22" />
             <TextField fx:id="nameIonReporter" GridPane.columnIndex="3" GridPane.rowIndex="22" />

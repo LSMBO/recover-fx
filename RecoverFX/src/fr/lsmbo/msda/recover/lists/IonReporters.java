@@ -1,21 +1,22 @@
 package fr.lsmbo.msda.recover.lists;
 
-import java.util.ArrayList;
-
 import fr.lsmbo.msda.recover.model.IonReporter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class IonReporters {
 
-	private static ArrayList<IonReporter> ionReporters;
+	private static ObservableList<IonReporter> ionReporters;
 	
 	private static void initialize() {
-		if(ionReporters == null) {
+		System.out.println(ionReporters.isEmpty());
+		if(ionReporters.isEmpty()) {
 			// lazy loading
-			ionReporters = new ArrayList<IonReporter>();
+			ionReporters = FXCollections.observableArrayList();
 		}
 	}
 	
-	public static ArrayList<IonReporter> getIonReporters() {
+	public static ObservableList<IonReporter> getIonReporters() {
 		initialize();
 		return ionReporters;
 	}

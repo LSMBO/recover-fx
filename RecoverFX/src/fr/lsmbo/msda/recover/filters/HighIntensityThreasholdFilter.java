@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.filters;
 
-import fr.lsmbo.msda.recover.Session;
+
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class HighIntensityThreasholdFilter implements BasicFilter {

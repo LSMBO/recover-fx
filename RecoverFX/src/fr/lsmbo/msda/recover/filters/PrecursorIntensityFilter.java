@@ -1,9 +1,7 @@
 package fr.lsmbo.msda.recover.filters;
 
-import javax.swing.RowFilter.ComparisonType;
 
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
-import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class PrecursorIntensityFilter implements BasicFilter {

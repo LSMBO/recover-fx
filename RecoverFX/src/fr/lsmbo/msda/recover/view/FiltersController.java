@@ -1,11 +1,8 @@
 package fr.lsmbo.msda.recover.view;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
-import javax.swing.RowFilter.ComparisonType;
+import java.io.IOException;
+import java.util.Iterator;
 
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.filters.BasicFilter;
@@ -20,7 +17,8 @@ import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
-import fr.lsmbo.msda.recover.model.IonReporter;
+import fr.lsmbo.msda.recover.view.IdentifiedSpectraFilterController;
+
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,9 +26,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 public class FiltersController {
@@ -63,6 +63,8 @@ public class FiltersController {
 	private Integer nb = Spectra.getSpectraAsObservable().size(); 
 	
 	
+	@FXML
+	private IdentifiedSpectraFilterController ISFC;
 	
 	/*******************************************
 	 Control for High Intensity Threshold Filter
@@ -175,7 +177,7 @@ public class FiltersController {
 		controlCS.addAll(charge1, charge2, charge3, charge4, charge5, chargeOver5, chargeUnknown);
 		controlPI.addAll(comparatorPrecursorIntensity, precursorIntensity);
 		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
-		controlIS.addAll(buttonIdentifiedSpectra, titles);
+		controlIS.addAll(buttonIdentifiedSpectra);
 		controlIR.addAll(mozIonReporter, toleranceIonReporter, nameIonReporter, buttonIonReporter);
 		
 		//disable all control
@@ -494,6 +496,10 @@ Identified Spectra Filter
 			setDisableControl(controlIS, "disable");;
 	}
 	
+	public void SetTitles(TextArea titles){
+		this.titles = titles ;
+	}
+	
 	@FXML
 	private void applyFilterISToSpectrum(){
 			String [] arrayTitles = titles.getText().split("\n");
@@ -509,6 +515,26 @@ Identified Spectra Filter
 			}
 		RecoverController.filterUsed = true;
 	}
+	@FXML
+	private void openISFilter(){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Views.FILTER_IDENTIFIED_SPECTRA);
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage stageIS = new Stage();
+			stageIS.setScene(new Scene(page));
+			stageIS.initOwner(dialogStage);
+			stageIS.initModality(Modality.WINDOW_MODAL);
+			stageIS.setTitle("Identified Spectra Filter");
+			IdentifiedSpectraFilterController controller = loader.getController();
+			controller.setStageIS(stageIS);
+			stageIS.show();
+		} catch(IOException e) {
+			e.printStackTrace();
+			
+		}
+	}
+	
 /********************************
 Ion Reporter Filter
 ********************************/
@@ -536,6 +562,26 @@ Ion Reporter Filter
 			}
 		}
 	RecoverController.filterUsed = true;
+	}
+	
+	@FXML
+	private void openIRFilter(){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Views.FILTER_ION_REPORTER);
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage stageIR = new Stage();
+			stageIR.setScene(new Scene(page));
+			stageIR.initOwner(dialogStage);
+			stageIR.initModality(Modality.WINDOW_MODAL);
+			stageIR.setTitle("Identified Spectra Filter");
+			IonReporterFilterController controller = loader.getController();
+			controller.setStageIR(stageIR);
+			stageIR.showAndWait();
+		} catch(IOException e) {
+			e.printStackTrace();
+			
+		}
 	}
 	
 	@FXML
@@ -599,6 +645,7 @@ Ion Reporter Filter
 				itrControl.next().setDisable(false);
 		}
 	}
+
 }
 
 
