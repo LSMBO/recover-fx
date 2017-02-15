@@ -14,9 +14,11 @@ import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.PrecursorIntensityFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
+import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
+import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.view.IdentifiedSpectraFilterController;
 
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -30,6 +32,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -154,13 +157,25 @@ public class FiltersController {
 	@FXML 
 	private CheckBox checkBoxIonReporterFilter;
 	@FXML
+	private TableView<IonReporter> tableIonReporter;
+	@FXML
+	private TableColumn<IonReporter, Float> colMoz;
+	@FXML
+	private TableColumn<IonReporter, Float> colTolerance;
+	@FXML
+	private TableColumn<IonReporter, String> colName;
+	@FXML
+	private Button buttonIonReporter;
+	@FXML
 	private TextField mozIonReporter;
 	@FXML
 	private TextField toleranceIonReporter;
 	@FXML
 	private TextField nameIonReporter;
 	@FXML
-	private Button buttonIonReporter;
+	private Button buttonInsertIonReporter;
+	@FXML
+	private Button buttonResetIonReporter;
 	
 	//Buttons
 	@FXML 
@@ -177,8 +192,8 @@ public class FiltersController {
 		controlCS.addAll(charge1, charge2, charge3, charge4, charge5, chargeOver5, chargeUnknown);
 		controlPI.addAll(comparatorPrecursorIntensity, precursorIntensity);
 		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
-		controlIS.addAll(buttonIdentifiedSpectra);
-		controlIR.addAll(mozIonReporter, toleranceIonReporter, nameIonReporter, buttonIonReporter);
+		controlIS.addAll(buttonIdentifiedSpectra, titles);
+		controlIR.addAll(tableIonReporter, buttonIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter, buttonInsertIonReporter, buttonResetIonReporter);
 		
 		//disable all control
 		
@@ -199,6 +214,12 @@ public class FiltersController {
 		
 		comparatorFragmentIntensity.setItems(comparatorIntensity);
 		comparatorFragmentIntensity.getSelectionModel().selectFirst();
+		
+		//Initialize table view for Ion Reporter
+		tableIonReporter.setItems(IonReporters.getIonReporters());
+		colMoz.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("moz"));
+		colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
+		colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
 		}
 	
 	@FXML
@@ -503,17 +524,32 @@ Identified Spectra Filter
 	@FXML
 	private void applyFilterISToSpectrum(){
 			String [] arrayTitles = titles.getText().split("\n");
-			filterIS.setParameters(arrayTitles);
-			for (int i=0; i < nb; i++){
-				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-				if (RecoverController.filterUsed){
-					spectrum.setIsIdentified(recoverIfFilterUsed(spectrum, filterIS));
+			
+			try{
+				for (String t : arrayTitles){
+					filterIS.setIdentified(t);
 				}
-				else{
-					spectrum.setIsIdentified(filterIS.isValid(spectrum));
-				}
+			}catch(NullPointerException e){
+				Alert alert = new Alert(AlertType.WARNING);
+				arrayAlert.add(alert);
+				alert.setTitle("Title(s) not corresponding");
+				alert.setHeaderText("Any of your titles correspond to spectrum. Please check your titles.\n"
+						+ "Don't forget one title per line.\n"
+						+ "EX:\n"
+						+ "Cmpd X, +MSn(xxx.xxx), xx.xx min\n"
+						+ "Cmpd Y, +MSn(xxx.xxx), xx.xx min");
+				alert.showAndWait();
 			}
-		RecoverController.filterUsed = true;
+//			filterIS.setParameters(arrayTitles);
+//			for (int i=0; i < nb; i++){
+//				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+//				if (RecoverController.filterUsed){
+//					spectrum.setIsIdentified(recoverIfFilterUsed(spectrum, filterIS));
+//				}
+//				else{
+//					spectrum.setIsIdentified(filterIS.isValid(spectrum));
+//				}
+//			}
 	}
 	@FXML
 	private void openISFilter(){
@@ -548,21 +584,53 @@ Ion Reporter Filter
 	}
 	
 	@FXML
-	private void applyFilterIRToSpectrum(){
+	private void insertIonToTableView(){
 		Float mozIonReporterFloat = changeTextFieldToFloat(mozIonReporter);
 		Float toleranceIonReporterFloat = changeTextFieldToFloat(toleranceIonReporter);
-		filterIR.setParameters(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat);
-		for (int i=0; i < nb; i++){
-			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-			if (RecoverController.filterUsed){
-				spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
-			}
-			else{
-				spectrum.setIsRecover(filterIR.isValid(spectrum));
-			}
-		}
-	RecoverController.filterUsed = true;
+		IonReporters.add(new IonReporter(nameIonReporter.getText(),mozIonReporterFloat,toleranceIonReporterFloat));
+		tableIonReporter.refresh();
 	}
+	
+	@FXML
+	private void resetIonToTableView(){
+		IonReporters.getIonReporters().clear();
+	}
+	
+	@FXML
+	private void applyFilterIRToSpectrum(){
+		Integer nbIon = IonReporters.getIonReporters().size();
+		System.out.println(nbIon);
+		for (int i=0; i <nbIon; i++){
+			IonReporter ionReporter = IonReporters.getIonReporters().get(i);
+			filterIR.setParameters(ionReporter.getName(),ionReporter.getMoz(),ionReporter.getTolerance());
+			for (int j=0; j < nb; j++){
+				Spectrum spectrum = Spectra.getSpectraAsObservable().get(j);
+				if (RecoverController.filterUsed){
+					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
+				}
+				else{
+					spectrum.setIsRecover(filterIR.isValid(spectrum));
+				}
+			}
+		RecoverController.filterUsed = true;
+		}
+	}
+//	@FXML
+//	private void applyFilterIRToSpectrum(){
+//		Float mozIonReporterFloat = changeTextFieldToFloat(mozIonReporter);
+//		Float toleranceIonReporterFloat = changeTextFieldToFloat(toleranceIonReporter);
+//		filterIR.setParameters(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat);
+//		for (int i=0; i < nb; i++){
+//			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+//			if (RecoverController.filterUsed){
+//				spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
+//			}
+//			else{
+//				spectrum.setIsRecover(filterIR.isValid(spectrum));
+//			}
+//		}
+//	RecoverController.filterUsed = true;
+//	}
 	
 	@FXML
 	private void openIRFilter(){

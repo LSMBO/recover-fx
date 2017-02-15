@@ -121,4 +121,16 @@ public class Spectra {
 		if(spectra.size() > 0)
 			spectra.remove(0);
 	}
+	
+	public static Spectrum getSpectrumWithTitle(String title){
+		Integer nb = Spectra.getSpectraAsObservable().size();
+		Spectrum specificSpectrum = null;
+		for (int i = 0; i < nb; i++){
+			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+			if(spectrum.getTitle().equalsIgnoreCase(title)){
+				specificSpectrum = spectrum;
+			}
+		}
+		return specificSpectrum;
+	}
 }

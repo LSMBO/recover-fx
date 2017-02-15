@@ -15,6 +15,9 @@ public class PeaklistRecovered {
 	public static void save(File file){
 		Date actualDate = Calendar.getInstance().getTime();
 		String line;
+		String title;
+		Spectrum spectrum = null;
+		Integer lineNumber = 0;
 		Integer nb = Spectra.getSpectraAsObservable().size();
 		ArrayList<String> arrayLine = new ArrayList<String>();
 		
@@ -27,25 +30,39 @@ public class PeaklistRecovered {
 									+"\n###________________________________________________________");
 			writerNewPeaklist.newLine();
 			
-			//Initialize an array with all the line of the current peaklist and write into the new file the beginning of this current peaklist.
+			//this loop scan the input file and store just one spectrum in an array (until END IONS will be find)
 			while((line = reader.readLine()) != null) {
 				arrayLine.add(line);
 				
-				if (line.matches("^###\\s.*"))
+				//Write parameters of this peaklist in the new file 
+				if (line.matches("^###\\s.*")){
 					writerNewPeaklist.write(line + "\n");
-			}
-			
-			System.out.println(arrayLine.get(0));
-			
-			//verify if a spectrum is recovered. if yes write lines of the desired spectrum
-			for(int i=0; i<nb; i++){
-				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-				if (spectrum.getIsRecover()){
-					for(int j = spectrum.getLineStart()-1; j < spectrum.getLineStop(); j++){
-						writerNewPeaklist.write(arrayLine.get(j) +"\n");
+				}
+				
+				//extract the title of the spectrum and recover the corresponding spectrum
+				if (line.startsWith("TITLE")){
+						title = line.replaceFirst("TITLE.\\s+", "");
+						spectrum = Spectra.getSpectrumWithTitle(title);
+				}
+				
+				//check if the spectrum is recover. If yes, write since the array line corresponding to this spectrum (index - 1 because need to write BEGIN IONS
+				//before the title.
+				if (spectrum != null && spectrum.getIsRecover()){
+					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n");
+				}
+				
+				//if spectrum is recover, write previous line (index - 1) plus "END IONS"
+				//set spectrum null and clear the array to store the next spectrum.
+				if (line.startsWith("END IONS")){
+					if (spectrum != null && spectrum.getIsRecover()){
+					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
 					}
 					writerNewPeaklist.newLine();
-				}
+					spectrum = null;
+					arrayLine.clear();
+					lineNumber = -1;
+			}
+				lineNumber++;
 			}
 			
 			writerNewPeaklist.close();

@@ -6,23 +6,18 @@ import javafx.collections.ObservableList;
 
 public class IonReporters {
 
-	private static ObservableList<IonReporter> ionReporters;
+	private static ObservableList<IonReporter> ionReporters = initializeListIon();;
 	
-	private static void initialize() {
-		System.out.println(ionReporters.isEmpty());
-		if(ionReporters.isEmpty()) {
-			// lazy loading
-			ionReporters = FXCollections.observableArrayList();
-		}
+	private static ObservableList<IonReporter> initializeListIon() {
+		ObservableList<IonReporter> list = FXCollections.observableArrayList();
+		return list;
 	}
 	
 	public static ObservableList<IonReporter> getIonReporters() {
-		initialize();
 		return ionReporters;
 	}
 	
 	public static void add(IonReporter ir) {
-		initialize();
 		ionReporters.add(ir);
 	}
 	
