@@ -6,8 +6,9 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class PrecursorIntensityFilter implements BasicFilter {
 
-	private float intensity;
+	private int intensity;
 	private ComparisonTypes comparator;
+	private Boolean isUsed =false;
 	
 	public void setParameters(int _intensity, ComparisonTypes _comparator) {
 		intensity = _intensity;
@@ -44,5 +45,21 @@ public class PrecursorIntensityFilter implements BasicFilter {
 	public String getFullDescription() {
 		return "";
 	}
-
+	
+	public int getIntensityPrecursor(){
+		return intensity;
+	}
+	
+	public ComparisonTypes getComparator(){
+		return comparator;
+	}
+	
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed ;
+	}
 }

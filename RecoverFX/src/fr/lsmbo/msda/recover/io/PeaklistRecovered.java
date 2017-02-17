@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import fr.lsmbo.msda.recover.Session;
+import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -18,7 +20,6 @@ public class PeaklistRecovered {
 		String title;
 		Spectrum spectrum = null;
 		Integer lineNumber = 0;
-		Integer nb = Spectra.getSpectraAsObservable().size();
 		ArrayList<String> arrayLine = new ArrayList<String>();
 		
 		try{
@@ -29,6 +30,10 @@ public class PeaklistRecovered {
 									+"\n### " + Spectra.getNbRecover() +" spectrum have been saved"
 									+"\n###________________________________________________________");
 			writerNewPeaklist.newLine();
+			if ((Filters.getFilters().get("HIT"))!=null){
+				HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+				writerNewPeaklist.write(filterHIT.getFullDescription());
+			}
 			
 			//this loop scan the input file and store just one spectrum in an array (until END IONS will be find)
 			while((line = reader.readLine()) != null) {
@@ -56,8 +61,8 @@ public class PeaklistRecovered {
 				if (line.startsWith("END IONS")){
 					if (spectrum != null && spectrum.getIsRecover()){
 					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
-					}
 					writerNewPeaklist.newLine();
+					}
 					spectrum = null;
 					arrayLine.clear();
 					lineNumber = -1;

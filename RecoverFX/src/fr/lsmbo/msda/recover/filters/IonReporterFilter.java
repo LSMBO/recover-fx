@@ -8,6 +8,7 @@ public class IonReporterFilter implements BasicFilter{
 	private String name;
 	private Float moz;
 	private Float tolerance;
+	private Boolean isUsed = false;
 	
 	public void setParameters(String _name, Float _moz, Float _tolerance) {
 		name = _name;
@@ -39,5 +40,12 @@ public class IonReporterFilter implements BasicFilter{
 	public String getFullDescription() {
 		return "";
 	}
-
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed ;
+	}
 }

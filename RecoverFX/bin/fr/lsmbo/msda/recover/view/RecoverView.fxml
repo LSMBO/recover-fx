@@ -55,6 +55,10 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></CheckMenuItem>
+                        <MenuItem fx:id="mnResetRecover" mnemonicParsing="false" onAction="#handleClickMenuResetRecover" text="Reset Recover">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

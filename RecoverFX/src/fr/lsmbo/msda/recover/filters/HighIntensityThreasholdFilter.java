@@ -5,9 +5,10 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class HighIntensityThreasholdFilter implements BasicFilter {
 
-	int nbMostIntensePeaksToConsider;
-	float percentageOfTopLine; // should be between 0 and 1
-	int maxNbPeaks;
+	private int nbMostIntensePeaksToConsider;
+	private float percentageOfTopLine; // should be between 0 and 1
+	private int maxNbPeaks;
+	private Boolean isUsed = false;
 	
 	public void setParameters(int _nbMostIntensePeaksToConsider, float _percentageOfTopLine, int _maxNbPeaks) {
 		nbMostIntensePeaksToConsider = _nbMostIntensePeaksToConsider;
@@ -46,7 +47,29 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 
 	@Override
 	public String getFullDescription() {
-		return "";
+		return "###Parameters used for High Intensity Threshold Filter : \n"
+				+ "###Number of most intense peaks to consider : " + getNbMostIntensePeaksToConsider() + "\n"
+				+ "###Percentage of top line : " + getPercentageOfTopLine() + "\n"
+				+ "###Maximum of number Peaks : " + getMaxNbPeaks() + "\n";
 	}
-
+	
+	public int getNbMostIntensePeaksToConsider(){
+		return nbMostIntensePeaksToConsider;
+	}
+	
+	public float getPercentageOfTopLine(){
+		return percentageOfTopLine;
+	}
+	
+	public int getMaxNbPeaks(){
+		return maxNbPeaks;
+	}
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public  void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed ;
+	}
 }

@@ -14,6 +14,7 @@ import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.PrecursorIntensityFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
+import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
@@ -28,18 +29,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 public class FiltersController {
 	
 	private Stage dialogStage;
 	
+	//instance filters
 	private HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter() ;
 	private LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter() ;
 	private ChargeStatesFilter filterCS = new ChargeStatesFilter();
@@ -53,6 +53,7 @@ public class FiltersController {
 	private ObservableList<String> modeBaselineList = FXCollections.observableArrayList("Average of all peaks","Median of all peaks");
 	private ObservableList<String> comparatorIntensity = FXCollections.observableArrayList("=","#",">",">=","<","<=");
 	
+	//Instance control of one filter as a list.
 	private ObservableList<Control> controlHIT = FXCollections.observableArrayList();
 	private ObservableList<Control> controlLIT = FXCollections.observableArrayList();
 	private ObservableList<Control> controlCS = FXCollections.observableArrayList();
@@ -63,11 +64,9 @@ public class FiltersController {
 	
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
 	
+//	private Boolean[] filtersUsed = {filterHIT.getIsUsed(),filterLIT.getIsUsed(),filterCS.getIsUsed(), filterPI.getIsUsed(), filterFI.getIsUsed(),filterWC.getIsUsed(),filterIR.getIsUsed()};
+	
 	private Integer nb = Spectra.getSpectraAsObservable().size(); 
-	
-	
-	@FXML
-	private IdentifiedSpectraFilterController ISFC;
 	
 	/*******************************************
 	 Control for High Intensity Threshold Filter
@@ -75,7 +74,7 @@ public class FiltersController {
 	@FXML
 	private CheckBox checkBoxHighIntensityThresholdFilter;
 	@FXML
-	private TextField mostIntensePeaksToConsider ;
+	private TextField mostIntensePeaksToConsider;
 	@FXML
 	private TextField percentageOfTopLine;
 	@FXML
@@ -185,42 +184,130 @@ public class FiltersController {
 	
 	@FXML
 	private void initialize(){
-		
-		//add different control in observable list for different filters
-		controlHIT.addAll(mostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
-		controlLIT.addAll(modeBaseline, emergence, minUPN, maxUPN);
-		controlCS.addAll(charge1, charge2, charge3, charge4, charge5, chargeOver5, chargeUnknown);
-		controlPI.addAll(comparatorPrecursorIntensity, precursorIntensity);
-		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
-		controlIS.addAll(buttonIdentifiedSpectra, titles);
-		controlIR.addAll(tableIonReporter, buttonIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter, buttonInsertIonReporter, buttonResetIonReporter);
-		
-		//disable all control
-		
-		setDisableControl(controlHIT,"disable");
-		setDisableControl(controlLIT,"disable");
-		setDisableControl(controlCS,"disable");
-		setDisableControl(controlPI,"disable");
-		setDisableControl(controlFI,"disable");
-		setDisableControl(controlIS,"disable");
-		setDisableControl(controlIR,"disable");
-		
-		//Initialize values and set the first value for choice boxes
-		modeBaseline.setItems(modeBaselineList);
-		modeBaseline.getSelectionModel().selectFirst();
-		
-		comparatorPrecursorIntensity.setItems(comparatorIntensity);
-		comparatorPrecursorIntensity.getSelectionModel().selectFirst();
-		
-		comparatorFragmentIntensity.setItems(comparatorIntensity);
-		comparatorFragmentIntensity.getSelectionModel().selectFirst();
-		
-		//Initialize table view for Ion Reporter
-		tableIonReporter.setItems(IonReporters.getIonReporters());
-		colMoz.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("moz"));
-		colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
-		colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
-		}
+			System.out.println(Filters.nbFilterUsed());
+	
+			//add different control in observable list for different filters
+			controlHIT.addAll(mostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
+			controlLIT.addAll(modeBaseline, emergence, minUPN, maxUPN);
+			controlCS.addAll(charge1, charge2, charge3, charge4, charge5, chargeOver5, chargeUnknown);
+			controlPI.addAll(comparatorPrecursorIntensity, precursorIntensity);
+			controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
+			controlIS.addAll(buttonIdentifiedSpectra, titles);
+			controlIR.addAll(tableIonReporter, buttonIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter, buttonInsertIonReporter, buttonResetIonReporter);
+			
+			//disable all control
+			
+			setDisableControl(controlHIT,"disable");
+			setDisableControl(controlLIT,"disable");
+			setDisableControl(controlCS,"disable");
+			setDisableControl(controlPI,"disable");
+			setDisableControl(controlFI,"disable");
+			setDisableControl(controlIS,"disable");
+			setDisableControl(controlIR,"disable");
+			
+			//Initialize values and set the first value for choice boxes
+			modeBaseline.setItems(modeBaselineList);
+			modeBaseline.getSelectionModel().selectFirst();
+			
+			comparatorPrecursorIntensity.setItems(comparatorIntensity);
+			comparatorPrecursorIntensity.getSelectionModel().selectFirst();
+			
+			comparatorFragmentIntensity.setItems(comparatorIntensity);
+			comparatorFragmentIntensity.getSelectionModel().selectFirst();
+			
+			//Initialize table view for Ion Reporter
+			tableIonReporter.setItems(IonReporters.getIonReporters());
+			colMoz.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("moz"));
+			colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
+			colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
+			
+//			if(nbFiltersUsed()!=0){
+//				HighIntensityThreasholdFilter filterhit =  (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+//				mostIntensePeaksToConsider.setText(Integer.toString(filterhit.getNbMostIntensePeaksToConsider()));
+//				percentageOfTopLine.setText(Float.toString(filterhit.getPercentageOfTopLine()));
+//				maxNbPeaks.setText(Integer.toString(filterhit.getMaxNbPeaks()));
+//			}
+			
+			if(Filters.nbFilterUsed() !=0)
+				//initialize previous values of the filterHIT
+				if ((Filters.getFilters().get("HIT"))!=null){
+					filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+					checkBoxHighIntensityThresholdFilter.setSelected(true);
+					checkHighIntensityThresholdFilter();
+					mostIntensePeaksToConsider.setText(Integer.toString(filterHIT.getNbMostIntensePeaksToConsider()));
+					percentageOfTopLine.setText(Float.toString(filterHIT.getPercentageOfTopLine()));
+					maxNbPeaks.setText(Integer.toString(filterHIT.getMaxNbPeaks()));
+				}
+			
+				//initialize previous values of the filterLIT
+				if ((Filters.getFilters().get("LIT"))!=null){
+					filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+					checkBoxLowIntensityThresholdFilter.setSelected(true);
+					checkLowIntensityThresholdFilter();
+					emergence.setText(Integer.toString(filterLIT.getEmergence()));
+					minUPN.setText(Integer.toString(filterLIT.getMinUPN()));
+					maxUPN.setText(Integer.toString(filterLIT.getMaxUPN()));
+					if (filterLIT.getMode() == ComputationTypes.MEDIAN)
+						modeBaseline.getSelectionModel().selectLast();
+				}
+				
+				//initialize previous values of the filterCS
+				if  ((Filters.getFilters().get("CS"))!=null){
+					filterCS = (ChargeStatesFilter) Filters.getFilters().get("CS");
+					checkBoxChargeStatesFilter.setSelected(true);
+					checkChargeStatesFilter();
+					charge1.setSelected(!filterCS.getKeepCharge1());
+					charge2.setSelected(!filterCS.getKeepCharge2());
+					charge3.setSelected(!filterCS.getKeepCharge3());
+					charge4.setSelected(!filterCS.getKeepCharge4());
+					charge5.setSelected(!filterCS.getKeepCharge5());
+					chargeOver5.setSelected(!filterCS.getKeepChargeAbove5());
+					chargeUnknown.setSelected(!filterCS.getKeepUnknownCharge());
+				}
+				
+				//initialize previous values of the filterPI
+				if  ((Filters.getFilters().get("PI"))!=null){
+					filterPI = (PrecursorIntensityFilter) Filters.getFilters().get("PI");
+					checkBoxPrecursorIntensityFilter.setSelected(true);
+					checkPrecursorIntensityFilter();
+					precursorIntensity.setText(Integer.toString(filterPI.getIntensityPrecursor()));
+					comparatorPrecursorIntensity.getSelectionModel().select(setIntegerToPrecursorComparator());
+				}
+				
+				//initialize previous values of the filterFI
+				if  ((Filters.getFilters().get("FI"))!=null){
+					filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
+					checkBoxFragmentIntensityFilter.setSelected(true);
+					checkFragmentIntensityFilter();
+					fragmentIntensity.setText(Integer.toString(filterFI.getIntensityFragment()));
+					comparatorFragmentIntensity.getSelectionModel().select(setIntegerToFragmentComparator());
+				}
+				
+				
+				if  ((Filters.getFilters().get("WC"))!=null){
+					checkBoxWrongChargeFilter.setSelected(true);
+				}
+				
+				//initialize previous values of the filterIS
+				if  ((Filters.getFilters().get("IS"))!=null){
+					filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
+					checkBoxIdentifiedSpectraFilter.setSelected(true);
+					checkIdentifiedSpectraFilter();
+					String allTitle = "";
+					for (String st : filterIS.getArrayTitles()){
+						allTitle += st + "\n";
+					}
+					titles.setText(allTitle);
+				}
+				
+				if  ((Filters.getFilters().get("IR"))!=null){
+					filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
+					checkBoxIonReporterFilter.setSelected(true);
+					checkIonReporterFilter();
+				}
+	}
+	
+	
 	
 	@FXML
 	private void handleClickBtnApply(){
@@ -259,11 +346,13 @@ public class FiltersController {
 		//initialize variable nbRecover after apply filter
 		Spectra.checkRecoveredSpectra();
 		
+		//close the windows only if there isn't alert.
 		if (arrayAlert.size() == 0){
 			dialogStage.close();
 		}
 		else
 			arrayAlert.clear();
+		
 }
 	
 /********************************
@@ -271,18 +360,23 @@ High Intensity Threshold Filter
 ********************************/
 	@FXML
 	private void checkHighIntensityThresholdFilter(){
+		
 		if (checkBoxHighIntensityThresholdFilter.isSelected()){
 			setDisableControl(controlHIT, "enable");
 		}
+		
 		else
-			setDisableControl(controlHIT, "disable");;
+			setDisableControl(controlHIT, "disable");
 	}
+	
 	@FXML
 	private void applyFilterHITToSpectrum(){
 		try{
+			//Convert value of the parameters in the text area.
 		Integer mostIntensePeaksToConsiderInt = changeTextFieldToInteger(mostIntensePeaksToConsider);
 		Integer maxNbPeaksInt = changeTextFieldToInteger(maxNbPeaks);
 		Float percentageOfTopLineFloat = changeTextFieldToFloat(percentageOfTopLine);
+		
 		Boolean mostIntensePeaksToConsiderExceedNbFragment = false;
 		
 		//Verify if percentage is correct (between 0 and 1)
@@ -296,21 +390,21 @@ High Intensity Threshold Filter
 		
 		filterHIT.setParameters(mostIntensePeaksToConsiderInt, percentageOfTopLineFloat, maxNbPeaksInt);
 		
+		//Scan all the spectrum and apply the filter in different case
 		for (int i=0; i < nb; i++){
 			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-			if (isUsable(mostIntensePeaksToConsiderInt, spectrum.getNbFragments())){
-				if (RecoverController.filterUsed){
-					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterHIT));
-				}
-				else
-					spectrum.setIsRecover(filterHIT.isValid(spectrum));
+			
+			//Check if we can used this filter ( nb of most intense peak need to be lower than nb fragment
+			if (isUsable(mostIntensePeaksToConsiderInt, spectrum.getNbFragments())){	
+				applyFilterInDifferentCase(spectrum, filterHIT);
 			}
+			 
 			else{
-				spectrum.setIsRecover(false);
 				mostIntensePeaksToConsiderExceedNbFragment = true;
 			}	
 		}
 		
+		//Display an alert to prevent the user.
 		if (mostIntensePeaksToConsiderExceedNbFragment){
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("WARNING");
@@ -319,14 +413,19 @@ High Intensity Threshold Filter
 			alert.showAndWait();
 		}
 			
-		RecoverController.filterUsed = true;
-		} catch (NumberFormatException e){
+		}catch (NumberFormatException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
 			alert.setTitle("No numeric parameters have been chosen");
 			alert.setHeaderText("Please enter numeric values for Most intense peaks/Number peaks and float for percentage");
 			alert.showAndWait();
 		}
+		
+		//set the filter as used
+		filterHIT.setIsUsed(true);
+		
+		//save the filter into a hashmap
+		Filters.add("HIT", filterHIT);
 	}
 	
 	//method for high intensity threshold, to verify if the number of peaks we have to consider is lower than the number of fragment
@@ -341,11 +440,13 @@ Low Intensity Threshold Filter
 ********************************/
 	@FXML
 	private void checkLowIntensityThresholdFilter(){
+		
 		if (checkBoxLowIntensityThresholdFilter.isSelected()){
 			setDisableControl(controlLIT,"enable");
 		}
+		
 		else
-			setDisableControl(controlLIT, "disable");;
+			setDisableControl(controlLIT, "disable");
 	}
 	
 	@FXML
@@ -356,24 +457,27 @@ Low Intensity Threshold Filter
 			Integer maxUPNInt = changeTextFieldToInteger(maxUPN);
 			
 			filterLIT.setParameters(emergenceInt,minUPNInt, maxUPNInt, setChoiceMode(modeBaseline));
+			
 			for (int i=0; i < nb; i++){
 				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-				if (RecoverController.filterUsed){
-					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterLIT));
-				}
-				else
-					spectrum.setIsRecover(filterLIT.isValid(spectrum));
+				applyFilterInDifferentCase(spectrum, filterLIT);
 			}
-			RecoverController.filterUsed = true;
-		} catch (NumberFormatException e){
+			
+		}catch (NumberFormatException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
 			alert.setTitle("No numeric parameters have been chosen");
 			alert.setHeaderText("Please enter a numeric value for Emergence/Min useful peaks/Max useful peaks");
 			alert.showAndWait();
 		}
+		
+		filterLIT.setIsUsed(true);
+		
+		//save the filter into a hashmap
+		Filters.add("LIT", filterLIT);
 	}
 	
+	//link the value of the string in the choiceBox with the corresponding computationType
 	public ComputationTypes setChoiceMode(ChoiceBox<String> string){
 		if (string.getValue().contains("Average")){
 			return ComputationTypes.AVERAGE;
@@ -385,11 +489,13 @@ Charge State Filter
 ********************************/
 	@FXML
 	private void checkChargeStatesFilter(){
+		
 		if (checkBoxChargeStatesFilter.isSelected()){
 			setDisableControl(controlCS,"enable");
 		}
+		
 		else
-			setDisableControl(controlCS, "disable");;
+			setDisableControl(controlCS, "disable");
 	}
 	
 	@FXML
@@ -401,16 +507,18 @@ Charge State Filter
 		Boolean keepCharge5 = setBooleanToCharge(charge5);
 		Boolean keepChargeOver5 = setBooleanToCharge(chargeOver5);
 		Boolean keepChargeUnknown = setBooleanToCharge(chargeUnknown);
+		
 		filterCS.setParameters(keepCharge1,keepCharge2,keepCharge3,keepCharge4,keepCharge5,keepChargeOver5,keepChargeUnknown);
+		
 		for (int i=0; i < nb; i++){
 			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-			if (RecoverController.filterUsed){
-				spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterCS));
-			}
-			else
-				spectrum.setIsRecover(filterCS.isValid(spectrum));
+			applyFilterInDifferentCase(spectrum, filterCS);
 		}
-		RecoverController.filterUsed = true;
+		
+		filterCS.setIsUsed(true);
+		
+		//save the filter into a hashmap
+		Filters.add("CS", filterCS);
 	}
 	
 	//method for charge state filter to give a boolean value if the charge is checked or not
@@ -420,31 +528,33 @@ Charge State Filter
 		return true;		
 	}
 	
+
 /********************************
 Precursor Intensity Filter
 ********************************/	
 	@FXML
 	private void checkPrecursorIntensityFilter(){
+		
 		if (checkBoxPrecursorIntensityFilter.isSelected()){
 			setDisableControl(controlPI, "enable");
 		}
+		
 		else
-			setDisableControl(controlPI, "disable");;
+			setDisableControl(controlPI, "disable");
 	}
 	
 	@FXML
 	private void applyFilterPIToSpectrum(){
 		try{
 			Integer intensityInt = changeTextFieldToInteger(precursorIntensity);
+			
 			filterPI.setParameters(intensityInt, setChoiceComparator(comparatorPrecursorIntensity));
+			
 			for (int i=0; i < nb; i++){
 				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-				if (RecoverController.filterUsed){
-					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterPI));
-				}
-				else
-					spectrum.setIsRecover(filterPI.isValid(spectrum));
+				applyFilterInDifferentCase(spectrum, filterPI);
 			}
+			
 		} catch (NumberFormatException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
@@ -452,17 +562,37 @@ Precursor Intensity Filter
 			alert.setHeaderText("Please enter a numeric value for intensity");
 			alert.showAndWait();
 		}
-		RecoverController.filterUsed = true;
+		
+		filterPI.setIsUsed(true);
+		//save the filter into a hashmap
+		Filters.add("PI", filterPI);
 	}
-
+	
+	//link the comparisonTypes with the corresponding index in the collection
+	private Integer setIntegerToPrecursorComparator(){
+		Integer intComparator = 0;
+		if (filterPI.getComparator() == ComparisonTypes.NOT_EQUALS_TO)
+			intComparator = 1;
+		if (filterPI.getComparator() == ComparisonTypes.GREATER_THAN)
+			intComparator = 2;
+		if (filterPI.getComparator() == ComparisonTypes.GREATER_OR_EQUAL)
+			intComparator = 3;
+		if (filterPI.getComparator() == ComparisonTypes.LOWER_THAN)
+			intComparator = 4;
+		if (filterPI.getComparator() == ComparisonTypes.LOWER_OR_EQUAL)
+			intComparator = 5;
+		return intComparator;
+	}
 /********************************
 Fragment Intensity Filter
 ********************************/
 	@FXML
 	private void checkFragmentIntensityFilter(){
+		
 		if (checkBoxFragmentIntensityFilter.isSelected()){
 			setDisableControl(controlFI, "enable");
 		}
+		
 		else
 			setDisableControl(controlFI, "disable");
 	}
@@ -471,15 +601,14 @@ Fragment Intensity Filter
 	private void applyFilterFIToSpectrum(){
 		try{
 			Integer intensityInt = changeTextFieldToInteger(fragmentIntensity);
+			
 			filterFI.setParameters(intensityInt, setChoiceComparator(comparatorFragmentIntensity));
+			
 			for (int i=0; i < nb; i++){
 				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-				if (RecoverController.filterUsed){
-					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterFI));
-				}
-				else
-					spectrum.setIsRecover(filterFI.isValid(spectrum));
+				applyFilterInDifferentCase(spectrum, filterFI);
 			}
+			
 		} catch (NumberFormatException e){
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
@@ -487,7 +616,26 @@ Fragment Intensity Filter
 			alert.setHeaderText("Please enter a numeric value for intensity");
 			alert.showAndWait();
 		}
-		RecoverController.filterUsed = true;
+		
+		filterFI.setIsUsed(true);
+		//save the filter into a hashmap
+		Filters.add("FI", filterFI);
+	}
+	
+	//link the comparisonTypes with the corresponding index in the collection
+	private Integer setIntegerToFragmentComparator(){
+		Integer intComparator = 0;
+		if (filterFI.getComparator() == ComparisonTypes.NOT_EQUALS_TO)
+			intComparator = 1;
+		if (filterFI.getComparator() == ComparisonTypes.GREATER_THAN)
+			intComparator = 2;
+		if (filterFI.getComparator() == ComparisonTypes.GREATER_OR_EQUAL)
+			intComparator = 3;
+		if (filterFI.getComparator() == ComparisonTypes.LOWER_THAN)
+			intComparator = 4;
+		if (filterFI.getComparator() == ComparisonTypes.LOWER_OR_EQUAL)
+			intComparator = 5;
+		return intComparator;
 	}
 /********************************
 Wrong Charge Filter
@@ -496,13 +644,12 @@ Wrong Charge Filter
 	private void applyFilterWCToSpectrum(){
 		for (int i=0; i < nb; i++){
 			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
-			if (RecoverController.filterUsed){
-				spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterWC));
-			}
-			else
-				spectrum.setIsRecover(filterWC.isValid(spectrum));
+			applyFilterInDifferentCase(spectrum, filterWC);
 		}
-		RecoverController.filterUsed = true;
+		
+		filterWC.setIsUsed(true);
+		//save the filter into a hashmap
+		Filters.add("WC", filterWC);
 	}
 	
 /********************************
@@ -510,11 +657,13 @@ Identified Spectra Filter
 ********************************/
 	@FXML
 	private void checkIdentifiedSpectraFilter(){
+		
 		if (checkBoxIdentifiedSpectraFilter.isSelected()){
 			setDisableControl(controlIS, "enable");
 		}
+		
 		else
-			setDisableControl(controlIS, "disable");;
+			setDisableControl(controlIS, "disable");
 	}
 	
 	public void SetTitles(TextArea titles){
@@ -525,10 +674,14 @@ Identified Spectra Filter
 	private void applyFilterISToSpectrum(){
 			String [] arrayTitles = titles.getText().split("\n");
 			
+			filterIS.setParameters(arrayTitles);
+			
 			try{
+				
 				for (String t : arrayTitles){
 					filterIS.setIdentified(t);
 				}
+				
 			}catch(NullPointerException e){
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
@@ -540,6 +693,11 @@ Identified Spectra Filter
 						+ "Cmpd Y, +MSn(xxx.xxx), xx.xx min");
 				alert.showAndWait();
 			}
+			
+			filterIS.setIsUsed(true);
+			//save the filter into a hashmap
+			Filters.add("IS", filterIS);
+			
 //			filterIS.setParameters(arrayTitles);
 //			for (int i=0; i < nb; i++){
 //				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
@@ -576,15 +734,18 @@ Ion Reporter Filter
 ********************************/
 	@FXML
 	private void checkIonReporterFilter(){
+		
 		if (checkBoxIonReporterFilter.isSelected()){
 			setDisableControl(controlIR, "enable");
 		}
+		
 		else
-			setDisableControl(controlIR, "disable");;
+			setDisableControl(controlIR, "disable");
 	}
 	
 	@FXML
 	private void insertIonToTableView(){
+		
 		Float mozIonReporterFloat = changeTextFieldToFloat(mozIonReporter);
 		Float toleranceIonReporterFloat = changeTextFieldToFloat(toleranceIonReporter);
 		IonReporters.add(new IonReporter(nameIonReporter.getText(),mozIonReporterFloat,toleranceIonReporterFloat));
@@ -599,21 +760,49 @@ Ion Reporter Filter
 	@FXML
 	private void applyFilterIRToSpectrum(){
 		Integer nbIon = IonReporters.getIonReporters().size();
-		System.out.println(nbIon);
+		
+		//scan all the ion reporter
 		for (int i=0; i <nbIon; i++){
 			IonReporter ionReporter = IonReporters.getIonReporters().get(i);
+			
+			//Initialise parameter for an ion(i)
 			filterIR.setParameters(ionReporter.getName(),ionReporter.getMoz(),ionReporter.getTolerance());
+			
+			//Scan all the spectrum
 			for (int j=0; j < nb; j++){
 				Spectrum spectrum = Spectra.getSpectraAsObservable().get(j);
-				if (RecoverController.filterUsed){
-					spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
+				
+				//First case: A filter was used and it's not this filter
+				if (Filters.nbFilterUsed()>=1 && !filterIR.getIsUsed()){
+					
+					//condition when more than one ion is used to filter
+					if (i>=1){
+						spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
+					}
+					
+					else
+						spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filterIR));
+					
 				}
-				else{
-					spectrum.setIsRecover(filterIR.isValid(spectrum));
+				
+				//Second case: Any filter was used or the filter used is this one (reset in some way)
+				else if ((Filters.nbFilterUsed()==1 && filterIR.getIsUsed()) || Filters.nbFilterUsed()==0){
+					
+					if (i>=1){
+						spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
+					}
+					
+					else
+						spectrum.setIsRecover(filterIR.isValid(spectrum));
+					
 				}
+
 			}
-		RecoverController.filterUsed = true;
 		}
+		
+		filterIR.setIsUsed(true);
+		//save the filter into a hashmap
+		Filters.add("IR", filterIR);
 	}
 //	@FXML
 //	private void applyFilterIRToSpectrum(){
@@ -674,8 +863,6 @@ Ion Reporter Filter
 		return floatOfTextField;
 	}
 	
-
-	
 	public ComparisonTypes setChoiceComparator(ChoiceBox<String> string){
 		if (string.getValue().equalsIgnoreCase("=")){
 			return ComparisonTypes.EQUALS_TO;}
@@ -691,9 +878,12 @@ Ion Reporter Filter
 		if (string.getValue().equalsIgnoreCase("<=")){
 			return ComparisonTypes.LOWER_OR_EQUAL;}
 		return null;
-	
 	}
-
+	
+	//Used when a filter is already applied. If the spectrum is not recover => not recover
+	//if the spectrum is recover,check if it is recover with the new filter :
+	//yes => recover
+	//no => not recover
 	public Boolean recoverIfFilterUsed(Spectrum spectrum, BasicFilter filter){
 		if (spectrum.getIsRecover() == false)
 			return false;
@@ -704,6 +894,16 @@ Ion Reporter Filter
 				return false;			
 	}
 	
+	public Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter){
+		if (spectrum.getIsRecover())
+			return true;
+		else
+			if (filter.isValid(spectrum) == true)
+				return true;
+			else
+				return false;		
+	}
+	
 	public void setDisableControl(ObservableList<Control> control, String string){
 		Iterator<Control> itrControl = control.iterator();
 		while(itrControl.hasNext()){
@@ -711,6 +911,29 @@ Ion Reporter Filter
 				itrControl.next().setDisable(true);
 			else if (string =="enable")
 				itrControl.next().setDisable(false);
+		}
+	}
+	
+	
+//	public Integer nbFiltersUsed(){
+//		Integer nbFiltersUsed = 0;
+//		for (Boolean b : filtersUsed){
+//			if(b == true){
+//				nbFiltersUsed++;
+//			}
+//		}
+//		return nbFiltersUsed;
+//	}
+	
+	public void applyFilterInDifferentCase(Spectrum spectrum, BasicFilter filter){
+		//First case: A filter was used and it's not this filter
+		if (Filters.nbFilterUsed()>=1 && !filter.getIsUsed()){
+			spectrum.setIsRecover(recoverIfFilterUsed(spectrum, filter));
+		}
+		
+		//Second case: Any filter was used or the filter used is this one (reset in some way)
+		else if ((Filters.nbFilterUsed()==1 && filter.getIsUsed()) || Filters.nbFilterUsed()==0){
+			spectrum.setIsRecover(filter.isValid(spectrum));
 		}
 	}
 

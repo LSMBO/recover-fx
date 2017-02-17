@@ -11,6 +11,7 @@ public class ChargeStatesFilter implements BasicFilter {
 	private Boolean keepCharge5 = true;
 	private Boolean keepChargeAbove5 = true;
 	private Boolean keepUnknownCharge = true;
+	private  Boolean isUsed = false;
 	
 	public void setParameters(Boolean z1, Boolean z2, Boolean z3, Boolean z4, Boolean z5, Boolean zOver5, Boolean zUnknown) {
 		keepCharge1 = z1;
@@ -38,6 +39,44 @@ public class ChargeStatesFilter implements BasicFilter {
 	// returns description
 	@Override
 	public String getFullDescription() {
-		return "";
+		return "###Parameters used for Charge States Filter : \n"
+				+"###";
+	}
+	
+	public Boolean getKeepCharge1(){
+		return keepCharge1;
+	}
+
+	public Boolean getKeepCharge2(){
+		return keepCharge2;
+	}
+	
+	public Boolean getKeepCharge3(){
+		return keepCharge3;
+	}
+	
+	public Boolean getKeepCharge4(){
+		return keepCharge4;
+	}
+	
+	public Boolean getKeepCharge5(){
+		return keepCharge5;
+	}
+	
+	public Boolean getKeepChargeAbove5(){
+		return keepChargeAbove5;
+	}
+	
+	public Boolean getKeepUnknownCharge(){
+		return keepUnknownCharge;
+	}
+	
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed ;
 	}
 }

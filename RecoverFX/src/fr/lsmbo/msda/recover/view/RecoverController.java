@@ -15,6 +15,7 @@ import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
 
 import fr.lsmbo.msda.recover.io.PeaklistReader;
+import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.embed.swing.SwingNode;
@@ -53,7 +54,6 @@ public class RecoverController {
 	private Stage dialogStage;
 //	private JFreeChart chart;
 	private SpectrumChart spectrumChart;
-	public static Boolean filterUsed = false ;
 	
 	@FXML
 	private MenuItem mnLoadPeaklist;
@@ -69,6 +69,8 @@ public class RecoverController {
 	private MenuItem mnOpenFilterManager;
 	@FXML
 	private CheckMenuItem mnUseFixedAxis;
+	@FXML
+	private MenuItem mnResetRecover;
 	@FXML
 	private TableView<Spectrum> table;
 	@FXML
@@ -327,6 +329,14 @@ public class RecoverController {
 		if(spectrumChart != null) {
 			spectrumChart.changeAxisRange();
 		}
+	}
+	@FXML
+	private void handleClickMenuResetRecover(){
+		for (Spectrum sp : Spectra.getSpectraAsObservable()){
+			sp.setIsRecover(false);
+		}
+		table.refresh();
+		Filters.resetHashMap();
 	}
 	
 	private void resetChartAxis(Spectrum spectrum) {

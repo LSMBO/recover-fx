@@ -5,8 +5,9 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class FragmentIntensityFilter implements BasicFilter {
 
-	private float intensity;
+	private int intensity;
 	private ComparisonTypes comparator;
+	private Boolean isUsed = false;
 	
 	public void setParameters(int _intensity, ComparisonTypes _comparator) {
 		intensity = _intensity;
@@ -41,7 +42,25 @@ public class FragmentIntensityFilter implements BasicFilter {
 
 	@Override
 	public String getFullDescription() {
-		return "";
+		return "###Parameters used for Fragment Intensity Filter : \n"
+				+"###Intensity : " + getIntensityFragment() + "\n"
+				+"###Comparator : " + getComparator() + "\n";
 	}
-
+	
+	public int getIntensityFragment(){
+		return intensity;
+	}
+	
+	public ComparisonTypes getComparator(){
+		return comparator;
+	}
+	
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed;
+	}
 }

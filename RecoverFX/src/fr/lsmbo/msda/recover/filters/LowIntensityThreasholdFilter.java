@@ -10,7 +10,8 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 	private int minUPN;
 	private int maxUPN;
 	private ComputationTypes mode;
-
+	private Boolean isUsed =false;
+	
 	public void setParameters(int _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
 		emergence = _emergence;
 		minUPN = _minUPN;
@@ -55,5 +56,29 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 	@Override
 	public String getFullDescription() {
 		return "";
+	}
+	@Override
+	public Boolean getIsUsed(){
+		return isUsed;
+	}
+	
+	public int getEmergence(){
+		return emergence;
+	}
+	
+	public int getMinUPN(){
+		return minUPN;
+	}
+	
+	public int getMaxUPN(){
+		return maxUPN;
+	}
+	
+	public ComputationTypes getMode(){
+		return mode;
+	}
+	
+	public void setIsUsed(Boolean _isUsed){
+		this.isUsed = _isUsed ;
 	}
 }
