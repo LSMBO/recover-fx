@@ -28,6 +28,14 @@ public class IdentifiedSpectraFilter{
 		return arrayTitles;
 	}
 	
+	public String getFullDescription(){
+		String titles = "";
+		for (String title : arrayTitles){
+			titles += "###" + title + " ;\n" ;
+		}
+		return "###Identified Spectra Filter used with "
+				+ getArrayTitles().length + " titles :\n" +  titles ;
+	}
 //	@Override
 //	public Boolean isValid(Spectrum spectrum){
 //		for (int i = 0; i < arrayTitle.length; i++){

@@ -11,4 +11,5 @@ public interface BasicFilter {
 	String getFullDescription();
 	
 	Boolean getIsUsed() ;
+
 }

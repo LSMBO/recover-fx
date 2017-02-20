@@ -55,7 +55,11 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 	 */
 	@Override
 	public String getFullDescription() {
-		return "";
+		return "###Parameters used for Low Intensity Threshold Filter : \n"
+				+ "###Emergence : " + getEmergence() + " ; "
+				+ "minimum UPN : " + getMinUPN() + " ; "
+				+ "maximum UPN : " + getMaxUPN() + " ; " 
+				+ "Baseline calculate with : " + getMode() + "\n" ;
 	}
 	@Override
 	public Boolean getIsUsed(){

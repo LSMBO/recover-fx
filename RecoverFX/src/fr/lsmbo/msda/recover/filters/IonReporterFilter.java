@@ -1,6 +1,8 @@
 package fr.lsmbo.msda.recover.filters;
 
 
+import fr.lsmbo.msda.recover.lists.IonReporters;
+import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class IonReporterFilter implements BasicFilter{
@@ -38,7 +40,12 @@ public class IonReporterFilter implements BasicFilter{
 
 	@Override
 	public String getFullDescription() {
-		return "";
+		String allIons = "";
+		for (IonReporter ir : IonReporters.getIonReporters()){
+			allIons += "###" + ir.toString() + "\n";
+		}
+			
+		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons; 
 	}
 	@Override
 	public Boolean getIsUsed(){

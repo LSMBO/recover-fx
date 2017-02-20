@@ -38,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 public class FiltersController {
 	
 	private Stage dialogStage;
+	private Boolean redoFromTheBeginning = true;
 	
 	//instance filters
 	private HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter() ;
@@ -63,8 +64,7 @@ public class FiltersController {
 	private ObservableList<Control> controlIR = FXCollections.observableArrayList();
 	
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
-	
-//	private Boolean[] filtersUsed = {filterHIT.getIsUsed(),filterLIT.getIsUsed(),filterCS.getIsUsed(), filterPI.getIsUsed(), filterFI.getIsUsed(),filterWC.getIsUsed(),filterIR.getIsUsed()};
+	private ObservableList<Boolean> recoverAfterFilter = FXCollections.observableArrayList();
 	
 	private Integer nb = Spectra.getSpectraAsObservable().size(); 
 	
@@ -184,8 +184,7 @@ public class FiltersController {
 	
 	@FXML
 	private void initialize(){
-			System.out.println(Filters.nbFilterUsed());
-	
+		
 			//add different control in observable list for different filters
 			controlHIT.addAll(mostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
 			controlLIT.addAll(modeBaseline, emergence, minUPN, maxUPN);
@@ -220,13 +219,6 @@ public class FiltersController {
 			colMoz.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("moz"));
 			colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
 			colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
-			
-//			if(nbFiltersUsed()!=0){
-//				HighIntensityThreasholdFilter filterhit =  (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
-//				mostIntensePeaksToConsider.setText(Integer.toString(filterhit.getNbMostIntensePeaksToConsider()));
-//				percentageOfTopLine.setText(Float.toString(filterhit.getPercentageOfTopLine()));
-//				maxNbPeaks.setText(Integer.toString(filterhit.getMaxNbPeaks()));
-//			}
 			
 			if(Filters.nbFilterUsed() !=0)
 				//initialize previous values of the filterHIT
@@ -311,25 +303,42 @@ public class FiltersController {
 	
 	@FXML
 	private void handleClickBtnApply(){
+		
+		if (redoFromTheBeginning){
+			for (Spectrum sp : Spectra.getSpectraAsObservable()){
+				sp.setIsRecover(false);
+				sp.setUpn(-1);
+			}
+			Filters.resetHashMap();
+			filterHIT.setIsUsed(false); filterLIT.setIsUsed(false); filterCS.setIsUsed(false); filterPI.setIsUsed(false);
+			filterFI.setIsUsed(false); filterWC.setIsUsed(false); filterIS.setIsUsed(false); filterIR.setIsUsed(false);		
+		}
+
+		
 		//filterHIT
 		if (checkBoxHighIntensityThresholdFilter.isSelected()){
 			applyFilterHITToSpectrum();
+			System.out.println(filterHIT.getFullDescription());
 		}
 		//filterLIT
 		if (checkBoxLowIntensityThresholdFilter.isSelected()){
 			applyFilterLITToSpectrum();
+			System.out.println(filterLIT.getFullDescription());
 		}
 		//filterCS
 		if (checkBoxChargeStatesFilter.isSelected()){
 			applyFilterCSToSpectrum();
+			System.out.println(filterCS.getFullDescription());
 		}
 		//filterPI
 		if (checkBoxPrecursorIntensityFilter.isSelected()){
 			applyFilterPIToSpectrum();
+			System.out.println(filterPI.getFullDescription());
 		}
 		//filterFI
 		if (checkBoxFragmentIntensityFilter.isSelected()){
 			applyFilterFIToSpectrum();
+			System.out.println(filterFI.getFullDescription());
 		}
 		//filterWC
 		if (checkBoxWrongChargeFilter.isSelected()){
@@ -338,10 +347,12 @@ public class FiltersController {
 		//filterIS
 		if (checkBoxIdentifiedSpectraFilter.isSelected()){
 			applyFilterISToSpectrum();
+			System.out.println(filterIS.getFullDescription());
 		}
 		//filterIR
 		if (checkBoxIonReporterFilter.isSelected()){
 			applyFilterIRToSpectrum();
+			System.out.println(filterIR.getFullDescription());
 		}
 		//initialize variable nbRecover after apply filter
 		Spectra.checkRecoveredSpectra();
@@ -352,6 +363,9 @@ public class FiltersController {
 		}
 		else
 			arrayAlert.clear();
+		for (Boolean bool : recoverAfterFilter){
+			System.out.println(bool);
+		}
 		
 }
 	
@@ -397,6 +411,7 @@ High Intensity Threshold Filter
 			//Check if we can used this filter ( nb of most intense peak need to be lower than nb fragment
 			if (isUsable(mostIntensePeaksToConsiderInt, spectrum.getNbFragments())){	
 				applyFilterInDifferentCase(spectrum, filterHIT);
+				
 			}
 			 
 			else{
@@ -936,7 +951,9 @@ Ion Reporter Filter
 			spectrum.setIsRecover(filter.isValid(spectrum));
 		}
 	}
+	
 
+	
 }
 
 

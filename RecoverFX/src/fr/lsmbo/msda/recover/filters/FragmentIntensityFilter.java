@@ -43,8 +43,8 @@ public class FragmentIntensityFilter implements BasicFilter {
 	@Override
 	public String getFullDescription() {
 		return "###Parameters used for Fragment Intensity Filter : \n"
-				+"###Intensity : " + getIntensityFragment() + "\n"
-				+"###Comparator : " + getComparator() + "\n";
+				+"###Intensity : " + getIntensityFragment() + " ; "
+				+"Comparator : " + getComparator() + "\n";
 	}
 	
 	public int getIntensityFragment(){

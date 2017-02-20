@@ -48,9 +48,9 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 	@Override
 	public String getFullDescription() {
 		return "###Parameters used for High Intensity Threshold Filter : \n"
-				+ "###Number of most intense peaks to consider : " + getNbMostIntensePeaksToConsider() + "\n"
-				+ "###Percentage of top line : " + getPercentageOfTopLine() + "\n"
-				+ "###Maximum of number Peaks : " + getMaxNbPeaks() + "\n";
+				+ "###Number of most intense peaks to consider : " + getNbMostIntensePeaksToConsider() + " ; "
+				+ "Percentage of top line : " + getPercentageOfTopLine() + " ; "
+				+ "Maximum of number Peaks : " + getMaxNbPeaks() + "\n";
 	}
 	
 	public int getNbMostIntensePeaksToConsider(){

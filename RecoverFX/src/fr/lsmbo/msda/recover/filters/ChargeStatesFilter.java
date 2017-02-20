@@ -40,7 +40,13 @@ public class ChargeStatesFilter implements BasicFilter {
 	@Override
 	public String getFullDescription() {
 		return "###Parameters used for Charge States Filter : \n"
-				+"###";
+				+"###keep charge 1+ : " + getKeepCharge1() + " ; "
+				+"keep charge 2+ : " + getKeepCharge2() + " ; "
+				+"keep charge 3+ : " + getKeepCharge3() + " ; "
+				+"keep charge 4+ : " + getKeepCharge4() + " ; "
+				+"keep charge 5+ : " + getKeepCharge5() + " ; "
+				+"keep charge above 5+ : " + getKeepChargeAbove5() + " ; "
+				+"keep unkwnon charge : " + getKeepUnknownCharge() + "\n";
 	}
 	
 	public Boolean getKeepCharge1(){

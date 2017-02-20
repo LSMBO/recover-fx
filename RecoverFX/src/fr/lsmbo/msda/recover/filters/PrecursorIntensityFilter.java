@@ -43,7 +43,9 @@ public class PrecursorIntensityFilter implements BasicFilter {
 
 	@Override
 	public String getFullDescription() {
-		return "";
+		return "###Parameters used for Fragment Intensity Filter : \n"
+				+"###Intensity : " + getIntensityPrecursor() + " ; "
+				+"Comparator : " + getComparator() + "\n";
 	}
 	
 	public int getIntensityPrecursor(){
