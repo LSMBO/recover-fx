@@ -2,6 +2,7 @@ package fr.lsmbo.msda.recover.filters;
 
 
 import fr.lsmbo.msda.recover.lists.IonReporters;
+import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -11,6 +12,8 @@ public class IonReporterFilter implements BasicFilter{
 	private Float moz;
 	private Float tolerance;
 	private Boolean isUsed = false;
+	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+	private int id = 6;
 	
 	public void setParameters(String _name, Float _moz, Float _tolerance) {
 		name = _name;
@@ -54,5 +57,21 @@ public class IonReporterFilter implements BasicFilter{
 	
 	public void setIsUsed(Boolean _isUsed){
 		this.isUsed = _isUsed ;
+	}
+	
+	public Boolean[] getAssociatedSpectrum(){
+		return associatedSpectrum;
+	}
+	
+	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+		this.associatedSpectrum = associatedSpectrum;
+	}
+	
+	public void addRecover(Boolean bool, int i){
+		associatedSpectrum[i] = bool;
+	}
+	
+	public int getId(){
+		return id;
 	}
 }

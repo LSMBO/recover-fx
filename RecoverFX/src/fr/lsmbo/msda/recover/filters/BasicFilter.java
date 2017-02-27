@@ -11,5 +11,8 @@ public interface BasicFilter {
 	String getFullDescription();
 	
 	Boolean getIsUsed() ;
+	int getId() ;
+	Boolean[] getAssociatedSpectrum() ;
+	void addRecover(Boolean bool, int i);
 
 }

@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.filters;
 
 
+import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class HighIntensityThreasholdFilter implements BasicFilter {
@@ -9,6 +10,8 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 	private float percentageOfTopLine; // should be between 0 and 1
 	private int maxNbPeaks;
 	private Boolean isUsed = false;
+	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+	private int id = 0;
 	
 	public void setParameters(int _nbMostIntensePeaksToConsider, float _percentageOfTopLine, int _maxNbPeaks) {
 		nbMostIntensePeaksToConsider = _nbMostIntensePeaksToConsider;
@@ -21,6 +24,9 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 		// first calculate top line
 		float topline = 0;
 
+		if(nbMostIntensePeaksToConsider > spectrum.getNbFragments())
+			return false;
+		
 		if(nbMostIntensePeaksToConsider > 0 ) {
 			for(int i = 0; i < nbMostIntensePeaksToConsider; i++) {
 				topline += spectrum.getSortedFragments().get(spectrum.getNbFragments() - i - 1).getIntensity();
@@ -71,5 +77,21 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 	
 	public  void setIsUsed(Boolean _isUsed){
 		this.isUsed = _isUsed ;
+	}
+	
+	public Boolean[] getAssociatedSpectrum(){
+		return associatedSpectrum;
+	}
+	
+	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+		this.associatedSpectrum = associatedSpectrum;
+	}
+	
+	public void addRecover(Boolean bool, int i){
+		associatedSpectrum[i] = bool;
+	}
+	
+	public int getId(){
+		return id;
 	}
 }

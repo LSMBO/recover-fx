@@ -291,7 +291,8 @@ public class RecoverController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			FiltersController controller = loader.getController();
+//			FiltersController controller = loader.getController();
+			FiltersController2 controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();

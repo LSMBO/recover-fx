@@ -2,7 +2,10 @@ package fr.lsmbo.msda.recover.view;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.filters.BasicFilter;
@@ -39,6 +42,8 @@ public class FiltersController {
 	
 	private Stage dialogStage;
 	private Boolean redoFromTheBeginning = true;
+	private int nbFiltersSelected = 0;
+	private ArrayList<Integer> arrayFilterSelected = new ArrayList<Integer>();
 	
 	//instance filters
 	private HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter() ;
@@ -64,7 +69,8 @@ public class FiltersController {
 	private ObservableList<Control> controlIR = FXCollections.observableArrayList();
 	
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
-	private ObservableList<Boolean> recoverAfterFilter = FXCollections.observableArrayList();
+	
+	//States of filters used. each index correspond to a filter, if a filter is used : 1 if not 0.
 	
 	private Integer nb = Spectra.getSpectraAsObservable().size(); 
 	
@@ -184,7 +190,6 @@ public class FiltersController {
 	
 	@FXML
 	private void initialize(){
-		
 			//add different control in observable list for different filters
 			controlHIT.addAll(mostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
 			controlLIT.addAll(modeBaseline, emergence, minUPN, maxUPN);
@@ -221,6 +226,7 @@ public class FiltersController {
 			colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
 			
 			if(Filters.nbFilterUsed() !=0)
+				arrayFilterSelected.clear();
 				//initialize previous values of the filterHIT
 				if ((Filters.getFilters().get("HIT"))!=null){
 					filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
@@ -303,6 +309,8 @@ public class FiltersController {
 	
 	@FXML
 	private void handleClickBtnApply(){
+		nbAndArrayFiltersSelected();
+		
 		
 		if (redoFromTheBeginning){
 			for (Spectrum sp : Spectra.getSpectraAsObservable()){
@@ -314,7 +322,6 @@ public class FiltersController {
 			filterFI.setIsUsed(false); filterWC.setIsUsed(false); filterIS.setIsUsed(false); filterIR.setIsUsed(false);		
 		}
 
-		
 		//filterHIT
 		if (checkBoxHighIntensityThresholdFilter.isSelected()){
 			applyFilterHITToSpectrum();
@@ -363,10 +370,6 @@ public class FiltersController {
 		}
 		else
 			arrayAlert.clear();
-		for (Boolean bool : recoverAfterFilter){
-			System.out.println(bool);
-		}
-		
 }
 	
 /********************************
@@ -476,6 +479,7 @@ Low Intensity Threshold Filter
 			for (int i=0; i < nb; i++){
 				Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
 				applyFilterInDifferentCase(spectrum, filterLIT);
+				
 			}
 			
 		}catch (NumberFormatException e){
@@ -522,14 +526,18 @@ Charge State Filter
 		Boolean keepCharge5 = setBooleanToCharge(charge5);
 		Boolean keepChargeOver5 = setBooleanToCharge(chargeOver5);
 		Boolean keepChargeUnknown = setBooleanToCharge(chargeUnknown);
-		
+		Boolean[] associatedSpectrum = new Boolean[nb];
 		filterCS.setParameters(keepCharge1,keepCharge2,keepCharge3,keepCharge4,keepCharge5,keepChargeOver5,keepChargeUnknown);
 		
 		for (int i=0; i < nb; i++){
 			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
 			applyFilterInDifferentCase(spectrum, filterCS);
+			
+			//value of spectrum for this filter save in an array
+			associatedSpectrum[i] = spectrum.getIsRecover();
+			
 		}
-		
+		filterCS.setAssociatedSpectrum(associatedSpectrum);
 		filterCS.setIsUsed(true);
 		
 		//save the filter into a hashmap
@@ -952,7 +960,48 @@ Ion Reporter Filter
 		}
 	}
 	
-
+	//recover number of filter used and put it in an array.
+	public void nbAndArrayFiltersSelected(){
+		//filterHIT
+		if (checkBoxHighIntensityThresholdFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterHIT.getId());
+		}
+		//filterLIT
+		if (checkBoxLowIntensityThresholdFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterLIT.getId());
+		}
+		//filterCS
+		if (checkBoxChargeStatesFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterCS.getId());
+		}
+		//filterPI
+		if (checkBoxPrecursorIntensityFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterPI.getId());
+		}
+		//filterFI
+		if (checkBoxFragmentIntensityFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterFI.getId());
+		}
+		//filterWC
+		if (checkBoxWrongChargeFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterWC.getId());
+		}
+		//filterIR
+		if (checkBoxIonReporterFilter.isSelected()){
+			nbFiltersSelected++;
+			arrayFilterSelected.add(filterIR.getId());
+		}
+	}
+	
+	public void filterToApply(int id){
+		
+	}
 	
 }
 
