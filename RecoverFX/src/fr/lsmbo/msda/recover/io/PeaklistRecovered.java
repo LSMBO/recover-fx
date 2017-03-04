@@ -7,8 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import fr.lsmbo.msda.recover.Session;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
-import fr.lsmbo.msda.recover.lists.Filters;
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -21,19 +20,17 @@ public class PeaklistRecovered {
 		Spectrum spectrum = null;
 		Integer lineNumber = 0;
 		ArrayList<String> arrayLine = new ArrayList<String>();
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
 		
 		try{
 			BufferedWriter writerNewPeaklist = new BufferedWriter(new FileWriter(file));
 			BufferedReader reader = new BufferedReader(new FileReader(Session.CURRENT_FILE));
 			
 			writerNewPeaklist.write("###File created with RECOVER on " + actualDate
-									+"\n### " + Spectra.getNbRecover() +" spectrum have been saved"
+									+"\n### " + spectra.getNbRecover() +" spectrum have been saved"
 									+"\n###________________________________________________________");
 			writerNewPeaklist.newLine();
-			if ((Filters.getFilters().get("HIT"))!=null){
-				HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
-				writerNewPeaklist.write(filterHIT.getFullDescription());
-			}
+
 			
 			//this loop scan the input file and store just one spectrum in an array (until END IONS will be find)
 			while((line = reader.readLine()) != null) {
@@ -47,7 +44,8 @@ public class PeaklistRecovered {
 				//extract the title of the spectrum and recover the corresponding spectrum
 				if (line.startsWith("TITLE")){
 						title = line.replaceFirst("TITLE.\\s+", "");
-						spectrum = Spectra.getSpectrumWithTitle(title);
+						System.out.println(title);
+						spectrum = spectra.getSpectrumWithTitle(title);
 				}
 				
 				//check if the spectrum is recover. If yes, write since the array line corresponding to this spectrum (index - 1 because need to write BEGIN IONS

@@ -12,7 +12,7 @@ public interface BasicFilter {
 	
 	Boolean getIsUsed() ;
 	int getId() ;
-	Boolean[] getAssociatedSpectrum() ;
-	void addRecover(Boolean bool, int i);
+//	Boolean[] getAssociatedSpectrum() ;
+//	void addRecover(Boolean bool, int i);
 
 }

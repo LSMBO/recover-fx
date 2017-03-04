@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.view;
 
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.ParsingRules;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ParsingRule;
@@ -49,11 +50,11 @@ public class ParsingRulesController {
 		}
 		// fill table
 		titles.clear();
-		Integer nb = Spectra.getSpectraAsObservable().size();
+		Integer nb = ListOfSpectra.getFirstSpectra().getSpectraAsObservable().size();
 		if(nb > 5)
 			nb = 5;
 		for(int i = 0; i < nb; i++) {
-			titles.add(Spectra.getSpectraAsObservable().get(i));
+			titles.add(ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(i));
 		}
 		table.setItems(titles);
 		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
@@ -90,7 +91,7 @@ public class ParsingRulesController {
 	private void handleClickBtnApply() {
 		if(selectedParsingRule != null) {
 			ParsingRules.setNewCurrentParsingRule(selectedParsingRule);
-			Spectra.updateRetentionTimeFromTitle();
+			ListOfSpectra.getFirstSpectra().updateRetentionTimeFromTitle();
 			dialogStage.close();
 		} else {
 			// FIXME the window is closing anyway

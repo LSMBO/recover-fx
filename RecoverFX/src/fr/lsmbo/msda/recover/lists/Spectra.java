@@ -11,13 +11,18 @@ import javafx.collections.ObservableList;
 
 public class Spectra {
 	
-	private static ObservableList<Spectrum> spectra = initialiseList();
+	private ObservableList<Spectrum> spectra = initialiseList();
 //	private static LinkedHashMap<Integer, Spectrum> spectraPerId;
-	private static Integer nbSpectra = 0;
-	private static Integer nbRecover = 0;
-	private static Integer nbIdentified = 0;
+	private Integer nbSpectra = 0;
+	private Integer nbRecover = 0;
+	private Integer nbIdentified = 0;
 	
-	private static ObservableList<Spectrum> initialiseList() {
+	
+	public Spectra(){
+		super();
+	}
+	
+	private ObservableList<Spectrum> initialiseList() {
 		ObservableList<Spectrum> list = FXCollections.observableArrayList();
 //		list.addListener(new ListChangeListener<Spectrum>() {
 //			@Override
@@ -28,7 +33,7 @@ public class Spectra {
 		return list;
 	}
 	
-	public static void initialize() {
+	public void initialize() {
 		if(!spectra.isEmpty())
 			spectra.clear();
 //		if(spectraPerId == null)
@@ -40,7 +45,7 @@ public class Spectra {
 		nbIdentified = 0;
 	}
 
-	public static void add(Spectrum spectrum) {
+	public void add(Spectrum spectrum) {
 //		spectraPerId.put(spectrum.getId(), spectrum);
 		spectra.add(spectrum);
 		nbSpectra++;
@@ -52,12 +57,12 @@ public class Spectra {
 //		return null;
 //	}
 
-	public static ObservableList<Spectrum> getSpectraAsObservable() {
+	public ObservableList<Spectrum> getSpectraAsObservable() {
 		return spectra;
 //		return FXCollections.observableArrayList(spectraPerId.values());
 	}
 	
-	public static void updateRetentionTimeFromTitle() {
+	public void updateRetentionTimeFromTitle() {
 		for(Spectrum spectrum: spectra) {
 			spectrum.setRetentionTimeFromTitle();
 		}
@@ -65,30 +70,16 @@ public class Spectra {
 //			spectraPerId.get(id).setRetentionTimeFromTitle();
 //		}
 	}
-	public static void checkRecoveredSpectra(){
+	public void checkRecoveredSpectra(){
 		nbRecover = 0;
-		Integer nb = Spectra.getSpectraAsObservable().size();
+		Integer nb = getSpectraAsObservable().size();
 		for(int i = 0; i < nb; i++){
-			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+			Spectrum spectrum = getSpectraAsObservable().get(i);
 			if (spectrum.getIsRecover() == true)
 				nbRecover++;
 		}
 	}
-	public static void checkRecoveredSpectra(ArrayList<Filter> filters) {
-		int nbFilters = filters.size();
-		for(Spectrum spectrum: spectra) {
-			int i = 0;
-			Boolean isRecover = true;
-			// check if recovered or not
-			while(isRecover && i < nbFilters) {
-				isRecover = filters.get(i++).isRecover(spectrum);
-			}
-			spectrum.setIsRecover(isRecover);
-			if(isRecover)
-				nbRecover++;
-			if(spectrum.getIsIdentified())
-				nbIdentified++;
-		}
+
 //		for(Integer id: spectraPerId.keySet()) {
 //			Spectrum spectrum = spectraPerId.get(id);
 //			int i = 0;
@@ -103,34 +94,36 @@ public class Spectra {
 //			if(spectrum.getIsIdentified())
 //				nbIdentified++;
 //		}
-	}
+
 	
-	public static Integer getNbSpectra() {
+	public Integer getNbSpectra() {
 		return nbSpectra;
 	}
 
-	public static Integer getNbRecover() {
+	public Integer getNbRecover() {
 		return nbRecover;
 	}
 
-	public static Integer getNbIdentified() {
+	public  Integer getNbIdentified() {
 		return nbIdentified;
 	}
 	
-	public static void removeOne() {
+	public void removeOne() {
 		if(spectra.size() > 0)
 			spectra.remove(0);
 	}
 	
-	public static Spectrum getSpectrumWithTitle(String title){
-		Integer nb = Spectra.getSpectraAsObservable().size();
+	public Spectrum getSpectrumWithTitle(String title){
+		Integer nb = getSpectraAsObservable().size();
 		Spectrum specificSpectrum = null;
 		for (int i = 0; i < nb; i++){
-			Spectrum spectrum = Spectra.getSpectraAsObservable().get(i);
+			Spectrum spectrum = getSpectraAsObservable().get(i);
 			if(spectrum.getTitle().equalsIgnoreCase(title)){
 				specificSpectrum = spectrum;
+				System.out.println(specificSpectrum.getTitle());
 			}
 		}
+
 		return specificSpectrum;
 	}
 }

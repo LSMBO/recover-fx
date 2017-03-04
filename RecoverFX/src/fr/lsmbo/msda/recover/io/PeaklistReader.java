@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import fr.lsmbo.msda.recover.Session;
+import fr.lsmbo.msda.recover.gui.Recover;
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -20,13 +22,19 @@ public class PeaklistReader {
 	}
 	
 	public static void load(File file) {
+//		Spectra firstSpectra = new Spectra();
+//		Spectra secondSpectra = new Spectra();
+		
 		String filePath = file.getAbsolutePath();
 		Session.HIGHEST_FRAGMENT_MZ = 0F;
 		Session.HIGHEST_FRAGMENT_INTENSITY = 0F;
 		// start read file
 		try(BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			// initialize spectrum list (or reset it if already exists)
-			Spectra.initialize();
+//			if(Recover.loadSecondPeaklist == false)
+//				firstSpectra.initialize();
+//			else
+//				secondSpectra.initialize();
 			
 			// read chunks of file and load data in sqlite
 			if(file.getName().endsWith(".mgf")) {
@@ -35,7 +43,7 @@ public class PeaklistReader {
 				readPklFile(reader);
 			}
 
-			Session.CURRENT_FILE = file;
+//			Session.CURRENT_FILE = file;
 			
 		} catch(FileNotFoundException e) {
 			e.printStackTrace();
@@ -51,6 +59,7 @@ public class PeaklistReader {
 		String textBeforeFirstSpectrum = "";
 		Integer spectrumId = 0;
 		Integer fragmentId = 0;
+		Spectra spectra = new Spectra();
 		while((line = reader.readLine()) != null) { // iterate through the lines of the file
 			if(line.startsWith("BEGIN IONS")) {
 				spectrumId++;
@@ -73,7 +82,7 @@ public class PeaklistReader {
 				spectrum.setCharge(new Integer(line.replaceFirst("CHARGE=", "").replaceAll("\\+", "")));
 			} else if(line.startsWith("END IONS")) {
 				spectrum.setLineStop(lineNumber);
-				Spectra.add(spectrum);
+				spectra.add(spectrum);
 			} else if(line.matches("^[\\d\\s\\t\\.\\+]+$")) {
 				Fragment fragment = new Fragment();
 				try { // just in case casting fails
@@ -96,6 +105,14 @@ public class PeaklistReader {
 			lineNumber++;
 		}
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
+		if(Recover.loadSecondPeaklist == false){
+			System.out.println("first Peaklist");
+			ListOfSpectra.addFirstSpectra(spectra);
+		}
+		if(Recover.loadSecondPeaklist == true){
+			System.out.println("Second Peaklists");
+			ListOfSpectra.addSecondSpectra(spectra);
+		}
 	}
 	
 	private static void readPklFile(BufferedReader reader) throws IOException {
@@ -104,13 +121,14 @@ public class PeaklistReader {
 		Spectrum spectrum = null;
 		Integer spectrumId = 0;
 		Integer fragmentId = 0;
+		Spectra spectra = new Spectra();
 		while((line = reader.readLine()) != null) { // iterate through the lines of the file
 			if(line.isEmpty()) {
 				// spectra are separated by a blank line
 				if(spectrum != null) {
 					// store the previous spectrum if any
 					spectrum.setLineStop(lineNumber);
-					Spectra.add(spectrum);
+					spectra.add(spectrum);
 				}
 				// reset spectrum
 				spectrum = null;
@@ -142,6 +160,14 @@ public class PeaklistReader {
 				} // other cases should never happen !
 			}
 			lineNumber++;
+		}
+		if(Recover.loadSecondPeaklist == false){
+			System.out.println("first Peaklist");
+			ListOfSpectra.addFirstSpectra(spectra);
+		}
+		if(Recover.loadSecondPeaklist == true){
+			System.out.println("Second Peaklists");
+			ListOfSpectra.addSecondSpectra(spectra);
 		}
 		retentionTimesAreMissing = false; // actually there's no rt but if true it would trigger a dialogbox for parsing titles which would be useless
 	}

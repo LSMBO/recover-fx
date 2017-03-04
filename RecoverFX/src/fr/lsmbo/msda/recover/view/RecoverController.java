@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.view;
 
+import java.beans.EventHandler;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -13,9 +14,11 @@ import fr.lsmbo.msda.recover.io.PeaklistRecovered;
 import fr.lsmbo.msda.recover.Main;
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
-
+import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
+import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.embed.swing.SwingNode;
@@ -27,14 +30,21 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.util.Callback;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -55,8 +65,13 @@ public class RecoverController {
 //	private JFreeChart chart;
 	private SpectrumChart spectrumChart;
 	
+
+//	@FXML
+//	private MenuItem mnLoadPeaklist;
 	@FXML
-	private MenuItem mnLoadPeaklist;
+	private MenuItem mnLoadFirstPeaklist;
+	@FXML
+	private MenuItem mnLoadSecondPeaklist;
 	@FXML
 	private MenuItem mnExportPeaklist;
 	@FXML
@@ -70,44 +85,82 @@ public class RecoverController {
 	@FXML
 	private CheckMenuItem mnUseFixedAxis;
 	@FXML
+	private CheckMenuItem mnCheckRecoverForIdentified;
+	@FXML
+	private CheckMenuItem mnUncheckRecoverForIdentified;
+	@FXML
+	private CheckMenuItem mnCheckRecoverForNonIdentified;
+	@FXML
+	private CheckMenuItem mnUncheckRecoverForNonIdentified;
+	@FXML
 	private MenuItem mnResetRecover;
 	@FXML
 	private TableView<Spectrum> table;
 	@FXML
+	private TableView<Spectrum> table1;
+	@FXML
 	private TableColumn<Spectrum, Integer> colId;
+	@FXML
+	private TableColumn<Spectrum, Integer> colId1;
 	@FXML
 	private TableColumn<Spectrum, String> colTitle;
 	@FXML
+	private TableColumn<Spectrum, String> colTitle1;
+	@FXML
 	private TableColumn<Spectrum, Float> colMoz;
+	@FXML
+	private TableColumn<Spectrum, Float> colMoz1;
 	@FXML
 	private TableColumn<Spectrum, Float> colInt;
 	@FXML
+	private TableColumn<Spectrum, Float> colInt1;
+	@FXML
 	private TableColumn<Spectrum, Integer> colCharge;
+	@FXML
+	private TableColumn<Spectrum, Integer> colCharge1;
 	@FXML
 	private TableColumn<Spectrum, Float> colRT;
 	@FXML
+	private TableColumn<Spectrum, Float> colRT1;
+	@FXML
 	private TableColumn<Spectrum, Integer> colNbFragments;
+	@FXML
+	private TableColumn<Spectrum, Integer> colNbFragments1;
 	@FXML
 	private TableColumn<Spectrum, Integer> colUPN;
 	@FXML
+	private TableColumn<Spectrum, Integer> colUPN1;
+	@FXML
 	private TableColumn<Spectrum, Boolean> colIdentified;
 	@FXML
+	private TableColumn<Spectrum, Boolean> colIdentified1;
+	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover;
+	@FXML
+	private TableColumn<Spectrum, Boolean> colRecover1;
 //	@FXML
 //	private SplitPane bottomPanel;
 	@FXML
 	private AnchorPane filterAnchor;
+	@FXML
+	private AnchorPane filterAnchor1;
+	
 //	@FXML
 //	private AnchorPane chartAnchor;
 	@FXML
 	private SwingNode swingNodeForChart;
+	@FXML
+	private SwingNode swingNodeForChart1;
 	
 	@FXML
 	private void initialize() {
+		
+		//Left view
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
 		// define spectrum list
-		table.setItems(Spectra.getSpectraAsObservable());
+		table.setItems(spectra.getSpectraAsObservable());
         colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
+        colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
 		colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
 		colCharge.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
@@ -146,7 +199,54 @@ public class RecoverController {
 					 swingNodeForChart.setContent(chartPanel);
 				 }
 			 });
-		});
+		});	
+		
+		//Right view
+		Spectra secondSpectra = ListOfSpectra.getSecondSpectra();
+		// define spectrum list
+		table1.setItems(secondSpectra.getSpectraAsObservable());
+        colId1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
+        colTitle1.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
+		colMoz1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
+		colInt1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
+		colCharge1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
+		colRT1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
+		colNbFragments1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
+		colUPN1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
+		colIdentified1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isIdentified"));
+		colRecover1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
+		// set column sizes
+		colId1.setPrefWidth(SIZE_COL_ID);
+		colMoz1.setPrefWidth(SIZE_COL_MOZ);
+		colInt1.setPrefWidth(SIZE_COL_INTENSITY);
+		colCharge1.setPrefWidth(SIZE_COL_CHARGE);
+		colRT1.setPrefWidth(SIZE_COL_RT);
+		colNbFragments1.setPrefWidth(SIZE_COL_NBFRAGMENTS);
+		colUPN1.setPrefWidth(SIZE_COL_UPN);
+		colIdentified1.setPrefWidth(SIZE_COL_IDENTIFIED);
+		colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
+		colTitle1.prefWidthProperty().bind(table1.widthProperty().subtract(SIZE_COL_ID+SIZE_COL_MOZ+SIZE_COL_INTENSITY+SIZE_COL_CHARGE+SIZE_COL_RT+SIZE_COL_NBFRAGMENTS+SIZE_COL_UPN+SIZE_COL_IDENTIFIED+SIZE_COL_RECOVERED+0));
+
+		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
+		filterAnchor1.setPrefWidth(100);
+		table1.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//			// set new data and title
+//			chart.setData(SpectrumChart.getData(newSelection));
+//			chart.setTitle(newSelection.getTitle());
+//			// reset axis values  because autoranging is off (necessary to allow fixed axis)
+//			resetChartAxis(newSelection);
+			
+//			chart = SpectrumChart.getPlot(newSelection);
+			spectrumChart = new SpectrumChart(newSelection);
+	        ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+			 SwingUtilities.invokeLater(new Runnable() {
+				 @Override
+				 public void run() {
+					 swingNodeForChart1.setContent(chartPanel);
+				 }
+			 });
+		});	
+		
 //		chartAnchor.getChildren().add(swingNodeForChart);
 		
 		// context menus
@@ -210,24 +310,49 @@ public class RecoverController {
 		return fileChooser;
 	}
 	
+//	@FXML
+//	private void handleClickMenuLoad() {
+//		FileChooser fileChooser = getFileChooser();
+//		File file = fileChooser.showOpenDialog(this.dialogStage);
+//		if(file != null) {
+//			loadFile(file);
+////			Filter f = new Filter();
+////			f.applyFilters();
+//		}
+//	}
+	
 	@FXML
-	private void handleClickMenuLoad() {
+	private void handleClickMenuLoadFirst() {
 		FileChooser fileChooser = getFileChooser();
 		File file = fileChooser.showOpenDialog(this.dialogStage);
 		if(file != null) {
+			Recover.loadSecondPeaklist = false;
 			loadFile(file);
 //			Filter f = new Filter();
 //			f.applyFilters();
 		}
 	}
 	
+	@FXML
+	private void handleClickMenuLoadSecond() {
+		FileChooser fileChooser = getFileChooser();
+		File file = fileChooser.showOpenDialog(this.dialogStage);
+		if(file != null) {
+			Recover.loadSecondPeaklist = true;
+			loadFile(file);
+//			Filter f = new Filter();
+//			f.applyFilters();
+		}
+	}
 	public void loadFile(File selectedFile) {
 		long startTime = System.currentTimeMillis();
 		PeaklistReader.load(selectedFile);
 		long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("ABU loading time: "+totalTime+" ms");
-		System.out.println("ABU "+Spectra.getNbSpectra()+" spectra");		
+		System.out.println("ABU loading time: "+(double)totalTime/1000+" sec");
+		System.out.println("ABU "+ListOfSpectra.getFirstSpectra().getNbSpectra()+" spectra");
+		System.out.println("ABU "+ListOfSpectra.getSecondSpectra().getNbSpectra()+" spectra");
+		initialize();
 		this.dialogStage.setTitle(Main.recoverTitle());
 		if(PeaklistReader.retentionTimesNotFound()) {
 			// open a dialogbox to warn the user that he should try other parsing rules
@@ -291,8 +416,7 @@ public class RecoverController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-//			FiltersController controller = loader.getController();
-			FiltersController2 controller = loader.getController();
+			FilterController2 controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();
@@ -333,11 +457,62 @@ public class RecoverController {
 	}
 	@FXML
 	private void handleClickMenuResetRecover(){
-		for (Spectrum sp : Spectra.getSpectraAsObservable()){
+		//TODO move the loop in a new class
+		for (Spectrum sp : ListOfSpectra.getFirstSpectra().getSpectraAsObservable()){
 			sp.setIsRecover(false);
 		}
 		table.refresh();
 		Filters.resetHashMap();
+	}
+	
+	@FXML
+	private void handleCheckRecoverForIdentified(){
+		if(mnCheckRecoverForIdentified.isSelected()){
+			mnUncheckRecoverForIdentified.setSelected(false);
+			IdentifiedSpectraFilter.setCheckRecoverIdentified(true);
+			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
+		}
+		else{
+			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
+		}
+	}
+	
+	@FXML
+	private void handleUncheckRecoverForIdentified(){
+		if(mnUncheckRecoverForIdentified.isSelected()){
+			mnCheckRecoverForIdentified.setSelected(false);
+			IdentifiedSpectraFilter.setUncheckRecoverIdentified(true);
+			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
+		}
+		else
+			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
+	}
+	
+	@FXML
+	private void handleCheckRecoverForNonIdentified(){
+		if(mnCheckRecoverForNonIdentified.isSelected()){
+			mnUncheckRecoverForNonIdentified.setSelected(false);
+			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(true);
+			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
+		}
+		else
+			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
+	}
+	
+	@FXML
+	private void handleUncheckRecoverForNonIdentified(){
+		if(mnUncheckRecoverForNonIdentified.isSelected()){
+			mnCheckRecoverForNonIdentified.setSelected(false);
+			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(true);
+			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
+		}
+		else
+			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
+
+	}
+	
+	@FXML
+	private void test(){
 	}
 	
 	private void resetChartAxis(Spectrum spectrum) {

@@ -12,7 +12,7 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 	private int maxUPN;
 	private ComputationTypes mode;
 	private Boolean isUsed =false;
-	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+//	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 1;
 	
 	public void setParameters(int _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
@@ -89,17 +89,17 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 		this.isUsed = _isUsed ;
 	}
 	
-	public Boolean[] getAssociatedSpectrum(){
-		return associatedSpectrum;
-	}
-	
-	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-		this.associatedSpectrum = associatedSpectrum;
-	}
-	
-	public void addRecover(Boolean bool, int i){
-		associatedSpectrum[i] = bool;
-	}
+//	public Boolean[] getAssociatedSpectrum(){
+//		return associatedSpectrum;
+//	}
+//	
+//	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+//		this.associatedSpectrum = associatedSpectrum;
+//	}
+//	
+//	public void addRecover(Boolean bool, int i){
+//		associatedSpectrum[i] = bool;
+//	}
 	
 	public int getId(){
 		return id;

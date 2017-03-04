@@ -15,7 +15,7 @@ public class ChargeStatesFilter implements BasicFilter {
 	private Boolean keepChargeAbove5 = true;
 	private Boolean keepUnknownCharge = true;
 	private Boolean isUsed = false;
-	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+//	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 2;
 	
 	public void setParameters(Boolean z1, Boolean z2, Boolean z3, Boolean z4, Boolean z5, Boolean zOver5, Boolean zUnknown) {
@@ -91,17 +91,17 @@ public class ChargeStatesFilter implements BasicFilter {
 		this.isUsed = _isUsed ;
 	}
 	
-	public Boolean[] getAssociatedSpectrum(){
-		return associatedSpectrum;
-	}
-	
-	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-		this.associatedSpectrum = associatedSpectrum;
-	}
-	
-	public void addRecover(Boolean bool, int i){
-		associatedSpectrum[i] = bool;
-	}
+//	public Boolean[] getAssociatedSpectrum(){
+//		return associatedSpectrum;
+//	}
+//	
+//	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+//		this.associatedSpectrum = associatedSpectrum;
+//	}
+//	
+//	public void addRecover(Boolean bool, int i){
+//		associatedSpectrum[i] = bool;
+//	}
 	
 	public int getId(){
 		return id;

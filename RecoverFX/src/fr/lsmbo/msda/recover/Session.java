@@ -11,6 +11,7 @@ public class Session {
 	public static String RECOVER_RELEASE_DATE = "";
 //	public static Boolean DATABASE_LOADED = false;
 	public static File CURRENT_FILE = null;
+	public static File SECOND_FILE = null;
 	public static String CURRENT_REGEX_RT = "title.regex.data-analysis.rt";
 	public static Boolean USE_FIXED_AXIS = false;
 	public static Float HIGHEST_FRAGMENT_MZ = 0F;

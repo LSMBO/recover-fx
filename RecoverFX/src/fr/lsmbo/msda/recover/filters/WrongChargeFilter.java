@@ -5,7 +5,7 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class WrongChargeFilter implements BasicFilter {
 	private Boolean isUsed = false;
-	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+//	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 5;
 
 	@Override
@@ -28,17 +28,17 @@ public class WrongChargeFilter implements BasicFilter {
 		this.isUsed = _isUsed ;
 	}
 	
-	public Boolean[] getAssociatedSpectrum(){
-		return associatedSpectrum;
-	}
-	
-	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-		this.associatedSpectrum = associatedSpectrum;
-	}
-	
-	public void addRecover(Boolean bool, int i){
-		associatedSpectrum[i] = bool;
-	}
+//	public Boolean[] getAssociatedSpectrum(){
+//		return associatedSpectrum;
+//	}
+//	
+//	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+//		this.associatedSpectrum = associatedSpectrum;
+//	}
+//	
+//	public void addRecover(Boolean bool, int i){
+//		associatedSpectrum[i] = bool;
+//	}
 	
 	public int getId(){
 		return id;
