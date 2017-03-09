@@ -2,7 +2,11 @@ package fr.lsmbo.msda.recover.filters;
 
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * Filter to remove spectrum when the m/z precursor is greater than the last fragment (max m/z).
+ * @author BL
+ *
+ */
 public class WrongChargeFilter implements BasicFilter {
 	private Boolean isUsed = false;
 //	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];

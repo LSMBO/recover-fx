@@ -6,6 +6,13 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
+/**
+ * Filter to keep specific spectrum according to specific ion. For a specific m/z with a tolerance, check if the spectrum
+ * have this ion, in this case the value for recover will be true.
+ * 
+ * @author BL
+ *
+ */
 public class IonReporterFilter implements BasicFilter{
 
 	private String name;

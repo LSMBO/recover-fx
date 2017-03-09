@@ -46,7 +46,8 @@
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="155.0" minWidth="10.0" prefWidth="116.0" />
    		</columnConstraints>
    		<rowConstraints>
-   			<RowConstraints />
+   			<RowConstraints maxHeight="35.0" minHeight="8.0" prefHeight="20.0" />
+            <RowConstraints maxHeight="180.0" minHeight="3.0" prefHeight="18.0" vgrow="SOMETIMES" />
    			<RowConstraints maxHeight="180.0" minHeight="6.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="287.0" minHeight="4.0" prefHeight="35.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="287.0" minHeight="0.0" prefHeight="14.0" vgrow="SOMETIMES" />
@@ -65,92 +66,92 @@
             <RowConstraints maxHeight="575.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
    		</rowConstraints>
    		<children>
-   		<CheckBox fx:id="checkBoxHighIntensityThresholdFilter" onAction="#checkHighIntensityThresholdFilter" prefHeight="17.0" prefWidth="211.0" text="Filter by high intensity threshold" GridPane.columnSpan="7" GridPane.rowIndex="1">
+   		<CheckBox fx:id="checkBoxHighIntensityThresholdFilter" onAction="#checkHighIntensityThresholdFilter" prefHeight="17.0" prefWidth="211.0" text="Filter by high intensity threshold" GridPane.columnSpan="7" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></CheckBox>
-   		<TextField fx:id="mostIntensePeaksToConsider" GridPane.rowIndex="2">
+   		<TextField fx:id="mostIntensePeaksToConsider" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></TextField>
-   		<Label prefHeight="20.0" prefWidth="187.0" text="Most intense peaks to consider" GridPane.columnIndex="1" GridPane.rowIndex="2">
+   		<Label prefHeight="20.0" prefWidth="187.0" text="Most intense peaks to consider" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-   		<TextField fx:id="percentageOfTopLine" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-   		<Label text="Percentage of top line" GridPane.columnIndex="3" GridPane.rowIndex="2">
+   		<TextField fx:id="percentageOfTopLine" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+   		<Label text="Percentage of top line" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-   		<TextField fx:id="maxNbPeaks" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-   		<Label text="Number peaks" GridPane.columnIndex="5" GridPane.rowIndex="2">
+   		<TextField fx:id="maxNbPeaks" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+   		<Label text="Number peaks" GridPane.columnIndex="5" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <CheckBox fx:id="checkBoxLowIntensityThresholdFilter" onAction="#checkLowIntensityThresholdFilter" prefHeight="17.0" prefWidth="211.0" text="Filter by low intensity threshold" GridPane.columnSpan="3" GridPane.rowIndex="4">
+            <CheckBox fx:id="checkBoxLowIntensityThresholdFilter" onAction="#checkLowIntensityThresholdFilter" prefHeight="17.0" prefWidth="211.0" text="Filter by low intensity threshold" GridPane.columnSpan="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></CheckBox>
-            <TextField fx:id="emergence" GridPane.rowIndex="5">
+            <TextField fx:id="emergence" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></TextField>
-            <TextField fx:id="minUPN" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-            <TextField fx:id="maxUPN" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-            <Label text="Emergence (E)" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <TextField fx:id="minUPN" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField fx:id="maxUPN" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+            <Label text="Emergence (E)" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <Label text="Min useful peaks number" GridPane.columnIndex="3" GridPane.rowIndex="5">
+            <Label text="Min useful peaks number" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <Label text="Max useful peaks number" GridPane.columnIndex="5" GridPane.rowIndex="5">
+            <Label text="Max useful peaks number" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin></Label>
-            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="3" />
-            <Line endX="750.0" startX="-100.0" />
-            <ChoiceBox fx:id="modeBaseline" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="4" />
+            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="modeBaseline" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></ChoiceBox>
-            <CheckBox fx:id="checkBoxWrongChargeFilter" mnemonicParsing="false" prefHeight="17.0" prefWidth="267.0" text="Filter wrong charge" GridPane.columnSpan="7" GridPane.rowIndex="10">
+            <CheckBox fx:id="checkBoxWrongChargeFilter" mnemonicParsing="false" prefHeight="17.0" prefWidth="267.0" text="Filter wrong charge" GridPane.columnSpan="7" GridPane.rowIndex="11">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin></CheckBox>
-            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="9" />
-            <CheckBox fx:id="checkBoxFragmentIntensityFilter" mnemonicParsing="false" onAction="#checkFragmentIntensityFilter" text="Filter by fragment intensity" GridPane.columnSpan="7" GridPane.rowIndex="7">
+            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="10" />
+            <CheckBox fx:id="checkBoxFragmentIntensityFilter" mnemonicParsing="false" onAction="#checkFragmentIntensityFilter" text="Filter by fragment intensity" GridPane.columnSpan="7" GridPane.rowIndex="8">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
-            <Label text="Remove is fragment intensity is " GridPane.columnSpan="2" GridPane.rowIndex="8">
+            <Label text="Remove is fragment intensity is " GridPane.columnSpan="2" GridPane.rowIndex="9">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></Label>
-            <ChoiceBox fx:id="comparatorFragmentIntensity" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
-            <TextField fx:id="fragmentIntensity" GridPane.columnIndex="3" GridPane.rowIndex="8">
+            <ChoiceBox fx:id="comparatorFragmentIntensity" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <TextField fx:id="fragmentIntensity" GridPane.columnIndex="3" GridPane.rowIndex="9">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </TextField>
-            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="6" />
-            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="11" />
-            <CheckBox fx:id="checkBoxIdentifiedSpectraFilter" mnemonicParsing="false" onAction="#checkIdentifiedSpectraFilter" text="Filter identified spectra" GridPane.columnSpan="3" GridPane.rowIndex="12">
+            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="7" />
+            <Line endX="750.0" startX="-100.0" GridPane.rowIndex="12" />
+            <CheckBox fx:id="checkBoxIdentifiedSpectraFilter" mnemonicParsing="false" onAction="#checkIdentifiedSpectraFilter" text="Filter identified spectra" GridPane.columnSpan="3" GridPane.rowIndex="13">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
 <!--             <Button fx:id="buttonIdentifiedSpectra" mnemonicParsing="false" onAction="#openISFilter" text="..." GridPane.columnIndex="2" GridPane.rowIndex="12" /> -->
-            <TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="13" />
-            <CheckBox fx:id="checkBoxIonReporterFilter" mnemonicParsing="false" onAction="#checkIonReporterFilter" text="Filter ion reporter" GridPane.columnSpan="3" GridPane.rowIndex="14">
+            <TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="7" GridPane.rowIndex="14" />
+            <CheckBox fx:id="checkBoxIonReporterFilter" mnemonicParsing="false" onAction="#checkIonReporterFilter" text="Filter ion reporter" GridPane.columnSpan="3" GridPane.rowIndex="15">
                <GridPane.margin>
                   <Insets left="20.0" />
                </GridPane.margin>
             </CheckBox>
 <!--             <Button fx:id="buttonIonReporter" mnemonicParsing="false" onAction="#openIRFilter" text="..." GridPane.columnIndex="2" GridPane.rowIndex="14" /> -->
-            <TableView fx:id="tableIonReporter" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="15" GridPane.rowSpan="2">
+            <TableView fx:id="tableIonReporter" editable="true" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="16" GridPane.rowSpan="2">
               <columns>
                 <TableColumn fx:id="colMoz" editable="true" prefWidth="75.0" text="m/z" />
                 <TableColumn fx:id="colTolerance" editable="true" prefWidth="75.0" text="tolerance" />
@@ -163,15 +164,15 @@
                   <Insets left="10.0" top="10.0" />
                </GridPane.margin>
             </TableView>
-            <TextField fx:id="mozIonReporter" GridPane.columnIndex="4" GridPane.rowIndex="16" />
-            <TextField fx:id="toleranceIonReporter" GridPane.columnIndex="5" GridPane.rowIndex="16" />
-            <TextField fx:id="nameIonReporter" GridPane.columnIndex="6" GridPane.rowIndex="16" />
-            <Label text="m/z" GridPane.columnIndex="4" GridPane.rowIndex="15">
+            <TextField fx:id="mozIonReporter" GridPane.columnIndex="4" GridPane.rowIndex="17" />
+            <TextField fx:id="toleranceIonReporter" GridPane.columnIndex="5" GridPane.rowIndex="17" />
+            <TextField fx:id="nameIonReporter" GridPane.columnIndex="6" GridPane.rowIndex="17" />
+            <Label text="m/z" GridPane.columnIndex="4" GridPane.rowIndex="16">
                <GridPane.margin>
                   <Insets left="20.0" top="150.0" />
                </GridPane.margin>
             </Label>
-            <Label text="tolerance" GridPane.columnIndex="5" GridPane.rowIndex="15">
+            <Label text="tolerance" GridPane.columnIndex="5" GridPane.rowIndex="16">
                <padding>
                   <Insets left="10.0" />
                </padding>
@@ -179,17 +180,17 @@
                   <Insets left="40.0" top="150.0" />
                </GridPane.margin>
             </Label>
-            <Label text="name" GridPane.columnIndex="6" GridPane.rowIndex="15">
+            <Label text="name" GridPane.columnIndex="6" GridPane.rowIndex="16">
                <GridPane.margin>
                   <Insets left="50.0" top="150.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="buttonInsertIonReporter" mnemonicParsing="false" onAction="#insertIonToTableView" text="Insert data" GridPane.columnIndex="3" GridPane.rowIndex="15">
+            <Button fx:id="buttonInsertIonReporter" mnemonicParsing="false" onAction="#insertIonToTableView" text="Insert data" GridPane.columnIndex="3" GridPane.rowIndex="16">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="buttonResetIonReporter" mnemonicParsing="false" onAction="#resetIonToTableView" text="Reset all Data" GridPane.columnIndex="3" GridPane.rowIndex="16">
+            <Button fx:id="buttonResetIonReporter" mnemonicParsing="false" onAction="#resetIonToTableView" text="Reset all Data" GridPane.columnIndex="3" GridPane.rowIndex="17">
                <GridPane.margin>
                   <Insets left="30.0" />
                </GridPane.margin>

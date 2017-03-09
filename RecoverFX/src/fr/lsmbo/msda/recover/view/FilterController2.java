@@ -8,6 +8,7 @@ import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
+import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -54,6 +55,9 @@ public class FilterController2 {
 	private ObservableList<Control> controlIR = FXCollections.observableArrayList();
 	
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
+	
+	private static Boolean firstPeaklistSelected = false ;
+	private static Boolean secondPeaklistSelected = false ;
 	
 	/*******************************************
 	 Control for High Intensity Threshold Filter
@@ -147,7 +151,7 @@ public class FilterController2 {
 		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
 		controlIS.addAll(titles);
 		controlIR.addAll(tableIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter, buttonInsertIonReporter, buttonResetIonReporter);
-	
+		
 		//Disable all the control at the initialization.	
 		setDisableControl(controlHIT,"disable");
 		setDisableControl(controlLIT,"disable");

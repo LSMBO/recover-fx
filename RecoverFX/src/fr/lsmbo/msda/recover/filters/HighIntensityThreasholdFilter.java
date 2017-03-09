@@ -1,9 +1,19 @@
 package fr.lsmbo.msda.recover.filters;
 
 
+import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * Filter to keep specific spectrum according to high intensity threshold.
+ * The top line will be calculate according to a number of most intense peaks (Mean of this most intense peaks).
+ * Then there is a percentage of this top line and a value of peak to consider. If more than x peaks will be found
+ * over the top line * percentage, filter return false for recover.
+ * 
+ * 
+ * @author BL
+ *
+ */
 public class HighIntensityThreasholdFilter implements BasicFilter {
 
 	private int nbMostIntensePeaksToConsider;
@@ -35,6 +45,7 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 		}
 		// then calculate threashold
 		float threashold = topline * (1 - percentageOfTopLine);
+		spectrum.setHighIntensityThreshold(threashold);
 		// invalidate if more than x peaks are above this value
 		int i = 0;
 		while(spectrum.getSortedFragments().get(spectrum.getNbFragments() - i - 1).getIntensity() > threashold) {

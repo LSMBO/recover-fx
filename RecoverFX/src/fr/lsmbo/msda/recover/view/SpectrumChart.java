@@ -90,11 +90,11 @@ public class SpectrumChart {
         // precursor m/z
 		chart.getXYPlot().addDomainMarker(createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)), Layer.BACKGROUND);
         // raw baseline if chosen
-	    addThresholdMarker(0F, Session.CALCULATED_NOISE_VALUE, "Raw baseline", new Color(255 - 30, 201 - 30, 87 - 30, 220));
+	    addThresholdMarker(0F, Session.CALCULATED_NOISE_VALUE = spectrum.getMedianFragmentsIntensities(), "Raw baseline", new Color(255 - 30, 201 - 30, 87 - 30, 220));
         // low intensity threshold if chosen
-	    addThresholdMarker(0F, Session.LOW_INTENSITY_THRESHOLD, "Low intensity threshold", new Color(255, 183, 87, 220));
+	    addThresholdMarker(0F, Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold(), "Low intensity threshold", new Color(255, 183, 87, 220));
         // high intensity threshold if chosen
-	    addThresholdMarker(Session.HIGH_INTENSITY_THRESHOLD, (float)chart.getXYPlot().getRangeAxis().getUpperBound(), "High intensity threshold", new Color(255, 183, 87, 220));
+	    addThresholdMarker(Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold(), (float)chart.getXYPlot().getRangeAxis().getUpperBound(), "High intensity threshold", new Color(255, 183, 87, 220));
 	    // top line
 		// status ?
 	}

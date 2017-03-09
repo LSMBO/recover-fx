@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -129,16 +130,17 @@
                         <MenuItem fx:id="mnLoadSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoadSecond" text="Second Peaklist..." />
                     </items>
                   </Menu>
-<!--               <MenuItem fx:id="mnLoadPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoad" text="Open..."> -->
+                  <Menu mnemonicParsing="false" text="Export...">
+                    <items>
+                      <MenuItem fx:id="mnExportFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportFirst" text="First peaklist..." />
+                        <MenuItem fx:id="mnExportSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportSecond" text="Second Peaklist..." />
+                    </items>
+                  </Menu>
+<!--                   <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" text="Export..."> -->
 <!--                      <accelerator> -->
-<!--                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" /> -->
+<!--                         <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" /> -->
 <!--                      </accelerator> -->
 <!--                   </MenuItem> -->
-                  <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" text="Export...">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
                   <MenuItem fx:id="mnExportBatch" mnemonicParsing="false" onAction="#handleClickMenuBatch" text="Export in batch...">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -168,10 +170,13 @@
                         <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator>
                   </CheckMenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <CheckMenuItem fx:id="mnCheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForIdentified" text="Check 'Recover' for 'identified' spectra" />
                   <CheckMenuItem fx:id="mnUncheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForIdentified" text="Uncheck 'Recover' for 'identified' spectra" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <CheckMenuItem fx:id="mnCheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForNonIdentified" text="Check 'Recover' for 'non-identified' spectra" />
                   <CheckMenuItem fx:id="mnUncheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForNonIdentified" text="Uncheck 'Recover' for 'non-identified' spectra" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="mnResetRecover" mnemonicParsing="false" onAction="#handleClickMenuResetRecover" text="Reset Recover">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />

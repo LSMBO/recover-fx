@@ -4,6 +4,13 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
+/**
+ * Filter to keep specific spectrum with a low intensity threshold. Baseline is calculated with the average of intensity of all fragment
+ * or with the median of these fragments. Then the threshold is defined as baseline * emergence. All peaks above this threshold will be considered
+ * as a useful peak. The spectrum will be recover if useful peak number is included between min and max useful peak number.
+ * @author BL
+ *
+ */
 
 public class LowIntensityThreasholdFilter implements BasicFilter {
 
@@ -34,6 +41,7 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 		if(mode == ComputationTypes.AVERAGE) baseline = spectrum.getAverageFragmentsIntensities();
 		// then multiply with Emergence to get the threshold
 		float threashold = baseline * emergence;
+		spectrum.setLowIntensityThreshold(threashold);
 		// then count peaks below minUPN and above maxUPN
 		int nbFragmentsAboveThreashold = 0;
 		for(int i = 0; i < spectrum.getNbFragments(); i++) {

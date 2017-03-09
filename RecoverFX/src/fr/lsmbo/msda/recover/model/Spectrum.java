@@ -28,6 +28,8 @@ public class Spectrum {
 	private Integer upn = -1;
 	private Boolean isIdentified = false;
 	private Boolean isRecover = false;
+	private float highIntensityThreshold = Session.HIGH_INTENSITY_THRESHOLD;
+	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
 
 	private ArrayList<Fragment> fragments = new ArrayList<Fragment>(); // may be empty if file is too big
 	private ArrayList<Fragment> sortedFragments = new ArrayList<Fragment>(); // may be empty if file is too big
@@ -308,7 +310,24 @@ public class Spectrum {
 	public Integer getUpn(){
 		return upn;
 	}
+	
 	public void setUpn(Integer upn){
 		this.upn = upn ;
+	}
+	
+	public float getHighIntensityThreshold(){
+		return highIntensityThreshold;
+	}
+	
+	public void setHighIntensityThreshold(float highIntensityThreshold){
+		this.highIntensityThreshold = highIntensityThreshold;
+	}
+	
+	public float getLowIntensityThreshold(){
+		return lowIntensityThreshold;
+	}
+	
+	public void setLowIntensityThreshold(float lowIntensityThreshold){
+		this.lowIntensityThreshold = lowIntensityThreshold;
 	}
 }

@@ -8,7 +8,13 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.collections.FXCollections;
 //import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-
+/**
+ * Regroup all spectrum as an ObservableList and make specific treatment like add spectrum in the observable list,
+ * update retention time for all spectrum, check the number of spectrum recovered, find a spectrum with its title.
+ * 
+ * @author BL 
+ *
+ */
 public class Spectra {
 	
 	private ObservableList<Spectrum> spectra = initialiseList();
@@ -70,6 +76,10 @@ public class Spectra {
 //			spectraPerId.get(id).setRetentionTimeFromTitle();
 //		}
 	}
+	
+	/**
+	 * Scan all the spectrum and increment the number of recover every time the value of recover for this spectrum will be true
+	 */
 	public void checkRecoveredSpectra(){
 		nbRecover = 0;
 		Integer nb = getSpectraAsObservable().size();
@@ -113,6 +123,13 @@ public class Spectra {
 			spectra.remove(0);
 	}
 	
+	/**
+	 * 
+	 * @param title
+	 * 		title of spectrum we need to find
+	 * @return
+	 * 		Corresponding spectrum for this title
+	 */
 	public Spectrum getSpectrumWithTitle(String title){
 		Integer nb = getSpectraAsObservable().size();
 		Spectrum specificSpectrum = null;
@@ -120,7 +137,6 @@ public class Spectra {
 			Spectrum spectrum = getSpectraAsObservable().get(i);
 			if(spectrum.getTitle().equalsIgnoreCase(title)){
 				specificSpectrum = spectrum;
-				System.out.println(specificSpectrum.getTitle());
 			}
 		}
 

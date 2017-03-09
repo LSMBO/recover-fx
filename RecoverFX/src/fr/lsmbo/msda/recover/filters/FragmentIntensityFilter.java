@@ -3,6 +3,14 @@ package fr.lsmbo.msda.recover.filters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
+/**
+ * Filter to remove specific spectrum according to intensity of fragments.
+ * Make a comparison with these fragment( equals, different, greater, lower).
+ * For example, lower than xxx intensity, all the spectrum with a fragment's intensity lower than this value will be removed.
+ *
+ * @author BL
+ *
+ */
 
 public class FragmentIntensityFilter implements BasicFilter {
 

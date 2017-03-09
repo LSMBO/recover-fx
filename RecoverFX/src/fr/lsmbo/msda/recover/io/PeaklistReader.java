@@ -12,7 +12,12 @@ import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * Read a file(mgf or pkl) and stock the information concerning spectrum and spectra.
+ * @see Spectrum, Spectra, ListOfSpectra
+ * @author BL
+ *
+ */
 public class PeaklistReader {
 
 	private static Boolean retentionTimesAreMissing = true;
@@ -105,11 +110,13 @@ public class PeaklistReader {
 			lineNumber++;
 		}
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
-		if(Recover.loadSecondPeaklist == false){
+		//add spectra as a first spectra
+		if(Recover.useSecondPeaklist == false){
 			System.out.println("first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
-		if(Recover.loadSecondPeaklist == true){
+		//add spectra as a second spectra
+		if(Recover.useSecondPeaklist == true){
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
@@ -161,11 +168,11 @@ public class PeaklistReader {
 			}
 			lineNumber++;
 		}
-		if(Recover.loadSecondPeaklist == false){
+		if(Recover.useSecondPeaklist == false){
 			System.out.println("first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
-		if(Recover.loadSecondPeaklist == true){
+		if(Recover.useSecondPeaklist == true){
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}

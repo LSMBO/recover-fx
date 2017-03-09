@@ -1,8 +1,15 @@
 package fr.lsmbo.msda.recover.filters;
 
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * Filter to identify a spectrum with the title and to set the value of recover in different case(keep or rejected
+ * spectrum identified or keep or rejected spectrum non identified).
+ * 
+ * @author BL
+ *
+ */
 public class IdentifiedSpectraFilter{
 	private Boolean isUsed = false ;
 	private String [] arrayTitles ;
@@ -16,7 +23,9 @@ public class IdentifiedSpectraFilter{
 		arrayTitles = _arrayTitles;
 	}
 	
+	//Find the spectrum with his title
 	public void setIdentified(String title){
+		spectra = ListOfSpectra.choiceSpectra();
 		Spectrum spectrum = spectra.getSpectrumWithTitle(title);
 		spectrum.setIsIdentified(true);
 	}

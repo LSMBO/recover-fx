@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.filters;
 
 
+import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
@@ -9,9 +10,19 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.scene.control.Alert;
 
+/**
+ * Calculate and apply different filters to spectra.
+ * Recover filters used and scan all the spectrum to apply these filters:
+ * For a spectrum if the first filter return a false value for recover, we check the next spectrum.
+ * If the filter return a true value for recover, we check the second filter, then the third etc until the last filter or a false value for recover
+ * Reset values (recover, UPN, filters used).
+ * 
+ * @author BL
+ * @see FragmentIntensityFilter, HighIntensityThreasholdFilter, IdentifiedSpectraFilter, IonReporterFilter, LowIntensityThreasholdFilter, WrongChargeFilter
+ * @see Filters
+ *
+ */
 public class Filter {
-
-	private Integer nb = ListOfSpectra.getFirstSpectra().getSpectraAsObservable().size();
 	
 	private HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
 	private LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
@@ -21,7 +32,27 @@ public class Filter {
 	private IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
 
 	
+	/**
+	 * First of all, check if the filter identified spectra is used and apply this filter:
+	 * scan all the title given and find the associated spectrum for this title
+	 * @see IdentifiedSpectraFilter
+	 * 
+	 * Then, scan the different spectrum and for all this spectrum,scan the different filter used 
+	 * (as an array of index, each index corresponding to a specific filter @see Filters).
+	 * First filter encountered set the value of recover for this spectrum
+	 * If there are more than one filter, before applied the second filter check if the first filter return false for the spectrum (in this case, move to the next spectrum)
+	 * If the value was true: apply this filter (true or false) and do it again for the third or more filter(check the value etc...)
+	 * 
+	 * If IonReporterFilter was used: special treatment (method recoverIfSeveralIons) because if a first ion reporter return a value of recover true we keep this value even if we have more ion reporter
+	 * And finally, calculate number of spectrum recovered
+	 * 
+	 */
 	public void applyFilters() {
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
+		
+		Integer nb = spectra.getSpectraAsObservable().size();
+		
+		//Apply filter identified spectra for all the title wrote
 		if(filterIS != null){
 				for (String t : filterIS.getArrayTitles()){
 					filterIS.setIdentified(t);
@@ -30,9 +61,11 @@ public class Filter {
 		}
 		
 		// TODO find a way to get all methods from this package
+		//Scan all the spectrum
 		for (int i =0; i < nb; i++){
-			Spectrum spectrum = ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(i);
+			Spectrum spectrum = spectra.getSpectraAsObservable().get(i);
 			
+			//Scan all the filter used
 			for(int j=0; j <Filters.getFilterAsAnArray().size();j++){
 				//First filter encountered
 				if (j==0){
@@ -58,6 +91,7 @@ public class Filter {
 						spectrum.setIsRecover(filterIS.isValid(spectrum));
 					}
 					
+					
 					if(Filters.getFilterAsAnArray().get(j)==5){
 						Integer nbIon = IonReporters.getIonReporters().size();
 						for (int k=0; k < nbIon; k++){
@@ -74,9 +108,10 @@ public class Filter {
 				}
 				
 				else{
-					
+					//If the previous filter return a false value for recover, move to the next spectrum
 					if (spectrum.getIsRecover()==false)
 						break;
+					
 					
 					if (spectrum.getIsRecover()==true){
 						//filter HIT
@@ -113,7 +148,8 @@ public class Filter {
 				}
 			}
 		}
-		ListOfSpectra.getFirstSpectra().checkRecoveredSpectra();
+		//Set the number of spectrum recover after utilization of filters
+		spectra.checkRecoveredSpectra();
 	}
 	
 	// tell if the spectrum is recovered or not
@@ -126,6 +162,16 @@ public class Filter {
 		return "";
 	}
 	
+	/**
+	 * 
+	 * @param spectrum
+	 * 	a specific spectrum
+	 * @param filter
+	 * @return
+	 * 	if the value of recover for a spectrum is true, return true else, check if an ion reporter is present for this spectrum
+	 * and return true or false in the different case.
+	 * 
+	 */
 	public Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter){
 		if (spectrum.getIsRecover())
 			return true;
@@ -136,8 +182,12 @@ public class Filter {
 				return false;		
 	}
 	
+	//reset value of recover  and upn (in other term, redo the application of filter from the beginning when a new window is open)
 	public static void redoFromTheBeginning(){
-		for (Spectrum sp : ListOfSpectra.getFirstSpectra().getSpectraAsObservable()){
+		
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
+		
+		for (Spectrum sp : spectra.getSpectraAsObservable()){
 			sp.setIsRecover(false);
 			sp.setUpn(-1);
 		}

@@ -4,6 +4,11 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Initialize an observable list of ion reporter. Method to add ion reporter inside the list and to get the list.
+ * @author BL
+ *
+ */
 public class IonReporters {
 
 	private static ObservableList<IonReporter> ionReporters = initializeListIon();;

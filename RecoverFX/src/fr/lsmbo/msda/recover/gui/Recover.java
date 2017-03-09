@@ -13,8 +13,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * Open a new scene and load the controller linked with the view.
+ * Load peak lists at the loading.
+ * @author BL
+ *
+ */
+
 public class Recover extends Application {
-	public static Boolean loadSecondPeaklist = false;
+	public static Boolean useSecondPeaklist = false;
 
 	public static void run() {
 		launch();
@@ -40,10 +47,10 @@ public class Recover extends Application {
 			primaryStage.setMaximized(true);
 			primaryStage.show();
 		
-
+			//load files at the opening
 			if(Session.CURRENT_FILE != null){
 				controller.loadFile(Session.CURRENT_FILE);
-				loadSecondPeaklist = true;
+				useSecondPeaklist = true;
 				controller.loadFile(Session.SECOND_FILE);
 			}
 			

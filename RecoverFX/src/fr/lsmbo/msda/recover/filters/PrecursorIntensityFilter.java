@@ -5,6 +5,14 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
+/**
+ * Filter to remove specific spectrum according to intensity of precursor.
+ * Make a comparison with these precursor ( equals, different, greater, lower).
+ * For example, lower than xxx intensity, all the spectrum with a precursor's intensity lower than this value will be removed.
+ *
+ * @author BL
+ *
+ */
 public class PrecursorIntensityFilter implements BasicFilter {
 
 	private int intensity;

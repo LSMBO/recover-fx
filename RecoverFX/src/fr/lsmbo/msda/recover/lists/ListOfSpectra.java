@@ -1,5 +1,13 @@
 package fr.lsmbo.msda.recover.lists;
 
+import fr.lsmbo.msda.recover.gui.Recover;
+
+/**
+ * Keep the information for the two list of spectrum and method to access either the first or the second spectra
+ * 
+ * @author BL
+ *
+ */
 public class ListOfSpectra {
 
 	private static Spectra firstSpectra = new Spectra();
@@ -22,5 +30,11 @@ public class ListOfSpectra {
 	
 	public static void addSecondSpectra(Spectra spectra){
 		arraySpectra[1] = spectra;
+	}
+	
+	public static Spectra choiceSpectra(){
+		if(Recover.useSecondPeaklist)
+			return ListOfSpectra.getSecondSpectra();
+		return ListOfSpectra.getFirstSpectra();
 	}
 }

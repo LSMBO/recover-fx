@@ -4,7 +4,13 @@ import java.util.ArrayList;
 
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * filter to keep spectrum according to specific charges: 1,2,3,4,5 or above 5.
+ * Take different Boolean in parameters to use this filter. A charge will be kept (Boolean = true) or rejected (Boolean = false)
+ * If the Boolean is false for a specific charge, all the spectrum with this charge will not be recover.
+ * @author BL
+ * 
+ */
 public class ChargeStatesFilter implements BasicFilter {
 
 	private Boolean keepCharge1 = true;
@@ -18,6 +24,17 @@ public class ChargeStatesFilter implements BasicFilter {
 //	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 2;
 	
+	/**
+	 * set the different parameters (Boolean) to this class
+	 * @param z1
+	 *		Boolean of charge 1 = true if we keep this charge
+	 * @param z2
+	 * @param z3
+	 * @param z4
+	 * @param z5
+	 * @param zOver5
+	 * @param zUnknown
+	 */
 	public void setParameters(Boolean z1, Boolean z2, Boolean z3, Boolean z4, Boolean z5, Boolean zOver5, Boolean zUnknown) {
 		keepCharge1 = z1;
 		keepCharge2 = z2;
@@ -28,8 +45,16 @@ public class ChargeStatesFilter implements BasicFilter {
 		keepUnknownCharge = zUnknown;
 	}
 	
+	
 	// test if the spectra is valid or not
 	@Override
+	/**
+	 * @param spectrum
+	 * 		A specific spectrum
+	 * @return
+	 * 		Boolean false or true to set the value of recover
+	 * @see Spectrum
+	 */
 	public Boolean isValid(Spectrum spectrum) {
 		if(spectrum.getCharge() == -1 && !keepUnknownCharge) return false;
 		if(spectrum.getCharge() == 1 && !keepCharge1) return false;

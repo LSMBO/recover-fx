@@ -21,7 +21,10 @@ import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -73,7 +76,11 @@ public class RecoverController {
 	@FXML
 	private MenuItem mnLoadSecondPeaklist;
 	@FXML
-	private MenuItem mnExportPeaklist;
+	private MenuItem mnExportFirstPeaklist;
+	@FXML
+	private MenuItem mnExportSecondPeaklist;
+//	@FXML
+//	private MenuItem mnExportPeaklist;
 	@FXML
 	private MenuItem mnExportBatch;
 	@FXML
@@ -95,7 +102,7 @@ public class RecoverController {
 	@FXML
 	private MenuItem mnResetRecover;
 	@FXML
-	private TableView<Spectrum> table;
+	public TableView<Spectrum> table;
 	@FXML
 	private TableView<Spectrum> table1;
 	@FXML
@@ -200,6 +207,10 @@ public class RecoverController {
 				 }
 			 });
 		});	
+//		table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
+//			
+//		});
+
 		
 		//Right view
 		Spectra secondSpectra = ListOfSpectra.getSecondSpectra();
@@ -247,9 +258,127 @@ public class RecoverController {
 			 });
 		});	
 		
+		//CONTEXT MENU && MENU ITEMS
+		ContextMenu mozContext = new ContextMenu();
+		MenuItem mozItem = new MenuItem("Filter by m/z...");
+		mozContext.getItems().add(mozItem);
+		colMoz.setContextMenu(mozContext);
+		mozItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Views.FILTER_MOZ);
+					AnchorPane page = (AnchorPane) loader.load();
+					Stage dialogStageMoz = new Stage();
+					dialogStageMoz.setTitle("Apply Filters");
+					dialogStageMoz.initModality(Modality.WINDOW_MODAL);
+					dialogStageMoz.initOwner(dialogStage);
+					Scene scene = new Scene(page);
+					dialogStageMoz.setScene(scene);
+					FilterByMozController controller = loader.getController();
+					controller.setDialogStage(dialogStageMoz);
+					dialogStageMoz.showAndWait();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ContextMenu intensityContext = new ContextMenu();
+		MenuItem intensityItem = new MenuItem("Filter by precursor intensity...");
+		intensityContext.getItems().add(intensityItem);
+		colInt.setContextMenu(intensityContext);
+		intensityItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Views.FILTER_INTENSITY);
+					AnchorPane page = (AnchorPane) loader.load();
+					Stage dialogStage = new Stage();
+					dialogStage.setTitle("Precursor intensity");
+					dialogStage.initModality(Modality.WINDOW_MODAL);
+					Scene scene = new Scene(page);
+					dialogStage.setScene(scene);
+					dialogStage.showAndWait();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ContextMenu chargeContext = new ContextMenu();
+		MenuItem chargeItem = new MenuItem("Filter by charge...");
+		chargeContext.getItems().add(chargeItem);
+		colCharge.setContextMenu(chargeContext);
+		chargeItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Views.FILTER_CHARGE);
+					AnchorPane page = (AnchorPane) loader.load();
+					Stage dialogStage = new Stage();
+					dialogStage.setTitle("Charge");
+					dialogStage.initModality(Modality.WINDOW_MODAL);
+					Scene scene = new Scene(page);
+					dialogStage.setScene(scene);
+					dialogStage.showAndWait();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ContextMenu retentionTimeContext = new ContextMenu();
+		MenuItem retentionTimeItem = new MenuItem("Filter by RT...");
+		retentionTimeContext.getItems().add(retentionTimeItem);
+		colRT.setContextMenu(retentionTimeContext);
+		retentionTimeItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Views.FILTER_RETENTION_TIME);
+					AnchorPane page = (AnchorPane) loader.load();
+					Stage dialogStage = new Stage();
+					dialogStage.setTitle("Retention Time");
+					dialogStage.initModality(Modality.WINDOW_MODAL);
+					Scene scene = new Scene(page);
+					dialogStage.setScene(scene);
+					dialogStage.showAndWait();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		ContextMenu nbFragmentContext = new ContextMenu();
+		MenuItem nbFragmentItem = new MenuItem("Filter by number of fragment...");
+		nbFragmentContext.getItems().add(nbFragmentItem);
+		colNbFragments.setContextMenu(nbFragmentContext);
+		nbFragmentItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event){
+				try {
+					FXMLLoader loader = new FXMLLoader();
+					loader.setLocation(Views.FILTER_NB_FRAGMENT);
+					AnchorPane page = (AnchorPane) loader.load();
+					Stage dialogStage = new Stage();
+					dialogStage.setTitle("Number of fragment");
+					dialogStage.initModality(Modality.WINDOW_MODAL);
+					Scene scene = new Scene(page);
+					dialogStage.setScene(scene);
+					dialogStage.showAndWait();
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 //		chartAnchor.getChildren().add(swingNodeForChart);
 		
-		// context menus
 //		defineChartMenu();
 	}
 	
@@ -310,35 +439,26 @@ public class RecoverController {
 		return fileChooser;
 	}
 	
-//	@FXML
-//	private void handleClickMenuLoad() {
-//		FileChooser fileChooser = getFileChooser();
-//		File file = fileChooser.showOpenDialog(this.dialogStage);
-//		if(file != null) {
-//			loadFile(file);
-////			Filter f = new Filter();
-////			f.applyFilters();
-//		}
-//	}
-	
+	//Action to load the first table with a peaklist
 	@FXML
 	private void handleClickMenuLoadFirst() {
 		FileChooser fileChooser = getFileChooser();
 		File file = fileChooser.showOpenDialog(this.dialogStage);
 		if(file != null) {
-			Recover.loadSecondPeaklist = false;
+			Recover.useSecondPeaklist = false;
 			loadFile(file);
 //			Filter f = new Filter();
 //			f.applyFilters();
 		}
 	}
 	
+	//Action to load the second table with a peaklist
 	@FXML
 	private void handleClickMenuLoadSecond() {
 		FileChooser fileChooser = getFileChooser();
 		File file = fileChooser.showOpenDialog(this.dialogStage);
 		if(file != null) {
-			Recover.loadSecondPeaklist = true;
+			Recover.useSecondPeaklist = true;
 			loadFile(file);
 //			Filter f = new Filter();
 //			f.applyFilters();
@@ -375,7 +495,7 @@ public class RecoverController {
 	}
 	
 	@FXML
-	private void handleClickMenuExport() {
+	private void handleClickMenuExportFirst() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save your new peaklist");
 		fileChooser.getExtensionFilters().addAll(
@@ -383,6 +503,22 @@ public class RecoverController {
 				new ExtensionFilter("PKL","*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
 		if (savedFile !=null)
+			Recover.useSecondPeaklist = false;
+			PeaklistRecovered.save(savedFile);
+//		System.out.println(bottomPanel.getDividerPositions()[0]);
+		
+	}
+	
+	@FXML
+	private void handleClickMenuExportSecond() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save your new peaklist");
+		fileChooser.getExtensionFilters().addAll(
+				new ExtensionFilter("MGF", "*.mgf"),
+				new ExtensionFilter("PKL","*.pkl"));
+		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
+		if (savedFile !=null)
+			Recover.useSecondPeaklist = true;
 			PeaklistRecovered.save(savedFile);
 //		System.out.println(bottomPanel.getDividerPositions()[0]);
 		
@@ -420,6 +556,7 @@ public class RecoverController {
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();
+			table1.refresh();
 		} catch(IOException e) {
 			e.printStackTrace();
 			
