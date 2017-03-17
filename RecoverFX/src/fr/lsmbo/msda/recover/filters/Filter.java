@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.filters;
 
-
 import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -193,5 +192,6 @@ public class Filter {
 		}
 		Filters.resetHashMap();
 	}
+	
+	public static 
 }
-

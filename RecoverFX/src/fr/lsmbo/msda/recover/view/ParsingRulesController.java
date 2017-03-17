@@ -19,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class ParsingRulesController {
-	
+
 	private ObservableList<Spectrum> titles = FXCollections.observableArrayList();
 	private ParsingRule selectedParsingRule = null;
 	private Stage dialogStage;
@@ -40,20 +40,20 @@ public class ParsingRulesController {
 	private TableColumn<Spectrum, String> colTitle;
 	@FXML
 	private TableColumn<Spectrum, Float> colNewRT;
-	
+
 	@FXML
 	private void initialize() {
-		
+
 		// fill combobox
-		for(ParsingRule pr: ParsingRules.get()) {
+		for (ParsingRule pr : ParsingRules.get()) {
 			cmbParsingRules.getItems().add(pr.getName());
 		}
 		// fill table
 		titles.clear();
 		Integer nb = ListOfSpectra.getFirstSpectra().getSpectraAsObservable().size();
-		if(nb > 5)
+		if (nb > 5)
 			nb = 5;
-		for(int i = 0; i < nb; i++) {
+		for (int i = 0; i < nb; i++) {
 			titles.add(ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(i));
 		}
 		table.setItems(titles);
@@ -61,35 +61,35 @@ public class ParsingRulesController {
 		colNewRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 		colTitle.prefWidthProperty().bind(table.widthProperty().subtract(2).multiply(0.75));
 		colNewRT.prefWidthProperty().bind(table.widthProperty().subtract(2).multiply(0.25));
-		
+
 		// default values
 		ParsingRule pr = ParsingRules.getCurrentParsingRule();
-		if(pr != null) {
+		if (pr != null) {
 			cmbParsingRules.setValue(pr.getName());
 			txtRegex.setText(pr.getRegex());
 		}
 	}
-	
+
 	public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-	
+		this.dialogStage = dialogStage;
+	}
+
 	@FXML
 	private void handleChangeParsingRule() {
 		selectedParsingRule = ParsingRules.get(cmbParsingRules.getValue());
 		txtRegex.setText(selectedParsingRule.getRegex());
 		tryRegex();
 	}
-	
+
 	@FXML
 	private void handleClickTryIt() {
 		selectedParsingRule = new ParsingRule(null, txtRegex.getText(), null, -1);
 		tryRegex();
 	}
-	
+
 	@FXML
 	private void handleClickBtnApply() {
-		if(selectedParsingRule != null) {
+		if (selectedParsingRule != null) {
 			ParsingRules.setNewCurrentParsingRule(selectedParsingRule);
 			ListOfSpectra.getFirstSpectra().updateRetentionTimeFromTitle();
 			dialogStage.close();
@@ -107,12 +107,12 @@ public class ParsingRulesController {
 		// TODO close window
 		dialogStage.close();
 	}
-	
+
 	private void tryRegex() {
-		for(Spectrum s: titles) {
+		for (Spectrum s : titles) {
 			s.setRetentionTimeFromTitle(selectedParsingRule.getRegex());
 		}
-		//table.refresh();
+		// table.refresh();
 	}
-	
+
 }

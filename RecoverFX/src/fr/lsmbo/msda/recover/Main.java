@@ -16,24 +16,24 @@ public class Main {
 		Session.RECOVER_RELEASE_DATE = date;
 		// TODO add a switch for options
 		// TODO add usage method
-		if(args.length == 0) {
+		if (args.length == 0) {
 			// open GUI
 			System.out.println("open GUI");
 			// TODO just for fast testing
 			Session.CURRENT_FILE = new File(Main.class.getClassLoader().getResource("test/X004081MROLM.mgf").getFile());
-			Session.CURRENT_FILE = new File("C:\\Users\\La"+" " +"Shoshane\\Desktop\\workspace\\RecoverFX\\bin\\test\\X004081MROLM.mgf");
-			Session.SECOND_FILE = new File("C:\\Users\\La"+" " +"Shoshane\\Desktop\\workspace\\RecoverFX\\bin\\test\\X004094MROLM.mgf");
+			Session.SECOND_FILE = new File(Main.class.getClassLoader().getResource("test/X004094MROLM.mgf").getFile());
 			Recover.run();
-			
+
 		} else {
 			System.out.println("check CLI");
 			// TODO add CLI stuff
 		}
 	}
-	
+
 	public static String recoverTitle() {
-		String title = Session.RECOVER_RELEASE_NAME + " " + Session.RECOVER_RELEASE_VERSION + " (" + Session.RECOVER_RELEASE_DATE + ")";
-		if(Session.CURRENT_FILE != null)
+		String title = Session.RECOVER_RELEASE_NAME + " " + Session.RECOVER_RELEASE_VERSION + " ("
+				+ Session.RECOVER_RELEASE_DATE + ")";
+		if (Session.CURRENT_FILE != null)
 			title += " - " + Session.CURRENT_FILE.getName();
 		return title;
 	}

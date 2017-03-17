@@ -37,15 +37,15 @@ public class ParsingRule {
 	public void setPropertyKey(String key) {
 		this.propertyKey = key;
 	}
-	
+
 	public String toString() {
 		return name;
 	}
-	
+
 	public String getFullDescription() {
 		return "{" + propertyKey + "} " + name + ": " + regex;
 	}
-	
+
 	public Integer getIndex() {
 		return index;
 	}

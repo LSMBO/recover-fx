@@ -14,9 +14,10 @@ public class IonReporter {
 		this.tolerance = tolerance;
 	}
 
-	public String toString(){
-		return "Ion reporter : " + getName() + " ; m/z : " + getMoz() + " ; tolerance : " + getTolerance(); 
+	public String toString() {
+		return "Ion reporter : " + getName() + " ; m/z : " + getMoz() + " ; tolerance : " + getTolerance();
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -40,5 +41,5 @@ public class IonReporter {
 	public void setTolerance(Float tolerance) {
 		this.tolerance = tolerance;
 	}
-	
+
 }

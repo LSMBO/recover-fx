@@ -3,14 +3,16 @@ package fr.lsmbo.msda.recover.model;
 public class Fragment {
 
 	private Integer id = 0;
-	private float mz = 0; // maybe we should use BigDecimal instead for precision ?
-	private float intensity = 0; // maybe we should use BigDecimal instead for precision ?
+	private float mz = 0; // maybe we should use BigDecimal instead for
+							// precision ?
+	private float intensity = 0; // maybe we should use BigDecimal instead for
+									// precision ?
 	private Integer charge = 1;
 
 	public String toString() {
-		return "Fragment id:"+id+" moz:"+mz+" intensity:"+intensity+" charge:"+charge;
+		return "Fragment id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge;
 	}
-	
+
 	public Fragment() {
 		super();
 	}
@@ -55,17 +57,17 @@ public class Fragment {
 		this.charge = charge;
 	}
 
-//	public int compareByIntensity(Fragment f1, Fragment f2) {
-//		if(f1.getIntensity() > f2.getIntensity()) return 1;
-//		if(f1.getIntensity() < f2.getIntensity()) return -1;
-//		return 0;
-//	}
-//
-//	@Override
-//	public int compareTo(Object f) {
-//		float _intensity = ((Fragment)f).getIntensity();
-//		if(intensity > _intensity) return 1;
-//		if(intensity < _intensity) return -1;
-//		return 0;
-//	}
+	// public int compareByIntensity(Fragment f1, Fragment f2) {
+	// if(f1.getIntensity() > f2.getIntensity()) return 1;
+	// if(f1.getIntensity() < f2.getIntensity()) return -1;
+	// return 0;
+	// }
+	//
+	// @Override
+	// public int compareTo(Object f) {
+	// float _intensity = ((Fragment)f).getIntensity();
+	// if(intensity > _intensity) return 1;
+	// if(intensity < _intensity) return -1;
+	// return 0;
+	// }
 }

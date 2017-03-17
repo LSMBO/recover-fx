@@ -16,187 +16,264 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
-   <center>
-      <SplitPane dividerPositions="0.5">
-         <items>
-            <AnchorPane prefHeight="480.0" prefWidth="640.0">
-               <children>
-                  <BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <center>
-                        <BorderPane BorderPane.alignment="CENTER">
-                           <center>
-                              <SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
-                                <items>
-                                    <TableView fx:id="table">
-                                       <columns>
-                                          <TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
-                                          <TableColumn fx:id="colTitle" editable="false" prefWidth="75.0" text="Title" />
-                                          <TableColumn fx:id="colMoz" editable="false" prefWidth="50.0" text="M/z" />
-                                          <TableColumn fx:id="colInt" editable="false" prefWidth="50.0" text="Intensity" />
-                                          <TableColumn fx:id="colCharge" editable="false" prefWidth="50.0" text="Charge" />
-                                          <TableColumn fx:id="colRT" editable="false" prefWidth="50.0" text="RT" />
-                                          <TableColumn fx:id="colNbFragments" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-                                          <TableColumn fx:id="colUPN" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-                                          <TableColumn fx:id="colIdentified" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-                                          <TableColumn fx:id="colRecover" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
-                                       </columns>
-                                       <contextMenu>
-                                          <ContextMenu>
-                                            <items>
-                                              <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                            </items>
-                                          </ContextMenu>
-                                       </contextMenu>
-                                    </TableView>
-                                    <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                       <left>
-                                        <AnchorPane fx:id="filterAnchor" BorderPane.alignment="CENTER" />
-                                       </left>
-                                       <center>
-                                        <SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
-                                       </center>
-                                    </BorderPane>
-                                </items>
-                              </SplitPane>
-                           </center>
-                           <top>
-                              <HBox BorderPane.alignment="CENTER" />
-                           </top>
-                        </BorderPane>
-                     </center>
-                  </BorderPane>
-               </children>
-            </AnchorPane>
-            <AnchorPane prefHeight="480.0" prefWidth="640.0">
-               <children>
-                  <BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <center>
-                        <BorderPane BorderPane.alignment="CENTER">
-                           <center>
-                              <SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
-                                 <items>
-                                    <TableView fx:id="table1">
-                                       <columns>
-                                          <TableColumn fx:id="colId1" editable="false" prefWidth="25.0" text="#" />
-                                          <TableColumn fx:id="colTitle1" editable="false" prefWidth="75.0" text="Title" />
-                                          <TableColumn fx:id="colMoz1" editable="false" prefWidth="50.0" text="M/z" />
-                                          <TableColumn fx:id="colInt1" editable="false" prefWidth="50.0" text="Intensity" />
-                                          <TableColumn fx:id="colCharge1" editable="false" prefWidth="50.0" text="Charge" />
-                                          <TableColumn fx:id="colRT1" editable="false" prefWidth="50.0" text="RT" />
-                                          <TableColumn fx:id="colNbFragments1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-                                          <TableColumn fx:id="colUPN1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-                                          <TableColumn fx:id="colIdentified1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-                                          <TableColumn fx:id="colRecover1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
-                                       </columns>
-                                       <contextMenu>
-                                          <ContextMenu>
-                                             <items>
-                                                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                                             </items>
-                                          </ContextMenu>
-                                       </contextMenu>
-                                    </TableView>
-                                    <BorderPane prefHeight="200.0" prefWidth="200.0">
-                                       <left>
-                                          <AnchorPane fx:id="filterAnchor1" BorderPane.alignment="CENTER" />
-                                       </left>
-                                       <center>
-                                          <SwingNode fx:id="swingNodeForChart1" BorderPane.alignment="CENTER" />
-                                       </center>
-                                    </BorderPane>
-                                 </items>
-                              </SplitPane>
-                           </center>
-                           <top>
-                              <HBox BorderPane.alignment="CENTER" />
-                           </top>
-                        </BorderPane>
-                     </center>
-                  </BorderPane>
-               </children>
-            </AnchorPane>
-         </items>
-      </SplitPane>
-   </center>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <Menu mnemonicParsing="false" text="Open...">
-                    <items>
-                      <MenuItem fx:id="mnLoadFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoadFirst" text="First peaklist..." />
-                        <MenuItem fx:id="mnLoadSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoadSecond" text="Second Peaklist..." />
-                    </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Export...">
-                    <items>
-                      <MenuItem fx:id="mnExportFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportFirst" text="First peaklist..." />
-                        <MenuItem fx:id="mnExportSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportSecond" text="Second Peaklist..." />
-                    </items>
-                  </Menu>
-<!--                   <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" text="Export..."> -->
-<!--                      <accelerator> -->
-<!--                         <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" /> -->
-<!--                      </accelerator> -->
-<!--                   </MenuItem> -->
-                  <MenuItem fx:id="mnExportBatch" mnemonicParsing="false" onAction="#handleClickMenuBatch" text="Export in batch...">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem fx:id="mnQuit" mnemonicParsing="false" onAction="#handleClickMenuQuit" text="Quit">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem fx:id="mnOpenFilterManager" mnemonicParsing="false" onAction="#handleClickMenuFilters" text="Quality filters...">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem fx:id="mnOpenParsingRulesManager" mnemonicParsing="false" onAction="#handleClickMenuParsingRules" text="Retention times parsing rules...">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <CheckMenuItem fx:id="mnUseFixedAxis" mnemonicParsing="false" onAction="#handleClickMenuFixedAxis" text="Use fixed axis">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-                     </accelerator>
-                  </CheckMenuItem>
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <CheckMenuItem fx:id="mnCheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForIdentified" text="Check 'Recover' for 'identified' spectra" />
-                  <CheckMenuItem fx:id="mnUncheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForIdentified" text="Uncheck 'Recover' for 'identified' spectra" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <CheckMenuItem fx:id="mnCheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForNonIdentified" text="Check 'Recover' for 'non-identified' spectra" />
-                  <CheckMenuItem fx:id="mnUncheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForNonIdentified" text="Uncheck 'Recover' for 'non-identified' spectra" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="mnResetRecover" mnemonicParsing="false" onAction="#handleClickMenuResetRecover" text="Reset Recover">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <bottom>
-      <HBox style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="This is the status bar" textFill="WHITE" />
-         </children>
-      </HBox>
-   </bottom>
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
+	<center>
+		<SplitPane dividerPositions="0.5">
+			<items>
+				<AnchorPane prefHeight="480.0" prefWidth="640.0">
+					<children>
+						<BorderPane prefHeight="480.0" prefWidth="640.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<center>
+								<BorderPane BorderPane.alignment="CENTER">
+									<center>
+										<SplitPane dividerPositions="0.33256880733944955"
+											orientation="VERTICAL" BorderPane.alignment="CENTER">
+											<items>
+												<TableView fx:id="table">
+													<columns>
+														<TableColumn fx:id="colId" editable="false"
+															prefWidth="25.0" text="#" />
+														<TableColumn fx:id="colTitle" editable="false"
+															prefWidth="75.0" text="Title" />
+														<TableColumn fx:id="colMoz" editable="false"
+															prefWidth="50.0" text="M/z" />
+														<TableColumn fx:id="colInt" editable="false"
+															prefWidth="50.0" text="Intensity" />
+														<TableColumn fx:id="colCharge" editable="false"
+															prefWidth="50.0" text="Charge" />
+														<TableColumn fx:id="colRT" editable="false"
+															prefWidth="50.0" text="RT" />
+														<TableColumn fx:id="colNbFragments" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
+														<TableColumn fx:id="colUPN" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="UPN" />
+														<TableColumn fx:id="colIdentified" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Identified" />
+														<TableColumn fx:id="colRecover" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+													</columns>
+													<contextMenu>
+														<ContextMenu>
+															<items>
+																<MenuItem mnemonicParsing="false" text="Unspecified Action" />
+															</items>
+														</ContextMenu>
+													</contextMenu>
+												</TableView>
+												<BorderPane prefHeight="200.0" prefWidth="200.0">
+													<left>
+														<AnchorPane fx:id="filterAnchor"
+															BorderPane.alignment="CENTER">
+															<children>
+																<Label fx:id="infoHIT" layoutX="5.0" prefHeight="44.0"
+																	prefWidth="67.0" text="HIT : " />
+																<Label fx:id="infoLIT" layoutX="5.0" layoutY="44.0"
+																	prefHeight="44.0" prefWidth="67.0" text="LIT : " />
+																<Label fx:id="infoFI" layoutX="5.0" layoutY="88.0"
+																	prefHeight="44.0" prefWidth="67.0" text="FI : " />
+																<Label fx:id="infoWC" layoutX="5.0" layoutY="136.0"
+																	prefHeight="44.0" prefWidth="67.0" text="WC : " />
+																<Label fx:id="infoIS" layoutX="5.0" layoutY="180.0"
+																	prefHeight="44.0" prefWidth="67.0" text="IS : " />
+																<Label fx:id="infoIR" layoutX="5.0" layoutY="224.0"
+																	prefHeight="44.0" prefWidth="67.0" text="IR : " />
+															</children>
+														</AnchorPane>
+													</left>
+													<center>
+														<SwingNode fx:id="swingNodeForChart"
+															BorderPane.alignment="CENTER" />
+													</center>
+												</BorderPane>
+											</items>
+										</SplitPane>
+									</center>
+									<top>
+										<HBox BorderPane.alignment="CENTER" />
+									</top>
+								</BorderPane>
+							</center>
+						</BorderPane>
+					</children>
+				</AnchorPane>
+				<AnchorPane prefHeight="480.0" prefWidth="640.0">
+					<children>
+						<BorderPane prefHeight="480.0" prefWidth="640.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<center>
+								<BorderPane BorderPane.alignment="CENTER">
+									<center>
+										<SplitPane dividerPositions="0.33256880733944955"
+											orientation="VERTICAL" BorderPane.alignment="CENTER">
+											<items>
+												<TableView fx:id="table1">
+													<columns>
+														<TableColumn fx:id="colId1" editable="false"
+															prefWidth="25.0" text="#" />
+														<TableColumn fx:id="colTitle1" editable="false"
+															prefWidth="75.0" text="Title" />
+														<TableColumn fx:id="colMoz1" editable="false"
+															prefWidth="50.0" text="M/z" />
+														<TableColumn fx:id="colInt1" editable="false"
+															prefWidth="50.0" text="Intensity" />
+														<TableColumn fx:id="colCharge1" editable="false"
+															prefWidth="50.0" text="Charge" />
+														<TableColumn fx:id="colRT1" editable="false"
+															prefWidth="50.0" text="RT" />
+														<TableColumn fx:id="colNbFragments1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
+														<TableColumn fx:id="colUPN1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="UPN" />
+														<TableColumn fx:id="colIdentified1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Identified" />
+														<TableColumn fx:id="colRecover1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+													</columns>
+													<contextMenu>
+														<ContextMenu>
+															<items>
+																<MenuItem mnemonicParsing="false" text="Unspecified Action" />
+															</items>
+														</ContextMenu>
+													</contextMenu>
+												</TableView>
+												<BorderPane prefHeight="200.0" prefWidth="200.0">
+													<left>
+														<AnchorPane fx:id="filterAnchor1"
+															BorderPane.alignment="CENTER" />
+													</left>
+													<center>
+														<SwingNode fx:id="swingNodeForChart1"
+															BorderPane.alignment="CENTER" />
+													</center>
+												</BorderPane>
+											</items>
+										</SplitPane>
+									</center>
+									<top>
+										<HBox BorderPane.alignment="CENTER" />
+									</top>
+								</BorderPane>
+							</center>
+						</BorderPane>
+					</children>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+	</center>
+	<top>
+		<MenuBar BorderPane.alignment="CENTER">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<Menu mnemonicParsing="false" text="Open...">
+							<items>
+								<MenuItem fx:id="mnLoadFirstPeaklist" mnemonicParsing="false"
+									onAction="#handleClickMenuLoadFirst" text="First peaklist..." />
+								<MenuItem fx:id="mnLoadSecondPeaklist" mnemonicParsing="false"
+									onAction="#handleClickMenuLoadSecond" text="Second Peaklist..." />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="Export...">
+							<items>
+								<MenuItem fx:id="mnExportFirstPeaklist"
+									mnemonicParsing="false" onAction="#handleClickMenuExportFirst"
+									text="First peaklist..." />
+								<MenuItem fx:id="mnExportSecondPeaklist"
+									mnemonicParsing="false" onAction="#handleClickMenuExportSecond"
+									text="Second Peaklist..." />
+							</items>
+						</Menu>
+						<!-- <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" 
+							text="Export..."> -->
+						<!-- <accelerator> -->
+						<!-- <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" 
+							shift="UP" shortcut="UP" /> -->
+						<!-- </accelerator> -->
+						<!-- </MenuItem> -->
+						<MenuItem fx:id="mnExportBatch" mnemonicParsing="false"
+							onAction="#handleClickMenuBatch" text="Export in batch...">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="B"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mnQuit" mnemonicParsing="false"
+							onAction="#handleClickMenuQuit" text="Quit">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="W"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Edit">
+					<items>
+						<MenuItem fx:id="mnOpenFilterManager" mnemonicParsing="false"
+							onAction="#handleClickMenuFilters" text="Quality filters...">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="F"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem fx:id="mnOpenParsingRulesManager"
+							mnemonicParsing="false" onAction="#handleClickMenuParsingRules"
+							text="Retention times parsing rules...">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="R"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<CheckMenuItem fx:id="mnUseFixedAxis"
+							mnemonicParsing="false" onAction="#handleClickMenuFixedAxis"
+							text="Use fixed axis">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="F"
+									control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</CheckMenuItem>
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<CheckMenuItem fx:id="mnCheckRecoverForIdentified"
+							mnemonicParsing="false" onAction="#handleCheckRecoverForIdentified"
+							text="Check 'Recover' for 'identified' spectra" />
+						<CheckMenuItem fx:id="mnUncheckRecoverForIdentified"
+							mnemonicParsing="false" onAction="#handleUncheckRecoverForIdentified"
+							text="Uncheck 'Recover' for 'identified' spectra" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<CheckMenuItem fx:id="mnCheckRecoverForNonIdentified"
+							mnemonicParsing="false" onAction="#handleCheckRecoverForNonIdentified"
+							text="Check 'Recover' for 'non-identified' spectra" />
+						<CheckMenuItem fx:id="mnUncheckRecoverForNonIdentified"
+							mnemonicParsing="false" onAction="#handleUncheckRecoverForNonIdentified"
+							text="Uncheck 'Recover' for 'non-identified' spectra" />
+						<SeparatorMenuItem mnemonicParsing="false" />
+						<MenuItem fx:id="mnResetRecover" mnemonicParsing="false"
+							onAction="#handleClickMenuResetRecover" text="Reset Recover">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="R"
+									control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="About" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</top>
+	<bottom>
+		<HBox style="-fx-background-color: #333333;"
+			BorderPane.alignment="CENTER">
+			<children>
+				<Label text="This is the status bar" textFill="WHITE" />
+			</children>
+		</HBox>
+	</bottom>
 </BorderPane>

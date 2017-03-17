@@ -1,43 +1,46 @@
 package fr.lsmbo.msda.recover.filters;
 
-
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * Filter to keep specific spectrum according to specific ion. For a specific m/z with a tolerance, check if the spectrum
- * have this ion, in this case the value for recover will be true.
+ * Filter to keep specific spectrum according to specific ion. For a specific
+ * m/z with a tolerance, check if the spectrum have this ion, in this case the
+ * value for recover will be true.
  * 
  * @author BL
  *
  */
-public class IonReporterFilter implements BasicFilter{
+public class IonReporterFilter implements BasicFilter {
 
 	private String name;
 	private Float moz;
 	private Float tolerance;
 	private Boolean isUsed = false;
-//	private Boolean[] associatedSpectrum = new Boolean[Spectra.getSpectraAsObservable().size()];
+	// private Boolean[] associatedSpectrum = new
+	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 6;
-	
+
 	public void setParameters(String _name, Float _moz, Float _tolerance) {
 		name = _name;
-		moz = _moz ;
-		tolerance = _tolerance ;
+		moz = _moz;
+		tolerance = _tolerance;
 	}
-	
+
 	@Override
 	public Boolean isValid(Spectrum spectrum) {
 		float mozMin = moz - tolerance;
 		float mozMax = moz + tolerance;
 		boolean ionReporterFound = false;
-		
-		for(int i=0; i < spectrum.getNbFragments(); i++){
+
+		for (int i = 0; i < spectrum.getNbFragments(); i++) {
 			float mozFragment = spectrum.getFragments().get(i).getMz();
-//			System.out.println("nb fragment : "+ spectrum.getNbFragments() + " fragment : " + (i+1) + " mozFragment : " + mozFragment + " mozMin : " + mozMin + " mozMax : " + mozMax);
-			if (mozFragment > mozMin && mozFragment < mozMax){
+			// System.out.println("nb fragment : "+ spectrum.getNbFragments() +
+			// " fragment : " + (i+1) + " mozFragment : " + mozFragment + "
+			// mozMin : " + mozMin + " mozMax : " + mozMax);
+			if (mozFragment > mozMin && mozFragment < mozMax) {
 				ionReporterFound = true;
 				break;
 			}
@@ -51,34 +54,36 @@ public class IonReporterFilter implements BasicFilter{
 	@Override
 	public String getFullDescription() {
 		String allIons = "";
-		for (IonReporter ir : IonReporters.getIonReporters()){
+		for (IonReporter ir : IonReporters.getIonReporters()) {
 			allIons += "###" + ir.toString() + "\n";
 		}
-			
-		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons; 
+
+		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter."
+				+ "\n" + allIons;
 	}
+
 	@Override
-	public Boolean getIsUsed(){
+	public Boolean getIsUsed() {
 		return isUsed;
 	}
-	
-	public void setIsUsed(Boolean _isUsed){
-		this.isUsed = _isUsed ;
+
+	public void setIsUsed(Boolean _isUsed) {
+		this.isUsed = _isUsed;
 	}
-	
-//	public Boolean[] getAssociatedSpectrum(){
-//		return associatedSpectrum;
-//	}
-//	
-//	public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-//		this.associatedSpectrum = associatedSpectrum;
-//	}
-//	
-//	public void addRecover(Boolean bool, int i){
-//		associatedSpectrum[i] = bool;
-//	}
-	
-	public int getId(){
+
+	// public Boolean[] getAssociatedSpectrum(){
+	// return associatedSpectrum;
+	// }
+	//
+	// public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
+	// this.associatedSpectrum = associatedSpectrum;
+	// }
+	//
+	// public void addRecover(Boolean bool, int i){
+	// associatedSpectrum[i] = bool;
+	// }
+
+	public int getId() {
 		return id;
 	}
 }

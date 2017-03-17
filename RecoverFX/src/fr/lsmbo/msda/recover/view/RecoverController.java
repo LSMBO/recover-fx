@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartPanel;
 
-
 import fr.lsmbo.msda.recover.io.PeaklistRecovered;
 import fr.lsmbo.msda.recover.Main;
 import fr.lsmbo.msda.recover.Session;
@@ -28,17 +27,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,7 +45,7 @@ import javafx.stage.Stage;
 public class RecoverController {
 
 	private final int SIZE_COL_ID = 50;
-//	private final int SIZE_COL_TITLE = 200;
+	// private final int SIZE_COL_TITLE = 200;
 	private final int SIZE_COL_MOZ = 100;
 	private final int SIZE_COL_INTENSITY = 100;
 	private final int SIZE_COL_CHARGE = 75;
@@ -63,14 +54,13 @@ public class RecoverController {
 	private final int SIZE_COL_UPN = 75;
 	private final int SIZE_COL_IDENTIFIED = 75;
 	private final int SIZE_COL_RECOVERED = 75;
-	
-	private Stage dialogStage;
-//	private JFreeChart chart;
-	private SpectrumChart spectrumChart;
-	
 
-//	@FXML
-//	private MenuItem mnLoadPeaklist;
+	private Stage dialogStage;
+	// private JFreeChart chart;
+	private SpectrumChart spectrumChart;
+
+	// @FXML
+	// private MenuItem mnLoadPeaklist;
 	@FXML
 	private MenuItem mnLoadFirstPeaklist;
 	@FXML
@@ -79,8 +69,8 @@ public class RecoverController {
 	private MenuItem mnExportFirstPeaklist;
 	@FXML
 	private MenuItem mnExportSecondPeaklist;
-//	@FXML
-//	private MenuItem mnExportPeaklist;
+	// @FXML
+	// private MenuItem mnExportPeaklist;
 	@FXML
 	private MenuItem mnExportBatch;
 	@FXML
@@ -145,20 +135,32 @@ public class RecoverController {
 	private TableColumn<Spectrum, Boolean> colRecover;
 	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover1;
-//	@FXML
-//	private SplitPane bottomPanel;
+	// @FXML
+	// private SplitPane bottomPanel;
 	@FXML
 	private AnchorPane filterAnchor;
 	@FXML
 	private AnchorPane filterAnchor1;
-	
-//	@FXML
-//	private AnchorPane chartAnchor;
+
+	// @FXML
+	// private AnchorPane chartAnchor;
 	@FXML
 	private SwingNode swingNodeForChart;
 	@FXML
 	private SwingNode swingNodeForChart1;
-	
+	@FXML
+	private Label infoHIT;
+	@FXML
+	private Label infoLIT;
+	@FXML
+	private Label infoFI;
+	@FXML
+	private Label infoWC;
+	@FXML
+	private Label infoIS;
+	@FXML
+	private Label infoIR;
+
 	@FXML
 	private void initialize() {
 		
@@ -207,6 +209,20 @@ public class RecoverController {
 				 }
 			 });
 		});	
+		
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem infoFilter = new MenuItem("Information about filters applied");
+		contextMenu.getItems().add(infoFilter);
+		table.setContextMenu(contextMenu);
+		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				infoHIT.setText(value);
+			}
+			
+		})
 //		table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
 //			
 //		});
@@ -258,288 +274,174 @@ public class RecoverController {
 			 });
 		});	
 		
-		//CONTEXT MENU && MENU ITEMS
-		ContextMenu mozContext = new ContextMenu();
-		MenuItem mozItem = new MenuItem("Filter by m/z...");
-		mozContext.getItems().add(mozItem);
-		colMoz.setContextMenu(mozContext);
-		mozItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Views.FILTER_MOZ);
-					AnchorPane page = (AnchorPane) loader.load();
-					Stage dialogStageMoz = new Stage();
-					dialogStageMoz.setTitle("Apply Filters");
-					dialogStageMoz.initModality(Modality.WINDOW_MODAL);
-					dialogStageMoz.initOwner(dialogStage);
-					Scene scene = new Scene(page);
-					dialogStageMoz.setScene(scene);
-					FilterByMozController controller = loader.getController();
-					controller.setDialogStage(dialogStageMoz);
-					dialogStageMoz.showAndWait();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		ContextMenu intensityContext = new ContextMenu();
-		MenuItem intensityItem = new MenuItem("Filter by precursor intensity...");
-		intensityContext.getItems().add(intensityItem);
-		colInt.setContextMenu(intensityContext);
-		intensityItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Views.FILTER_INTENSITY);
-					AnchorPane page = (AnchorPane) loader.load();
-					Stage dialogStage = new Stage();
-					dialogStage.setTitle("Precursor intensity");
-					dialogStage.initModality(Modality.WINDOW_MODAL);
-					Scene scene = new Scene(page);
-					dialogStage.setScene(scene);
-					dialogStage.showAndWait();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		ContextMenu chargeContext = new ContextMenu();
-		MenuItem chargeItem = new MenuItem("Filter by charge...");
-		chargeContext.getItems().add(chargeItem);
-		colCharge.setContextMenu(chargeContext);
-		chargeItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Views.FILTER_CHARGE);
-					AnchorPane page = (AnchorPane) loader.load();
-					Stage dialogStage = new Stage();
-					dialogStage.setTitle("Charge");
-					dialogStage.initModality(Modality.WINDOW_MODAL);
-					Scene scene = new Scene(page);
-					dialogStage.setScene(scene);
-					dialogStage.showAndWait();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		ContextMenu retentionTimeContext = new ContextMenu();
-		MenuItem retentionTimeItem = new MenuItem("Filter by RT...");
-		retentionTimeContext.getItems().add(retentionTimeItem);
-		colRT.setContextMenu(retentionTimeContext);
-		retentionTimeItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Views.FILTER_RETENTION_TIME);
-					AnchorPane page = (AnchorPane) loader.load();
-					Stage dialogStage = new Stage();
-					dialogStage.setTitle("Retention Time");
-					dialogStage.initModality(Modality.WINDOW_MODAL);
-					Scene scene = new Scene(page);
-					dialogStage.setScene(scene);
-					dialogStage.showAndWait();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		ContextMenu nbFragmentContext = new ContextMenu();
-		MenuItem nbFragmentItem = new MenuItem("Filter by number of fragment...");
-		nbFragmentContext.getItems().add(nbFragmentItem);
-		colNbFragments.setContextMenu(nbFragmentContext);
-		nbFragmentItem.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event){
-				try {
-					FXMLLoader loader = new FXMLLoader();
-					loader.setLocation(Views.FILTER_NB_FRAGMENT);
-					AnchorPane page = (AnchorPane) loader.load();
-					Stage dialogStage = new Stage();
-					dialogStage.setTitle("Number of fragment");
-					dialogStage.initModality(Modality.WINDOW_MODAL);
-					Scene scene = new Scene(page);
-					dialogStage.setScene(scene);
-					dialogStage.showAndWait();
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
 //		chartAnchor.getChildren().add(swingNodeForChart);
 		
 //		defineChartMenu();
 	}
-	
-//	@FXML
-//	private void handleMousePressed(MouseEvent m) {
-//		if(m.isPrimaryButtonDown()) {
-//			selectedXValue = m.getX() - chart.getXAxis().getLayoutX(); // important to subtract layoutX to avoid a shift
-//			rectZoom.setWidth(0);
-//			rectZoom.setHeight(0);
-//		}
-//	}
-//	
-//	@FXML
-//	private void handleMouseDragged(MouseEvent m) {
-//		if(m.isPrimaryButtonDown()) {
-//			double x = m.getX() - chart.getXAxis().getLayoutX();
-//			// FIXME restraining movement to the chart area does not work (only on the right)
-//	        rectZoom.setX(Math.min(x, selectedXValue));
-//	        rectZoom.setWidth(Math.abs(x - selectedXValue));
-//	        rectZoom.setHeight(chart.getYAxis().getHeight());
-//			rectZoom.setVisible(true);
-//		}
-//	}
-//	
-//	@FXML
-//	private void handleMouseReleased(MouseEvent m) {
-//        // zoom
-//		rectZoom.setWidth(0);
-//		rectZoom.setHeight(0);
-//		rectZoom.setVisible(false);
-//		if(m.getButton().equals(MouseButton.SECONDARY)) {
-//			// display a menu with some actions (such as reset zoom, fixed axis, filters...)
-//			chartMenu.show(chart, m.getScreenX(), m.getScreenY());
-//		}
-//	}
-	
+
+	// @FXML
+	// private void handleMousePressed(MouseEvent m) {
+	// if(m.isPrimaryButtonDown()) {
+	// selectedXValue = m.getX() - chart.getXAxis().getLayoutX(); // important
+	// to subtract layoutX to avoid a shift
+	// rectZoom.setWidth(0);
+	// rectZoom.setHeight(0);
+	// }
+	// }
+	//
+	// @FXML
+	// private void handleMouseDragged(MouseEvent m) {
+	// if(m.isPrimaryButtonDown()) {
+	// double x = m.getX() - chart.getXAxis().getLayoutX();
+	// // FIXME restraining movement to the chart area does not work (only on
+	// the right)
+	// rectZoom.setX(Math.min(x, selectedXValue));
+	// rectZoom.setWidth(Math.abs(x - selectedXValue));
+	// rectZoom.setHeight(chart.getYAxis().getHeight());
+	// rectZoom.setVisible(true);
+	// }
+	// }
+	//
+	// @FXML
+	// private void handleMouseReleased(MouseEvent m) {
+	// // zoom
+	// rectZoom.setWidth(0);
+	// rectZoom.setHeight(0);
+	// rectZoom.setVisible(false);
+	// if(m.getButton().equals(MouseButton.SECONDARY)) {
+	// // display a menu with some actions (such as reset zoom, fixed axis,
+	// filters...)
+	// chartMenu.show(chart, m.getScreenX(), m.getScreenY());
+	// }
+	// }
+
 	public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-	
+		this.dialogStage = dialogStage;
+	}
+
 	private FileChooser getFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a peaklist file");
 		// default folder is 'Documents'
-		File initialDirectory = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
+		File initialDirectory = new File(
+				System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
 		// if it does not exist, then it's home folder
-		if(!initialDirectory.exists())
+		if (!initialDirectory.exists())
 			initialDirectory = new File(System.getProperty("user.home"));
 		// if a file is already loaded then it's the same folder
-		if(Session.CURRENT_FILE != null)
+		if (Session.CURRENT_FILE != null)
 			initialDirectory = Session.CURRENT_FILE.getParentFile();
 		fileChooser.setInitialDirectory(initialDirectory);
-		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("All peaklists files", "*.*"),
-                new FileChooser.ExtensionFilter("MGF", "*.mgf"),
-                new FileChooser.ExtensionFilter("PKL", "*.pkl")
-            );
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All peaklists files", "*.*"),
+				new FileChooser.ExtensionFilter("MGF", "*.mgf"), new FileChooser.ExtensionFilter("PKL", "*.pkl"));
 		return fileChooser;
 	}
-	
-	//Action to load the first table with a peaklist
+
+	// Action to load the first table with a peaklist
 	@FXML
 	private void handleClickMenuLoadFirst() {
 		FileChooser fileChooser = getFileChooser();
 		File file = fileChooser.showOpenDialog(this.dialogStage);
-		if(file != null) {
+		if (file != null) {
 			Recover.useSecondPeaklist = false;
 			loadFile(file);
-//			Filter f = new Filter();
-//			f.applyFilters();
+			// Filter f = new Filter();
+			// f.applyFilters();
 		}
 	}
-	
-	//Action to load the second table with a peaklist
+
+	// Action to load the second table with a peaklist
 	@FXML
 	private void handleClickMenuLoadSecond() {
 		FileChooser fileChooser = getFileChooser();
 		File file = fileChooser.showOpenDialog(this.dialogStage);
-		if(file != null) {
+		if (file != null) {
 			Recover.useSecondPeaklist = true;
 			loadFile(file);
-//			Filter f = new Filter();
-//			f.applyFilters();
+			// Filter f = new Filter();
+			// f.applyFilters();
 		}
 	}
+
 	public void loadFile(File selectedFile) {
 		long startTime = System.currentTimeMillis();
 		PeaklistReader.load(selectedFile);
-		long endTime   = System.currentTimeMillis();
+		long endTime = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
-		System.out.println("ABU loading time: "+(double)totalTime/1000+" sec");
-		System.out.println("ABU "+ListOfSpectra.getFirstSpectra().getNbSpectra()+" spectra");
-		System.out.println("ABU "+ListOfSpectra.getSecondSpectra().getNbSpectra()+" spectra");
-		initialize();
+		System.out.println("ABU loading time: " + (double) totalTime / 1000 + " sec");
+		System.out.println("ABU " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
+		System.out.println("ABU " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
+
+		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+
 		this.dialogStage.setTitle(Main.recoverTitle());
-		if(PeaklistReader.retentionTimesNotFound()) {
-			// open a dialogbox to warn the user that he should try other parsing rules
+		if (PeaklistReader.retentionTimesNotFound()) {
+			// open a dialogbox to warn the user that he should try other
+			// parsing rules
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Retention times are missing");
-			alert.setHeaderText("Retention times could not be extracted from titles, do you want to open the Parsing rules selection list ?");
+			alert.setHeaderText(
+					"Retention times could not be extracted from titles, do you want to open the Parsing rules selection list ?");
 			ButtonType btnYes = new ButtonType("Yes", ButtonData.YES);
 			ButtonType btnNo = new ButtonType("No", ButtonData.NO);
 			alert.getButtonTypes().setAll(btnYes, btnNo);
 
 			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == btnYes){
+			if (result.get() == btnYes) {
 				System.out.println("yes");
 				handleClickMenuParsingRules();
 			} else {
 				System.out.println("no");
 			}
-			
+
 		}
 	}
-	
+
 	@FXML
 	private void handleClickMenuExportFirst() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save your new peaklist");
-		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("MGF", "*.mgf"),
-				new ExtensionFilter("PKL","*.pkl"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
+				new ExtensionFilter("PKL", "*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		if (savedFile !=null)
+		if (savedFile != null)
 			Recover.useSecondPeaklist = false;
-			PeaklistRecovered.save(savedFile);
-//		System.out.println(bottomPanel.getDividerPositions()[0]);
-		
+		PeaklistRecovered.save(savedFile);
+		// System.out.println(bottomPanel.getDividerPositions()[0]);
+
 	}
-	
+
 	@FXML
 	private void handleClickMenuExportSecond() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save your new peaklist");
-		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("MGF", "*.mgf"),
-				new ExtensionFilter("PKL","*.pkl"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
+				new ExtensionFilter("PKL", "*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		if (savedFile !=null)
+		if (savedFile != null)
 			Recover.useSecondPeaklist = true;
-			PeaklistRecovered.save(savedFile);
-//		System.out.println(bottomPanel.getDividerPositions()[0]);
-		
+		PeaklistRecovered.save(savedFile);
+		// System.out.println(bottomPanel.getDividerPositions()[0]);
+
 	}
-	
+
 	@FXML
 	private void handleClickMenuBatch() {
 	}
-	
+
 	@FXML
 	private void handleClickMenuQuit() {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Exit Recover ?");
 		alert.setHeaderText("Are you sure ?");
-		
+
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK){
+		if (result.get() == ButtonType.OK) {
 			System.exit(0);
 		}
 	}
-	
+
 	@FXML
 	private void handleClickMenuFilters() {
 		try {
@@ -557,12 +459,12 @@ public class RecoverController {
 			dialogStage.showAndWait();
 			table.refresh();
 			table1.refresh();
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-			
+
 		}
 	}
-	
+
 	@FXML
 	private void handleClickMenuParsingRules() {
 		try {
@@ -579,103 +481,99 @@ public class RecoverController {
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void handleClickMenuFixedAxis() {
 		Session.USE_FIXED_AXIS = !Session.USE_FIXED_AXIS;
 		resetChartAxis(table.getSelectionModel().getSelectedItem());
-		if(spectrumChart != null) {
+		if (spectrumChart != null) {
 			spectrumChart.changeAxisRange();
 		}
 	}
+
 	@FXML
-	private void handleClickMenuResetRecover(){
-		//TODO move the loop in a new class
-		for (Spectrum sp : ListOfSpectra.getFirstSpectra().getSpectraAsObservable()){
+	private void handleClickMenuResetRecover() {
+		// TODO move the loop in a new class
+		for (Spectrum sp : ListOfSpectra.getFirstSpectra().getSpectraAsObservable()) {
 			sp.setIsRecover(false);
 		}
 		table.refresh();
 		Filters.resetHashMap();
 	}
-	
+
 	@FXML
-	private void handleCheckRecoverForIdentified(){
-		if(mnCheckRecoverForIdentified.isSelected()){
+	private void handleCheckRecoverForIdentified() {
+		if (mnCheckRecoverForIdentified.isSelected()) {
 			mnUncheckRecoverForIdentified.setSelected(false);
 			IdentifiedSpectraFilter.setCheckRecoverIdentified(true);
 			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
-		}
-		else{
+		} else {
 			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
 		}
 	}
-	
+
 	@FXML
-	private void handleUncheckRecoverForIdentified(){
-		if(mnUncheckRecoverForIdentified.isSelected()){
+	private void handleUncheckRecoverForIdentified() {
+		if (mnUncheckRecoverForIdentified.isSelected()) {
 			mnCheckRecoverForIdentified.setSelected(false);
 			IdentifiedSpectraFilter.setUncheckRecoverIdentified(true);
 			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
-		}
-		else
+		} else
 			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
 	}
-	
+
 	@FXML
-	private void handleCheckRecoverForNonIdentified(){
-		if(mnCheckRecoverForNonIdentified.isSelected()){
+	private void handleCheckRecoverForNonIdentified() {
+		if (mnCheckRecoverForNonIdentified.isSelected()) {
 			mnUncheckRecoverForNonIdentified.setSelected(false);
 			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(true);
 			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
-		}
-		else
+		} else
 			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
 	}
-	
+
 	@FXML
-	private void handleUncheckRecoverForNonIdentified(){
-		if(mnUncheckRecoverForNonIdentified.isSelected()){
+	private void handleUncheckRecoverForNonIdentified() {
+		if (mnUncheckRecoverForNonIdentified.isSelected()) {
 			mnCheckRecoverForNonIdentified.setSelected(false);
 			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(true);
 			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
-		}
-		else
+		} else
 			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
 
 	}
-	
-	@FXML
-	private void test(){
-	}
-	
+
 	private void resetChartAxis(Spectrum spectrum) {
-//		if(chart.getData().size() > 0) {
-//			xAxis.setLowerBound(0);
-//			xAxis.setUpperBound(SpectrumChart.getUpperBound(spectrum.getFragmentMaxMoz(), true));
-//			xAxis.setTickUnit(SpectrumChart.getTickUnit(xAxis.getUpperBound()));
-//			yAxis.setLowerBound(0);
-//			yAxis.setUpperBound(SpectrumChart.getUpperBound(spectrum.getFragmentMaxIntensity(), false));
-//			yAxis.setTickUnit(SpectrumChart.getTickUnit(yAxis.getUpperBound()));
-//		}
+		// if(chart.getData().size() > 0) {
+		// xAxis.setLowerBound(0);
+		// xAxis.setUpperBound(SpectrumChart.getUpperBound(spectrum.getFragmentMaxMoz(),
+		// true));
+		// xAxis.setTickUnit(SpectrumChart.getTickUnit(xAxis.getUpperBound()));
+		// yAxis.setLowerBound(0);
+		// yAxis.setUpperBound(SpectrumChart.getUpperBound(spectrum.getFragmentMaxIntensity(),
+		// false));
+		// yAxis.setTickUnit(SpectrumChart.getTickUnit(yAxis.getUpperBound()));
+		// }
 	}
-	
-//	private void defineChartMenu() {
-//		// display a menu with some actions (such as reset zoom, fixed axis, filters...)
-//		final MenuItem resetZoomItem = new MenuItem("Reset zoom");
-//		resetZoomItem.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				System.out.println("Reset zoom");
-//			}
-//		});
-//
-//		chartMenu = new ContextMenu(
-//		  resetZoomItem
-////		  mnUseFixedAxis
-//		);
-//	}
+
+	// private void defineChartMenu() {
+	// // display a menu with some actions (such as reset zoom, fixed axis,
+	// filters...)
+	// final MenuItem resetZoomItem = new MenuItem("Reset zoom");
+	// resetZoomItem.setOnAction(new EventHandler<ActionEvent>() {
+	// @Override
+	// public void handle(ActionEvent event) {
+	// System.out.println("Reset zoom");
+	// }
+	// });
+	//
+	// chartMenu = new ContextMenu(
+	// resetZoomItem
+	//// mnUseFixedAxis
+	// );
+	// }
 }
