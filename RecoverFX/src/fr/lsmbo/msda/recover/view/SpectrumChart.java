@@ -40,9 +40,9 @@ public class SpectrumChart {
 		for (Fragment f : spectrum.getFragments()) {
 			float mz = f.getMz();
 			float intensity = f.getIntensity();
-			if (intensity < Session.LOW_INTENSITY_THRESHOLD) {
+			if (intensity < (Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold())) {
 				series1.add(mz, intensity);
-			} else if (intensity > Session.HIGH_INTENSITY_THRESHOLD) {
+			} else if (intensity > (Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold())) {
 				series3.add(mz, intensity);
 			} else {
 				series2.add(mz, intensity);

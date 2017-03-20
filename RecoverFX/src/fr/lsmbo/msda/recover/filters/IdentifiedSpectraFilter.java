@@ -27,7 +27,7 @@ public class IdentifiedSpectraFilter {
 
 	// Find the spectrum with his title
 	public void setIdentified(String title) {
-		spectra = ListOfSpectra.choiceSpectra();
+		spectra = ListOfSpectra.getFirstSpectra();
 		Spectrum spectrum = spectra.getSpectrumWithTitle(title);
 		spectrum.setIsIdentified(true);
 	}

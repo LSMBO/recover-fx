@@ -32,12 +32,13 @@ public class Spectrum {
 	private Boolean isRecover = false;
 	private float highIntensityThreshold = Session.HIGH_INTENSITY_THRESHOLD;
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
-	private Boolean isRecoverHIT = false;
-	private Boolean isRecoverLIT = false;
-	private Boolean isRecoverFI = false;
-	private Boolean isRecoverWC = false;
-	private Boolean isRecoverIS = false;
-	private Boolean isRecoverIR = false;
+	
+	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED ;
+	private StatusFilterType isRecoverLIT = StatusFilterType.NOT_USED;
+	private StatusFilterType isRecoverFI = StatusFilterType.NOT_USED;
+	private StatusFilterType isRecoverWC = StatusFilterType.NOT_USED;
+	private StatusFilterType isRecoverIS = StatusFilterType.NOT_USED;
+	private StatusFilterType isRecoverIR = StatusFilterType.NOT_USED;
 
 	private ArrayList<Fragment> fragments = new ArrayList<Fragment>(); // may be
 																		// empty
@@ -364,51 +365,51 @@ public class Spectrum {
 		this.lowIntensityThreshold = lowIntensityThreshold;
 	}
 
-	public Boolean getIsRecoverHIT() {
+	public StatusFilterType getIsRecoverHIT() {
 		return isRecoverHIT;
 	}
 
-	public void setIsRecoverHIT(Boolean isRecoverHIT) {
+	public void setIsRecoverHIT(StatusFilterType isRecoverHIT) {
 		this.isRecoverHIT = isRecoverHIT;
 	}
 
-	public Boolean getIsRecoverLIT() {
+	public StatusFilterType getIsRecoverLIT() {
 		return isRecoverLIT;
 	}
 
-	public void setIsRecoverLIT(Boolean isRecoverLIT) {
+	public void setIsRecoverLIT(StatusFilterType isRecoverLIT) {
 		this.isRecoverLIT = isRecoverLIT;
 	}
 
-	public Boolean getIsRecoverFI() {
+	public StatusFilterType getIsRecoverFI() {
 		return isRecoverFI;
 	}
 
-	public void setIsRecoverFI(Boolean isRecoverFI) {
+	public void setIsRecoverFI(StatusFilterType isRecoverFI) {
 		this.isRecoverFI = isRecoverFI;
 	}
 
-	public Boolean getIsRecoverWC() {
+	public StatusFilterType getIsRecoverWC() {
 		return isRecoverWC;
 	}
 
-	public void setIsRecoverWC(Boolean isRecoverWC) {
+	public void setIsRecoverWC(StatusFilterType isRecoverWC) {
 		this.isRecoverWC = isRecoverWC;
 	}
 
-	public Boolean getIsRecoverIS() {
+	public StatusFilterType getIsRecoverIS() {
 		return isRecoverIS;
 	}
 
-	public void setIsRecoverIS(Boolean isRecoverIS) {
+	public void setIsRecoverIS(StatusFilterType isRecoverIS) {
 		this.isRecoverIS = isRecoverIS;
 	}
 
-	public Boolean getIsRecoverIR() {
+	public StatusFilterType getIsRecoverIR() {
 		return isRecoverIR;
 	}
 
-	public void setIsRecoverIR(Boolean isRecoverIR) {
+	public void setIsRecoverIR(StatusFilterType isRecoverIR) {
 		this.isRecoverIR = isRecoverIR;
 	}
 }

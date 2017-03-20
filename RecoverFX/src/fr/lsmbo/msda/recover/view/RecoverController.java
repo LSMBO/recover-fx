@@ -13,13 +13,20 @@ import fr.lsmbo.msda.recover.io.PeaklistRecovered;
 import fr.lsmbo.msda.recover.Main;
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
+import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
+import fr.lsmbo.msda.recover.filters.IonReporterFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
+import fr.lsmbo.msda.recover.model.Fragment;
+import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
+import fr.lsmbo.msda.recover.model.StatusFilterType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingNode;
@@ -163,13 +170,13 @@ public class RecoverController {
 
 	@FXML
 	private void initialize() {
-		
-		//Left view
+
+		// Left view
 		Spectra spectra = ListOfSpectra.getFirstSpectra();
 		// define spectrum list
 		table.setItems(spectra.getSpectraAsObservable());
-        colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-        colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
+		colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
+		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
 		colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
 		colCharge.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
@@ -188,52 +195,105 @@ public class RecoverController {
 		colUPN.setPrefWidth(SIZE_COL_UPN);
 		colIdentified.setPrefWidth(SIZE_COL_IDENTIFIED);
 		colRecover.setPrefWidth(SIZE_COL_RECOVERED);
-		colTitle.prefWidthProperty().bind(table.widthProperty().subtract(SIZE_COL_ID+SIZE_COL_MOZ+SIZE_COL_INTENSITY+SIZE_COL_CHARGE+SIZE_COL_RT+SIZE_COL_NBFRAGMENTS+SIZE_COL_UPN+SIZE_COL_IDENTIFIED+SIZE_COL_RECOVERED+0));
+		colTitle.prefWidthProperty()
+				.bind(table.widthProperty()
+						.subtract(SIZE_COL_ID + SIZE_COL_MOZ + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT
+								+ SIZE_COL_NBFRAGMENTS + SIZE_COL_UPN + SIZE_COL_IDENTIFIED + SIZE_COL_RECOVERED + 0));
 
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//			// set new data and title
-//			chart.setData(SpectrumChart.getData(newSelection));
-//			chart.setTitle(newSelection.getTitle());
-//			// reset axis values  because autoranging is off (necessary to allow fixed axis)
-//			resetChartAxis(newSelection);
-			
-//			chart = SpectrumChart.getPlot(newSelection);
+			// // set new data and title
+			// chart.setData(SpectrumChart.getData(newSelection));
+			// chart.setTitle(newSelection.getTitle());
+			// // reset axis values because autoranging is off (necessary to
+			// allow fixed axis)
+			// resetChartAxis(newSelection);
+
+			// chart = SpectrumChart.getPlot(newSelection);
 			spectrumChart = new SpectrumChart(newSelection);
-	        ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-			 SwingUtilities.invokeLater(new Runnable() {
-				 @Override
-				 public void run() {
-					 swingNodeForChart.setContent(chartPanel);
-				 }
-			 });
-		});	
-		
+			ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					swingNodeForChart.setContent(chartPanel);
+				}
+			});
+		});
+
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem infoFilter = new MenuItem("Information about filters applied");
 		contextMenu.getItems().add(infoFilter);
 		table.setContextMenu(contextMenu);
-		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>(){
+		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				infoHIT.setText(value);
-			}
-			
-		})
-//		table.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
-//			
-//		});
+				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
 
-		
-		//Right view
+				infoHIT.setText(sp.getIsRecoverHIT().toString());
+				infoLIT.setText(sp.getIsRecoverLIT().toString());
+				infoFI.setText(sp.getIsRecoverFI().toString());
+				infoWC.setText(sp.getIsRecoverWC().toString());
+				infoIS.setText(sp.getIsRecoverIS().toString());
+				infoIR.setText(sp.getIsRecoverIR().toString());
+			
+					// Tooltip for HIT and its parameters
+				try {
+					HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters()
+							.get("HIT");
+					infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription()));
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+
+					// Tooltip for LIT and its parameters
+				try {
+					LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters()
+							.get("LIT");
+					infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+
+					// Tooltip for FI and its parameters
+				try {
+					FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
+					infoFI.setTooltip(new Tooltip(filterFI.getFullDescription()));
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+
+					// Tooltip for IS and its parameters
+				try {
+					IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
+					infoIS.setTooltip(new Tooltip(filterIS.getFullDescription()));
+					} catch (NullPointerException e) {
+						e.printStackTrace();
+					}
+
+					// Tooltip for IR and its parameters
+				try {
+					IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
+					infoIR.setTooltip(new Tooltip(filterIR.getFullDescription()));
+				} catch (NullPointerException e) {
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+		// table.getSelectionModel().selectedItemProperty().addListener((observable,
+		// oldValue, newValue)->{
+		//
+		// });
+
+		// Right view
 		Spectra secondSpectra = ListOfSpectra.getSecondSpectra();
 		// define spectrum list
 		table1.setItems(secondSpectra.getSpectraAsObservable());
-        colId1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-        colTitle1.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
+		colId1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
+		colTitle1.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
 		colInt1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
 		colCharge1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
@@ -252,31 +312,35 @@ public class RecoverController {
 		colUPN1.setPrefWidth(SIZE_COL_UPN);
 		colIdentified1.setPrefWidth(SIZE_COL_IDENTIFIED);
 		colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
-		colTitle1.prefWidthProperty().bind(table1.widthProperty().subtract(SIZE_COL_ID+SIZE_COL_MOZ+SIZE_COL_INTENSITY+SIZE_COL_CHARGE+SIZE_COL_RT+SIZE_COL_NBFRAGMENTS+SIZE_COL_UPN+SIZE_COL_IDENTIFIED+SIZE_COL_RECOVERED+0));
+		colTitle1.prefWidthProperty()
+				.bind(table1.widthProperty()
+						.subtract(SIZE_COL_ID + SIZE_COL_MOZ + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT
+								+ SIZE_COL_NBFRAGMENTS + SIZE_COL_UPN + SIZE_COL_IDENTIFIED + SIZE_COL_RECOVERED + 0));
 
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor1.setPrefWidth(100);
 		table1.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//			// set new data and title
-//			chart.setData(SpectrumChart.getData(newSelection));
-//			chart.setTitle(newSelection.getTitle());
-//			// reset axis values  because autoranging is off (necessary to allow fixed axis)
-//			resetChartAxis(newSelection);
-			
-//			chart = SpectrumChart.getPlot(newSelection);
+			// // set new data and title
+			// chart.setData(SpectrumChart.getData(newSelection));
+			// chart.setTitle(newSelection.getTitle());
+			// // reset axis values because autoranging is off (necessary to
+			// allow fixed axis)
+			// resetChartAxis(newSelection);
+
+			// chart = SpectrumChart.getPlot(newSelection);
 			spectrumChart = new SpectrumChart(newSelection);
-	        ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-			 SwingUtilities.invokeLater(new Runnable() {
-				 @Override
-				 public void run() {
-					 swingNodeForChart1.setContent(chartPanel);
-				 }
-			 });
-		});	
-		
-//		chartAnchor.getChildren().add(swingNodeForChart);
-		
-//		defineChartMenu();
+			ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					swingNodeForChart1.setContent(chartPanel);
+				}
+			});
+		});
+
+		// chartAnchor.getChildren().add(swingNodeForChart);
+
+		// defineChartMenu();
 	}
 
 	// @FXML
@@ -428,6 +492,7 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuBatch() {
+
 	}
 
 	@FXML
