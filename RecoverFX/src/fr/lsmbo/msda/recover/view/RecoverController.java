@@ -26,6 +26,7 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
+import fr.lsmbo.msda.recover.model.StatusBar;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -167,6 +168,8 @@ public class RecoverController {
 	private Label infoIS;
 	@FXML
 	private Label infoIR;
+	@FXML
+	private Label statusBar;
 
 	@FXML
 	private void initialize() {
@@ -223,7 +226,8 @@ public class RecoverController {
 
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem infoFilter = new MenuItem("Information about filters applied");
-		contextMenu.getItems().add(infoFilter);
+		MenuItem matchingSpectrum = new MenuItem("Find Matching Spectrum");
+		contextMenu.getItems().addAll(infoFilter, matchingSpectrum);
 		table.setContextMenu(contextMenu);
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
@@ -244,7 +248,6 @@ public class RecoverController {
 							.get("HIT");
 					infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription()));
 				} catch (NullPointerException e) {
-					e.printStackTrace();
 				}
 
 					// Tooltip for LIT and its parameters
@@ -253,7 +256,6 @@ public class RecoverController {
 							.get("LIT");
 					infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
 					} catch (NullPointerException e) {
-						e.printStackTrace();
 					}
 
 					// Tooltip for FI and its parameters
@@ -261,7 +263,6 @@ public class RecoverController {
 					FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
 					infoFI.setTooltip(new Tooltip(filterFI.getFullDescription()));
 					} catch (NullPointerException e) {
-						e.printStackTrace();
 					}
 
 					// Tooltip for IS and its parameters
@@ -269,7 +270,6 @@ public class RecoverController {
 					IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
 					infoIS.setTooltip(new Tooltip(filterIS.getFullDescription()));
 					} catch (NullPointerException e) {
-						e.printStackTrace();
 					}
 
 					// Tooltip for IR and its parameters
@@ -277,7 +277,6 @@ public class RecoverController {
 					IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
 					infoIR.setTooltip(new Tooltip(filterIR.getFullDescription()));
 				} catch (NullPointerException e) {
-					e.printStackTrace();
 				}
 
 			}
@@ -438,6 +437,7 @@ public class RecoverController {
 
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+		statusBar.setText(StatusBar.getInformation());
 
 		this.dialogStage.setTitle(Main.recoverTitle());
 		if (PeaklistReader.retentionTimesNotFound()) {
@@ -492,7 +492,6 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuBatch() {
-
 	}
 
 	@FXML
@@ -524,6 +523,7 @@ public class RecoverController {
 			dialogStage.showAndWait();
 			table.refresh();
 			table1.refresh();
+			statusBar.setText(StatusBar.getInformation());
 		} catch (IOException e) {
 			e.printStackTrace();
 
@@ -612,6 +612,8 @@ public class RecoverController {
 
 	}
 
+	
+	
 	private void resetChartAxis(Spectrum spectrum) {
 		// if(chart.getData().size() > 0) {
 		// xAxis.setLowerBound(0);

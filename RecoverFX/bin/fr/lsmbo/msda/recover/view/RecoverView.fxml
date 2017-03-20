@@ -243,7 +243,10 @@
 	<bottom>
 		<HBox prefHeight="36.0" prefWidth="1313.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
 			<children>
-				<Label text="This is the status bar" textFill="WHITE" />
+				<Label fx:id="statusBar" text="This is the status bar : " textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold" size="14.0" />
+               </font></Label>
 			</children>
 		</HBox>
 	</bottom>

@@ -8,6 +8,7 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
+import fr.lsmbo.msda.recover.view.RecoverController;
 import javafx.scene.control.Alert;
 
 /**
@@ -213,7 +214,8 @@ public class Filter {
 			}
 		}
 		// Set the number of spectrum recover after utilization of filters
-		spectra.checkRecoveredSpectra();
+		spectra.checkRecoveredAndIdentifiedSpectra();
+		
 	}
 
 	// tell if the spectrum is recovered or not

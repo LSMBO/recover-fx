@@ -83,15 +83,19 @@ public class Spectra {
 	 * Scan all the spectrum and increment the number of recover every time the
 	 * value of recover for this spectrum will be true
 	 */
-	public void checkRecoveredSpectra() {
+	public void checkRecoveredAndIdentifiedSpectra() {
 		nbRecover = 0;
+		nbIdentified = 0;
 		Integer nb = getSpectraAsObservable().size();
 		for (int i = 0; i < nb; i++) {
 			Spectrum spectrum = getSpectraAsObservable().get(i);
-			if (spectrum.getIsRecover() == true)
+			if (spectrum.getIsRecover())
 				nbRecover++;
+			if (spectrum.getIsIdentified())
+				nbIdentified++;
 		}
 	}
+
 
 	// for(Integer id: spectraPerId.keySet()) {
 	// Spectrum spectrum = spectraPerId.get(id);
