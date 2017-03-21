@@ -5,8 +5,6 @@ import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 
 public class StatusBar {
 	
-	private static String title = "This is the status bar :";
-	
 	public static String getInformation(){
 		int nbFirstSpectra = ListOfSpectra.getFirstSpectra().getNbSpectra() ;
 		int nbSecondSpectra = ListOfSpectra.getSecondSpectra().getNbSpectra() ;
@@ -15,8 +13,9 @@ public class StatusBar {
 		String nameFirstPeaklist = Session.CURRENT_FILE.getName();
 		String nameSecondPeaklist = Session.SECOND_FILE.getName();
 		
-		return title + " First Peaklist (Left side) " + nameFirstPeaklist+ " : " + nbFirstSpectra + " spectra /" 
-				+ " Second Peaklist (Right side) " + nameSecondPeaklist+ " : " + nbSecondSpectra + " spectra /" +
-				" Recovered : " + nbRecover + " / Identified : " + nbIdentified ;
+		return " First Peaklist (Left side) " + nameFirstPeaklist+ " : " + nbFirstSpectra + " spectra - " +
+				" Recovered : " + nbRecover + " - Identified : " + nbIdentified 
+				+ " // Second Peaklist (Right side) " + nameSecondPeaklist+ " : " + nbSecondSpectra + " spectra " 
+				;
 	} 
 }

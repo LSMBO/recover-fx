@@ -80,7 +80,6 @@ public class Filter {
 			for (int j = 0; j < Filters.getFilterAsAnArray().size(); j++) {
 				// First filter encountered
 				if (j == 0) {
-
 					// filter HIT
 					if (Filters.getFilterAsAnArray().get(j) == 0) {
 						spectrum.setIsRecover(filterHIT.isValid(spectrum));
@@ -146,9 +145,12 @@ public class Filter {
 				else {
 					// If the previous filter return a false value for recover,
 					// move to the next spectrum
-					if (spectrum.getIsRecover() == false)
+					if (spectrum.getIsRecover() == false){
+						if (Filters.getFilterAsAnArray().get(j) == 1){
+							filterLIT.isValid(spectrum);
+						}
 						break;
-
+					}
 					if (spectrum.getIsRecover() == true) {
 						// filter HIT
 						if (Filters.getFilterAsAnArray().get(j) == 0) {
@@ -215,7 +217,6 @@ public class Filter {
 		}
 		// Set the number of spectrum recover after utilization of filters
 		spectra.checkRecoveredAndIdentifiedSpectra();
-		
 	}
 
 	// tell if the spectrum is recovered or not

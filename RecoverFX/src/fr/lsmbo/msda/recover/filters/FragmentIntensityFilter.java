@@ -19,8 +19,6 @@ public class FragmentIntensityFilter implements BasicFilter {
 	private int intensity;
 	private ComparisonTypes comparator;
 	private Boolean isUsed = false;
-	// private Boolean[] associatedSpectrum = new
-	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 4;
 
 	public void setParameters(int _intensity, ComparisonTypes _comparator) {

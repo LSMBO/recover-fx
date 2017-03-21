@@ -21,8 +21,6 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 	private float percentageOfTopLine; // should be between 0 and 1
 	private int maxNbPeaks;
 	private Boolean isUsed = false;
-	// private Boolean[] associatedSpectrum = new
-	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 0;
 
 	public void setParameters(int _nbMostIntensePeaksToConsider, float _percentageOfTopLine, int _maxNbPeaks) {
@@ -48,6 +46,7 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 		// then calculate threashold
 		float threashold = topline * (1 - percentageOfTopLine);
 		spectrum.setHighIntensityThreshold(threashold);
+		spectrum.setTopLine(topline);
 		// invalidate if more than x peaks are above this value
 		int i = 0;
 		while (spectrum.getSortedFragments().get(spectrum.getNbFragments() - i - 1).getIntensity() > threashold) {
@@ -59,11 +58,11 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 			}
 			i++;
 		}
-
+		spectrum.setNbFragmentAboveHIT(i);
 		if (i > maxNbPeaks)
 			return false;
-
 		return true;
+
 	}
 
 	@Override

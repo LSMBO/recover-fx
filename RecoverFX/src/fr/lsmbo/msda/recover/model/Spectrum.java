@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import fr.lsmbo.msda.recover.Config;
 import fr.lsmbo.msda.recover.Session;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Spectrum {
 
@@ -28,10 +30,15 @@ public class Spectrum {
 	private float medianFragmentsIntensities = 0;
 	private float averageFragmentsIntensities = 0;
 	private Integer upn = -1;
-	private Boolean isIdentified = false;
-	private Boolean isRecover = false;
+	
+	private final BooleanProperty recovered = new SimpleBooleanProperty();
+	private final BooleanProperty identified = new SimpleBooleanProperty();
+//	private Boolean isIdentified = false;
+//	private Boolean isRecover = false;
 	private float highIntensityThreshold = Session.HIGH_INTENSITY_THRESHOLD;
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
+	private float topLine = Session.TOP_LINE;
+	private int nbFragmentAboveHIT = 0;
 	
 	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED ;
 	private StatusFilterType isRecoverLIT = StatusFilterType.NOT_USED;
@@ -59,7 +66,7 @@ public class Spectrum {
 	public String toString() {
 		return "Spectrum id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge + " title:'" + title
 				+ "' nbFragments:" + nbFragments + " indexOfBest:" + indexOfMostIntenseFragment + " lineStart:"
-				+ lineStart + " lineStop:" + lineStop + " Recover:" + isRecover;
+				+ lineStart + " lineStop:" + lineStop + " Recover:" + recovered.getValue();
 	}
 
 	public Spectrum() {
@@ -325,20 +332,32 @@ public class Spectrum {
 	// this.upn = upn;
 	// }
 
+	public BooleanProperty identifiedProperty(){
+		return identified;
+	}
+	
 	public Boolean getIsIdentified() {
-		return isIdentified;
+//		return isIdentified;
+		return identified.get();
 	}
 
 	public void setIsIdentified(Boolean isIdentified) {
-		this.isIdentified = isIdentified;
+//		this.isIdentified = isIdentified;
+		this.identified.set(isIdentified);
 	}
 
+	public BooleanProperty recoveredProperty(){
+		return recovered;
+	}
+	
 	public Boolean getIsRecover() {
-		return isRecover;
+//		return isRecover;
+		return recovered.get();
 	}
 
 	public void setIsRecover(Boolean isRecover) {
-		this.isRecover = isRecover;
+//		this.isRecover = isRecover;
+		this.recovered.set(isRecover);
 	}
 
 	public Integer getUpn() {
@@ -363,6 +382,14 @@ public class Spectrum {
 
 	public void setLowIntensityThreshold(float lowIntensityThreshold) {
 		this.lowIntensityThreshold = lowIntensityThreshold;
+	}
+	
+	public float getTopLine(){
+		return topLine;
+	}
+	
+	public void setTopLine(float _topline){
+		this.topLine = _topline;
 	}
 
 	public StatusFilterType getIsRecoverHIT() {
@@ -412,4 +439,13 @@ public class Spectrum {
 	public void setIsRecoverIR(StatusFilterType isRecoverIR) {
 		this.isRecoverIR = isRecoverIR;
 	}
+	
+	public int getNbFragmentAboveHIT(){
+		return nbFragmentAboveHIT ;
+	}
+	
+	public void setNbFragmentAboveHIT(int nb){
+		this.nbFragmentAboveHIT = nb;
+	}
+	
 }

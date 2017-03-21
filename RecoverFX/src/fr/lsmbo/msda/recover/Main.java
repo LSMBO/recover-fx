@@ -33,8 +33,6 @@ public class Main {
 	public static String recoverTitle() {
 		String title = Session.RECOVER_RELEASE_NAME + " " + Session.RECOVER_RELEASE_VERSION + " ("
 				+ Session.RECOVER_RELEASE_DATE + ")";
-		if (Session.CURRENT_FILE != null)
-			title += " - " + Session.CURRENT_FILE.getName();
 		return title;
 	}
 

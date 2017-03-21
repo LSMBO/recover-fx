@@ -15,6 +15,9 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 
 import fr.lsmbo.msda.recover.Session;
+import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -40,38 +43,117 @@ public class SpectrumChart {
 		for (Fragment f : spectrum.getFragments()) {
 			float mz = f.getMz();
 			float intensity = f.getIntensity();
-			if (intensity < (Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold())) {
-				series1.add(mz, intensity);
-			} else if (intensity > (Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold())) {
-				series3.add(mz, intensity);
-			} else {
+
+			// Any filter applied => all fragment in blue
+			if (Filters.nbFilterUsed() == 0) {
 				series2.add(mz, intensity);
+			}
+
+			if (Filters.getFilters().get("HIT") != null && Filters.getFilters().get("LIT") == null) {
+				if (intensity > (Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold())) {
+					series3.add(mz, intensity);
+				} else
+					series2.add(mz, intensity);
+			}
+
+			if (Filters.getFilters().get("LIT") != null && Filters.getFilters().get("HIT") == null) {
+				if (intensity < (Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold())) {
+					series1.add(mz, intensity);
+				} else
+					series2.add(mz, intensity);
+			}
+
+			if (Filters.getFilters().get("HIT") != null && Filters.getFilters().get("LIT") != null) {
+				if (intensity > (Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold())) {
+					series3.add(mz, intensity);
+				} else if (intensity < (Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold())) {
+					series1.add(mz, intensity);
+				} else
+					series2.add(mz, intensity);
 			}
 		}
 
-		// create the plot
-		chart = ChartFactory.createXYBarChart(spectrum.getTitle(), "M/z", false, "Intensity", dataset);
+	// create the plot
+	chart=ChartFactory.createXYBarChart(spectrum.getTitle(),"M/z",false,"Intensity",dataset);
 
-		// set default axis ranges
-		changeAxisRange();
+	// set default axis ranges
+	changeAxisRange();
 
-		// add extra information
-		addExtraInformation();
+	// add extra information
+	addExtraInformation();
 
-		// make it look gorgeous
-		// sticks display
-		XYStickRenderer renderer = new XYStickRenderer();
-		renderer.setBaseStroke(new BasicStroke(0.8f));
-		renderer.setSeriesPaint(0, new Color(50, 50, 255)/* Color.blue */);
-		renderer.setSeriesPaint(1, new Color(255, 50, 50) /* Color.red */);
-		renderer.setSeriesPaint(2, new Color(100, 200, 70) /* Color.red */);
-		// hide grid lines
-		chart.getXYPlot().setRangeGridlinesVisible(false);
-		chart.getXYPlot().setDomainGridlinesVisible(false);
-		// set background color
-		chart.getXYPlot().setBackgroundPaint(Color.WHITE);
+	// make it look gorgeous
+	// sticks display
+	XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)/*
+																																					 * Color
+																																					 * .
+																																					 * blue
+																																					 */);renderer.setSeriesPaint(1,new Color(255,50,50) /*
+																																																	 * Color
+																																																	 * .
+																																																	 * red
+																																																	 */);renderer.setSeriesPaint(2,new Color(100,200,70) /*
+																																																														 * Color
+																																																														 * .
+																																																														 * red
+																																																														 */);
+	// hide grid lines
+	chart.getXYPlot().setRangeGridlinesVisible(false);chart.getXYPlot().setDomainGridlinesVisible(false);
+	// set background color
+	chart.getXYPlot().setBackgroundPaint(Color.WHITE);
 	}
 
+	public SpectrumChart(Spectrum spectrum, String file) {
+
+		this.spectrum = spectrum;
+
+		// add data
+		XYSeries series1 = new XYSeries("Fragments below low intensity threshold");
+		XYSeries series2 = new XYSeries("Fragments above low intensity threshold");
+		XYSeries series3 = new XYSeries("Fragments above high intensity threshold");
+
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		dataset.addSeries(series1);
+		dataset.addSeries(series2);
+		dataset.addSeries(series3);
+
+		for (Fragment f : spectrum.getFragments()) {
+			float mz = f.getMz();
+			float intensity = f.getIntensity();
+			series2.add(mz, intensity);
+		}
+
+	// create the plot
+	chart=ChartFactory.createXYBarChart(spectrum.getTitle(),"M/z",false,"Intensity",dataset);
+
+	// set default axis ranges
+	changeAxisRange();
+
+	// make it look gorgeous
+	// sticks display
+	XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)/*
+																																					 * Color
+																																					 * .
+																																					 * blue
+																																					 */);renderer.setSeriesPaint(1,new Color(255,50,50) /*
+																																																	 * Color
+																																																	 * .
+																																																	 * red
+																																																	 */);renderer.setSeriesPaint(2,new Color(100,200,70) /*
+																																																														 * Color
+																																																														 * .
+																																																														 * red
+																																																														 */);
+	// hide grid lines
+	chart.getXYPlot().setRangeGridlinesVisible(false);chart.getXYPlot().setDomainGridlinesVisible(false);
+	// set background color
+	chart.getXYPlot().setBackgroundPaint(Color.WHITE);
+	chart.getXYPlot().addDomainMarker(
+			createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
+			Layer.BACKGROUND);
+	}
+	
+	
 	public JFreeChart getChart() {
 		return chart;
 	}
@@ -93,16 +175,34 @@ public class SpectrumChart {
 		chart.getXYPlot().addDomainMarker(
 				createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
 				Layer.BACKGROUND);
-		// raw baseline if chosen
-		addThresholdMarker(0F, Session.CALCULATED_NOISE_VALUE = spectrum.getMedianFragmentsIntensities(),
-				"Raw baseline", new Color(255 - 30, 201 - 30, 87 - 30, 220));
-		// low intensity threshold if chosen
-		addThresholdMarker(0F, Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold(),
-				"Low intensity threshold", new Color(255, 183, 87, 220));
-		// high intensity threshold if chosen
-		addThresholdMarker(Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold(),
-				(float) chart.getXYPlot().getRangeAxis().getUpperBound(), "High intensity threshold",
-				new Color(255, 183, 87, 220));
+		if (Filters.getFilters().get("LIT") != null) {
+			LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+			int emergence = filterLIT.getEmergence();
+			String mode = filterLIT.getMode().toString();
+			// raw baseline if chosen
+			if (mode == "MEDIAN")
+				addThresholdMarker(0F, Session.CALCULATED_NOISE_VALUE = spectrum.getMedianFragmentsIntensities(),
+						"Raw baseline : " + mode + "of all peaks", new Color(255 - 30, 201 - 30, 87 - 30, 220));
+			else
+				addThresholdMarker(0F, Session.CALCULATED_NOISE_VALUE = spectrum.getAverageFragmentsIntensities(),
+						"Raw baseline : " + mode + "  of all peaks", new Color(255 - 30, 201 - 30, 87 - 30, 220));
+			// low intensity threshold if chosen
+			addThresholdMarker(0F, Session.LOW_INTENSITY_THRESHOLD = spectrum.getLowIntensityThreshold(),
+					"Low intensity threshold : " + emergence + " * raw baseline", new Color(255, 183, 87, 220));
+		}
+		if (Filters.getFilters().get("HIT") != null) {
+			HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+			int nbMostIntensePeaks = filterHIT.getNbMostIntensePeaksToConsider();
+			int percentageTopLine = (int) (filterHIT.getPercentageOfTopLine() * 100);
+			// high intensity threshold if chosen
+			addThresholdMarker(Session.HIGH_INTENSITY_THRESHOLD = spectrum.getHighIntensityThreshold(),
+					Session.TOP_LINE = spectrum.getTopLine(),
+					"High intensity threshold : Top Line - " + percentageTopLine + "%", new Color(255, 183, 87, 220));
+			addThresholdMarker(Session.TOP_LINE = spectrum.getTopLine(),
+					(float) chart.getXYPlot().getRangeAxis().getUpperBound(),
+					"Top Line : Average of the " + nbMostIntensePeaks + " most intense peaks",
+					new Color(255, 183, 87, 220));
+		}
 		// top line
 		// status ?
 	}

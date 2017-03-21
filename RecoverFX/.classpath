@@ -5,5 +5,21 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/controsfx-8.40.12/controlsfx-8.40.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/controsfx-8.40.12/controlsfx-samples-8.40.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/controsfx-8.40.12/fxsampler-1.0.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-examples-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-excelant-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-ooxml-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-ooxml-schemas-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/poi-scratchpad-3.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/ooxml-lib/curvesapi-1.04.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/ooxml-lib/xmlbeans-2.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/lib/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/LOMBART.benjamin/library/poi-bin-3.15-20160924/poi-3.15/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

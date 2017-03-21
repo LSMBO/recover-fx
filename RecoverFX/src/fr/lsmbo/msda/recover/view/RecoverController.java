@@ -38,6 +38,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -186,8 +187,12 @@ public class RecoverController {
 		colRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 		colNbFragments.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
 		colUPN.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
-		colIdentified.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isIdentified"));
-		colRecover.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
+//		colIdentified.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isIdentified"));
+		colIdentified.setCellValueFactory(cellData -> cellData.getValue().identifiedProperty());
+		colIdentified.setCellFactory(CheckBoxTableCell.forTableColumn(colIdentified));
+//		colRecover.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
+		colRecover.setCellValueFactory(cellData -> cellData.getValue().recoveredProperty());
+		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
 		// set column sizes
 		colId.setPrefWidth(SIZE_COL_ID);
 		colMoz.setPrefWidth(SIZE_COL_MOZ);
@@ -246,7 +251,7 @@ public class RecoverController {
 				try {
 					HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters()
 							.get("HIT");
-					infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription()));
+					infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n" + "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
 				} catch (NullPointerException e) {
 				}
 
@@ -314,7 +319,7 @@ public class RecoverController {
 		colTitle1.prefWidthProperty()
 				.bind(table1.widthProperty()
 						.subtract(SIZE_COL_ID + SIZE_COL_MOZ + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT
-								+ SIZE_COL_NBFRAGMENTS + SIZE_COL_UPN + SIZE_COL_IDENTIFIED + SIZE_COL_RECOVERED + 0));
+								+ SIZE_COL_NBFRAGMENTS + 0));
 
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor1.setPrefWidth(100);
@@ -327,7 +332,7 @@ public class RecoverController {
 			// resetChartAxis(newSelection);
 
 			// chart = SpectrumChart.getPlot(newSelection);
-			spectrumChart = new SpectrumChart(newSelection);
+			spectrumChart = new SpectrumChart(newSelection, Session.SECOND_FILE.getName());
 			ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -411,6 +416,7 @@ public class RecoverController {
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
+		Filters.resetHashMap();
 	}
 
 	// Action to load the second table with a peaklist
