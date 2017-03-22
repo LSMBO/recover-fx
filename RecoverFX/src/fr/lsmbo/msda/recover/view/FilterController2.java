@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.view;
 
+import java.io.File;
 import java.util.Iterator;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
@@ -9,6 +10,8 @@ import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.gui.Recover;
+import fr.lsmbo.msda.recover.io.FiltersWriter;
+import fr.lsmbo.msda.recover.io.PeaklistWriter;
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -30,7 +33,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class FilterController2 {
 	private Stage dialogStage;
@@ -143,6 +148,10 @@ public class FilterController2 {
 	private Button btnApply;
 	@FXML
 	private Button btnCancel;
+	@FXML
+	private Button btnLoadFilterSettings;
+	@FXML
+	private Button btnSaveFilterSettings;
 
 	@FXML
 	private void initialize() {
@@ -423,7 +432,21 @@ public class FilterController2 {
 		// TODO close window
 		dialogStage.close();
 	}
+	
+	@FXML
+	private void handleClickBtnLoad(){
+		
+	}
 
+	@FXML
+	private void handleClickBtnSave(){
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save fitlers setting...");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT", "*.txt"));
+		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
+		FiltersWriter.saveFilter(savedFile);
+	}
+	
 	// Scan control of a filter and set the property disable or enable.
 	public void setDisableControl(ObservableList<Control> control, String string) {
 		Iterator<Control> itrControl = control.iterator();

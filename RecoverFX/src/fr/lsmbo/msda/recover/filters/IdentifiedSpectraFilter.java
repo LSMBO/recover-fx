@@ -83,6 +83,14 @@ public class IdentifiedSpectraFilter {
 	public static void setUncheckRecoverNonIdentified(Boolean _uncheckRecoverNonIdentified) {
 		uncheckRecoverNonIdentified = _uncheckRecoverNonIdentified;
 	}
+	
+	public static Boolean getCheckRecoverIdentified(){
+		return checkRecoverIdentified;
+	}
+	
+	public static Boolean getCheckRecoverNonIdentified(){
+		return checkRecoverNonIdentified;
+	}
 	// @Override
 	// public Boolean isValid(Spectrum spectrum){
 	// for (int i = 0; i < arrayTitle.length; i++){

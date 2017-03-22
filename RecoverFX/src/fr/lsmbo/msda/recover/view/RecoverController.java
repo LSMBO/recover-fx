@@ -9,10 +9,11 @@ import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartPanel;
 
-import fr.lsmbo.msda.recover.io.PeaklistRecovered;
+import fr.lsmbo.msda.recover.io.PeaklistWriter;
 import fr.lsmbo.msda.recover.Main;
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
+import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
@@ -239,7 +240,9 @@ public class RecoverController {
 			@Override
 			public void handle(ActionEvent event) {
 				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-
+				Filter filter = new Filter();
+				filter.applyFiltersForOneSpectrum(sp);
+				
 				infoHIT.setText(sp.getIsRecoverHIT().toString());
 				infoLIT.setText(sp.getIsRecoverLIT().toString());
 				infoFI.setText(sp.getIsRecoverFI().toString());
@@ -477,7 +480,7 @@ public class RecoverController {
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
 		if (savedFile != null)
 			Recover.useSecondPeaklist = false;
-		PeaklistRecovered.save(savedFile);
+		PeaklistWriter.save(savedFile);
 		// System.out.println(bottomPanel.getDividerPositions()[0]);
 
 	}
@@ -491,7 +494,7 @@ public class RecoverController {
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
 		if (savedFile != null)
 			Recover.useSecondPeaklist = true;
-		PeaklistRecovered.save(savedFile);
+		PeaklistWriter.save(savedFile);
 		// System.out.println(bottomPanel.getDividerPositions()[0]);
 
 	}

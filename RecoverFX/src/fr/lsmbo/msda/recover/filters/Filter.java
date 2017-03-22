@@ -45,7 +45,7 @@ public class Filter {
 	 *      Then, scan the different spectrum and for all this spectrum,scan the
 	 *      different filter used (as an array of index, each index
 	 *      corresponding to a specific filter @see Filters). First filter
-	 *      encountered set the value of recover for this spectrum If there are
+	 *      encountered set the value of recover for this spectrum. If there are
 	 *      more than one filter, before applied the second filter check if the
 	 *      first filter return false for the spectrum (in this case, move to
 	 *      the next spectrum) If the value was true: apply this filter (true or
@@ -83,43 +83,44 @@ public class Filter {
 					// filter HIT
 					if (Filters.getFilterAsAnArray().get(j) == 0) {
 						spectrum.setIsRecover(filterHIT.isValid(spectrum));
-						// save information about this filter for this spectrum
-						if (filterHIT.isValid(spectrum))
-							spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
+						// // save information about this filter for this
+						// spectrum
+						// if (filterHIT.isValid(spectrum))
+						// spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 1) {
 						spectrum.setIsRecover(filterLIT.isValid(spectrum));
-						if (filterLIT.isValid(spectrum))
-							spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
+						// if (filterLIT.isValid(spectrum))
+						// spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 2) {
 						spectrum.setIsRecover(filterFI.isValid(spectrum));
-						if (filterFI.isValid(spectrum))
-							spectrum.setIsRecoverFI(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverFI(StatusFilterType.FALSE);
+						// if (filterFI.isValid(spectrum))
+						// spectrum.setIsRecoverFI(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverFI(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 3) {
 						spectrum.setIsRecover(filterWC.isValid(spectrum));
-						if (filterWC.isValid(spectrum))
-							spectrum.setIsRecoverWC(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverWC(StatusFilterType.FALSE);
+						// if (filterWC.isValid(spectrum))
+						// spectrum.setIsRecoverWC(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverWC(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 4) {
 						spectrum.setIsRecover(filterIS.isValid(spectrum));
-						if (filterIS.isValid(spectrum))
-							spectrum.setIsRecoverIS(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverIS(StatusFilterType.FALSE);
+						// if (filterIS.isValid(spectrum))
+						// spectrum.setIsRecoverIS(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverIS(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 5) {
@@ -135,62 +136,62 @@ public class Filter {
 							else
 								spectrum.setIsRecover(filterIR.isValid(spectrum));
 						}
-						if(spectrum.getIsRecover())
-							spectrum.setIsRecoverIR(StatusFilterType.TRUE);
-						else
-							spectrum.setIsRecoverIR(StatusFilterType.FALSE);
+						// if(spectrum.getIsRecover())
+						// spectrum.setIsRecoverIR(StatusFilterType.TRUE);
+						// else
+						// spectrum.setIsRecoverIR(StatusFilterType.FALSE);
 					}
 				}
 
 				else {
 					// If the previous filter return a false value for recover,
 					// move to the next spectrum
-					if (spectrum.getIsRecover() == false){
-						if (Filters.getFilterAsAnArray().get(j) == 1){
-							filterLIT.isValid(spectrum);
-						}
+					if (spectrum.getIsRecover() == false) {
+						// if (Filters.getFilterAsAnArray().get(j) == 1){
+						// filterLIT.isValid(spectrum);
+						// }
 						break;
 					}
 					if (spectrum.getIsRecover() == true) {
 						// filter HIT
 						if (Filters.getFilterAsAnArray().get(j) == 0) {
 							spectrum.setIsRecover(filterHIT.isValid(spectrum));
-							if (filterHIT.isValid(spectrum))
-								spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
+							// if (filterHIT.isValid(spectrum))
+							// spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 1) {
 							spectrum.setIsRecover(filterLIT.isValid(spectrum));
-							if (filterLIT.isValid(spectrum))
-								spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
+							// if (filterLIT.isValid(spectrum))
+							// spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 2) {
 							spectrum.setIsRecover(filterFI.isValid(spectrum));
-							if (filterFI.isValid(spectrum))
-								spectrum.setIsRecoverFI(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverFI(StatusFilterType.FALSE);
+							// if (filterFI.isValid(spectrum))
+							// spectrum.setIsRecoverFI(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverFI(StatusFilterType.FALSE);
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 3) {
 							spectrum.setIsRecover(filterWC.isValid(spectrum));
-							if (filterWC.isValid(spectrum))
-								spectrum.setIsRecoverWC(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverWC(StatusFilterType.FALSE);
+							// if (filterWC.isValid(spectrum))
+							// spectrum.setIsRecoverWC(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverWC(StatusFilterType.FALSE);
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 4) {
 							spectrum.setIsRecover(filterIS.isValid(spectrum));
-							if (filterIS.isValid(spectrum))
-								spectrum.setIsRecoverIS(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverIS(StatusFilterType.FALSE);
+							// if (filterIS.isValid(spectrum))
+							// spectrum.setIsRecoverIS(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverIS(StatusFilterType.FALSE);
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 5) {
@@ -206,10 +207,10 @@ public class Filter {
 								else
 									spectrum.setIsRecover(filterIR.isValid(spectrum));
 							}
-							if(spectrum.getIsRecover())
-								spectrum.setIsRecoverIR(StatusFilterType.TRUE);
-							else
-								spectrum.setIsRecoverIR(StatusFilterType.FALSE);
+							// if(spectrum.getIsRecover())
+							// spectrum.setIsRecoverIR(StatusFilterType.TRUE);
+							// else
+							// spectrum.setIsRecoverIR(StatusFilterType.FALSE);
 						}
 					}
 				}
@@ -217,6 +218,64 @@ public class Filter {
 		}
 		// Set the number of spectrum recover after utilization of filters
 		spectra.checkRecoveredAndIdentifiedSpectra();
+	}
+
+	public void applyFiltersForOneSpectrum(Spectrum spectrum) {
+		for (int j = 0; j < Filters.getFilterAsAnArray().size(); j++) {
+			if (Filters.getFilterAsAnArray().get(j) == 0) {
+				// save information about this filter for this spectrum
+				if (filterHIT.isValid(spectrum))
+					spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
+			}
+
+			if (Filters.getFilterAsAnArray().get(j) == 1) {
+				if (filterLIT.isValid(spectrum))
+					spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
+			}
+
+			if (Filters.getFilterAsAnArray().get(j) == 2) {
+				if (filterFI.isValid(spectrum))
+					spectrum.setIsRecoverFI(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverFI(StatusFilterType.FALSE);
+			}
+
+			if (Filters.getFilterAsAnArray().get(j) == 3) {
+				if (filterWC.isValid(spectrum))
+					spectrum.setIsRecoverWC(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverWC(StatusFilterType.FALSE);
+			}
+
+			if (Filters.getFilterAsAnArray().get(j) == 4) {
+				if (filterIS.isValid(spectrum))
+					spectrum.setIsRecoverIS(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverIS(StatusFilterType.FALSE);
+			}
+
+			if (Filters.getFilterAsAnArray().get(j) == 5) {
+				Integer nbIon = IonReporters.getIonReporters().size();
+				for (int k = 0; k < nbIon; k++) {
+					IonReporter ionReporter = IonReporters.getIonReporters().get(k);
+					// Initialize parameter for an ion(i)
+					filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
+
+					if (k >= 1)
+						spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
+					else
+						spectrum.setIsRecover(filterIR.isValid(spectrum));
+				}
+				if (spectrum.getIsRecover())
+					spectrum.setIsRecoverIR(StatusFilterType.TRUE);
+				else
+					spectrum.setIsRecoverIR(StatusFilterType.FALSE);
+			}
+		}
 	}
 
 	// tell if the spectrum is recovered or not
