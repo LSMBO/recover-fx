@@ -1,9 +1,6 @@
 package fr.lsmbo.msda.recover.lists;
 
-import java.util.ArrayList;
-//import java.util.LinkedHashMap;
 
-import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.collections.FXCollections;
 //import javafx.collections.ListChangeListener;

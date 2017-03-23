@@ -17,30 +17,44 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111"
+	xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
 	<center>
 		<SplitPane dividerPositions="0.5">
 			<items>
 				<AnchorPane prefHeight="480.0" prefWidth="640.0">
 					<children>
-						<BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<BorderPane prefHeight="480.0" prefWidth="640.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<center>
 								<BorderPane BorderPane.alignment="CENTER">
 									<center>
-										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
+										<SplitPane dividerPositions="0.33256880733944955"
+											orientation="VERTICAL" BorderPane.alignment="CENTER">
 											<items>
 												<TableView fx:id="table">
 													<columns>
-														<TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
-														<TableColumn fx:id="colTitle" editable="false" prefWidth="75.0" text="Title" />
-														<TableColumn fx:id="colMoz" editable="false" prefWidth="50.0" text="M/z" />
-														<TableColumn fx:id="colInt" editable="false" prefWidth="50.0" text="Intensity" />
-														<TableColumn fx:id="colCharge" editable="false" prefWidth="50.0" text="Charge" />
-														<TableColumn fx:id="colRT" editable="false" prefWidth="50.0" text="RT" />
-														<TableColumn fx:id="colNbFragments" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-														<TableColumn fx:id="colUPN" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-														<TableColumn fx:id="colIdentified" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-														<TableColumn fx:id="colRecover" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+														<TableColumn fx:id="colId" editable="false"
+															prefWidth="25.0" text="#" />
+														<TableColumn fx:id="colTitle" editable="false"
+															prefWidth="75.0" text="Title" />
+														<TableColumn fx:id="colMoz" editable="false"
+															prefWidth="50.0" text="M/z" />
+														<TableColumn fx:id="colInt" editable="false"
+															prefWidth="50.0" text="Intensity" />
+														<TableColumn fx:id="colCharge" editable="false"
+															prefWidth="50.0" text="Charge" />
+														<TableColumn fx:id="colRT" editable="false"
+															prefWidth="50.0" text="RT" />
+														<TableColumn fx:id="colNbFragments" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
+														<TableColumn fx:id="colUPN" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="UPN" />
+														<TableColumn fx:id="colIdentified" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Identified" />
+														<TableColumn fx:id="colRecover" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Recover" />
 													</columns>
 													<contextMenu>
 														<ContextMenu>
@@ -49,55 +63,69 @@
 															</items>
 														</ContextMenu>
 													</contextMenu>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
+													<columnResizePolicy>
+														<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+													</columnResizePolicy>
 												</TableView>
 												<BorderPane prefHeight="309.0" prefWidth="638.0">
 													<left>
-														<AnchorPane fx:id="filterAnchor" prefHeight="282.0" prefWidth="79.0" BorderPane.alignment="CENTER">
+														<AnchorPane fx:id="filterAnchor" prefHeight="282.0"
+															prefWidth="79.0" BorderPane.alignment="CENTER">
 															<children>
-																<Label fx:id="infoHIT" layoutY="2.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoLIT" layoutY="52.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoFI" layoutX="1.0" layoutY="104.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoWC" layoutY="157.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoIS" layoutY="208.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoIR" layoutY="259.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
-                                                <Label layoutX="1.0" layoutY="-13.0" prefHeight="43.0" prefWidth="72.0" text="HIT : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="1.0" layoutY="39.0" prefHeight="43.0" prefWidth="72.0" text="LIT : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="2.0" layoutY="91.0" prefHeight="43.0" prefWidth="72.0" text="FI : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="2.0" layoutY="144.0" prefHeight="43.0" prefWidth="72.0" text="WC : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="3.0" layoutY="194.0" prefHeight="43.0" prefWidth="72.0" text="IS : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label layoutX="2.0" layoutY="258.0" prefHeight="20.0" prefWidth="72.0" text="IR : ">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="14.0" />
-                                                   </font>
-                                                </Label>
+																<Label fx:id="infoHIT" layoutY="2.0" prefHeight="44.0"
+																	prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoLIT" layoutY="52.0" prefHeight="44.0"
+																	prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoFI" layoutX="1.0" layoutY="104.0"
+																	prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoWC" layoutY="157.0" prefHeight="44.0"
+																	prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoIS" layoutY="208.0" prefHeight="44.0"
+																	prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoIR" layoutY="259.0" prefHeight="44.0"
+																	prefWidth="78.0" style="-fx-border-style: solid;" />
+																<Label layoutX="1.0" layoutY="-13.0" prefHeight="43.0"
+																	prefWidth="72.0" text="HIT : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="1.0" layoutY="39.0" prefHeight="43.0"
+																	prefWidth="72.0" text="LIT : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="91.0" prefHeight="43.0"
+																	prefWidth="72.0" text="FI : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="144.0" prefHeight="43.0"
+																	prefWidth="72.0" text="WC : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="3.0" layoutY="194.0" prefHeight="43.0"
+																	prefWidth="72.0" text="IS : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="258.0" prefHeight="20.0"
+																	prefWidth="72.0" text="IR : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
 															</children>
 														</AnchorPane>
 													</left>
 													<center>
-														<SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
+														<SwingNode fx:id="swingNodeForChart"
+															BorderPane.alignment="CENTER" />
 													</center>
 												</BorderPane>
 											</items>
@@ -113,24 +141,37 @@
 				</AnchorPane>
 				<AnchorPane prefHeight="480.0" prefWidth="640.0">
 					<children>
-						<BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+						<BorderPane prefHeight="480.0" prefWidth="640.0"
+							AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+							AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<center>
 								<BorderPane BorderPane.alignment="CENTER">
 									<center>
-										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
+										<SplitPane dividerPositions="0.33256880733944955"
+											orientation="VERTICAL" BorderPane.alignment="CENTER">
 											<items>
 												<TableView fx:id="table1">
 													<columns>
-														<TableColumn fx:id="colId1" editable="false" prefWidth="25.0" text="#" />
-														<TableColumn fx:id="colTitle1" editable="false" prefWidth="75.0" text="Title" />
-														<TableColumn fx:id="colMoz1" editable="false" prefWidth="50.0" text="M/z" />
-														<TableColumn fx:id="colInt1" editable="false" prefWidth="50.0" text="Intensity" />
-														<TableColumn fx:id="colCharge1" editable="false" prefWidth="50.0" text="Charge" />
-														<TableColumn fx:id="colRT1" editable="false" prefWidth="50.0" text="RT" />
-														<TableColumn fx:id="colNbFragments1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-														<TableColumn fx:id="colUPN1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-														<TableColumn fx:id="colIdentified1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-														<TableColumn fx:id="colRecover1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+														<TableColumn fx:id="colId1" editable="false"
+															prefWidth="25.0" text="#" />
+														<TableColumn fx:id="colTitle1" editable="false"
+															prefWidth="75.0" text="Title" />
+														<TableColumn fx:id="colMoz1" editable="false"
+															prefWidth="50.0" text="M/z" />
+														<TableColumn fx:id="colInt1" editable="false"
+															prefWidth="50.0" text="Intensity" />
+														<TableColumn fx:id="colCharge1" editable="false"
+															prefWidth="50.0" text="Charge" />
+														<TableColumn fx:id="colRT1" editable="false"
+															prefWidth="50.0" text="RT" />
+														<TableColumn fx:id="colNbFragments1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
+														<TableColumn fx:id="colUPN1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="UPN" />
+														<TableColumn fx:id="colIdentified1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Identified" />
+														<TableColumn fx:id="colRecover1" editable="false"
+															prefWidth="50.0" sortType="DESCENDING" text="Recover" />
 													</columns>
 													<contextMenu>
 														<ContextMenu>
@@ -139,16 +180,18 @@
 															</items>
 														</ContextMenu>
 													</contextMenu>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
+													<columnResizePolicy>
+														<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+													</columnResizePolicy>
 												</TableView>
 												<BorderPane prefHeight="200.0" prefWidth="200.0">
 													<left>
-														<AnchorPane fx:id="filterAnchor1" BorderPane.alignment="CENTER" />
+														<AnchorPane fx:id="filterAnchor1"
+															BorderPane.alignment="CENTER" />
 													</left>
 													<center>
-														<SwingNode fx:id="swingNodeForChart1" BorderPane.alignment="CENTER" />
+														<SwingNode fx:id="swingNodeForChart1"
+															BorderPane.alignment="CENTER" />
 													</center>
 												</BorderPane>
 											</items>
@@ -172,14 +215,20 @@
 					<items>
 						<Menu mnemonicParsing="false" text="Open...">
 							<items>
-								<MenuItem fx:id="mnLoadFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoadFirst" text="First peaklist..." />
-								<MenuItem fx:id="mnLoadSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuLoadSecond" text="Second Peaklist..." />
+								<MenuItem fx:id="mnLoadFirstPeaklist" mnemonicParsing="false"
+									onAction="#handleClickMenuLoadFirst" text="First peaklist..." />
+								<MenuItem fx:id="mnLoadSecondPeaklist" mnemonicParsing="false"
+									onAction="#handleClickMenuLoadSecond" text="Second Peaklist..." />
 							</items>
 						</Menu>
 						<Menu mnemonicParsing="false" text="Export...">
 							<items>
-								<MenuItem fx:id="mnExportFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportFirst" text="First peaklist..." />
-								<MenuItem fx:id="mnExportSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportSecond" text="Second Peaklist..." />
+								<MenuItem fx:id="mnExportFirstPeaklist"
+									mnemonicParsing="false" onAction="#handleClickMenuExportFirst"
+									text="First peaklist..." />
+								<MenuItem fx:id="mnExportSecondPeaklist"
+									mnemonicParsing="false" onAction="#handleClickMenuExportSecond"
+									text="Second Peaklist..." />
 							</items>
 						</Menu>
 						<!-- <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" 
@@ -189,45 +238,55 @@
 							shift="UP" shortcut="UP" /> -->
 						<!-- </accelerator> -->
 						<!-- </MenuItem> -->
-						<MenuItem fx:id="mnExportBatch" mnemonicParsing="false" onAction="#handleClickMenuBatch" text="Export in batch...">
+						<MenuItem fx:id="mnExportBatch" mnemonicParsing="false"
+							onAction="#handleClickMenuBatch" text="Export in batch...">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="B"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem fx:id="mnQuit" mnemonicParsing="false" onAction="#handleClickMenuQuit" text="Quit">
+						<MenuItem fx:id="mnQuit" mnemonicParsing="false"
+							onAction="#handleClickMenuQuit" text="Quit">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="W"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Edit">
 					<items>
-						<MenuItem fx:id="mnOpenFilterManager" mnemonicParsing="false" onAction="#handleClickMenuFilters" text="Quality filters...">
+						<MenuItem fx:id="mnOpenFilterManager" mnemonicParsing="false"
+							onAction="#handleClickMenuFilters" text="Quality filters...">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="F"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<MenuItem fx:id="mnOpenParsingRulesManager" mnemonicParsing="false" onAction="#handleClickMenuParsingRules" text="Retention times parsing rules...">
+						<MenuItem fx:id="mnOpenParsingRulesManager"
+							mnemonicParsing="false" onAction="#handleClickMenuParsingRules"
+							text="Retention times parsing rules...">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="R"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
-						<CheckMenuItem fx:id="mnUseFixedAxis" mnemonicParsing="false" onAction="#handleClickMenuFixedAxis" text="Use fixed axis">
+						<CheckMenuItem fx:id="mnUseFixedAxis"
+							mnemonicParsing="false" onAction="#handleClickMenuFixedAxis"
+							text="Use fixed axis">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="F"
+									control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
 							</accelerator>
 						</CheckMenuItem>
+						<MenuItem fx:id="mnIdentifiedSpectra" mnemonicParsing="false"
+							onAction="#handleClickMenuIdendifiedSpectra" text="Identified Spectra ..." />
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<CheckMenuItem fx:id="mnCheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForIdentified" text="Check 'Recover' for 'identified' spectra" />
-						<CheckMenuItem fx:id="mnUncheckRecoverForIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForIdentified" text="Uncheck 'Recover' for 'identified' spectra" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<CheckMenuItem fx:id="mnCheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleCheckRecoverForNonIdentified" text="Check 'Recover' for 'non-identified' spectra" />
-						<CheckMenuItem fx:id="mnUncheckRecoverForNonIdentified" mnemonicParsing="false" onAction="#handleUncheckRecoverForNonIdentified" text="Uncheck 'Recover' for 'non-identified' spectra" />
-						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem fx:id="mnResetRecover" mnemonicParsing="false" onAction="#handleClickMenuResetRecover" text="Reset Recover">
+						<MenuItem fx:id="mnResetRecover" mnemonicParsing="false"
+							onAction="#handleClickMenuResetRecover" text="Reset Recover">
 							<accelerator>
-								<KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+								<KeyCodeCombination alt="UP" code="R"
+									control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
 					</items>
@@ -241,12 +300,14 @@
 		</MenuBar>
 	</top>
 	<bottom>
-		<HBox prefHeight="36.0" prefWidth="1313.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
+		<HBox prefHeight="36.0" prefWidth="1313.0"
+			style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
 			<children>
 				<Label fx:id="statusBar" textFill="WHITE">
-               <font>
-                  <Font name="Arial Bold" size="14.0" />
-               </font></Label>
+					<font>
+						<Font name="Arial Bold" size="14.0" />
+					</font>
+				</Label>
 			</children>
 		</HBox>
 	</bottom>

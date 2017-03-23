@@ -1,7 +1,6 @@
 package fr.lsmbo.msda.recover.filters;
 
-import fr.lsmbo.msda.recover.Session;
-import fr.lsmbo.msda.recover.lists.Spectra;
+
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**

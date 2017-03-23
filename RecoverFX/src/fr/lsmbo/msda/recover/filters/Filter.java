@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.filters;
 
-import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
@@ -8,8 +7,7 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
-import fr.lsmbo.msda.recover.view.RecoverController;
-import javafx.scene.control.Alert;
+
 
 /**
  * Calculate and apply different filters to spectra. Recover filters used and
@@ -62,14 +60,6 @@ public class Filter {
 		Spectra spectra = ListOfSpectra.getFirstSpectra();
 
 		Integer nb = spectra.getSpectraAsObservable().size();
-
-		// Apply filter identified spectra for all the title wrote
-		if (filterIS != null) {
-			for (String t : filterIS.getArrayTitles()) {
-				filterIS.setIdentified(t);
-			}
-
-		}
 
 		// TODO find a way to get all methods from this package
 		// Scan all the spectrum
@@ -147,9 +137,6 @@ public class Filter {
 					// If the previous filter return a false value for recover,
 					// move to the next spectrum
 					if (spectrum.getIsRecover() == false) {
-						// if (Filters.getFilterAsAnArray().get(j) == 1){
-						// filterLIT.isValid(spectrum);
-						// }
 						break;
 					}
 					if (spectrum.getIsRecover() == true) {
@@ -265,15 +252,12 @@ public class Filter {
 					// Initialize parameter for an ion(i)
 					filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
 
-					if (k >= 1)
-						spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
-					else
-						spectrum.setIsRecover(filterIR.isValid(spectrum));
+					if (filterIR.isValid(spectrum)) {
+						spectrum.setIsRecoverIR(StatusFilterType.TRUE);
+						break;
+					} else
+						spectrum.setIsRecoverIR(StatusFilterType.FALSE);
 				}
-				if (spectrum.getIsRecover())
-					spectrum.setIsRecoverIR(StatusFilterType.TRUE);
-				else
-					spectrum.setIsRecoverIR(StatusFilterType.FALSE);
 			}
 		}
 	}

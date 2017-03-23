@@ -2,7 +2,7 @@ package fr.lsmbo.msda.recover.view;
 
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.ParsingRules;
-import fr.lsmbo.msda.recover.lists.Spectra;
+
 import fr.lsmbo.msda.recover.model.ParsingRule;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.collections.FXCollections;

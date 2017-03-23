@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.filters;
 
-import fr.lsmbo.msda.recover.lists.Spectra;
+
 import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -19,7 +19,7 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class LowIntensityThreasholdFilter implements BasicFilter {
 
-	private int emergence;
+	private float emergence;
 	private int minUPN;
 	private int maxUPN;
 	private ComputationTypes mode;
@@ -28,7 +28,7 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 1;
 
-	public void setParameters(int _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
+	public void setParameters(float _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
 		emergence = _emergence;
 		minUPN = _minUPN;
 		maxUPN = _maxUPN;
@@ -88,7 +88,7 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 		return isUsed;
 	}
 
-	public int getEmergence() {
+	public float getEmergence() {
 		return emergence;
 	}
 

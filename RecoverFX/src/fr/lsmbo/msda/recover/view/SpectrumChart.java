@@ -45,7 +45,7 @@ public class SpectrumChart {
 			float intensity = f.getIntensity();
 
 			// Any filter applied => all fragment in blue
-			if (Filters.nbFilterUsed() == 0) {
+			if (Filters.getFilters().get("HIT") == null && Filters.getFilters().get("LIT") == null) {
 				series2.add(mz, intensity);
 			}
 
@@ -177,7 +177,7 @@ public class SpectrumChart {
 				Layer.BACKGROUND);
 		if (Filters.getFilters().get("LIT") != null) {
 			LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
-			int emergence = filterLIT.getEmergence();
+			float emergence = filterLIT.getEmergence();
 			String mode = filterLIT.getMode().toString();
 			// raw baseline if chosen
 			if (mode == "MEDIAN")

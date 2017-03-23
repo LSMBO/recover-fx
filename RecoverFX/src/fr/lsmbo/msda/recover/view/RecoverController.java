@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.view;
 
-import java.beans.EventHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -24,13 +24,10 @@ import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
-import fr.lsmbo.msda.recover.model.Fragment;
-import fr.lsmbo.msda.recover.model.IonReporter;
+
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
-import fr.lsmbo.msda.recover.model.StatusFilterType;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,14 +38,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
+
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -92,13 +88,7 @@ public class RecoverController {
 	@FXML
 	private CheckMenuItem mnUseFixedAxis;
 	@FXML
-	private CheckMenuItem mnCheckRecoverForIdentified;
-	@FXML
-	private CheckMenuItem mnUncheckRecoverForIdentified;
-	@FXML
-	private CheckMenuItem mnCheckRecoverForNonIdentified;
-	@FXML
-	private CheckMenuItem mnUncheckRecoverForNonIdentified;
+	private MenuItem mnIdentifiedSpectra;
 	@FXML
 	private MenuItem mnResetRecover;
 	@FXML
@@ -514,6 +504,8 @@ public class RecoverController {
 			System.exit(0);
 		}
 	}
+	
+	
 
 	@FXML
 	private void handleClickMenuFilters() {
@@ -527,7 +519,7 @@ public class RecoverController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			FilterController2 controller = loader.getController();
+			FilterController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();
@@ -568,6 +560,26 @@ public class RecoverController {
 			spectrumChart.changeAxisRange();
 		}
 	}
+	
+	@FXML
+	private void handleClickMenuIdendifiedSpectra(){
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Views.IDENTIFIED_SPECTRA);
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage identifiedSpectraStage = new Stage();
+			identifiedSpectraStage.setTitle("Identified Spectra");
+			identifiedSpectraStage.initModality(Modality.WINDOW_MODAL);
+			identifiedSpectraStage.initOwner(this.dialogStage);
+			Scene scene = new Scene(page);
+			identifiedSpectraStage.setScene(scene);
+			IdentifiedSpectraController controller = loader.getController();
+			controller.setDialogStage(identifiedSpectraStage);
+			identifiedSpectraStage.showAndWait();
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	private void handleClickMenuResetRecover() {
@@ -579,47 +591,47 @@ public class RecoverController {
 		Filters.resetHashMap();
 	}
 
-	@FXML
-	private void handleCheckRecoverForIdentified() {
-		if (mnCheckRecoverForIdentified.isSelected()) {
-			mnUncheckRecoverForIdentified.setSelected(false);
-			IdentifiedSpectraFilter.setCheckRecoverIdentified(true);
-			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
-		} else {
-			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
-		}
-	}
-
-	@FXML
-	private void handleUncheckRecoverForIdentified() {
-		if (mnUncheckRecoverForIdentified.isSelected()) {
-			mnCheckRecoverForIdentified.setSelected(false);
-			IdentifiedSpectraFilter.setUncheckRecoverIdentified(true);
-			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
-		} else
-			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
-	}
-
-	@FXML
-	private void handleCheckRecoverForNonIdentified() {
-		if (mnCheckRecoverForNonIdentified.isSelected()) {
-			mnUncheckRecoverForNonIdentified.setSelected(false);
-			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(true);
-			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
-		} else
-			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
-	}
-
-	@FXML
-	private void handleUncheckRecoverForNonIdentified() {
-		if (mnUncheckRecoverForNonIdentified.isSelected()) {
-			mnCheckRecoverForNonIdentified.setSelected(false);
-			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(true);
-			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
-		} else
-			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
-
-	}
+//	@FXML
+//	private void handleCheckRecoverForIdentified() {
+//		if (mnCheckRecoverForIdentified.isSelected()) {
+//			mnUncheckRecoverForIdentified.setSelected(false);
+//			IdentifiedSpectraFilter.setCheckRecoverIdentified(true);
+//			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
+//		} else {
+//			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
+//		}
+//	}
+//
+//	@FXML
+//	private void handleUncheckRecoverForIdentified() {
+//		if (mnUncheckRecoverForIdentified.isSelected()) {
+//			mnCheckRecoverForIdentified.setSelected(false);
+//			IdentifiedSpectraFilter.setUncheckRecoverIdentified(true);
+//			IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
+//		} else
+//			IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
+//	}
+//
+//	@FXML
+//	private void handleCheckRecoverForNonIdentified() {
+//		if (mnCheckRecoverForNonIdentified.isSelected()) {
+//			mnUncheckRecoverForNonIdentified.setSelected(false);
+//			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(true);
+//			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
+//		} else
+//			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
+//	}
+//
+//	@FXML
+//	private void handleUncheckRecoverForNonIdentified() {
+//		if (mnUncheckRecoverForNonIdentified.isSelected()) {
+//			mnCheckRecoverForNonIdentified.setSelected(false);
+//			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(true);
+//			IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
+//		} else
+//			IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
+//
+//	}
 
 	
 	
