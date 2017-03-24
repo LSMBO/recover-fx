@@ -24,7 +24,7 @@ import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
-
+import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
 
@@ -491,6 +491,33 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuBatch() {
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
+		int nbSpectra = spectra.getSpectraAsObservable().size();
+		LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter();
+		
+		float emergence = 0.1F;
+		int minUPN = 3;
+		int maxUPN = 1000;
+		ComputationTypes mode = ComputationTypes.MEDIAN;
+		Boolean nbRecoverMax = true;
+		
+		while(nbRecoverMax){
+			filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
+			for(int i=0; i<nbSpectra;i++){
+				Spectrum spectrum = spectra.getSpectraAsObservable().get(i);
+				spectrum.setIsRecover(filterLIT.isValid(spectrum));
+			}
+			spectra.checkRecoveredAndIdentifiedSpectra();
+			if(spectra.getNbRecover()==nbSpectra){
+				emergence += 0.1F;
+			}
+			else{
+				System.out.println(spectra.getNbRecover() + " spectra recovered over " + nbSpectra + " spectra");
+				nbRecoverMax = false;
+			}
+		}
+		System.out.println("The final emergence was : " + (emergence -0.1)) ;
+
 	}
 
 	@FXML

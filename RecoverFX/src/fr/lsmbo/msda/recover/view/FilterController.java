@@ -446,6 +446,7 @@ public class FilterController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT", "*.txt"));
 		File loadFile = fileChooser.showOpenDialog(this.dialogStage);
 		FiltersReader.load(loadFile);
+		initialize();
 	}
 
 	@FXML
