@@ -186,18 +186,23 @@ public class FilterController {
 		colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
 		colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
 
-		// Keep in memory parameters passed previously
-		if (Filters.nbFilterUsed() != 0)
 
-			// initialize previous values of the filterHIT
-			if ((Filters.getFilters().get("HIT")) != null) {
-				filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
-				checkBoxHighIntensityThresholdFilter.setSelected(true);
-				checkHighIntensityThresholdFilter();
-				mostIntensePeaksToConsider.setText(Integer.toString(filterHIT.getNbMostIntensePeaksToConsider()));
-				percentageOfTopLine.setText(Float.toString(filterHIT.getPercentageOfTopLine()));
-				maxNbPeaks.setText(Integer.toString(filterHIT.getMaxNbPeaks()));
-			}
+
+		// initialize previous values of the filterHIT
+		if ((Filters.getFilters().get("HIT")) != null) {
+			filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+			checkBoxHighIntensityThresholdFilter.setSelected(true);
+			checkHighIntensityThresholdFilter();
+			mostIntensePeaksToConsider.setText(Integer.toString(filterHIT.getNbMostIntensePeaksToConsider()));
+			percentageOfTopLine.setText(Float.toString(filterHIT.getPercentageOfTopLine()));
+			maxNbPeaks.setText(Integer.toString(filterHIT.getMaxNbPeaks()));
+		} else{
+			checkBoxHighIntensityThresholdFilter.setSelected(false);
+			checkHighIntensityThresholdFilter();
+			mostIntensePeaksToConsider.clear();
+			percentageOfTopLine.clear();
+			maxNbPeaks.clear();
+		}
 
 		// initialize previous values of the filterLIT
 		if ((Filters.getFilters().get("LIT")) != null) {
@@ -209,6 +214,13 @@ public class FilterController {
 			maxUPN.setText(Integer.toString(filterLIT.getMaxUPN()));
 			if (filterLIT.getMode() == ComputationTypes.MEDIAN)
 				modeBaseline.getSelectionModel().selectLast();
+		} else{
+			checkBoxLowIntensityThresholdFilter.setSelected(false);
+			checkLowIntensityThresholdFilter();
+			emergence.clear();
+			minUPN.clear();
+			maxUPN.clear();
+			modeBaseline.getSelectionModel().selectFirst();
 		}
 
 		// initialize previous values of the filterFI
@@ -218,10 +230,17 @@ public class FilterController {
 			checkFragmentIntensityFilter();
 			fragmentIntensity.setText(Integer.toString(filterFI.getIntensityFragment()));
 			comparatorFragmentIntensity.getSelectionModel().select(setIntegerToFragmentComparator());
+		} else{
+			checkBoxFragmentIntensityFilter.setSelected(false);
+			checkFragmentIntensityFilter();
+			fragmentIntensity.clear();
+			comparatorFragmentIntensity.getSelectionModel().selectFirst();
 		}
 
 		if ((Filters.getFilters().get("WC")) != null) {
 			checkBoxWrongChargeFilter.setSelected(true);
+		} else{
+			checkBoxWrongChargeFilter.setSelected(false);
 		}
 
 		// initialize previous values of the filterIS
@@ -236,12 +255,21 @@ public class FilterController {
 			// allTitle += st + "\n";
 			// }
 			// titles.setText(allTitle);
+		} else{
+			checkBoxIdentifiedSpectraFilter.setSelected(false);
+			checkIdentifiedSpectraFilter();
+			checkRecoverForIdentified.setSelected(false);
+			checkRecoverForNonIdentified.setSelected(false);
 		}
 
 		if ((Filters.getFilters().get("IR")) != null) {
 			filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
 			checkBoxIonReporterFilter.setSelected(true);
 			checkIonReporterFilter();
+		} else{
+			checkBoxIonReporterFilter.setSelected(false);
+			checkIonReporterFilter();
+			resetIonToTableView();
 		}
 	}
 

@@ -20,8 +20,11 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 public class FiltersWriter {
 
 	public static void saveFilter(File file) {
+		
 		Date actualDate = Calendar.getInstance().getTime();
 		String nom = System.getProperty("user.name");
+		
+		//get back all the filter
 		HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
 		LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
 		FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
@@ -33,6 +36,7 @@ public class FiltersWriter {
 			BufferedWriter filterSettings = new BufferedWriter(new FileWriter(file));
 			filterSettings.write("User :" + nom + ", Date :" + actualDate +"{");
 
+			//write into the file the state of filter HIT, if not used -> false, if used -> true with its parameters
 			if (filterHIT == null) {
 				filterSettings.write("\"filterHIT\" :false, ");
 			} else {
@@ -43,6 +47,7 @@ public class FiltersWriter {
 						+ ", \"percentageOfTopLine\" :" + percentageOfTopLine + ", \"maxNbPeaks\" :" + maxNbPeaks +", ");
 			}
 
+			//write into the file the state of filter LIT, if not used -> false, if used -> true with its parameters
 			if (filterLIT == null) {
 				filterSettings.write("\"filterLIT\" :false, ");
 			} else {
@@ -54,6 +59,7 @@ public class FiltersWriter {
 						+ ", \"maxUPN\" :" + maxUPN + ", \"mode\" :" + mode +", ");
 			}
 
+			//write into the file the state of filter FI, if not used -> false, if used -> true with its parameters
 			if (filterFI == null) {
 				filterSettings.write("\"filterFI\" :false, ");
 			} else {
@@ -64,12 +70,14 @@ public class FiltersWriter {
 
 			}
 
+			//write into the file the state of filter WC, if not used -> false, if used -> true
 			if (filterWC == null) {
 				filterSettings.write("\"filterWC\" :false, ");
 			} else {
 				filterSettings.write("\"filterWC\" :true, ");
 			}
 
+			//write into the file the state of filter IS, if not used -> false, if used -> true with its parameters
 			if (filterIS == null) {
 				filterSettings.write("\"filterIS\" :false, ");
 			} else {
@@ -79,6 +87,7 @@ public class FiltersWriter {
 						+ ", \"checkRecoverNonIdentified\" :" + checkRecoverNonIdentified + ", ");
 			}
 
+			//write into the file the state of filter IR, if not used -> false, if used -> true with its parameters
 			if (filterIR == null) {
 				filterSettings.write("\"filterIR\" :false");
 			} else {

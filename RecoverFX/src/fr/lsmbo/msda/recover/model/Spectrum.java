@@ -11,9 +11,12 @@ import fr.lsmbo.msda.recover.Session;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
+
 public class Spectrum {
 
 	private Integer id = 0;
+
+	
 	private float mz = 0; // maybe we should use BigDecimal instead for
 							// precision ?
 	private float intensity = 0; // maybe we should use BigDecimal instead for
@@ -447,5 +450,7 @@ public class Spectrum {
 	public void setNbFragmentAboveHIT(int nb){
 		this.nbFragmentAboveHIT = nb;
 	}
+	
+
 	
 }

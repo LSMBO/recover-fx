@@ -9,11 +9,14 @@ import java.io.IOException;
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
+import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.lists.Filters;
+import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
+import fr.lsmbo.msda.recover.model.IonReporter;
 
 public class FiltersReader {
 
@@ -22,11 +25,14 @@ public class FiltersReader {
 		try (BufferedReader reader = new BufferedReader(new FileReader(loadFile))) {
 
 			String line = reader.readLine();
+			
+			//get back the index of {} to save only the information about filters in a new string
 			int firstIndex = line.indexOf("{");
 			int lastIndex = line.indexOf("}");
 			String allFilters = line.substring(firstIndex + 1, lastIndex);
 			int end = allFilters.length();
 
+			//get back index of different filter to save a specific filter in a specific string
 			int indexHIT = allFilters.indexOf("\"filterHIT\"");
 			int indexLIT = allFilters.indexOf("\"filterLIT\"");
 			int indexFI = allFilters.indexOf("\"filterFI\"");
@@ -35,25 +41,30 @@ public class FiltersReader {
 			int indexIR = allFilters.indexOf("\"filterIR\"");
 
 			String settingsHIT = allFilters.substring(indexHIT, indexLIT - 2);
-			System.out.println(settingsHIT);
+//			System.out.println(settingsHIT);
 			String settingsLIT = allFilters.substring(indexLIT, indexFI - 2);
-			System.out.println(settingsLIT);
+//			System.out.println(settingsLIT);
 			String settingsFI = allFilters.substring(indexFI, indexWC - 2);
-			System.out.println(settingsFI);
+//			System.out.println(settingsFI);
 			String settingsWC = allFilters.substring(indexWC, indexIS - 2);
-			System.out.println(settingsWC);
+//			System.out.println(settingsWC);
 			String settingsIS = allFilters.substring(indexIS, indexIR - 2);
-			System.out.println(settingsIS);
+//			System.out.println(settingsIS);
 			String settingsIR = allFilters.substring(indexIR, end);
-			System.out.println(settingsIR);
+//			System.out.println(settingsIR);
 
+			
 			if (settingsHIT.contains("false")) {
 				Filters.add("HIT", null);
 			} else {
+				
+				//find the position of dualpoint and comma to get back the parameter wanted
 				int dualPointMost = settingsHIT.indexOf(":", settingsHIT.indexOf("most"));
 				int commaMost = settingsHIT.indexOf(",", dualPointMost);
+				
 				int dualPointPercentage = settingsHIT.indexOf(":", settingsHIT.indexOf("percentage"));
 				int commaPercentage = settingsHIT.indexOf(",", dualPointPercentage);
+				
 				int dualPointMax = settingsHIT.indexOf(":", settingsHIT.indexOf("max"));
 
 				int mostIntensePeaksToConsider = Integer.parseInt(settingsHIT.substring(dualPointMost + 1, commaMost));
@@ -61,6 +72,7 @@ public class FiltersReader {
 						.parseFloat(settingsHIT.substring(dualPointPercentage + 1, commaPercentage));
 				int maxNbPeaks = Integer.parseInt(settingsHIT.substring(dualPointMax + 1));
 
+				//instanciate the filter with its parameters
 				HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
 				filterHIT.setParameters(mostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
 				Filters.add("HIT", filterHIT);
@@ -127,6 +139,23 @@ public class FiltersReader {
 
 			if (settingsIR.contains("false")) {
 				Filters.add("IR", null);
+			} else {
+				String[] ionReporter = ionReporterAsAnArray(settingsIR);
+				for(String string: ionReporter){
+					int dualPointName = string.indexOf(":", string.indexOf("Ion reporter"));
+					int commaName = string.indexOf(",", dualPointName);
+					int dualPointMoz = string.indexOf(":", string.indexOf("m/z"));
+					int commaMoz = string.indexOf(",", dualPointMoz);
+					int dualPointTolerance = string.indexOf(":", string.indexOf("tolerance"));
+					
+					String name = string.substring(dualPointName + 1, commaName);
+					float moz = Float.parseFloat(string.substring(dualPointMoz + 1, commaMoz));
+					float tolerance = Float.parseFloat(string.substring(dualPointTolerance + 1));
+					
+					IonReporters.add(new IonReporter(name,moz,tolerance));
+					IonReporterFilter filterIR = new IonReporterFilter();
+					Filters.add("IR", filterIR);
+				}
 			}
 
 		} catch (FileNotFoundException e) {
@@ -135,4 +164,39 @@ public class FiltersReader {
 			e.printStackTrace();
 		}
 	}
+	
+	public static int countNbIon(String string){
+		int nbIonReporter=0 ;
+		for(int i=0; i < string.length(); i++){
+			if(string.charAt(i)==']'){
+				nbIonReporter++;
+			}
+		}
+		return nbIonReporter;
+	}
+	
+	public static String[] ionReporterAsAnArray(String string){
+		int nbIonReporter = countNbIon(string);
+		String[] array = new String[nbIonReporter];
+		int lastInstanceClosingBracket = 0;
+		
+		for(int i=0; i < nbIonReporter;i++){
+			if(i==0){
+				int firstOpeningBracket = string.indexOf("[");
+				int firstClosingBracket = string.indexOf("]");
+				lastInstanceClosingBracket = firstClosingBracket + 1;
+				String firstIonReporter = string.substring(firstOpeningBracket+1, firstClosingBracket);
+				array[i]=firstIonReporter;
+			}
+			if(i>0){
+				int nextOpeningBracket = string.indexOf("[",lastInstanceClosingBracket);
+				int nextClosingBracket = string.indexOf("]",lastInstanceClosingBracket);
+				lastInstanceClosingBracket = nextClosingBracket + 1;
+				String nextIonReporter = string.substring(nextOpeningBracket+1, nextClosingBracket);
+				array[i]=nextIonReporter;
+			}
+		}
+		return array;
+	}
+	
 }

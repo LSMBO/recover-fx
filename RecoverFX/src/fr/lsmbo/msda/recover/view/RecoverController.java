@@ -27,7 +27,7 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
-
+import fr.lsmbo.msda.recover.model.StatusFilterType;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +41,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -171,6 +171,10 @@ public class RecoverController {
 		// define spectrum list
 		table.setItems(spectra.getSpectraAsObservable());
 		colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
+		
+		
+		
+		
 		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
 		colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
@@ -233,12 +237,96 @@ public class RecoverController {
 				Filter filter = new Filter();
 				filter.applyFiltersForOneSpectrum(sp);
 				
-				infoHIT.setText(sp.getIsRecoverHIT().toString());
-				infoLIT.setText(sp.getIsRecoverLIT().toString());
-				infoFI.setText(sp.getIsRecoverFI().toString());
-				infoWC.setText(sp.getIsRecoverWC().toString());
-				infoIS.setText(sp.getIsRecoverIS().toString());
-				infoIR.setText(sp.getIsRecoverIR().toString());
+				//Filter HIT
+				if(sp.getIsRecoverHIT()==StatusFilterType.TRUE){
+					infoHIT.setText(sp.getIsRecoverHIT().toString());
+					infoHIT.setTextFill(Color.GREEN);
+					infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverHIT()==StatusFilterType.FALSE){
+					infoHIT.setText(sp.getIsRecoverHIT().toString());
+					infoHIT.setTextFill(Color.RED);
+					infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoHIT.setText(sp.getIsRecoverHIT().toString());
+				}
+				
+				//Filter LIT
+				if(sp.getIsRecoverLIT()==StatusFilterType.TRUE){
+					infoLIT.setText(sp.getIsRecoverLIT().toString());
+					infoLIT.setTextFill(Color.GREEN);
+					infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverLIT()==StatusFilterType.FALSE){
+					infoLIT.setText(sp.getIsRecoverLIT().toString());
+					infoLIT.setTextFill(Color.RED);
+					infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoLIT.setText(sp.getIsRecoverLIT().toString());
+				}
+				
+				//Filter FI
+				if(sp.getIsRecoverFI()==StatusFilterType.TRUE){
+					infoFI.setText(sp.getIsRecoverFI().toString());
+					infoFI.setTextFill(Color.GREEN);
+					infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverFI()==StatusFilterType.FALSE){
+					infoFI.setText(sp.getIsRecoverFI().toString());
+					infoFI.setTextFill(Color.RED);
+					infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoFI.setText(sp.getIsRecoverFI().toString());
+				}
+				
+				//Filter WC
+				if(sp.getIsRecoverWC()==StatusFilterType.TRUE){
+					infoWC.setText(sp.getIsRecoverWC().toString());
+					infoWC.setTextFill(Color.GREEN);
+					infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverWC()==StatusFilterType.FALSE){
+					infoWC.setText(sp.getIsRecoverWC().toString());
+					infoWC.setTextFill(Color.RED);
+					infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoWC.setText(sp.getIsRecoverWC().toString());
+				}
+				
+				//Filter IS
+				if(sp.getIsRecoverIS()==StatusFilterType.TRUE){
+					infoIS.setText(sp.getIsRecoverIS().toString());
+					infoIS.setTextFill(Color.GREEN);
+					infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverIS()==StatusFilterType.FALSE){
+					infoIS.setText(sp.getIsRecoverIS().toString());
+					infoIS.setTextFill(Color.RED);
+					infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoIS.setText(sp.getIsRecoverIS().toString());
+				}
+				
+				//Filter IR
+				if(sp.getIsRecoverIR()==StatusFilterType.TRUE){
+					infoIR.setText(sp.getIsRecoverIR().toString());
+					infoIR.setTextFill(Color.GREEN);
+					infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else if(sp.getIsRecoverIR()==StatusFilterType.FALSE){
+					infoIR.setText(sp.getIsRecoverIR().toString());
+					infoIR.setTextFill(Color.RED);
+					infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+				}
+				else{
+					infoIR.setText(sp.getIsRecoverIR().toString());
+				}
+
 			
 					// Tooltip for HIT and its parameters
 				try {

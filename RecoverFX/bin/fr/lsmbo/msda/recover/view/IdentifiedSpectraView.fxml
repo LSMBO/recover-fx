@@ -51,7 +51,7 @@
 								<Insets left="225.0" top="2.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="importTitlesFromExcel" mnemonicParsing="false"
+						<Button fx:id="importTitlesFromExcel" mnemonicParsing="false" onAction="#importExcelFile"
 							text="Import from Excel...">
 							<HBox.margin>
 								<Insets left="110.0" top="2.0" />
