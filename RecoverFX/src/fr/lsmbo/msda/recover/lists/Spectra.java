@@ -144,4 +144,16 @@ public class Spectra {
 
 		return specificSpectrum;
 	}
+	
+	public void resetRecover(){
+		for (Spectrum sp : getSpectraAsObservable()) {
+			sp.setIsRecover(false);
+		}
+	}
+	
+	public void resetIdentified(){
+		for (Spectrum sp : getSpectraAsObservable()){
+			sp.setIsIdentified(false);
+		}
+	}
 }

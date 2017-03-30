@@ -8,58 +8,55 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="319.0" prefWidth="501.0"
-	xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="fr.lsmbo.msda.recover.view.IdentifiedSpectraController">
+<AnchorPane prefHeight="319.0" prefWidth="501.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.IdentifiedSpectraController">
 	<children>
 		<BorderPane prefHeight="320.0" prefWidth="501.0">
 			<center>
 				<GridPane BorderPane.alignment="CENTER">
 					<columnConstraints>
-						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"
-							prefWidth="100.0" />
+						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
 					</columnConstraints>
 					<rowConstraints>
-						<RowConstraints maxHeight="154.0" minHeight="10.0"
-							prefHeight="70.0" vgrow="SOMETIMES" />
-						<RowConstraints maxHeight="260.0" minHeight="10.0"
-							prefHeight="250.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="154.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+						<RowConstraints maxHeight="260.0" minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
 					</rowConstraints>
 					<children>
-						<Label prefHeight="81.0" prefWidth="504.0"
-							text="Please insert below the title of your spectrum you want to identify.  Just one title per line !"
-							textAlignment="JUSTIFY" textFill="#9e1717" wrapText="true">
+						<Label prefHeight="81.0" prefWidth="504.0" text="Please insert below the title of your spectrum you want to identify.  Just one title per line !" textAlignment="JUSTIFY" textFill="#9e1717" wrapText="true">
 							<font>
 								<Font size="18.0" />
 							</font>
 						</Label>
-						<TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0"
-							GridPane.rowIndex="1" />
+						<TextArea fx:id="titles" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
 					</children>
 				</GridPane>
 			</center>
-			<bottom>
-				<HBox prefHeight="30.0" prefWidth="501.0" BorderPane.alignment="CENTER">
-					<children>
-						<Button fx:id="apply" mnemonicParsing="false"
-							onAction="#applyIdentificationOfSpectrum" text="Apply">
-							<HBox.margin>
-								<Insets left="225.0" top="2.0" />
-							</HBox.margin>
-						</Button>
-						<Button fx:id="importTitlesFromExcel" mnemonicParsing="false" onAction="#importExcelFile"
-							text="Import from Excel...">
-							<HBox.margin>
-								<Insets left="110.0" top="2.0" />
-							</HBox.margin>
-						</Button>
-					</children>
-				</HBox>
-			</bottom>
+         <bottom>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="40.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="161.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="80.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="120.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+      						<Button fx:id="apply" mnemonicParsing="false" onAction="#applyIdentificationOfSpectrum" prefHeight="25.0" prefWidth="99.0" text="Apply" GridPane.columnIndex="2" />
+						<Button fx:id="importTitlesFromExcel" mnemonicParsing="false" onAction="#importExcelFile" prefHeight="25.0" prefWidth="119.0" text="Import from Excel..." GridPane.columnIndex="4" />
+                  <Button fx:id="btnDeleteImport" mnemonicParsing="false" onAction="#handleClickDeleteImport" text="X" visible="false">
+                     <GridPane.margin>
+                        <Insets left="5.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Label fx:id="infoExcelFile" prefHeight="36.0" prefWidth="161.0" text="Label" visible="false" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </bottom>
 		</BorderPane>
 	</children>
 </AnchorPane>

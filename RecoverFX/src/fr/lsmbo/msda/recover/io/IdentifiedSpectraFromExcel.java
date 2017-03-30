@@ -15,13 +15,15 @@ import fr.lsmbo.msda.recover.view.IdentifiedSpectraController;
 import javafx.scene.control.TextInputDialog;
 
 public class IdentifiedSpectraFromExcel {
+	private static String title ="";
 
 	public static void load(File file) {
 		try {
+			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
-
+			
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
-
+			
 			TextInputDialog dialog = new TextInputDialog("Ex: For column \"A\" enter \"1\"");
 			dialog.setTitle("Information about your Excel File");
 			dialog.setContentText("Please enter the column of your title");
@@ -59,5 +61,9 @@ public class IdentifiedSpectraFromExcel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String getTitle() {
+		return title;
 	}
 }

@@ -11,12 +11,11 @@ import fr.lsmbo.msda.recover.Session;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-
 public class Spectrum {
 
 	private Integer id = 0;
+	private Boolean isFlagged = false;
 
-	
 	private float mz = 0; // maybe we should use BigDecimal instead for
 							// precision ?
 	private float intensity = 0; // maybe we should use BigDecimal instead for
@@ -33,17 +32,17 @@ public class Spectrum {
 	private float medianFragmentsIntensities = 0;
 	private float averageFragmentsIntensities = 0;
 	private Integer upn = -1;
-	
+
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
 	private final BooleanProperty identified = new SimpleBooleanProperty();
-//	private Boolean isIdentified = false;
-//	private Boolean isRecover = false;
+	// private Boolean isIdentified = false;
+	// private Boolean isRecover = false;
 	private float highIntensityThreshold = Session.HIGH_INTENSITY_THRESHOLD;
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
 	private float topLine = Session.TOP_LINE;
 	private int nbFragmentAboveHIT = 0;
-	
-	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED ;
+
+	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED;
 	private StatusFilterType isRecoverLIT = StatusFilterType.NOT_USED;
 	private StatusFilterType isRecoverFI = StatusFilterType.NOT_USED;
 	private StatusFilterType isRecoverWC = StatusFilterType.NOT_USED;
@@ -65,6 +64,8 @@ public class Spectrum {
 																				// is
 																				// too
 																				// big
+	private Fragment[] eightIntensePeaks = new Fragment[8];
+	private Double[] squareRootEightIntensePeaks = new Double[8];
 
 	public String toString() {
 		return "Spectrum id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge + " title:'" + title
@@ -335,31 +336,51 @@ public class Spectrum {
 	// this.upn = upn;
 	// }
 
-	public BooleanProperty identifiedProperty(){
-		return identified;
+	public Fragment[] getEightIntensePeaks() {
+		int firstValue = getNbFragments() -1 ;
+		int lastValue = firstValue - 8;
+
+		for (int i = firstValue; i > lastValue; i--) {
+			Fragment fragment = getSortedFragments().get(i);
+			eightIntensePeaks[firstValue - i] = fragment;
+		}
+		return eightIntensePeaks;
 	}
 	
+	public Double[] getSquareRootEightIntensePeaks(){
+		for(int i=0; i<8;i++){
+			Fragment fragment = getEightIntensePeaks()[i];
+			float intensity = fragment.getIntensity();
+			squareRootEightIntensePeaks[i] = Math.sqrt(intensity);
+		}
+		return squareRootEightIntensePeaks;
+	}
+
+	public BooleanProperty identifiedProperty() {
+		return identified;
+	}
+
 	public Boolean getIsIdentified() {
-//		return isIdentified;
+		// return isIdentified;
 		return identified.get();
 	}
 
 	public void setIsIdentified(Boolean isIdentified) {
-//		this.isIdentified = isIdentified;
+		// this.isIdentified = isIdentified;
 		this.identified.set(isIdentified);
 	}
 
-	public BooleanProperty recoveredProperty(){
+	public BooleanProperty recoveredProperty() {
 		return recovered;
 	}
-	
+
 	public Boolean getIsRecover() {
-//		return isRecover;
+		// return isRecover;
 		return recovered.get();
 	}
 
 	public void setIsRecover(Boolean isRecover) {
-//		this.isRecover = isRecover;
+		// this.isRecover = isRecover;
 		this.recovered.set(isRecover);
 	}
 
@@ -386,12 +407,12 @@ public class Spectrum {
 	public void setLowIntensityThreshold(float lowIntensityThreshold) {
 		this.lowIntensityThreshold = lowIntensityThreshold;
 	}
-	
-	public float getTopLine(){
+
+	public float getTopLine() {
 		return topLine;
 	}
-	
-	public void setTopLine(float _topline){
+
+	public void setTopLine(float _topline) {
 		this.topLine = _topline;
 	}
 
@@ -442,15 +463,21 @@ public class Spectrum {
 	public void setIsRecoverIR(StatusFilterType isRecoverIR) {
 		this.isRecoverIR = isRecoverIR;
 	}
-	
-	public int getNbFragmentAboveHIT(){
-		return nbFragmentAboveHIT ;
+
+	public int getNbFragmentAboveHIT() {
+		return nbFragmentAboveHIT;
 	}
-	
-	public void setNbFragmentAboveHIT(int nb){
+
+	public void setNbFragmentAboveHIT(int nb) {
 		this.nbFragmentAboveHIT = nb;
 	}
-	
 
-	
+	public Boolean getIsFlagged() {
+		return isFlagged;
+	}
+
+	public void setIsFlagged(Boolean _isFlagged) {
+		this.isFlagged = _isFlagged;
+	}
+
 }
