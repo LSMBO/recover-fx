@@ -41,6 +41,7 @@ public class Spectrum {
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
 	private float topLine = Session.TOP_LINE;
 	private int nbFragmentAboveHIT = 0;
+	
 
 	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED;
 	private StatusFilterType isRecoverLIT = StatusFilterType.NOT_USED;
@@ -64,8 +65,8 @@ public class Spectrum {
 																				// is
 																				// too
 																				// big
-	private Fragment[] eightIntensePeaks = new Fragment[8];
-	private Double[] squareRootEightIntensePeaks = new Double[8];
+	private Fragment[] nBIntensePeaks = new Fragment[Session.NB_PEAKS];
+	private Double[] squareRootnBIntensePeaks = new Double[Session.NB_PEAKS];
 
 	public String toString() {
 		return "Spectrum id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge + " title:'" + title
@@ -336,24 +337,24 @@ public class Spectrum {
 	// this.upn = upn;
 	// }
 
-	public Fragment[] getEightIntensePeaks() {
+	public Fragment[] getnBIntensePeaks() {
 		int firstValue = getNbFragments() -1 ;
-		int lastValue = firstValue - 8;
+		int lastValue = firstValue - Session.NB_PEAKS;
 
 		for (int i = firstValue; i > lastValue; i--) {
 			Fragment fragment = getSortedFragments().get(i);
-			eightIntensePeaks[firstValue - i] = fragment;
+			nBIntensePeaks[firstValue - i] = fragment;
 		}
-		return eightIntensePeaks;
+		return nBIntensePeaks;
 	}
 	
-	public Double[] getSquareRootEightIntensePeaks(){
-		for(int i=0; i<8;i++){
-			Fragment fragment = getEightIntensePeaks()[i];
+	public Double[] getSquareRootnBIntensePeaks(){
+		for(int i = 0; i < Session.NB_PEAKS; i++){
+			Fragment fragment = getnBIntensePeaks()[i];
 			float intensity = fragment.getIntensity();
-			squareRootEightIntensePeaks[i] = Math.sqrt(intensity);
+			squareRootnBIntensePeaks[i] = Math.sqrt(intensity);
 		}
-		return squareRootEightIntensePeaks;
+		return squareRootnBIntensePeaks;
 	}
 
 	public BooleanProperty identifiedProperty() {

@@ -25,6 +25,7 @@ public class Session {
 														// average)
 	public static Float HIGH_INTENSITY_THRESHOLD = 2000F; //
 	public static Float TOP_LINE = 2500F;
+	public static final int NB_PEAKS = 8;
 	// public static Float FILTER_EMERGENCE = 0F;
 	// public static Integer FILTER_UPN_MIN = 0;
 	// public static Integer FILTER_UPN_MAX = 0;

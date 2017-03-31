@@ -213,11 +213,11 @@ public class RecoverController {
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			ComparisonSpectra.recoverNearSpectrum(newSelection);
-			Spectra newSpectra = ComparisonSpectra.getSubListSecondSpectra();
-			for(Spectrum sp : newSpectra.getSpectraAsObservable()){
-				System.out.println(sp);
+			for(Fragment f : newSelection.getnBIntensePeaks()){
+				System.out.println("fragment : " + f);
 			}
+			ComparisonSpectra.test(newSelection);
+
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
 			// chart.setTitle(newSelection.getTitle());
@@ -241,39 +241,39 @@ public class RecoverController {
 		MenuItem matchingSpectrum = new MenuItem("Find Matching Spectrum");
 		MenuItem flaggedSpectrum = new MenuItem("Flag");
 		contextMenu.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
-		table.setContextMenu(contextMenu);
-		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-				colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
-					@Override
-					public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
-						ImageView flag = new ImageView();
-						TableCell<Spectrum, Boolean> cell = new TableCell<Spectrum, Boolean>() {
-
-							@Override
-							public void updateItem(Boolean isFlagged, boolean empty) {
-
-								super.updateItem(isFlagged, empty);
-
-								if (empty) {
-									setGraphic(null);
-								} else if(!sp.getIsFlagged()){
-									Image image = new Image("/flag.png");
-									flag.setFitHeight(15);
-									flag.setFitWidth(15); 
-									flag.setImage(image);
-
-								}
-							}
-						};
-						cell.setGraphic(flag);
-						return cell;
-					}
-				});
-			}
-		});
+//		table.setContextMenu(contextMenu);
+//		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+//			@Override
+//			public void handle(ActionEvent event) {
+//				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
+//				colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
+//					@Override
+//					public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
+//						ImageView flag = new ImageView();
+//						TableCell<Spectrum, Boolean> cell = new TableCell<Spectrum, Boolean>() {
+//
+//							@Override
+//							public void updateItem(Boolean isFlagged, boolean empty) {
+//
+//								super.updateItem(isFlagged, empty);
+//
+//								if (empty) {
+//									setGraphic(null);
+//								} else if(!sp.getIsFlagged()){
+//									Image image = new Image("/flag.png");
+//									flag.setFitHeight(15);
+//									flag.setFitWidth(15); 
+//									flag.setImage(image);
+//
+//								}
+//							}
+//						};
+//						cell.setGraphic(flag);
+//						return cell;
+//					}
+//				});
+//			}
+//		});
 
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
