@@ -32,6 +32,7 @@ public class Spectrum {
 	private float medianFragmentsIntensities = 0;
 	private float averageFragmentsIntensities = 0;
 	private Integer upn = -1;
+	private double cosTheta = 0D;
 
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
 	private final BooleanProperty identified = new SimpleBooleanProperty();
@@ -41,7 +42,6 @@ public class Spectrum {
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
 	private float topLine = Session.TOP_LINE;
 	private int nbFragmentAboveHIT = 0;
-	
 
 	private StatusFilterType isRecoverHIT = StatusFilterType.NOT_USED;
 	private StatusFilterType isRecoverLIT = StatusFilterType.NOT_USED;
@@ -338,18 +338,21 @@ public class Spectrum {
 	// }
 
 	public Fragment[] getnBIntensePeaks() {
-		int firstValue = getNbFragments() -1 ;
-		int lastValue = firstValue - Session.NB_PEAKS;
+		if (getNbFragments() >= Session.NB_PEAKS) {
+			int firstValue = getNbFragments() - 1;
+			int lastValue = firstValue - Session.NB_PEAKS;
 
-		for (int i = firstValue; i > lastValue; i--) {
-			Fragment fragment = getSortedFragments().get(i);
-			nBIntensePeaks[firstValue - i] = fragment;
+			for (int i = firstValue; i > lastValue; i--) {
+				Fragment fragment = getSortedFragments().get(i);
+				nBIntensePeaks[firstValue - i] = fragment;
+			}
 		}
+
 		return nBIntensePeaks;
 	}
-	
-	public Double[] getSquareRootnBIntensePeaks(){
-		for(int i = 0; i < Session.NB_PEAKS; i++){
+
+	public Double[] getSquareRootnBIntensePeaks() {
+		for (int i = 0; i < Session.NB_PEAKS; i++) {
 			Fragment fragment = getnBIntensePeaks()[i];
 			float intensity = fragment.getIntensity();
 			squareRootnBIntensePeaks[i] = Math.sqrt(intensity);
@@ -479,6 +482,14 @@ public class Spectrum {
 
 	public void setIsFlagged(Boolean _isFlagged) {
 		this.isFlagged = _isFlagged;
+	}
+
+	public double getCosTheta() {
+		return cosTheta;
+	}
+
+	public void setCosThetha(double _cosTheta) {
+		this.cosTheta = _cosTheta;
 	}
 
 }

@@ -38,8 +38,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -48,7 +46,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class RecoverController {
 
@@ -129,16 +126,16 @@ public class RecoverController {
 	private TableColumn<Spectrum, Integer> colNbFragments1;
 	@FXML
 	private TableColumn<Spectrum, Integer> colUPN;
-	@FXML
-	private TableColumn<Spectrum, Integer> colUPN1;
+//	@FXML
+//	private TableColumn<Spectrum, Integer> colUPN1;
 	@FXML
 	private TableColumn<Spectrum, Boolean> colIdentified;
 	@FXML
-	private TableColumn<Spectrum, Boolean> colIdentified1;
+	private TableColumn<Spectrum, Double> colCosTheta;
 	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover;
-	@FXML
-	private TableColumn<Spectrum, Boolean> colRecover1;
+//	@FXML
+//	private TableColumn<Spectrum, Boolean> colRecover1;
 	// @FXML
 	// private SplitPane bottomPanel;
 	@FXML
@@ -213,10 +210,6 @@ public class RecoverController {
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			for(Fragment f : newSelection.getnBIntensePeaks()){
-				System.out.println("fragment : " + f);
-			}
-			ComparisonSpectra.test(newSelection);
 
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
@@ -236,44 +229,31 @@ public class RecoverController {
 			});
 		});
 
-		ContextMenu contextMenu = new ContextMenu();
+		ContextMenu contextMenuTable = new ContextMenu();
 		MenuItem infoFilter = new MenuItem("Information about filters applied");
 		MenuItem matchingSpectrum = new MenuItem("Find Matching Spectrum");
 		MenuItem flaggedSpectrum = new MenuItem("Flag");
-		contextMenu.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
-//		table.setContextMenu(contextMenu);
-//		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-//			@Override
-//			public void handle(ActionEvent event) {
-//				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-//				colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
-//					@Override
-//					public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
-//						ImageView flag = new ImageView();
-//						TableCell<Spectrum, Boolean> cell = new TableCell<Spectrum, Boolean>() {
-//
-//							@Override
-//							public void updateItem(Boolean isFlagged, boolean empty) {
-//
-//								super.updateItem(isFlagged, empty);
-//
-//								if (empty) {
-//									setGraphic(null);
-//								} else if(!sp.getIsFlagged()){
-//									Image image = new Image("/flag.png");
-//									flag.setFitHeight(15);
-//									flag.setFitWidth(15); 
-//									flag.setImage(image);
-//
-//								}
-//							}
-//						};
-//						cell.setGraphic(flag);
-//						return cell;
-//					}
-//				});
-//			}
-//		});
+		contextMenuTable.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
+		table.setContextMenu(contextMenuTable);
+		
+		matchingSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
+				
+				//Use the algorithm only if the reference spectrum have at least a number of fragment equals to Session.NB_PEAKS
+				if(sp.getNbFragments()>=Session.NB_PEAKS){
+				ComparisonSpectra.test(sp);
+				table1.setItems(ComparisonSpectra.getValidSpectrum().getSpectraAsObservable());
+				}
+				else{
+					System.out.println("not enough number of fragment");
+					table1.setItems(null);
+				}
+			}
+		});
+	
 
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
@@ -430,9 +410,9 @@ public class RecoverController {
 		colCharge1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
 		colRT1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 		colNbFragments1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
-		colUPN1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
-		colIdentified1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isIdentified"));
-		colRecover1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
+//		colUPN1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
+		colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum, Double>("cosTheta"));
+//		colRecover1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
 		// set column sizes
 		colId1.setPrefWidth(SIZE_COL_ID);
 		colMoz1.setPrefWidth(SIZE_COL_MOZ);
@@ -440,15 +420,16 @@ public class RecoverController {
 		colCharge1.setPrefWidth(SIZE_COL_CHARGE);
 		colRT1.setPrefWidth(SIZE_COL_RT);
 		colNbFragments1.setPrefWidth(SIZE_COL_NBFRAGMENTS);
-		colUPN1.setPrefWidth(SIZE_COL_UPN);
-		colIdentified1.setPrefWidth(SIZE_COL_IDENTIFIED);
-		colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
+//		colUPN1.setPrefWidth(SIZE_COL_UPN);
+		colCosTheta.setPrefWidth(SIZE_COL_IDENTIFIED);
+//		colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
 		colTitle1.prefWidthProperty().bind(table1.widthProperty().subtract(SIZE_COL_ID + SIZE_COL_MOZ
 				+ SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT + SIZE_COL_NBFRAGMENTS + 0));
 
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor1.setPrefWidth(100);
 		table1.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
 			// chart.setTitle(newSelection.getTitle());
@@ -465,6 +446,21 @@ public class RecoverController {
 					swingNodeForChart1.setContent(chartPanel);
 				}
 			});
+		});
+		
+		ContextMenu contextMenuTable1 = new ContextMenu();
+		MenuItem resetTable1 = new MenuItem("Display all spectra");
+
+		contextMenuTable1.getItems().addAll(resetTable1);
+		table1.setContextMenu(contextMenuTable1);
+		
+		resetTable1.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				ListOfSpectra.getSecondSpectra().resetCosTheta();
+				resetViewSecondPeaklist();
+			}
 		});
 
 		// chartAnchor.getChildren().add(swingNodeForChart);
@@ -542,6 +538,7 @@ public class RecoverController {
 			// f.applyFilters();
 		}
 		Filters.resetHashMap();
+		resetViewSecondPeaklist();
 	}
 
 	// Action to load the second table with a peaklist
@@ -717,6 +714,10 @@ public class RecoverController {
 		ListOfSpectra.getFirstSpectra().resetRecover();
 		table.refresh();
 		Filters.resetHashMap();
+	}
+	
+	private void resetViewSecondPeaklist(){
+		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
 	}
 
 	// @FXML

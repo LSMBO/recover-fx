@@ -156,4 +156,10 @@ public class Spectra {
 			sp.setIsIdentified(false);
 		}
 	}
+	
+	public void resetCosTheta(){
+		for (Spectrum sp : getSpectraAsObservable()){
+			sp.setCosThetha(0);
+		}
+	}
 }

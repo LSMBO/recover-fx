@@ -129,9 +129,9 @@
 														<TableColumn fx:id="colCharge1" editable="false" prefWidth="50.0" text="Charge" />
 														<TableColumn fx:id="colRT1" editable="false" prefWidth="50.0" text="RT" />
 														<TableColumn fx:id="colNbFragments1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-														<TableColumn fx:id="colUPN1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-														<TableColumn fx:id="colIdentified1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-														<TableColumn fx:id="colRecover1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+<!-- 														<TableColumn fx:id="colUPN1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" /> -->
+														<TableColumn fx:id="colCosTheta" editable="false" prefWidth="50.0" sortType="DESCENDING" text="cos theta" />
+<!-- 														<TableColumn fx:id="colRecover1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" /> -->
 													</columns>
 													<contextMenu>
 														<ContextMenu>
