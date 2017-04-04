@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <AnchorPane prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <center>
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <center>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+                          <items>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="#" />
+                                  <TableColumn prefWidth="75.0" text="Title" />
+                                    <TableColumn prefWidth="75.0" text="M/z" />
+                                    <TableColumn prefWidth="75.0" text="Delta m/z" />
+                                    <TableColumn prefWidth="75.0" text="Intensity" />
+                                    <TableColumn prefWidth="75.0" text="Charge" />
+                                    <TableColumn prefWidth="75.0" text="RT" />
+                                    <TableColumn prefWidth="75.0" text="Delta RT" />
+                                    <TableColumn prefWidth="75.0" text="Nb. fragment" />
+                                    <TableColumn prefWidth="75.0" text="Nb. peaks identical" />
+                                    <TableColumn prefWidth="75.0" text="Cos Theta" />
+                                </columns>
+                              </TableView>
+                              <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                          </items>
+                        </SplitPane>
+                     </center>
+                  </BorderPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

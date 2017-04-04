@@ -18,154 +18,6 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
-	<center>
-		<SplitPane dividerPositions="0.5">
-			<items>
-				<AnchorPane prefHeight="480.0" prefWidth="640.0">
-					<children>
-						<BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-							<center>
-								<BorderPane BorderPane.alignment="CENTER">
-									<center>
-										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
-											<items>
-												<TableView fx:id="table">
-													<columns>
-                                          				<TableColumn fx:id="colFlag" prefWidth="40.0" text="Flag" />
-														<TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
-														<TableColumn fx:id="colTitle" editable="false" prefWidth="75.0" text="Title" />
-														<TableColumn fx:id="colMoz" editable="false" prefWidth="50.0" text="M/z" />
-														<TableColumn fx:id="colInt" editable="false" prefWidth="50.0" text="Intensity" />
-														<TableColumn fx:id="colCharge" editable="false" prefWidth="50.0" text="Charge" />
-														<TableColumn fx:id="colRT" editable="false" prefWidth="50.0" text="RT" />
-														<TableColumn fx:id="colNbFragments" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-														<TableColumn fx:id="colUPN" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
-														<TableColumn fx:id="colIdentified" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
-														<TableColumn fx:id="colRecover" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
-													</columns>
-													<contextMenu>
-														<ContextMenu>
-															<items>
-																<MenuItem mnemonicParsing="false" text="Unspecified Action" />
-															</items>
-														</ContextMenu>
-													</contextMenu>
-													<columnResizePolicy>
-														<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-													</columnResizePolicy>
-												</TableView>
-												<BorderPane prefHeight="309.0" prefWidth="638.0">
-													<left>
-														<AnchorPane fx:id="filterAnchor" prefHeight="282.0" prefWidth="79.0" BorderPane.alignment="CENTER">
-															<children>
-																<Label fx:id="infoHIT" layoutY="2.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoLIT" layoutY="52.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoFI" layoutX="1.0" layoutY="104.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoWC" layoutY="157.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoIS" layoutY="208.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
-																<Label fx:id="infoIR" layoutY="259.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
-																<Label layoutX="1.0" layoutY="-13.0" prefHeight="43.0" prefWidth="72.0" text="HIT : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-																<Label layoutX="1.0" layoutY="39.0" prefHeight="43.0" prefWidth="72.0" text="LIT : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-																<Label layoutX="2.0" layoutY="91.0" prefHeight="43.0" prefWidth="72.0" text="FI : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-																<Label layoutX="2.0" layoutY="144.0" prefHeight="43.0" prefWidth="72.0" text="WC : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-																<Label layoutX="3.0" layoutY="194.0" prefHeight="43.0" prefWidth="72.0" text="IS : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-																<Label layoutX="2.0" layoutY="258.0" prefHeight="20.0" prefWidth="72.0" text="IR : ">
-																	<font>
-																		<Font name="Arial Bold" size="14.0" />
-																	</font>
-																</Label>
-															</children>
-														</AnchorPane>
-													</left>
-													<center>
-														<SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
-													</center>
-												</BorderPane>
-											</items>
-										</SplitPane>
-									</center>
-									<top>
-										<HBox BorderPane.alignment="CENTER" />
-									</top>
-								</BorderPane>
-							</center>
-						</BorderPane>
-					</children>
-				</AnchorPane>
-				<AnchorPane fx:id="secondView" prefHeight="480.0" prefWidth="640.0">
-					<children>
-						<BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-							<center>
-								<BorderPane BorderPane.alignment="CENTER">
-									<center>
-										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
-											<items>
-												<TableView fx:id="table1">
-													<columns>
-														<TableColumn fx:id="colId1" editable="false" prefWidth="25.0" text="#" />
-														<TableColumn fx:id="colTitle1" editable="false" prefWidth="75.0" text="Title" />
-														<TableColumn fx:id="colMoz1" editable="false" prefWidth="50.0" text="M/z" />
-														<TableColumn fx:id="colInt1" editable="false" prefWidth="50.0" text="Intensity" />
-														<TableColumn fx:id="colCharge1" editable="false" prefWidth="50.0" text="Charge" />
-														<TableColumn fx:id="colRT1" editable="false" prefWidth="50.0" text="RT" />
-														<TableColumn fx:id="colNbFragments1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
-<!-- 														<TableColumn fx:id="colUPN1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" /> -->
-														<TableColumn fx:id="colCosTheta" editable="false" prefWidth="50.0" sortType="DESCENDING" text="cos theta" />
-<!-- 														<TableColumn fx:id="colRecover1" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" /> -->
-													</columns>
-													<contextMenu>
-														<ContextMenu>
-															<items>
-																<MenuItem mnemonicParsing="false" text="Unspecified Action" />
-															</items>
-														</ContextMenu>
-													</contextMenu>
-													<columnResizePolicy>
-														<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-													</columnResizePolicy>
-												</TableView>
-												<BorderPane prefHeight="200.0" prefWidth="200.0">
-													<left>
-														<AnchorPane fx:id="filterAnchor1" BorderPane.alignment="CENTER" />
-													</left>
-													<center>
-														<SwingNode fx:id="swingNodeForChart1" BorderPane.alignment="CENTER" />
-													</center>
-												</BorderPane>
-											</items>
-										</SplitPane>
-									</center>
-									<top>
-										<HBox BorderPane.alignment="CENTER" />
-									</top>
-								</BorderPane>
-							</center>
-						</BorderPane>
-					</children>
-				</AnchorPane>
-			</items>
-		</SplitPane>
-	</center>
 	<top>
 		<MenuBar BorderPane.alignment="CENTER">
 			<menus>
@@ -247,4 +99,97 @@
 			</children>
 		</HBox>
 	</bottom>
+   <center>
+				<AnchorPane prefHeight="480.0" prefWidth="640.0" BorderPane.alignment="CENTER">
+					<children>
+						<BorderPane prefHeight="480.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+							<center>
+								<BorderPane BorderPane.alignment="CENTER">
+									<center>
+										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
+											<items>
+												<TableView fx:id="table">
+													<columns>
+                                    				<TableColumn fx:id="colFlag" prefWidth="40.0" text="Flag" />
+														<TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
+														<TableColumn fx:id="colTitle" editable="false" prefWidth="75.0" text="Title" />
+														<TableColumn fx:id="colMoz" editable="false" prefWidth="50.0" text="M/z" />
+														<TableColumn fx:id="colInt" editable="false" prefWidth="50.0" text="Intensity" />
+														<TableColumn fx:id="colCharge" editable="false" prefWidth="50.0" text="Charge" />
+														<TableColumn fx:id="colRT" editable="false" prefWidth="50.0" text="RT" />
+														<TableColumn fx:id="colNbFragments" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Nb. fragments" />
+														<TableColumn fx:id="colUPN" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
+														<TableColumn fx:id="colIdentified" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
+														<TableColumn fx:id="colRecover" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+													</columns>
+													<contextMenu>
+														<ContextMenu>
+															<items>
+																<MenuItem mnemonicParsing="false" text="Unspecified Action" />
+															</items>
+														</ContextMenu>
+													</contextMenu>
+													<columnResizePolicy>
+														<TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+													</columnResizePolicy>
+												</TableView>
+												<BorderPane prefHeight="309.0" prefWidth="638.0">
+													<left>
+														<AnchorPane fx:id="filterAnchor" prefHeight="282.0" prefWidth="79.0" BorderPane.alignment="CENTER">
+															<children>
+																<Label fx:id="infoHIT" layoutY="2.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoLIT" layoutY="52.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoFI" layoutX="1.0" layoutY="104.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoWC" layoutY="157.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoIS" layoutY="208.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
+																<Label fx:id="infoIR" layoutY="259.0" prefHeight="44.0" prefWidth="78.0" style="-fx-border-style: solid;" />
+																<Label layoutX="1.0" layoutY="-13.0" prefHeight="43.0" prefWidth="72.0" text="HIT : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="1.0" layoutY="39.0" prefHeight="43.0" prefWidth="72.0" text="LIT : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="91.0" prefHeight="43.0" prefWidth="72.0" text="FI : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="144.0" prefHeight="43.0" prefWidth="72.0" text="WC : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="3.0" layoutY="194.0" prefHeight="43.0" prefWidth="72.0" text="IS : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+																<Label layoutX="2.0" layoutY="258.0" prefHeight="20.0" prefWidth="72.0" text="IR : ">
+																	<font>
+																		<Font name="Arial Bold" size="14.0" />
+																	</font>
+																</Label>
+															</children>
+														</AnchorPane>
+													</left>
+													<center>
+														<SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
+													</center>
+												</BorderPane>
+											</items>
+										</SplitPane>
+									</center>
+									<top>
+										<HBox BorderPane.alignment="CENTER" />
+									</top>
+								</BorderPane>
+							</center>
+						</BorderPane>
+					</children>
+				</AnchorPane>
+   </center>
 </BorderPane>
