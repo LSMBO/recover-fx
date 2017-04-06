@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="653.0" maxWidth="561.0" prefHeight="613.0" prefWidth="521.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111">
+<AnchorPane maxHeight="653.0" maxWidth="561.0" prefHeight="613.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.ComparisonSettingsController">
    <children>
       <GridPane layoutY="70.0" prefHeight="497.0" prefWidth="520.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="70.0">
         <columnConstraints>
@@ -54,7 +53,7 @@
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="deltaMoz" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="29.0" prefWidth="433.0" text="Delta retention time (in second)" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="5.0" />
@@ -75,10 +74,10 @@
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <TextField fx:id="deltaRT" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="nbPeaks" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="nbPeaksMin" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextField fx:id="thetaMin" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <Label prefHeight="83.0" prefWidth="535.0" text="Set the range of retention time (min RT &amp; max RT). It's use to decide if spectra of peaklist are near to a reference spectrum." wrapText="true" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <font>
                   <Font name="System Italic" size="12.0" />
@@ -112,7 +111,8 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="149.0" layoutY="574.0" mnemonicParsing="false" text="Apply" AnchorPane.leftAnchor="150.0" />
-      <Button layoutX="169.0" layoutY="574.0" mnemonicParsing="false" text="Close" AnchorPane.rightAnchor="150.0" />
+      <Button fx:id="btnApply" layoutX="149.0" layoutY="574.0" mnemonicParsing="false" onAction="#handleClickBtnApply" text="Apply" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="255.0" />
+      <Button fx:id="btnClose" layoutX="169.0" layoutY="574.0" mnemonicParsing="false" onAction="#handleClickBtnClose" text="Close" AnchorPane.rightAnchor="10.0" />
+      <Button fx:id="btnValuesByDefault" layoutX="14.0" layoutY="574.0" mnemonicParsing="false" onAction="#handleClickBtnValuesByDefault" text="Values by default" AnchorPane.leftAnchor="10.0" />
    </children>
 </AnchorPane>

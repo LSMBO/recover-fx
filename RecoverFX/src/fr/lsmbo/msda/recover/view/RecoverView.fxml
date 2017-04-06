@@ -72,6 +72,7 @@
 							</accelerator>
 						</CheckMenuItem>
 						<MenuItem fx:id="mnIdentifiedSpectra" mnemonicParsing="false" onAction="#handleClickMenuIdendifiedSpectra" text="Identified Spectra ..." />
+                  <MenuItem fx:id="mnComparisonSpectra" mnemonicParsing="false" onAction="#handleClickMenuComparisonSpectra" text="Menu Comparison Spectra ..." />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem fx:id="mnResetRecover" mnemonicParsing="false" onAction="#handleClickMenuResetRecover" text="Reset Recover">
 							<accelerator>

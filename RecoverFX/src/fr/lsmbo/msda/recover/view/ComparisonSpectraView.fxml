@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.embed.swing.SwingNode?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -9,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="525.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.ComparisonSpectraController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -21,7 +21,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="mnSettingsParameters" mnemonicParsing="false" onAction="#handleClickMenuSettingsParameters" text="Settings parameters..." />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -41,22 +41,26 @@
                      <center>
                         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
                           <items>
-                              <TableView prefHeight="200.0" prefWidth="200.0">
+                              <TableView fx:id="tableComparison" prefHeight="200.0" prefWidth="200.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="#" />
-                                  <TableColumn prefWidth="75.0" text="Title" />
-                                    <TableColumn prefWidth="75.0" text="M/z" />
-                                    <TableColumn prefWidth="75.0" text="Delta m/z" />
-                                    <TableColumn prefWidth="75.0" text="Intensity" />
-                                    <TableColumn prefWidth="75.0" text="Charge" />
-                                    <TableColumn prefWidth="75.0" text="RT" />
-                                    <TableColumn prefWidth="75.0" text="Delta RT" />
-                                    <TableColumn prefWidth="75.0" text="Nb. fragment" />
-                                    <TableColumn prefWidth="75.0" text="Nb. peaks identical" />
-                                    <TableColumn prefWidth="75.0" text="Cos Theta" />
+                                  <TableColumn fx:id="colId" prefWidth="75.0" text="#" />
+                                  <TableColumn fx:id="colTitle" prefWidth="75.0" text="Title" />
+                                    <TableColumn fx:id="colMoz" prefWidth="75.0" text="M/z" />
+                                    <TableColumn fx:id="colDeltaMoz" prefWidth="75.0" text="Delta m/z" />
+                                    <TableColumn fx:id="colInt" prefWidth="75.0" text="Intensity" />
+                                    <TableColumn fx:id="colCharge" prefWidth="75.0" text="Charge" />
+                                    <TableColumn fx:id="colRT" prefWidth="75.0" text="RT" />
+                                    <TableColumn fx:id="colDeltaRT" prefWidth="75.0" text="Delta RT" />
+                                    <TableColumn fx:id="colNbFragments" prefWidth="75.0" text="Nb. fragment" />
+                                    <TableColumn fx:id="colNbPeaksIdentical" prefWidth="75.0" text="Nb. peaks identical" />
+                                    <TableColumn fx:id="colCosTheta" prefWidth="78.0" text="Cos Theta" />
                                 </columns>
                               </TableView>
-                              <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                            <BorderPane prefHeight="200.0" prefWidth="200.0" >
+                                <center>
+									<SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
+								</center>
+							</BorderPane>
                           </items>
                         </SplitPane>
                      </center>

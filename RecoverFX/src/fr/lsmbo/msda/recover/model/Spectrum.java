@@ -33,6 +33,11 @@ public class Spectrum {
 	private float averageFragmentsIntensities = 0;
 	private Integer upn = -1;
 	private double cosTheta = 0D;
+	private float deltaMozWithRS = 0F;
+	private int deltaRetentionTimeWithRS = 0;
+	private int nbPeaksIdenticalWithRS = 0;
+	
+	private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
 	private final BooleanProperty identified = new SimpleBooleanProperty();
@@ -65,8 +70,8 @@ public class Spectrum {
 																				// is
 																				// too
 																				// big
-	private Fragment[] nBIntensePeaks = new Fragment[Session.NB_PEAKS];
-	private Double[] squareRootnBIntensePeaks = new Double[Session.NB_PEAKS];
+	private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
+	private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
 
 	public String toString() {
 		return "Spectrum id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge + " title:'" + title
@@ -338,9 +343,9 @@ public class Spectrum {
 	// }
 
 	public Fragment[] getnBIntensePeaks() {
-		if (getNbFragments() >= Session.NB_PEAKS) {
+		if (getNbFragments() >= nbPeaks) {
 			int firstValue = getNbFragments() - 1;
-			int lastValue = firstValue - Session.NB_PEAKS;
+			int lastValue = firstValue - nbPeaks;
 
 			for (int i = firstValue; i > lastValue; i--) {
 				Fragment fragment = getSortedFragments().get(i);
@@ -352,7 +357,7 @@ public class Spectrum {
 	}
 
 	public Double[] getSquareRootnBIntensePeaks() {
-		for (int i = 0; i < Session.NB_PEAKS; i++) {
+		for (int i = 0; i < nbPeaks; i++) {
 			Fragment fragment = getnBIntensePeaks()[i];
 			float intensity = fragment.getIntensity();
 			squareRootnBIntensePeaks[i] = Math.sqrt(intensity);
@@ -491,5 +496,31 @@ public class Spectrum {
 	public void setCosThetha(double _cosTheta) {
 		this.cosTheta = _cosTheta;
 	}
+	
+	public float getDeltaMozWithRS(){
+		return deltaMozWithRS;
+	}
+	
+	public void setDeltaMozWithRS(float deltaMoz){
+		this.deltaMozWithRS = deltaMoz;
+	}
+	
+	public int getDeltaRetentionTimeWithRS(){
+		return deltaRetentionTimeWithRS;
+	}
+	
+	public void setDeltaRetentionTimeWithRS(Integer deltaRT){
+		this.deltaRetentionTimeWithRS = deltaRT;
+	}
+	
+	public int getNbPeaksIdenticalWithRS(){
+		return nbPeaksIdenticalWithRS;
+	}
+	
+	public void setNbPeaksIdenticalWithRS(Integer nbPeaksIdentical){
+		this.nbPeaksIdenticalWithRS = nbPeaksIdentical;
+	}
+	
+	
 
 }

@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model;
 
-import fr.lsmbo.msda.recover.Session;
+
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 
@@ -15,32 +15,40 @@ public class ComparisonSpectra {
 	private static Spectrum sp;
 	
 	//number of peaks equals between reference spectrum (RS) and tested spectrum(TS) (same MOZ and same RT)
-	private static int nbPeaks;
+	private static int nbPeaksEquals;
+	
+	private static Integer nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 	
 	private static Double cosTheta;
 
 	//Arrays which contain at the same index the same peaks (same moz +/- deltaRT) 
-	private static float[] peaksRS = new float[Session.NB_PEAKS];
-	private static float[] peaksTS = new float[Session.NB_PEAKS];
+	private static float[] peaksRS = new float[nbPeaks];
+	private static float[] peaksTS = new float[nbPeaks];
 
 	//Constant
-	private static final float deltaMoz = 0.007F;
-	private static final int deltaRT = 90;
-	private static final int nbPeaksMin = 4;
-	private static final int thetaMin = 11;
-	private static final double cosThetaMin = Math.cos(Math.toRadians(thetaMin));
+	private static Float deltaMoz;
+	private static Integer deltaRT;
+	private static Integer nbPeaksMin;
+	private static Integer thetaMin;
+	private static double cosThetaMin;
 
 	// reset the value of sublist and the valid spectra every time the algorithm was used (for different reference spectrum) and initialize second peaklist
 	private static void initialize() {
 		secondSpectra = ListOfSpectra.getSecondSpectra();
 		subListSecondSpectra.initialize();
 		validSpectra.initialize();
+		deltaMoz = ConstantComparisonSpectra.getDeltaMoz();
+		deltaRT = ConstantComparisonSpectra.getDeltaRT();
+		nbPeaksMin = ConstantComparisonSpectra.getNbPeaksMin();
+		thetaMin = ConstantComparisonSpectra.getThetaMin();
+		cosThetaMin = Math.cos(Math.toRadians(thetaMin));
+		System.out.println("deltaMoz: " + deltaMoz + " deltaRT: " + deltaRT + " nbPeaksMin: " + nbPeaksMin + " thetaMin: " + thetaMin + " cosThetaMin: " + cosThetaMin);
 	}
 
 	//Reset the array
 	private static void resetPeaks() {
-		peaksRS = new float[Session.NB_PEAKS];
-		peaksTS = new float[Session.NB_PEAKS];
+		peaksRS = new float[nbPeaks];
+		peaksTS = new float[nbPeaks];
 	}
 
 	// Method to get a subList of spectra with spectra near to reference
@@ -110,17 +118,17 @@ public class ComparisonSpectra {
 
 	//count the number of peak which matched between RS and TS 
 	private static void countNbPeak() {
-		nbPeaks = 0;
+		nbPeaksEquals = 0;
 		for (float f : peaksTS) {
 			if (f != 0) {
-				nbPeaks++;
+				nbPeaksEquals++;
 			}
 		}
 	}
 
 	//find the non 0 values in the array of tested spectrum, compute the square root of this value and return a new array (size equals to number of peaks identical between TS and RS)
 	private static Double[] squareRootpeaksTS() {
-		Double[] squareRootpeaksTS = new Double[nbPeaks];
+		Double[] squareRootpeaksTS = new Double[nbPeaksEquals];
 		int j = 0;
 		for (int i = 0; i < peaksTS.length; i++) {
 			if (peaksTS[i] != 0) {
@@ -133,7 +141,7 @@ public class ComparisonSpectra {
 
 	//find the non 0 values in the array of reference spectrum, get back the square root of this value and return a new array (size equals to number of peaks identical between TS and RS)
 	private static Double[] squareRootpeaksRS() {
-		Double[] squareRootpeaksRS = new Double[nbPeaks];
+		Double[] squareRootpeaksRS = new Double[nbPeaksEquals];
 		int j = 0;
 		for (int i = 0; i < peaksRS.length; i++) {
 			if (peaksRS[i] != 0) {
@@ -174,7 +182,7 @@ public class ComparisonSpectra {
 		Double sumIntensityTS = 0D;
 
 		//Compute the numerator of the equation (find the corresponding square root, multiply them and sum)
-		for (int i = 0; i < nbPeaks; i++) {
+		for (int i = 0; i < nbPeaksEquals; i++) {
 			Double squareRootRefSpec = squareRootpeaksRS()[i];
 			Double squareRootTestSpec = squareRootpeaksTS()[i];
 			numeratorCosTheta += (squareRootRefSpec * squareRootTestSpec);
@@ -209,10 +217,13 @@ public class ComparisonSpectra {
 		if (subListSecondSpectra.getSpectraAsObservable().size() != 0) {
 			for (int i = 0; i < subListSecondSpectra.getSpectraAsObservable().size(); i++) {
 				Spectrum testedSpectrum = subListSecondSpectra.getSpectraAsObservable().get(i);
+				testedSpectrum.setDeltaMozWithRS(  testedSpectrum.getMz() - sp.getMz());
+				testedSpectrum.setDeltaRetentionTimeWithRS( (int) ( (testedSpectrum.getRetentionTime() * 60) - (sp.getRetentionTime()*60) ) );
 				findFragment(testedSpectrum);
 				countNbPeak();
+				testedSpectrum.setNbPeaksIdenticalWithRS(nbPeaksEquals);
 				//
-				if (nbPeaks >= nbPeaksMin) {
+				if (nbPeaksEquals >= nbPeaksMin) {
 					computeCosTheta();
 					if (cosTheta >= cosThetaMin) {
 						testedSpectrum.setCosThetha(cosTheta);
@@ -226,4 +237,7 @@ public class ComparisonSpectra {
 	public static Spectra getValidSpectrum() {
 		return validSpectra;
 	}
+	
+	
+	
 }

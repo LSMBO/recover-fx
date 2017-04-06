@@ -24,6 +24,7 @@ import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
+import fr.lsmbo.msda.recover.model.ConstantComparisonSpectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
@@ -89,55 +90,43 @@ public class RecoverController {
 	@FXML
 	private MenuItem mnIdentifiedSpectra;
 	@FXML
+	private MenuItem mnComparisonSpectra;
+	
+	@FXML
 	private MenuItem mnResetRecover;
 	@FXML
 	public TableView<Spectrum> table;
-	@FXML
-	private TableView<Spectrum> table1;
+	
 	@FXML
 	private TableColumn<Spectrum, Boolean> colFlag;
 	@FXML
 	private TableColumn<Spectrum, Integer> colId;
 	@FXML
-	private TableColumn<Spectrum, Integer> colId1;
-	@FXML
 	private TableColumn<Spectrum, String> colTitle;
-	@FXML
-	private TableColumn<Spectrum, String> colTitle1;
+
 	@FXML
 	private TableColumn<Spectrum, Float> colMoz;
-	@FXML
-	private TableColumn<Spectrum, Float> colMoz1;
+
 	@FXML
 	private TableColumn<Spectrum, Float> colInt;
-	@FXML
-	private TableColumn<Spectrum, Float> colInt1;
+	
 	@FXML
 	private TableColumn<Spectrum, Integer> colCharge;
-	@FXML
-	private TableColumn<Spectrum, Integer> colCharge1;
+	
 	@FXML
 	private TableColumn<Spectrum, Float> colRT;
-	@FXML
-	private TableColumn<Spectrum, Float> colRT1;
+
 	@FXML
 	private TableColumn<Spectrum, Integer> colNbFragments;
-	@FXML
-	private TableColumn<Spectrum, Integer> colNbFragments1;
+
 	@FXML
 	private TableColumn<Spectrum, Integer> colUPN;
-//	@FXML
-//	private TableColumn<Spectrum, Integer> colUPN1;
 	@FXML
 	private TableColumn<Spectrum, Boolean> colIdentified;
-	@FXML
-	private TableColumn<Spectrum, Double> colCosTheta;
+
 	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover;
-//	@FXML
-//	private TableColumn<Spectrum, Boolean> colRecover1;
-	// @FXML
-	// private SplitPane bottomPanel;
+
 	@FXML
 	private AnchorPane filterAnchor;
 	@FXML
@@ -150,8 +139,6 @@ public class RecoverController {
 	// private AnchorPane chartAnchor;
 	@FXML
 	private SwingNode swingNodeForChart;
-	@FXML
-	private SwingNode swingNodeForChart1;
 	@FXML
 	private Label infoHIT;
 	@FXML
@@ -243,13 +230,12 @@ public class RecoverController {
 				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
 				
 				//Use the algorithm only if the reference spectrum have at least a number of fragment equals to Session.NB_PEAKS
-				if(sp.getNbFragments()>=Session.NB_PEAKS){
+				if(sp.getNbFragments()>=ConstantComparisonSpectra.getNbPeaks()){
 				ComparisonSpectra.test(sp);
-				table1.setItems(ComparisonSpectra.getValidSpectrum().getSpectraAsObservable());
+				
 				}
 				else{
 					System.out.println("not enough number of fragment");
-					table1.setItems(null);
 				}
 			}
 		});
@@ -538,7 +524,7 @@ public class RecoverController {
 			// f.applyFilters();
 		}
 		Filters.resetHashMap();
-		resetViewSecondPeaklist();
+//		resetViewSecondPeaklist();
 	}
 
 	// Action to load the second table with a peaklist
@@ -707,6 +693,27 @@ public class RecoverController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+	private void handleClickMenuComparisonSpectra(){
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Views.COMPARISON_SPECTRA);
+			BorderPane page = (BorderPane) loader.load();
+			Stage comparisonSpectraStage = new Stage();
+			comparisonSpectraStage.setTitle("Menu Comparison Spectra");
+			comparisonSpectraStage.initModality(Modality.NONE);
+			comparisonSpectraStage.initOwner(this.dialogStage);
+			Scene scene = new Scene(page);
+			comparisonSpectraStage.setScene(scene);
+			ComparisonSpectraController comparisonSpectraController = loader.getController();
+			comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+			comparisonSpectraStage.showAndWait();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	@FXML
 	private void handleClickMenuResetRecover() {
@@ -716,9 +723,9 @@ public class RecoverController {
 		Filters.resetHashMap();
 	}
 	
-	private void resetViewSecondPeaklist(){
-		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
-	}
+//	private void resetViewSecondPeaklist(){
+//		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+//	}
 
 	// @FXML
 	// private void handleCheckRecoverForIdentified() {
