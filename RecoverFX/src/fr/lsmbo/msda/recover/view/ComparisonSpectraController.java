@@ -10,6 +10,7 @@ import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
+import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
@@ -70,6 +71,7 @@ public class ComparisonSpectraController {
 	@FXML
 	private void initialize() {
 		Spectra validSpectra = ComparisonSpectra.getValidSpectrum();
+		Spectrum referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
 		
 		if(validSpectra==null){
 		tableComparison.setItems(null);
@@ -108,7 +110,7 @@ public class ComparisonSpectraController {
 				// resetChartAxis(newSelection);
 
 				// chart = SpectrumChart.getPlot(newSelection);
-				spectrumChart = new SpectrumChart(newSelection);
+				spectrumChart = new SpectrumChart(referenceSpectrum,newSelection);
 				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override

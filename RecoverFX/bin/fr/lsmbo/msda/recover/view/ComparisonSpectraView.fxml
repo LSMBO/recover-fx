@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="525.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.ComparisonSpectraController">
+<BorderPane prefHeight="526.0" prefWidth="930.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.ComparisonSpectraController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -51,12 +51,12 @@
                                     <TableColumn fx:id="colCharge" prefWidth="75.0" text="Charge" />
                                     <TableColumn fx:id="colRT" prefWidth="75.0" text="RT" />
                                     <TableColumn fx:id="colDeltaRT" prefWidth="75.0" text="Delta RT" />
-                                    <TableColumn fx:id="colNbFragments" prefWidth="75.0" text="Nb. fragment" />
-                                    <TableColumn fx:id="colNbPeaksIdentical" prefWidth="75.0" text="Nb. peaks identical" />
-                                    <TableColumn fx:id="colCosTheta" prefWidth="78.0" text="Cos Theta" />
+                                    <TableColumn fx:id="colNbFragments" prefWidth="91.0" text="Nb. fragment" />
+                                    <TableColumn fx:id="colNbPeaksIdentical" prefWidth="114.0" text="Nb. peaks identical" />
+                                    <TableColumn fx:id="colCosTheta" prefWidth="83.0" text="Cos Theta" />
                                 </columns>
                               </TableView>
-                            <BorderPane prefHeight="200.0" prefWidth="200.0" >
+                            <BorderPane prefHeight="200.0" prefWidth="200.0">
                                 <center>
 									<SwingNode fx:id="swingNodeForChart" BorderPane.alignment="CENTER" />
 								</center>

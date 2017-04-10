@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYPointerAnnotation;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.IntervalMarker;
 import org.jfree.data.xy.XYSeries;
@@ -18,6 +19,7 @@ import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.lists.Filters;
+import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -25,6 +27,71 @@ public class SpectrumChart {
 
 	private JFreeChart chart;
 	private Spectrum spectrum;
+	
+	public SpectrumChart(Spectrum referenceSpectrum, Spectrum matchedSpectrum){
+		XYSeries series1 = new XYSeries("Fragments of the reference spectrum");
+		XYSeries series2 = new XYSeries("Fragments of the matched spectrum");
+		XYSeries series3 = new XYSeries("Fragments equals between reference spectrum and matched spectrum");
+		
+		XYSeriesCollection dataset = new XYSeriesCollection();
+		dataset.addSeries(series1);
+		dataset.addSeries(series2);
+//		dataset.addSeries(series3);
+		
+		for (Fragment f : referenceSpectrum.getFragments()){
+			float mzRS = f.getMz();
+			float intensityRS = f.getIntensity();
+			
+			series1.add(mzRS, intensityRS);
+		}
+		
+		for (Fragment f : matchedSpectrum.getFragments()){
+			float mzMS = f.getMz();
+			float intensityMS = f.getIntensity();
+			
+			series2.add(mzMS, intensityMS);
+		}
+		
+		
+		
+		// create the plot
+		chart=ChartFactory.createXYBarChart(matchedSpectrum.getTitle(),"M/z",false,"Intensity",dataset);
+		
+		// set default axis ranges
+//		changeAxisRange();
+
+		// make it look gorgeous
+		// sticks display
+		XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)
+			/**
+			 * Color . blue
+			 */
+			);
+			renderer.setSeriesPaint(1, new Color(255, 50, 50) /*
+																 * Color . red
+																 */);
+//			renderer.setSeriesPaint(2, new Color(100, 200, 70) /*
+//																 * Color red
+//																 */);
+		
+		// hide grid lines
+		chart.getXYPlot().setRangeGridlinesVisible(false);chart.getXYPlot().setDomainGridlinesVisible(false);
+		// set background color
+		chart.getXYPlot().setBackgroundPaint(Color.WHITE);
+//		chart.getXYPlot().addDomainMarker(
+//				createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
+//				Layer.BACKGROUND);
+		changeAxisRange(referenceSpectrum, matchedSpectrum);
+		
+		//display an annotation above the fragment equals used in the algorithm
+		for(Fragment f : ComparisonSpectra.getFragmentEquals()){
+			XYPointerAnnotation pointer = new XYPointerAnnotation("", f.getMz(), f.getIntensity(), -1.57);
+			pointer.setLabelOffset(20);
+			chart.getXYPlot().addAnnotation(pointer);
+		}
+
+		}
+		
 
 	public SpectrumChart(Spectrum spectrum) {
 
@@ -84,20 +151,18 @@ public class SpectrumChart {
 
 	// make it look gorgeous
 	// sticks display
-	XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)/*
-																																					 * Color
-																																					 * .
-																																					 * blue
-																																					 */);renderer.setSeriesPaint(1,new Color(255,50,50) /*
-																																																	 * Color
-																																																	 * .
-																																																	 * red
-																																																	 */);renderer.setSeriesPaint(2,new Color(100,200,70) /*
-																																																														 * Color
-																																																														 * .
-																																																														 * red
-																																																														 */);
-	// hide grid lines
+		XYStickRenderer renderer = new XYStickRenderer();
+		renderer.setBaseStroke(new BasicStroke(0.8f));
+		renderer.setSeriesPaint(0, new Color(50, 50, 255)/*
+															 * Color . blue
+															 */);
+		renderer.setSeriesPaint(1, new Color(255, 50, 50) /*
+															 * Color . red
+															 */);
+		renderer.setSeriesPaint(2, new Color(100, 200, 70) /*
+															 * Color . red
+															 */);
+		// hide grid lines
 	chart.getXYPlot().setRangeGridlinesVisible(false);chart.getXYPlot().setDomainGridlinesVisible(false);
 	// set background color
 	chart.getXYPlot().setBackgroundPaint(Color.WHITE);
@@ -131,19 +196,18 @@ public class SpectrumChart {
 
 	// make it look gorgeous
 	// sticks display
-	XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)/*
-																																					 * Color
-																																					 * .
-																																					 * blue
-																																					 */);renderer.setSeriesPaint(1,new Color(255,50,50) /*
-																																																	 * Color
-																																																	 * .
-																																																	 * red
-																																																	 */);renderer.setSeriesPaint(2,new Color(100,200,70) /*
-																																																														 * Color
-																																																														 * .
-																																																														 * red
-																																																														 */);
+	XYStickRenderer renderer = new XYStickRenderer();renderer.setBaseStroke(new BasicStroke(0.8f));renderer.setSeriesPaint(0,new Color(50,50,255)
+		/**
+		 * Color . blue
+		 */
+		);
+		renderer.setSeriesPaint(1, new Color(255, 50, 50) /*
+															 * Color . red
+															 */);
+		renderer.setSeriesPaint(2, new Color(100, 200, 70) /*
+															 * Color red
+															 */);
+	
 	// hide grid lines
 	chart.getXYPlot().setRangeGridlinesVisible(false);chart.getXYPlot().setDomainGridlinesVisible(false);
 	// set background color
@@ -168,6 +232,31 @@ public class SpectrumChart {
 		range.setRange(0.00,
 				Session.USE_FIXED_AXIS ? Session.HIGHEST_FRAGMENT_INTENSITY : spectrum.getFragmentMaxIntensity() * 1.2);
 		// range.setTickUnit(new NumberTickUnit(0.1));
+	}
+	
+	public void changeAxisRange(Spectrum referenceSpectrum, Spectrum testedSpectrum){
+		float maxMoz ;
+		float maxIntensity;
+		
+		if(referenceSpectrum.getFragmentMaxMoz() > testedSpectrum.getFragmentMaxMoz()){
+			maxMoz = referenceSpectrum.getFragmentMaxMoz();
+		} else{
+			maxMoz = testedSpectrum.getFragmentMaxMoz();
+		}
+		
+		if(referenceSpectrum.getFragmentMaxIntensity() > testedSpectrum.getFragmentMaxIntensity()){
+			maxIntensity = referenceSpectrum.getFragmentMaxIntensity();
+		} else{
+			maxIntensity = testedSpectrum.getFragmentMaxIntensity();
+		}
+		
+		NumberAxis domain = (NumberAxis) chart.getXYPlot().getDomainAxis();
+		domain.setRange(0.00, maxMoz * 1.2);
+		// domain.setTickUnit(new NumberTickUnit(0.1));
+		domain.setVerticalTickLabels(true);
+		NumberAxis range = (NumberAxis) chart.getXYPlot().getRangeAxis();
+		range.setRange(0.00, maxIntensity * 1.2);
+		
 	}
 
 	private void addExtraInformation() {

@@ -1,6 +1,8 @@
 package fr.lsmbo.msda.recover.model;
 
 
+import java.util.ArrayList;
+
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 
@@ -25,6 +27,10 @@ public class ComparisonSpectra {
 	private static float[] peaksRS = new float[nbPeaks];
 	private static float[] peaksTS = new float[nbPeaks];
 
+	//Arraylist to display annotation on the graph
+	private static ArrayList<Fragment> fragmentEquals = new ArrayList<Fragment>();
+
+	
 	//Constant
 	private static Float deltaMoz;
 	private static Integer deltaRT;
@@ -42,7 +48,9 @@ public class ComparisonSpectra {
 		nbPeaksMin = ConstantComparisonSpectra.getNbPeaksMin();
 		thetaMin = ConstantComparisonSpectra.getThetaMin();
 		cosThetaMin = Math.cos(Math.toRadians(thetaMin));
-		System.out.println("deltaMoz: " + deltaMoz + " deltaRT: " + deltaRT + " nbPeaksMin: " + nbPeaksMin + " thetaMin: " + thetaMin + " cosThetaMin: " + cosThetaMin);
+		fragmentEquals.clear();
+
+//		System.out.println("deltaMoz: " + deltaMoz + " deltaRT: " + deltaRT + " nbPeaksMin: " + nbPeaksMin + " thetaMin: " + thetaMin + " cosThetaMin: " + cosThetaMin);
 	}
 
 	//Reset the array
@@ -111,6 +119,13 @@ public class ComparisonSpectra {
 					//if the condition was respected, save the value of the intensity of the fragment in the array (for RS and TS) at the same index
 					addpeaksRS(fragmentReferenceSpectrum.getIntensity(), i);
 					addpeaksTS(fragmentSubListSpectrum.getIntensity(), i);
+					
+					//add in the ArrayList of fragmentEquals the most intense fragment (between RS and TS)
+					if(fragmentReferenceSpectrum.getIntensity() > fragmentSubListSpectrum.getIntensity()){
+						fragmentEquals.add(fragmentReferenceSpectrum);
+					} else{
+						fragmentEquals.add(fragmentSubListSpectrum);
+					}
 				}
 			}
 		}
@@ -212,6 +227,7 @@ public class ComparisonSpectra {
 
 	public static void test(Spectrum spectrumRef) {
 		sp = spectrumRef;
+		setReferenceSpectrum(sp);
 		initialize();
 		computeSubListSecondSpectra();
 		if (subListSecondSpectra.getSpectraAsObservable().size() != 0) {
@@ -238,6 +254,17 @@ public class ComparisonSpectra {
 		return validSpectra;
 	}
 	
+	public static void setReferenceSpectrum(Spectrum referenceSpectrum){
+		sp = referenceSpectrum;
+	}
+	
+	public static Spectrum getReferenceSpectrum(){
+		return sp;
+	}
+	
+	public static ArrayList<Fragment> getFragmentEquals(){
+		return fragmentEquals;
+	}
 	
 	
 }
