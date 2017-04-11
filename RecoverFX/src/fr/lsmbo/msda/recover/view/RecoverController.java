@@ -61,6 +61,8 @@ public class RecoverController {
 	private final int SIZE_COL_IDENTIFIED = 75;
 	private final int SIZE_COL_RECOVERED = 75;
 
+	private static Boolean mnComparisonUsed = false;
+
 	private Stage dialogStage;
 	// private JFreeChart chart;
 	private SpectrumChart spectrumChart;
@@ -91,12 +93,12 @@ public class RecoverController {
 	private MenuItem mnIdentifiedSpectra;
 	@FXML
 	private MenuItem mnComparisonSpectra;
-	
+
 	@FXML
 	private MenuItem mnResetRecover;
 	@FXML
 	public TableView<Spectrum> table;
-	
+
 	@FXML
 	private TableColumn<Spectrum, Boolean> colFlag;
 	@FXML
@@ -109,10 +111,10 @@ public class RecoverController {
 
 	@FXML
 	private TableColumn<Spectrum, Float> colInt;
-	
+
 	@FXML
 	private TableColumn<Spectrum, Integer> colCharge;
-	
+
 	@FXML
 	private TableColumn<Spectrum, Float> colRT;
 
@@ -197,7 +199,17 @@ public class RecoverController {
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			// Use the algorithm only if the reference spectrum have at least a
+			// number of fragment equals to Session.NB_PEAKS
+			if (mnComparisonUsed) {
+				if (newSelection.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
+					ComparisonSpectra.test(newSelection);
+					System.out.println("In RECOVER CONTROLLER : spectrum selected : " + newSelection);
 
+				} else {
+					System.out.println("not enough number of fragment");
+				}
+			}
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
 			// chart.setTitle(newSelection.getTitle());
@@ -222,24 +234,23 @@ public class RecoverController {
 		MenuItem flaggedSpectrum = new MenuItem("Flag");
 		contextMenuTable.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
 		table.setContextMenu(contextMenuTable);
-		
-		matchingSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
-			@Override
-			public void handle(ActionEvent event) {
-				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-				
-				//Use the algorithm only if the reference spectrum have at least a number of fragment equals to Session.NB_PEAKS
-				if(sp.getNbFragments()>=ConstantComparisonSpectra.getNbPeaks()){
-				ComparisonSpectra.test(sp);
-				
-				}
-				else{
-					System.out.println("not enough number of fragment");
-				}
-			}
-		});
-	
+//		matchingSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+//
+//			@Override
+//			public void handle(ActionEvent event) {
+//				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
+//
+//				// Use the algorithm only if the reference spectrum have at
+//				// least a number of fragment equals to Session.NB_PEAKS
+//				if (sp.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
+//					ComparisonSpectra.test(sp);
+//
+//				} else {
+//					System.out.println("not enough number of fragment");
+//				}
+//			}
+//		});
 
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
@@ -385,69 +396,84 @@ public class RecoverController {
 		//
 		// });
 
-//		// Right view
-//		Spectra secondSpectra = ListOfSpectra.getSecondSpectra();
-//		// define spectrum list
-//		table1.setItems(secondSpectra.getSpectraAsObservable());
-//		colId1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-//		colTitle1.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
-//		colMoz1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
-//		colInt1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
-//		colCharge1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
-//		colRT1.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
-//		colNbFragments1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
-////		colUPN1.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
-//		colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum, Double>("cosTheta"));
-////		colRecover1.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isRecover"));
-//		// set column sizes
-//		colId1.setPrefWidth(SIZE_COL_ID);
-//		colMoz1.setPrefWidth(SIZE_COL_MOZ);
-//		colInt1.setPrefWidth(SIZE_COL_INTENSITY);
-//		colCharge1.setPrefWidth(SIZE_COL_CHARGE);
-//		colRT1.setPrefWidth(SIZE_COL_RT);
-//		colNbFragments1.setPrefWidth(SIZE_COL_NBFRAGMENTS);
-////		colUPN1.setPrefWidth(SIZE_COL_UPN);
-//		colCosTheta.setPrefWidth(SIZE_COL_IDENTIFIED);
-////		colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
-//		colTitle1.prefWidthProperty().bind(table1.widthProperty().subtract(SIZE_COL_ID + SIZE_COL_MOZ
-//				+ SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT + SIZE_COL_NBFRAGMENTS + 0));
-//
-//		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
-//		filterAnchor1.setPrefWidth(100);
-//		table1.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//			
-//			// // set new data and title
-//			// chart.setData(SpectrumChart.getData(newSelection));
-//			// chart.setTitle(newSelection.getTitle());
-//			// // reset axis values because autoranging is off (necessary to
-//			// allow fixed axis)
-//			// resetChartAxis(newSelection);
-//
-//			// chart = SpectrumChart.getPlot(newSelection);
-//			spectrumChart = new SpectrumChart(newSelection, Session.SECOND_FILE.getName());
-//			ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-//			SwingUtilities.invokeLater(new Runnable() {
-//				@Override
-//				public void run() {
-//					swingNodeForChart1.setContent(chartPanel);
-//				}
-//			});
-//		});
-//		
-//		ContextMenu contextMenuTable1 = new ContextMenu();
-//		MenuItem resetTable1 = new MenuItem("Display all spectra");
-//
-//		contextMenuTable1.getItems().addAll(resetTable1);
-//		table1.setContextMenu(contextMenuTable1);
-//		
-//		resetTable1.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				ListOfSpectra.getSecondSpectra().resetCosTheta();
-//				resetViewSecondPeaklist();
-//			}
-//		});
+		// // Right view
+		// Spectra secondSpectra = ListOfSpectra.getSecondSpectra();
+		// // define spectrum list
+		// table1.setItems(secondSpectra.getSpectraAsObservable());
+		// colId1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Integer>("id"));
+		// colTitle1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// String>("title"));
+		// colMoz1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Float>("mz"));
+		// colInt1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Float>("intensity"));
+		// colCharge1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Integer>("charge"));
+		// colRT1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Float>("retentionTime"));
+		// colNbFragments1.setCellValueFactory(new
+		// PropertyValueFactory<Spectrum, Integer>("nbFragments"));
+		//// colUPN1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Integer>("upn"));
+		// colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Double>("cosTheta"));
+		//// colRecover1.setCellValueFactory(new PropertyValueFactory<Spectrum,
+		// Boolean>("isRecover"));
+		// // set column sizes
+		// colId1.setPrefWidth(SIZE_COL_ID);
+		// colMoz1.setPrefWidth(SIZE_COL_MOZ);
+		// colInt1.setPrefWidth(SIZE_COL_INTENSITY);
+		// colCharge1.setPrefWidth(SIZE_COL_CHARGE);
+		// colRT1.setPrefWidth(SIZE_COL_RT);
+		// colNbFragments1.setPrefWidth(SIZE_COL_NBFRAGMENTS);
+		//// colUPN1.setPrefWidth(SIZE_COL_UPN);
+		// colCosTheta.setPrefWidth(SIZE_COL_IDENTIFIED);
+		//// colRecover1.setPrefWidth(SIZE_COL_RECOVERED);
+		// colTitle1.prefWidthProperty().bind(table1.widthProperty().subtract(SIZE_COL_ID
+		// + SIZE_COL_MOZ
+		// + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT +
+		// SIZE_COL_NBFRAGMENTS + 0));
+		//
+		// mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
+		// filterAnchor1.setPrefWidth(100);
+		// table1.getSelectionModel().selectedItemProperty().addListener((obs,
+		// oldSelection, newSelection) -> {
+		//
+		// // // set new data and title
+		// // chart.setData(SpectrumChart.getData(newSelection));
+		// // chart.setTitle(newSelection.getTitle());
+		// // // reset axis values because autoranging is off (necessary to
+		// // allow fixed axis)
+		// // resetChartAxis(newSelection);
+		//
+		// // chart = SpectrumChart.getPlot(newSelection);
+		// spectrumChart = new SpectrumChart(newSelection,
+		// Session.SECOND_FILE.getName());
+		// ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+		// SwingUtilities.invokeLater(new Runnable() {
+		// @Override
+		// public void run() {
+		// swingNodeForChart1.setContent(chartPanel);
+		// }
+		// });
+		// });
+		//
+		// ContextMenu contextMenuTable1 = new ContextMenu();
+		// MenuItem resetTable1 = new MenuItem("Display all spectra");
+		//
+		// contextMenuTable1.getItems().addAll(resetTable1);
+		// table1.setContextMenu(contextMenuTable1);
+		//
+		// resetTable1.setOnAction(new javafx.event.EventHandler<ActionEvent>()
+		// {
+		//
+		// @Override
+		// public void handle(ActionEvent event) {
+		// ListOfSpectra.getSecondSpectra().resetCosTheta();
+		// resetViewSecondPeaklist();
+		// }
+		// });
 
 		// chartAnchor.getChildren().add(swingNodeForChart);
 
@@ -524,7 +550,7 @@ public class RecoverController {
 			// f.applyFilters();
 		}
 		Filters.resetHashMap();
-//		resetViewSecondPeaklist();
+		// resetViewSecondPeaklist();
 	}
 
 	// Action to load the second table with a peaklist
@@ -550,7 +576,7 @@ public class RecoverController {
 		System.out.println("ABU " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
 
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-//		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+		// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
 		statusBar.setText(StatusBar.getInformation());
 
 		this.dialogStage.setTitle(Main.recoverTitle());
@@ -636,7 +662,7 @@ public class RecoverController {
 			controller.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 			table.refresh();
-//			table1.refresh();
+			// table1.refresh();
 			statusBar.setText(StatusBar.getInformation());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -693,10 +719,10 @@ public class RecoverController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
-	private void handleClickMenuComparisonSpectra(){
-		try{
+	private void handleClickMenuComparisonSpectra() {
+		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.COMPARISON_SPECTRA);
 			BorderPane page = (BorderPane) loader.load();
@@ -708,24 +734,31 @@ public class RecoverController {
 			comparisonSpectraStage.setScene(scene);
 			ComparisonSpectraController comparisonSpectraController = loader.getController();
 			comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+			mnComparisonUsed = true;
 			comparisonSpectraStage.showAndWait();
-		}catch (IOException e) {
+			if (!comparisonSpectraStage.isShowing()) {
+				mnComparisonUsed = false;
+			}
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@FXML
 	private void handleClickMenuResetRecover() {
-		// TODO move the loop in a new class
 		ListOfSpectra.getFirstSpectra().resetRecover();
 		table.refresh();
 		Filters.resetHashMap();
 	}
-	
-//	private void resetViewSecondPeaklist(){
-//		table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
-//	}
+
+	public static void setMnComparisonUsed(Boolean bool) {
+		mnComparisonUsed = bool;
+	}
+	// private void resetViewSecondPeaklist(){
+	// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+	// }
 
 	// @FXML
 	// private void handleCheckRecoverForIdentified() {

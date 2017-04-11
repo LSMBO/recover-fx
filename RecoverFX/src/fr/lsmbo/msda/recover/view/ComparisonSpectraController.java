@@ -64,6 +64,8 @@ public class ComparisonSpectraController {
 	private TableColumn<Spectrum, Double> colCosTheta;
 	@FXML
 	private SwingNode swingNodeForChart;
+	
+	private Spectrum referenceSpectrum;
 
 	@FXML
 	private MenuItem mnSettingsParameters;
@@ -71,12 +73,13 @@ public class ComparisonSpectraController {
 	@FXML
 	private void initialize() {
 		Spectra validSpectra = ComparisonSpectra.getValidSpectrum();
-		Spectrum referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
+		
 		
 		if(validSpectra==null){
 		tableComparison.setItems(null);
 		}
 		else{
+			
 			tableComparison.setItems(validSpectra.getSpectraAsObservable());
 			colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
 			colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
@@ -101,7 +104,7 @@ public class ComparisonSpectraController {
 //			mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 //			filterAnchor.setPrefWidth(100);
 			tableComparison.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-
+					
 				// // set new data and title
 				// chart.setData(SpectrumChart.getData(newSelection));
 				// chart.setTitle(newSelection.getTitle());
@@ -109,6 +112,8 @@ public class ComparisonSpectraController {
 				// allow fixed axis)
 				// resetChartAxis(newSelection);
 
+				if(tableComparison.getItems()!=null){
+					referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
 				// chart = SpectrumChart.getPlot(newSelection);
 				spectrumChart = new SpectrumChart(referenceSpectrum,newSelection);
 				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
@@ -118,6 +123,7 @@ public class ComparisonSpectraController {
 						swingNodeForChart.setContent(chartPanel);
 					}
 				});
+				}
 			});
 		}
 	}
