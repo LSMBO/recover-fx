@@ -233,7 +233,7 @@ public class ComparisonSpectra {
 		if (subListSecondSpectra.getSpectraAsObservable().size() != 0) {
 			for (int i = 0; i < subListSecondSpectra.getSpectraAsObservable().size(); i++) {
 				Spectrum testedSpectrum = subListSecondSpectra.getSpectraAsObservable().get(i);
-				testedSpectrum.setDeltaMozWithRS(  testedSpectrum.getMz() - sp.getMz());
+				testedSpectrum.setDeltaMozWithRS(testedSpectrum.getMz() - sp.getMz());
 				testedSpectrum.setDeltaRetentionTimeWithRS( (int) ( (testedSpectrum.getRetentionTime() * 60) - (sp.getRetentionTime()*60) ) );
 				findFragment(testedSpectrum);
 				countNbPeak();
@@ -243,7 +243,9 @@ public class ComparisonSpectra {
 					computeCosTheta();
 					if (cosTheta >= cosThetaMin) {
 						testedSpectrum.setCosThetha(cosTheta);
+						testedSpectrum.setTitleReferenceSpectrum(sp.getTitle());
 						validSpectra.add(testedSpectrum);
+						
 					}
 				}
 			}
@@ -253,6 +255,7 @@ public class ComparisonSpectra {
 	public static Spectra getValidSpectrum() {
 		return validSpectra;
 	}
+	
 	
 	public static void setReferenceSpectrum(Spectrum referenceSpectrum){
 		sp = referenceSpectrum;

@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.view;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
@@ -9,6 +10,7 @@ import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
+import fr.lsmbo.msda.recover.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.io.FiltersReader;
 import fr.lsmbo.msda.recover.io.FiltersWriter;
 
@@ -478,12 +480,13 @@ public class FilterController {
 	}
 
 	@FXML
-	private void handleClickBtnSave() {
+	private void handleClickBtnSave() throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save fitlers setting...");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT", "*.txt"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
 		FiltersWriter.saveFilter(savedFile);
+		FilterWriterJson.saveFilter(savedFile);
 	}
 
 	// Scan control of a filter and set the property disable or enable.

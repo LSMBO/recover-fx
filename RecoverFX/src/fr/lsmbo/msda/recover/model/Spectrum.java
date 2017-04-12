@@ -36,6 +36,7 @@ public class Spectrum {
 	private float deltaMozWithRS = 0F;
 	private int deltaRetentionTimeWithRS = 0;
 	private int nbPeaksIdenticalWithRS = 0;
+	private String titleReferenceSpectrum = "";
 	
 	private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 
@@ -521,6 +522,12 @@ public class Spectrum {
 		this.nbPeaksIdenticalWithRS = nbPeaksIdentical;
 	}
 	
+	public String getTitleReferenceSpectrum(){
+		return titleReferenceSpectrum;
+	}
 	
+	public void setTitleReferenceSpectrum(String titleReferenceSpectrum){
+		this.titleReferenceSpectrum = titleReferenceSpectrum;
+	}
 
 }

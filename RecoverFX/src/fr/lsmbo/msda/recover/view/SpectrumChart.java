@@ -31,14 +31,17 @@ public class SpectrumChart {
 
 	private JFreeChart chart;
 	private Spectrum spectrum;
+	private ArrayList<Fragment> testReferenceFragment = new ArrayList<>();
+	private ArrayList<Fragment> testMatchedFragment = new ArrayList<>();
 
+	@SuppressWarnings("unchecked")
 	public SpectrumChart(Spectrum referenceSpectrum, Spectrum matchedSpectrum) {
 		XYSeries series1 = new XYSeries("Fragments of the reference spectrum");
 		XYSeries series2 = new XYSeries("Fragments of the matched spectrum");
 		XYSeries series3 = new XYSeries("Fragments equals between reference spectrum and matched spectrum");
 		
-		ArrayList<Fragment> testReferenceFragment = referenceSpectrum.getFragments();
-		ArrayList<Fragment> testMatchedFragment = matchedSpectrum.getFragments();
+		testReferenceFragment = (ArrayList<Fragment>) referenceSpectrum.getFragments().clone();
+		testMatchedFragment = (ArrayList<Fragment>) matchedSpectrum.getFragments().clone();
 		
 		ArrayList<Fragment> fragmentEquals = extractFragmentEquals(testReferenceFragment, testMatchedFragment);
 		
@@ -80,7 +83,7 @@ public class SpectrumChart {
 		
 		
 		// create the plot
-		chart = ChartFactory.createXYBarChart(matchedSpectrum.getTitle(), "M/z", false, "Intensity", dataset);
+		chart = ChartFactory.createXYBarChart(matchedSpectrum.getTitle() + " overlapped with " + referenceSpectrum.getTitle(), "M/z", false, "Intensity", dataset);
 
 		// set default axis ranges
 		// changeAxisRange();

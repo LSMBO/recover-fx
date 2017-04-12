@@ -155,6 +155,8 @@ public class RecoverController {
 	private Label infoIR;
 	@FXML
 	private Label statusBar;
+	
+	private ComparisonSpectraController CSC = new ComparisonSpectraController();
 
 	@FXML
 	private void initialize() {
@@ -204,10 +206,9 @@ public class RecoverController {
 			if (mnComparisonUsed) {
 				if (newSelection.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
 					ComparisonSpectra.test(newSelection);
-					System.out.println("In RECOVER CONTROLLER : spectrum selected : " + newSelection);
-
 				} else {
 					System.out.println("not enough number of fragment");
+					ComparisonSpectra.getValidSpectrum().initialize();
 				}
 			}
 			// // set new data and title
@@ -732,8 +733,10 @@ public class RecoverController {
 			comparisonSpectraStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			comparisonSpectraStage.setScene(scene);
-			ComparisonSpectraController comparisonSpectraController = loader.getController();
-			comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+//			ComparisonSpectraController comparisonSpectraController = loader.getController();
+			CSC = loader.getController();
+//			comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+			CSC.setDialogStage(comparisonSpectraStage);
 			mnComparisonUsed = true;
 			comparisonSpectraStage.showAndWait();
 			if (!comparisonSpectraStage.isShowing()) {
