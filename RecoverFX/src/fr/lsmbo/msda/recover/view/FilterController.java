@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
+import fr.lsmbo.msda.recover.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.io.FiltersReader;
 import fr.lsmbo.msda.recover.io.FiltersWriter;
@@ -470,12 +473,13 @@ public class FilterController {
 	}
 
 	@FXML
-	private void handleClickBtnLoad() {
+	private void handleClickBtnLoad() throws JsonParseException, IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a filter settings file");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("TXT", "*.txt"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
 		File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-		FiltersReader.load(loadFile);
+//		FiltersReader.load(loadFile);
+		FilterReaderJson.load(loadFile);
 		initialize();
 	}
 

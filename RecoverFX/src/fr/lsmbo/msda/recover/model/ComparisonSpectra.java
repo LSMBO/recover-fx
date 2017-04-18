@@ -19,16 +19,16 @@ public class ComparisonSpectra {
 	//number of peaks equals between reference spectrum (RS) and tested spectrum(TS) (same MOZ and same RT)
 	private static int nbPeaksEquals;
 	
-	private static Integer nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+	private static Integer nbPeaks;
 	
 	private static Double cosTheta;
 
 	//Arrays which contain at the same index the same peaks (same moz +/- deltaRT) 
-	private static float[] peaksRS = new float[nbPeaks];
-	private static float[] peaksTS = new float[nbPeaks];
+	private static float[] peaksRS;
+	private static float[] peaksTS;
 
-	//Arraylist to display annotation on the graph
-	private static ArrayList<Fragment> fragmentEquals = new ArrayList<Fragment>();
+//	//Arraylist to display annotation on the graph
+//	private static ArrayList<Fragment> fragmentEquals = new ArrayList<Fragment>();
 
 	
 	//Constant
@@ -48,7 +48,8 @@ public class ComparisonSpectra {
 		nbPeaksMin = ConstantComparisonSpectra.getNbPeaksMin();
 		thetaMin = ConstantComparisonSpectra.getThetaMin();
 		cosThetaMin = Math.cos(Math.toRadians(thetaMin));
-		fragmentEquals.clear();
+		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+//		fragmentEquals.clear();
 
 //		System.out.println("deltaMoz: " + deltaMoz + " deltaRT: " + deltaRT + " nbPeaksMin: " + nbPeaksMin + " thetaMin: " + thetaMin + " cosThetaMin: " + cosThetaMin);
 	}
@@ -94,6 +95,9 @@ public class ComparisonSpectra {
 		// Recover the nbpeaks most intense of the reference spectrum
 		Fragment[] nbIntensePeaks = sp.getnBIntensePeaks();
 		
+		ArrayList<Fragment> fragmentEquals = spectrumSubList.getFragmentEqualsToChart();
+		fragmentEquals.clear();
+		
 		//reset value of arrays 
 		resetPeaks();
 		
@@ -122,8 +126,10 @@ public class ComparisonSpectra {
 					
 					//add in the ArrayList of fragmentEquals the most intense fragment (between RS and TS)
 					if(fragmentReferenceSpectrum.getIntensity() > fragmentSubListSpectrum.getIntensity()){
+
 						fragmentEquals.add(fragmentReferenceSpectrum);
 					} else{
+
 						fragmentEquals.add(fragmentSubListSpectrum);
 					}
 				}
@@ -221,26 +227,32 @@ public class ComparisonSpectra {
 
 		
 		cosTheta = numeratorCosTheta / (leftDenominator * rightDenominator);
-		System.out.println(cosTheta);
 		return cosTheta;
 	}
 
 	public static void test(Spectrum spectrumRef) {
+		
 		sp = spectrumRef;
 		setReferenceSpectrum(sp);
 		initialize();
 		computeSubListSecondSpectra();
 		if (subListSecondSpectra.getSpectraAsObservable().size() != 0) {
+			System.out.println("_______________________NEW COMPARISON_______________________");
+			for(Spectrum sp : subListSecondSpectra.getSpectraAsObservable()){
+				System.out.println("spectrum in subList : " + sp.getTitle());
+			}
 			for (int i = 0; i < subListSecondSpectra.getSpectraAsObservable().size(); i++) {
 				Spectrum testedSpectrum = subListSecondSpectra.getSpectraAsObservable().get(i);
 				testedSpectrum.setDeltaMozWithRS(testedSpectrum.getMz() - sp.getMz());
 				testedSpectrum.setDeltaRetentionTimeWithRS( (int) ( (testedSpectrum.getRetentionTime() * 60) - (sp.getRetentionTime()*60) ) );
 				findFragment(testedSpectrum);
 				countNbPeak();
-				testedSpectrum.setNbPeaksIdenticalWithRS(nbPeaksEquals);
+				testedSpectrum.setNbPeaksIdenticalWithRS(nbPeaksEquals); 
 				//
+				System.out.println("Number of peaks equals between two spectra : " + nbPeaksEquals);
 				if (nbPeaksEquals >= nbPeaksMin) {
 					computeCosTheta();
+					System.out.println("Spectrum : " + testedSpectrum.getTitle() + " have cosTheta = " + cosTheta);
 					if (cosTheta >= cosThetaMin) {
 						testedSpectrum.setCosThetha(cosTheta);
 						testedSpectrum.setTitleReferenceSpectrum(sp.getTitle());
@@ -249,6 +261,8 @@ public class ComparisonSpectra {
 					}
 				}
 			}
+			System.out.println("Constant at the end : \n deltaMOZ: " + deltaMoz + "\n deltaRT: " + deltaRT + "\n nbpeak : " + nbPeaks + "\n nbPeaksMin: " + nbPeaksMin + "\n thetamin: " + thetaMin + "cos thetamin: " + cosThetaMin);
+			System.out.println("_______________________END OF COMPARISON_______________________");
 		}
 	}
 
@@ -265,9 +279,6 @@ public class ComparisonSpectra {
 		return sp;
 	}
 	
-	public static ArrayList<Fragment> getFragmentEquals(){
-		return fragmentEquals;
-	}
 	
 	
 }

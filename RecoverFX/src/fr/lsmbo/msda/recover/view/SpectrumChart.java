@@ -116,7 +116,7 @@ public class SpectrumChart {
 		changeAxisRange(referenceSpectrum, matchedSpectrum);
 
 		// display an annotation above the fragment equals used in the algorithm
-		for (Fragment f : ComparisonSpectra.getFragmentEquals()) {
+		for (Fragment f : matchedSpectrum.getFragmentEqualsToChart()) {
 			XYPointerAnnotation pointer = new XYPointerAnnotation("", f.getMz(), f.getIntensity(), -1.57);
 			pointer.setLabelOffset(20);
 			chart.getXYPlot().addAnnotation(pointer);

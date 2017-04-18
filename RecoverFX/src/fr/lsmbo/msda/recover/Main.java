@@ -21,6 +21,7 @@ public class Main {
 			System.out.println("open GUI");
 			// TODO just for fast testing
 			Session.CURRENT_FILE = new File(Main.class.getClassLoader().getResource("test/X004081MROLM.mgf").getFile());
+			System.out.println(Session.CURRENT_FILE);
 			Session.SECOND_FILE = new File(Main.class.getClassLoader().getResource("test/X004094MROLM.mgf").getFile());
 			Recover.run();
 

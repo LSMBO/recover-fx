@@ -236,23 +236,15 @@ public class RecoverController {
 		contextMenuTable.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
 		table.setContextMenu(contextMenuTable);
 
-//		matchingSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-//
-//			@Override
-//			public void handle(ActionEvent event) {
-//				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-//
-//				// Use the algorithm only if the reference spectrum have at
-//				// least a number of fragment equals to Session.NB_PEAKS
-//				if (sp.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
-//					ComparisonSpectra.test(sp);
-//
-//				} else {
-//					System.out.println("not enough number of fragment");
-//				}
-//			}
-//		});
-
+		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				
+				
+			}
+		});
+		
+		
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
 			@Override
@@ -546,10 +538,12 @@ public class RecoverController {
 		File file = fileChooser.showOpenDialog(this.dialogStage);
 		if (file != null) {
 			Recover.useSecondPeaklist = false;
+			Session.CURRENT_FILE = file;
 			loadFile(file);
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
+		statusBar.setText(StatusBar.getInformation());
 		Filters.resetHashMap();
 		// resetViewSecondPeaklist();
 	}
@@ -561,10 +555,12 @@ public class RecoverController {
 		File file = fileChooser.showOpenDialog(this.dialogStage);
 		if (file != null) {
 			Recover.useSecondPeaklist = true;
+			Session.SECOND_FILE = file;
 			loadFile(file);
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
+		statusBar.setText(StatusBar.getInformation());
 	}
 
 	public void loadFile(File selectedFile) {

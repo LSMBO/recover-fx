@@ -38,7 +38,8 @@ public class Spectrum {
 	private int nbPeaksIdenticalWithRS = 0;
 	private String titleReferenceSpectrum = "";
 	
-	private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+//	private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+	private int nbPeaks;
 
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
 	private final BooleanProperty identified = new SimpleBooleanProperty();
@@ -71,8 +72,13 @@ public class Spectrum {
 																				// is
 																				// too
 																				// big
-	private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
-	private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
+	
+	private ArrayList<Fragment> fragmentEqualsToChart = new ArrayList<Fragment>();
+	
+//	private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
+//	private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
+	private Fragment[] nBIntensePeaks;
+	private Double[] squareRootnBIntensePeaks;
 
 	public String toString() {
 		return "Spectrum id:" + id + " moz:" + mz + " intensity:" + intensity + " charge:" + charge + " title:'" + title
@@ -344,6 +350,8 @@ public class Spectrum {
 	// }
 
 	public Fragment[] getnBIntensePeaks() {
+		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+		nBIntensePeaks = new Fragment[nbPeaks];
 		if (getNbFragments() >= nbPeaks) {
 			int firstValue = getNbFragments() - 1;
 			int lastValue = firstValue - nbPeaks;
@@ -358,6 +366,9 @@ public class Spectrum {
 	}
 
 	public Double[] getSquareRootnBIntensePeaks() {
+		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+		squareRootnBIntensePeaks = new Double[nbPeaks];
+		
 		for (int i = 0; i < nbPeaks; i++) {
 			Fragment fragment = getnBIntensePeaks()[i];
 			float intensity = fragment.getIntensity();
@@ -530,4 +541,11 @@ public class Spectrum {
 		this.titleReferenceSpectrum = titleReferenceSpectrum;
 	}
 
+	public ArrayList<Fragment> getFragmentEqualsToChart(){
+		return fragmentEqualsToChart;
+	}
+	
+	public void setFragmentEqualsToChart(ArrayList<Fragment> fragmentEqualsToChart){
+		this.fragmentEqualsToChart = fragmentEqualsToChart;
+	}
 }
