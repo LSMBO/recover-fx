@@ -32,7 +32,6 @@
 						<Menu mnemonicParsing="false" text="Export...">
 							<items>
 								<MenuItem fx:id="mnExportFirstPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportFirst" text="First peaklist..." />
-								<MenuItem fx:id="mnExportSecondPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExportSecond" text="Second Peaklist..." />
 							</items>
 						</Menu>
 						<!-- <MenuItem fx:id="mnExportPeaklist" mnemonicParsing="false" onAction="#handleClickMenuExport" 
@@ -79,6 +78,7 @@
 								<KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
 							</accelerator>
 						</MenuItem>
+                  <MenuItem fx:id="mnRecoverForFlag" mnemonicParsing="false" onAction="#handleClickMenuRecoverForFlag" text="Check Recover for flagged spectrum" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Help">
@@ -111,7 +111,7 @@
 											<items>
 												<TableView fx:id="table">
 													<columns>
-                                    				<TableColumn fx:id="colFlag" prefWidth="40.0" text="Flag" />
+                                    				<TableColumn fx:id="colFlag" maxWidth="-1.0" minWidth="30.0" prefWidth="30.0" text="Flag" />
 														<TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
 														<TableColumn fx:id="colTitle" editable="false" prefWidth="75.0" text="Title" />
 														<TableColumn fx:id="colMoz" editable="false" prefWidth="50.0" text="M/z" />

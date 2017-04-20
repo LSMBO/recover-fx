@@ -36,8 +36,8 @@ public class SpectrumChart {
 
 	@SuppressWarnings("unchecked")
 	public SpectrumChart(Spectrum referenceSpectrum, Spectrum matchedSpectrum) {
-		XYSeries series1 = new XYSeries("Fragments of the reference spectrum");
-		XYSeries series2 = new XYSeries("Fragments of the matched spectrum");
+		XYSeries series2 = new XYSeries("Fragments of the reference spectrum");
+		XYSeries series1 = new XYSeries("Fragments of the matched spectrum");
 		XYSeries series3 = new XYSeries("Fragments equals between reference spectrum and matched spectrum");
 		
 		testReferenceFragment = (ArrayList<Fragment>) referenceSpectrum.getFragments().clone();
@@ -58,7 +58,7 @@ public class SpectrumChart {
 			float mzRS = f.getMz();
 			float intensityRS = f.getIntensity();
 
-			series1.add(mzRS, intensityRS);
+			series2.add(mzRS, intensityRS);
 		}
 		
 		//add fragments of the second ArrayList (without fragment equals) in a serie
@@ -66,7 +66,7 @@ public class SpectrumChart {
 			float mzMS = f.getMz();
 			float intensityMS = f.getIntensity();
 
-			series2.add(mzMS, intensityMS);
+			series1.add(mzMS, intensityMS);
 		}
 		
 		//add fragments equals between the two ArrayList

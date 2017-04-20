@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.lists;
 
-
 import fr.lsmbo.msda.recover.model.Spectrum;
 import javafx.collections.FXCollections;
 //import javafx.collections.ListChangeListener;
@@ -93,7 +92,6 @@ public class Spectra {
 		}
 	}
 
-
 	// for(Integer id: spectraPerId.keySet()) {
 	// Spectrum spectrum = spectraPerId.get(id);
 	// int i = 0;
@@ -144,22 +142,30 @@ public class Spectra {
 
 		return specificSpectrum;
 	}
-	
-	public void resetRecover(){
+
+	public void resetRecover() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setIsRecover(false);
 		}
 	}
-	
-	public void resetIdentified(){
-		for (Spectrum sp : getSpectraAsObservable()){
+
+	public void resetIdentified() {
+		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setIsIdentified(false);
 		}
 	}
-	
-	public void resetCosTheta(){
-		for (Spectrum sp : getSpectraAsObservable()){
+
+	public void resetCosTheta() {
+		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setCosThetha(0);
+		}
+	}
+
+	public void setRecoverForFlaggedSepctrum() {
+		for (Spectrum sp : getSpectraAsObservable()) {
+			if(sp.getIsFlagged()){
+				sp.setIsRecover(true);
+			}
 		}
 	}
 }

@@ -39,6 +39,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -47,6 +49,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Callback;
 
 public class RecoverController {
 
@@ -93,6 +97,8 @@ public class RecoverController {
 	private MenuItem mnIdentifiedSpectra;
 	@FXML
 	private MenuItem mnComparisonSpectra;
+	@FXML
+	private MenuItem mnRecoverForFlag;
 
 	@FXML
 	private MenuItem mnResetRecover;
@@ -155,7 +161,7 @@ public class RecoverController {
 	private Label infoIR;
 	@FXML
 	private Label statusBar;
-	
+
 	private ComparisonSpectraController CSC = new ComparisonSpectraController();
 
 	@FXML
@@ -166,8 +172,6 @@ public class RecoverController {
 		// define spectrum list
 		table.setItems(spectra.getSpectraAsObservable());
 		colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-		colFlag.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isFlagged"));
-
 		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
 		colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
@@ -183,6 +187,32 @@ public class RecoverController {
 		// Boolean>("isRecover"));
 		colRecover.setCellValueFactory(cellData -> cellData.getValue().recoveredProperty());
 		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
+		colFlag.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isFlagged"));
+		colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
+			@Override
+			public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
+				return new TableCell<Spectrum, Boolean>() {
+
+					@Override
+					public void updateItem(Boolean bool, boolean empty) {
+						super.updateItem(bool, empty);
+
+						if (!empty) {
+
+							if (bool.booleanValue()) {
+								ImageView imageView = new ImageView();
+								Image flag = new Image("/flag.png");
+								imageView.setImage(flag);
+								imageView.setFitWidth(15);
+								imageView.setFitHeight(18);
+								setGraphic(imageView);
+							}
+						}
+					}
+				};
+			}
+		});
+
 		// set column sizes
 		colId.setPrefWidth(SIZE_COL_ID);
 		colMoz.setPrefWidth(SIZE_COL_MOZ);
@@ -239,12 +269,18 @@ public class RecoverController {
 		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				
-				
+				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
+				if (!sp.getIsFlagged() && !sp.getIsRecover()) {
+					sp.setIsFlagged(true);
+				} else if (sp.getIsFlagged()) {
+					sp.setIsFlagged(false);
+					sp.setIsRecover(false);
+				}
+				table.refresh();
+
 			}
 		});
-		
-		
+
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
 			@Override
@@ -614,20 +650,6 @@ public class RecoverController {
 	}
 
 	@FXML
-	private void handleClickMenuExportSecond() {
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save your new peaklist");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
-				new ExtensionFilter("PKL", "*.pkl"));
-		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		if (savedFile != null)
-			Recover.useSecondPeaklist = true;
-		PeaklistWriter.save(savedFile);
-		// System.out.println(bottomPanel.getDividerPositions()[0]);
-
-	}
-
-	@FXML
 	private void handleClickMenuBatch() {
 	}
 
@@ -720,6 +742,7 @@ public class RecoverController {
 	@FXML
 	private void handleClickMenuComparisonSpectra() {
 		try {
+			if(!mnComparisonUsed){
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.COMPARISON_SPECTRA);
 			BorderPane page = (BorderPane) loader.load();
@@ -729,15 +752,16 @@ public class RecoverController {
 			comparisonSpectraStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			comparisonSpectraStage.setScene(scene);
-//			ComparisonSpectraController comparisonSpectraController = loader.getController();
+			// ComparisonSpectraController comparisonSpectraController =
+			// loader.getController();
 			CSC = loader.getController();
-//			comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+			// comparisonSpectraController.setDialogStage(comparisonSpectraStage);
 			CSC.setDialogStage(comparisonSpectraStage);
 			mnComparisonUsed = true;
 			comparisonSpectraStage.showAndWait();
 			if (!comparisonSpectraStage.isShowing()) {
 				mnComparisonUsed = false;
-			}
+			}}
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -750,6 +774,12 @@ public class RecoverController {
 		ListOfSpectra.getFirstSpectra().resetRecover();
 		table.refresh();
 		Filters.resetHashMap();
+	}
+
+	@FXML
+	private void handleClickMenuRecoverForFlag() {
+		ListOfSpectra.getFirstSpectra().setRecoverForFlaggedSepctrum();
+		table.refresh();
 	}
 
 	public static void setMnComparisonUsed(Boolean bool) {

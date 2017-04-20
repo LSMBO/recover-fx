@@ -79,7 +79,7 @@ public class ComparisonSettingsController {
 				displayAlertIntError(nbPeaksMin);
 			}
 			
-			//Condtion for thetamin
+			//Condition for thetaMin
 			if (!thetaMin.getText().contains(".")) {
 			thetaMinValue = TextFieldConvertor.changeTextFieldToInteger(thetaMin);
 			} else{

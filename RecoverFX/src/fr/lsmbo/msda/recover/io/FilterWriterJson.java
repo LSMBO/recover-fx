@@ -36,6 +36,7 @@ public class FilterWriterJson {
 		JsonGenerator generator = factory.createGenerator(file, JsonEncoding.UTF8);
 
 		generator.writeStartObject();
+		generator.useDefaultPrettyPrinter();
 
 		// FilterHIT generator
 		if (filterHIT != null) {
@@ -92,6 +93,7 @@ public class FilterWriterJson {
 		}
 		
 		generator.writeEndObject();
+		
 		generator.close();
 	}
 
