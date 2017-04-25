@@ -14,9 +14,7 @@ import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.io.FilterWriterJson;
-import fr.lsmbo.msda.recover.io.FiltersReader;
-import fr.lsmbo.msda.recover.io.FiltersWriter;
-
+import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -474,23 +472,41 @@ public class FilterController {
 
 	@FXML
 	private void handleClickBtnLoad() throws JsonParseException, IOException {
+		try{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a filter settings file");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+		File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+		if(initialDirectory !=null){
+			fileChooser.setInitialDirectory(initialDirectory);
+		}
+		
 		File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-//		FiltersReader.load(loadFile);
+		Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
 		FilterReaderJson.load(loadFile);
 		initialize();
+		} catch(NullPointerException e){
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
 	private void handleClickBtnSave() throws IOException {
+		try{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save fitlers setting...");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+		File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+		if(initialDirectory !=null){
+			fileChooser.setInitialDirectory(initialDirectory);
+		}
+		
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		FiltersWriter.saveFilter(savedFile);
+		Session.DIRECTORY_FILTER_FILE = savedFile.getParentFile();
 		FilterWriterJson.saveFilter(savedFile);
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
 	}
 
 	// Scan control of a filter and set the property disable or enable.

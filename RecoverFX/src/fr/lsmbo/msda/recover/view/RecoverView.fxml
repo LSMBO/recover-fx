@@ -122,6 +122,7 @@
 														<TableColumn fx:id="colUPN" editable="false" prefWidth="50.0" sortType="DESCENDING" text="UPN" />
 														<TableColumn fx:id="colIdentified" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Identified" />
 														<TableColumn fx:id="colRecover" editable="false" prefWidth="50.0" sortType="DESCENDING" text="Recover" />
+                                    <TableColumn fx:id="colNbMatch" editable="false" prefWidth="142.0" sortType="DESCENDING" text="Nb. match" />
 													</columns>
 													<contextMenu>
 														<ContextMenu>

@@ -146,12 +146,14 @@ public class Spectra {
 	public void resetRecover() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setIsRecover(false);
+			this.nbRecover = 0;
 		}
 	}
 
 	public void resetIdentified() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setIsIdentified(false);
+			this.nbIdentified = 0;
 		}
 	}
 

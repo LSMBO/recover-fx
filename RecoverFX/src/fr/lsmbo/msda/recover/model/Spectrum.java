@@ -12,7 +12,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 public class Spectrum {
-
+	
 	private Integer id = 0;
 	private Boolean isFlagged = false;
 
@@ -37,8 +37,9 @@ public class Spectrum {
 	private int deltaRetentionTimeWithRS = 0;
 	private int nbPeaksIdenticalWithRS = 0;
 	private String titleReferenceSpectrum = "";
-	
-//	private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
+	private Integer nbMatch = 0;
+
+	// private int nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 	private int nbPeaks;
 
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
@@ -72,11 +73,11 @@ public class Spectrum {
 																				// is
 																				// too
 																				// big
-	
+
 	private ArrayList<Fragment> fragmentEqualsToChart = new ArrayList<Fragment>();
-	
-//	private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
-//	private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
+
+	// private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
+	// private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
 	private Fragment[] nBIntensePeaks;
 	private Double[] squareRootnBIntensePeaks;
 
@@ -368,7 +369,7 @@ public class Spectrum {
 	public Double[] getSquareRootnBIntensePeaks() {
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 		squareRootnBIntensePeaks = new Double[nbPeaks];
-		
+
 		for (int i = 0; i < nbPeaks; i++) {
 			Fragment fragment = getnBIntensePeaks()[i];
 			float intensity = fragment.getIntensity();
@@ -508,44 +509,63 @@ public class Spectrum {
 	public void setCosThetha(double _cosTheta) {
 		this.cosTheta = _cosTheta;
 	}
-	
-	public float getDeltaMozWithRS(){
+
+	public float getDeltaMozWithRS() {
 		return deltaMozWithRS;
 	}
-	
-	public void setDeltaMozWithRS(float deltaMoz){
+
+	public void setDeltaMozWithRS(float deltaMoz) {
 		this.deltaMozWithRS = deltaMoz;
 	}
-	
-	public int getDeltaRetentionTimeWithRS(){
+
+	public int getDeltaRetentionTimeWithRS() {
 		return deltaRetentionTimeWithRS;
 	}
-	
-	public void setDeltaRetentionTimeWithRS(Integer deltaRT){
+
+	public void setDeltaRetentionTimeWithRS(Integer deltaRT) {
 		this.deltaRetentionTimeWithRS = deltaRT;
 	}
-	
-	public int getNbPeaksIdenticalWithRS(){
+
+	public int getNbPeaksIdenticalWithRS() {
 		return nbPeaksIdenticalWithRS;
 	}
-	
-	public void setNbPeaksIdenticalWithRS(Integer nbPeaksIdentical){
+
+	public void setNbPeaksIdenticalWithRS(Integer nbPeaksIdentical) {
 		this.nbPeaksIdenticalWithRS = nbPeaksIdentical;
 	}
-	
-	public String getTitleReferenceSpectrum(){
+
+	public String getTitleReferenceSpectrum() {
 		return titleReferenceSpectrum;
 	}
-	
-	public void setTitleReferenceSpectrum(String titleReferenceSpectrum){
+
+	public void setTitleReferenceSpectrum(String titleReferenceSpectrum) {
 		this.titleReferenceSpectrum = titleReferenceSpectrum;
 	}
 
-	public ArrayList<Fragment> getFragmentEqualsToChart(){
+	public ArrayList<Fragment> getFragmentEqualsToChart() {
 		return fragmentEqualsToChart;
 	}
-	
-	public void setFragmentEqualsToChart(ArrayList<Fragment> fragmentEqualsToChart){
+
+	public void setFragmentEqualsToChart(ArrayList<Fragment> fragmentEqualsToChart) {
 		this.fragmentEqualsToChart = fragmentEqualsToChart;
 	}
+
+	public Integer getNbMatch() {
+		computeNbMatch();
+		return nbMatch;
+	}
+
+	private void computeNbMatch() {
+		if (this.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
+			ComparisonSpectra.test(this);
+			if (ComparisonSpectra.getValidSpectrum().getSpectraAsObservable().size() != 0) {
+				nbMatch = ComparisonSpectra.getValidSpectrum().getSpectraAsObservable().size();
+			} else{
+				nbMatch = 0 ;
+			}
+		} else {
+			nbMatch = 0;
+		}
+	}
+
 }

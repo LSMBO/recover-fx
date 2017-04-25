@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.filters;
 
+import fr.lsmbo.msda.recover.io.ExportBatch;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
@@ -57,7 +58,14 @@ public class Filter {
 	 * 
 	 */
 	public void applyFilters() {
-		Spectra spectra = ListOfSpectra.getFirstSpectra();
+		
+		Spectra spectra = new Spectra();
+		
+		if(!ExportBatch.useBatchSpectra){
+			spectra = ListOfSpectra.getFirstSpectra();
+		} else {
+			spectra = ListOfSpectra.getBatchSpectra();
+		}
 
 		Integer nb = spectra.getSpectraAsObservable().size();
 

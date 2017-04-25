@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="1163.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.ExportBatchController">
+   <children>
+      <Separator layoutX="288.0" orientation="VERTICAL" prefHeight="600.0" />
+      <Separator layoutX="581.0" orientation="VERTICAL" prefHeight="600.0" />
+      <TextField fx:id="fileFilter" editable="false" layoutX="595.0" layoutY="213.0" prefHeight="25.0" prefWidth="265.0" />
+      <Separator layoutX="870.0" orientation="VERTICAL" prefHeight="600.0" />
+      <Label layoutX="34.0" layoutY="9.0" text="Files to be processed">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="368.0" layoutY="9.0" text="Identification">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="701.0" layoutY="9.0" text="Filter">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="991.0" layoutY="9.0" text="Output">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbtnFilterFromRecover" layoutX="596.0" layoutY="112.0" mnemonicParsing="false" onAction="#checkRbtnFilterFromRecover" text="Use selected filters in Recover">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="filter" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbtnFilterFromFile" layoutX="596.0" layoutY="173.0" mnemonicParsing="false" onAction="#checkRbtnFilterFromFile" text="Use filter parameters from file" toggleGroup="$filter">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </RadioButton>
+      <Button fx:id="btnAddFiles" layoutX="14.0" layoutY="467.0" mnemonicParsing="false" onAction="#handleClickBtnAddFiles" prefHeight="35.0" prefWidth="92.0" text="Add ..." />
+      <Button fx:id="btnAddFilter" layoutX="596.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleClickBtnAddFilter" prefHeight="35.0" prefWidth="92.0" text="Add ..." />
+      <Button fx:id="btnResetFiles" layoutX="185.0" layoutY="467.0" mnemonicParsing="false" onAction="#handleClickBtnResetFiles" prefHeight="35.0" prefWidth="92.0" text="Reset" />
+      <Button fx:id="btnResetFilter" layoutX="768.0" layoutY="250.0" mnemonicParsing="false" onAction="#handleClickBtnResetFilter" prefHeight="35.0" prefWidth="92.0" text="Reset" />
+      <RadioButton fx:id="rbtnIdenficationTextBox" layoutX="305.0" layoutY="455.0" mnemonicParsing="false" onAction="#checkRBtnIdentificationTextBox" text="Identification from text box">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="identification" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rbtnIdenficationExcelFile" layoutX="305.0" layoutY="494.0" mnemonicParsing="false" onAction="#checkRBtnIdentificationExcelFile" text="Identification from excel file" toggleGroup="$identification">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </RadioButton>
+      <Button fx:id="btnResetIdentification" layoutX="467.0" layoutY="531.0" mnemonicParsing="false" onAction="#handleClickBtnResetIdentification" prefHeight="35.0" prefWidth="92.0" text="Reset" />
+      <Button fx:id="btnOpenTextBox" layoutX="535.0" layoutY="455.0" mnemonicParsing="false" onAction="#handleClickBtnOpenTextBox" text="..." />
+      <Button fx:id="btnOpenExcelFile" layoutX="535.0" layoutY="494.0" mnemonicParsing="false" onAction="#handleClickBtnExcelFile" text="..." />
+      <TextField fx:id="outputFolder" editable="false" layoutX="885.0" layoutY="508.0" prefHeight="25.0" prefWidth="265.0" />
+      <Label layoutX="885.0" layoutY="476.0" text="Output folder">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnOutputFolder" layoutX="991.0" layoutY="477.0" mnemonicParsing="false" onAction="#handleClickBtnOutputFolder" text="..." />
+      <Button fx:id="btnProcessFile" layoutX="943.0" layoutY="539.0" mnemonicParsing="false" onAction="#handleClickBtnProcessFile" prefHeight="54.0" prefWidth="150.0" text="Process file &gt;&gt;&gt;">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <ListView fx:id="listFiles" layoutX="14.0" layoutY="53.0" prefHeight="388.0" prefWidth="265.0" />
+      <ListView fx:id="listIdentification" layoutX="305.0" layoutY="54.0" prefHeight="388.0" prefWidth="265.0" />
+      <ListView fx:id="listFilesProcessed" layoutX="883.0" layoutY="54.0" prefHeight="388.0" prefWidth="265.0" />
+      <ProgressBar fx:id="progressBarProcessing" layoutX="885.0" layoutY="448.0" prefHeight="18.0" prefWidth="265.0" progress="0.0" />
+   </children>
+</AnchorPane>

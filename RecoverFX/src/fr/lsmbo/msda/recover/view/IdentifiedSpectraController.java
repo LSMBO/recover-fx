@@ -53,6 +53,7 @@ public class IdentifiedSpectraController {
 		identifiedSpectra.setArrayTitles(arrayTitles);
 		}
 		
+		//TODO move this loop in other class
 		for (String t : identifiedSpectra.getArrayTitles()) {
 			identifiedSpectra.setIdentified(t);
 		}

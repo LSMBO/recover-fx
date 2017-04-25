@@ -117,15 +117,19 @@ public class PeaklistReader {
 		}
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
 		// add spectra as a first spectra
-		if (Recover.useSecondPeaklist == false) {
+		if (Recover.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
 			System.out.println("first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
 		// add spectra as a second spectra
-		if (Recover.useSecondPeaklist == true) {
+		if (Recover.useSecondPeaklist == true && !ExportBatch.useBatchSpectra) {
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
+		if (ExportBatch.useBatchSpectra){
+			ListOfSpectra.addBatchSpectra(spectra);
+		}
+		
 	}
 
 	private static void readPklFile(BufferedReader reader) throws IOException {

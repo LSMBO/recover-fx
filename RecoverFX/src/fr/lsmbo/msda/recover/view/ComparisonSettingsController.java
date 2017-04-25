@@ -91,6 +91,8 @@ public class ComparisonSettingsController {
 			ConstantComparisonSpectra.setNbPeaks(nbPeaksValue);
 			ConstantComparisonSpectra.setNbPeaksMin(nbPeaksMinValue);
 			ConstantComparisonSpectra.setThetaMin(thetaMinValue);
+			
+			
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);

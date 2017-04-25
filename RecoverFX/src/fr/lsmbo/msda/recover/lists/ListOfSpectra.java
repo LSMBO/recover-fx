@@ -13,8 +13,9 @@ public class ListOfSpectra {
 
 	private static Spectra firstSpectra = new Spectra();
 	private static Spectra secondSpectra = new Spectra();
+	private static Spectra batchSpectra = new Spectra();
 
-	private static Spectra[] arraySpectra = { firstSpectra, secondSpectra };
+	private static Spectra[] arraySpectra = { firstSpectra, secondSpectra, batchSpectra };
 
 	public static Spectra getFirstSpectra() {
 		return arraySpectra[0];
@@ -23,6 +24,10 @@ public class ListOfSpectra {
 	public static Spectra getSecondSpectra() {
 		return arraySpectra[1];
 	}
+	
+	public static Spectra getBatchSpectra() {
+		return arraySpectra[2];
+	}
 
 	public static void addFirstSpectra(Spectra spectra) {
 		arraySpectra[0] = spectra;
@@ -30,6 +35,10 @@ public class ListOfSpectra {
 
 	public static void addSecondSpectra(Spectra spectra) {
 		arraySpectra[1] = spectra;
+	}
+	
+	public static void addBatchSpectra(Spectra spectra){
+		arraySpectra[2] = spectra ;
 	}
 
 	public static Spectra choiceSpectra() {

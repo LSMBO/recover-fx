@@ -134,6 +134,9 @@ public class RecoverController {
 
 	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover;
+	
+	@FXML
+	private TableColumn<Spectrum, Integer> colNbMatch;
 
 	@FXML
 	private AnchorPane filterAnchor;
@@ -187,6 +190,8 @@ public class RecoverController {
 		// Boolean>("isRecover"));
 		colRecover.setCellValueFactory(cellData -> cellData.getValue().recoveredProperty());
 		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
+		colNbMatch.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbMatch"));
+		
 		colFlag.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isFlagged"));
 		colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
 			@Override
@@ -597,6 +602,7 @@ public class RecoverController {
 			// f.applyFilters();
 		}
 		statusBar.setText(StatusBar.getInformation());
+		table.refresh();
 	}
 
 	public void loadFile(File selectedFile) {
@@ -651,6 +657,23 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuBatch() {
+		try{
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Views.EXPORT_BATCH);
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Batch mode");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(this.dialogStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			ExportBatchController exportBatchController = loader.getController();
+			exportBatchController.setDialogStage(dialogStage);
+			dialogStage.showAndWait();
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+
 	}
 
 	@FXML
@@ -785,6 +808,8 @@ public class RecoverController {
 	public static void setMnComparisonUsed(Boolean bool) {
 		mnComparisonUsed = bool;
 	}
+	
+
 	// private void resetViewSecondPeaklist(){
 	// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
 	// }

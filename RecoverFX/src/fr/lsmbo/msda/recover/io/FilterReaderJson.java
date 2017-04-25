@@ -23,6 +23,7 @@ import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
+import fr.lsmbo.msda.recover.model.IonReporter;
 import jdk.nashorn.internal.parser.JSONParser;
 
 public class FilterReaderJson {
@@ -30,6 +31,7 @@ public class FilterReaderJson {
 	public static void load(File loadFile) throws JsonParseException, IOException {
 		//Reset filter before any treatment
 		Filters.resetHashMap();
+		IonReporters.getIonReporters().clear();
 		
 		try {
 			JsonFactory factory = new JsonFactory();
@@ -148,11 +150,40 @@ public class FilterReaderJson {
 				//FILTER IR 
 				if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
 					IonReporterFilter filterIR = new IonReporterFilter();
+					String name = "";
+					float moz = 0;
+					float tolerance = 0;
+					
+					token = parser.nextToken();
+					token = parser.nextToken();
+					
+					if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter"){
+						
+						while(!JsonToken.END_ARRAY.equals(token)) {
+							token = parser.nextToken();
+							
+							if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "name") {
+								token = parser.nextToken();
+								name = parser.getValueAsString();
+							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "moz"){
+								token = parser.nextToken();
+								moz = (float) parser.getValueAsDouble();
+							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "tolerance"){
+								token = parser.nextToken();
+								tolerance = (float) parser.getValueAsDouble();
+							}
+							
+							if(JsonToken.END_OBJECT.equals(token)){
+								IonReporters.add(new IonReporter(name,moz,tolerance));
+							}
+						}
+						Filters.add("IR", filterIR);	
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 }

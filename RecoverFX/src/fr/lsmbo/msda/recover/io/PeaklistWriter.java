@@ -18,6 +18,8 @@ import fr.lsmbo.msda.recover.model.Spectrum;
  *
  */
 public class PeaklistWriter {
+	
+	private static File fileReader ;
 
 	public static void save(File file) {
 		Date actualDate = Calendar.getInstance().getTime();
@@ -26,14 +28,20 @@ public class PeaklistWriter {
 		Spectrum spectrum = null;
 		Integer lineNumber = 0;
 		ArrayList<String> arrayLine = new ArrayList<String>();
-		Spectra spectra = ListOfSpectra.getFirstSpectra();
-		File fileReader = Session.CURRENT_FILE;
-
-		// check if the file to export is the second spectra.
-		if (Recover.useSecondPeaklist) {
-			spectra = ListOfSpectra.getSecondSpectra();
-			fileReader = Session.SECOND_FILE;
+		Spectra spectra ;
+		
+		
+		
+		if(!ExportBatch.useBatchSpectra){
+			spectra = ListOfSpectra.getFirstSpectra();
+			fileReader = Session.CURRENT_FILE;
+		} else {
+			spectra = ListOfSpectra.getBatchSpectra();
+			
+			
 		}
+
+
 
 		try {
 			BufferedWriter writerNewPeaklist = new BufferedWriter(new FileWriter(file));
@@ -66,6 +74,8 @@ public class PeaklistWriter {
 				// before the title.
 				if (spectrum != null && spectrum.getIsRecover()) {
 					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n");
+				} else if(spectrum != null && spectrum.getIsIdentified()){
+					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n");
 				}
 
 				// if spectrum is recover, write previous line (index - 1) plus
@@ -74,8 +84,10 @@ public class PeaklistWriter {
 				// spectrum.
 				if (line.startsWith("END IONS")) {
 					if (spectrum != null && spectrum.getIsRecover()) {
-						writerNewPeaklist
-								.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
+						writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
+						writerNewPeaklist.newLine();
+					} else if (spectrum != null && spectrum.getIsIdentified()){
+						writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
 						writerNewPeaklist.newLine();
 					}
 					spectrum = null;
@@ -91,4 +103,9 @@ public class PeaklistWriter {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void setFileReader(File file){
+		fileReader = file;
+	}
+	
 }
