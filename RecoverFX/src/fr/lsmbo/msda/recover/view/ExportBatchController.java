@@ -96,6 +96,7 @@ public class ExportBatchController {
 		listFiles.setItems(ExportBatch.getListFile());
 		listIdentification.setItems(ExportBatch.getListIdentification());
 		listFilesProcessed.setItems(ExportBatch.getListFileProcess());
+
 	}
 
 	public void setDialogStage(Stage dialogStage) {
@@ -110,9 +111,10 @@ public class ExportBatchController {
 				new ExtensionFilter("PKL", "*.pkl"));
 		List<File> files = fileChooser.showOpenMultipleDialog(this.dialogStage);
 
-		ExportBatch.addListFile(files);
-
-		btnResetFiles.setDisable(false);
+		if (files != null) {
+			ExportBatch.addListFile(files);
+			btnResetFiles.setDisable(false);
+		}
 	}
 
 	@FXML
@@ -138,9 +140,11 @@ public class ExportBatchController {
 			dialogStage.showAndWait();
 
 			IdentifiedSpectra identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
-			ExportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+			if (identifiedSpectra.getArrayTitles() != null) {
+				ExportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
 
-			btnResetIdentification.setDisable(false);
+				btnResetIdentification.setDisable(false);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -169,10 +173,13 @@ public class ExportBatchController {
 			}
 
 			File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-			Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
-			FilterReaderJson.load(loadFile);
-			fileFilter.setText(loadFile.getName());
-			btnResetFilter.setDisable(false);
+			
+			if (loadFile != null) {
+				Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
+				FilterReaderJson.load(loadFile);
+				fileFilter.setText(loadFile.getName());
+				btnResetFilter.setDisable(false);
+			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -190,36 +197,42 @@ public class ExportBatchController {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose a destination folder");
 		File directory = directoryChooser.showDialog(this.dialogStage);
-		outputFolder.setText(directory.getAbsolutePath());
-		ExportBatch.setDirectoryFolder(directory.getAbsolutePath());
+		if (directory != null) {
+			outputFolder.setText(directory.getAbsolutePath());
+			ExportBatch.setDirectoryFolder(directory.getAbsolutePath());
+		}
 	}
 
 	@FXML
 	private void handleClickBtnProcessFile() {
 
-		if(listFiles.getItems().size() ==0){
+		if (listFiles.getItems().size() == 0) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Files missing");
-			alert.setHeaderText(
-					"Files to be processed are missing, please import files");
+			alert.setHeaderText("Files to be processed are missing, please import files");
 			alert.showAndWait();
+			handleClickBtnAddFiles();
 		}
-		
-		if(listIdentification.getItems().size() == 0 && Filters.nbFilterUsed() ==0){
+
+		else if (listIdentification.getItems().size() == 0 && Filters.nbFilterUsed() == 0) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Identification and filter missing");
 			alert.setHeaderText(
 					"There are no title to identified spectra and no filters used, please use at least one of two");
 			alert.showAndWait();
 		}
-		
-		//Verify if a folder was selected, if not open the dialog to select a folder
-		if (outputFolder.getText().length() == 0) {
+
+		// Verify if a folder was selected, if not open the dialog to select a
+		// folder
+		else if (outputFolder.getText().length() == 0) {
 			handleClickBtnOutputFolder();
 		}
-		
+
+		else{
+			System.out.println("Launch MAIN");
 		ExportBatch.Main();
 		ExportBatch.useBatchSpectra = false;
+		}
 	}
 
 	@FXML
@@ -254,6 +267,5 @@ public class ExportBatchController {
 			btnAddFilter.setDisable(false);
 		}
 	}
-	
 
 }

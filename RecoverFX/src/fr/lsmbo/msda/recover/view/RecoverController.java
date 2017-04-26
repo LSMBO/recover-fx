@@ -19,6 +19,7 @@ import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.gui.Recover;
+import fr.lsmbo.msda.recover.io.ExportBatch;
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
@@ -648,9 +649,10 @@ public class RecoverController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
 				new ExtensionFilter("PKL", "*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		if (savedFile != null)
+		if (savedFile != null){
 			Recover.useSecondPeaklist = false;
 		PeaklistWriter.save(savedFile);
+		}
 		// System.out.println(bottomPanel.getDividerPositions()[0]);
 
 	}
@@ -667,7 +669,7 @@ public class RecoverController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			ExportBatchController exportBatchController = loader.getController();
+			ExportBatchController exportBatchController = loader.getController();	
 			exportBatchController.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 		} catch(IOException e){

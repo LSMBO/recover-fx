@@ -15,46 +15,48 @@ import fr.lsmbo.msda.recover.view.IdentifiedSpectraController;
 import javafx.scene.control.TextInputDialog;
 
 public class IdentifiedSpectraFromExcel {
-	private static String title ="";
+	private static String title = "";
+	private static Boolean titleFoundInSheet = false;
+	private static int nbTitle = 0;
 
+	
 	public static void load(File file) {
 		try {
 			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
+			Boolean changeContentText = false;
+		while(!titleFoundInSheet){
 			
-			TextInputDialog dialog = new TextInputDialog("Ex: For column \"A\" enter \"1\"");
-			dialog.setTitle("Information about your Excel File");
-			dialog.setContentText("Please enter the column of your title");
-			dialog.showAndWait();
-
-			int indexColum = Integer.parseInt(dialog.getResult());
-			int nbTitle = 0;
-
-			XSSFSheet sheet = workbook.getSheetAt(0);
-
+			
+			TextInputDialog dialogSheet = new TextInputDialog();
+			dialogSheet.setTitle("Information about the sheet used");
+			
+			if(!changeContentText){
+				dialogSheet.setContentText("Please enter here the index of the sheet which contains titles.");
+			} else{
+				dialogSheet.setContentText("No titles was found, please enter a good index of your sheet");
+			}
+			dialogSheet.showAndWait();
+			
+			int indexSheet = Integer.parseInt(dialogSheet.getResult()) - 1;
+			
+			XSSFSheet sheet = workbook.getSheetAt(indexSheet);
 			Iterator<Row> rowIteratorCount = sheet.iterator();
-			Iterator<Row> rowIterator = sheet.iterator();
-
-			// count number of title
-			while (rowIteratorCount.hasNext()) {
+			
+			
+			while(rowIteratorCount.hasNext()){
 				rowIteratorCount.next();
 				nbTitle++;
 			}
 			
-			
-			String[] title = new String[nbTitle];
-
-			int i = 0;
-			while (rowIterator.hasNext()) {
-				Row row = rowIterator.next();
-				title[i] = row.getCell(indexColum - 1).getStringCellValue();
-				i++;
+			if(nbTitle !=0){
+				titleFoundInSheet = true;
+			} else {
+				changeContentText = true;
 			}
-
-			IdentifiedSpectra identifiedSpectra = IdentifiedSpectraController.getIdentifiedSpectra();
-			identifiedSpectra.setArrayTitles(title);
+		}
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -65,5 +67,14 @@ public class IdentifiedSpectraFromExcel {
 
 	public static String getTitle() {
 		return title;
+	}
+	
+	public static String rewriteGoodIndex(){
+		TextInputDialog dialogSheet = new TextInputDialog();
+		dialogSheet.setTitle("Information about the sheet used");
+		dialogSheet.setContentText("No titles was found. Please verify and enter the good index of your sheet");
+		dialogSheet.showAndWait();
+		
+		return dialogSheet.getResult();
 	}
 }
