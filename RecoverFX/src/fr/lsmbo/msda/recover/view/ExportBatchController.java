@@ -13,6 +13,8 @@ import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.io.ExportBatch;
 import fr.lsmbo.msda.recover.io.FilterReaderJson;
+import fr.lsmbo.msda.recover.io.IdentifiedSpectraFromExcel;
+import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
 import javafx.collections.FXCollections;
@@ -153,6 +155,11 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnExcelFile() {
+		FileChooser filechooser = new FileChooser();
+		filechooser.setTitle("Import your excel file");
+		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS","*.xlsx"));
+		File excelFile = filechooser.showOpenDialog(this.dialogStage);
+		IdentifiedSpectraFromExcel.load(excelFile);
 	}
 
 	@FXML
@@ -229,8 +236,12 @@ public class ExportBatchController {
 		}
 
 		else{
-			System.out.println("Launch MAIN");
-		ExportBatch.Main();
+			long startTime = System.currentTimeMillis();
+			ExportBatch.Main();
+			long endTime = System.currentTimeMillis();
+			long totalTime = endTime - startTime;
+			System.out.println("Time export batch: " + (double) totalTime / 1000 + " sec");
+		
 		ExportBatch.useBatchSpectra = false;
 		}
 	}

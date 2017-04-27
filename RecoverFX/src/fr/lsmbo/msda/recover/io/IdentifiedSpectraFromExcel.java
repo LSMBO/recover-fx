@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -16,33 +20,43 @@ import javafx.scene.control.TextInputDialog;
 
 public class IdentifiedSpectraFromExcel {
 	private static String title = "";
-	private static Boolean titleFoundInSheet = false;
-	private static int nbTitle = 0;
+
 
 	
+	@SuppressWarnings("deprecation")
 	public static void load(File file) {
 		try {
 			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
-			Boolean changeContentText = false;
-		while(!titleFoundInSheet){
+			XSSFSheet sheet = null ;
+			int nbSheetInWorkbook = workbook.getNumberOfSheets();
+			
+			Boolean titlesFoundInSheet = false;
+			Boolean titlesFoundInColumn = false;
+			Boolean changeContentTextSheet = false;
+			Boolean changeContentTextColumn= false ;
+			int nbTitle = 0;
+			
+
+		while(!titlesFoundInSheet){
 			
 			
 			TextInputDialog dialogSheet = new TextInputDialog();
 			dialogSheet.setTitle("Information about the sheet used");
 			
-			if(!changeContentText){
-				dialogSheet.setContentText("Please enter here the index of the sheet which contains titles.");
+			
+			if(!changeContentTextSheet){
+				dialogSheet.setContentText("Please enter here the index of the sheet which contains titles. \nIndex must be between 1 and " + nbSheetInWorkbook +".");
 			} else{
-				dialogSheet.setContentText("No titles was found, please enter a good index of your sheet");
+				dialogSheet.setContentText("No titles was found, please enter a good index of your sheet. \nIndex must be between 1 and " + nbSheetInWorkbook +".");
 			}
 			dialogSheet.showAndWait();
 			
 			int indexSheet = Integer.parseInt(dialogSheet.getResult()) - 1;
 			
-			XSSFSheet sheet = workbook.getSheetAt(indexSheet);
+			sheet = workbook.getSheetAt(indexSheet);
 			Iterator<Row> rowIteratorCount = sheet.iterator();
 			
 			
@@ -52,11 +66,57 @@ public class IdentifiedSpectraFromExcel {
 			}
 			
 			if(nbTitle !=0){
-				titleFoundInSheet = true;
+				titlesFoundInSheet = true;
 			} else {
-				changeContentText = true;
+				changeContentTextSheet = true;
 			}
 		}
+		
+		String[] titles = new String[nbTitle];
+		
+		while(!titlesFoundInColumn){
+			TextInputDialog dialogColumn = new TextInputDialog("Ex: For \"A\" enter \"1\"");
+			dialogColumn.setTitle("Information about the column used");
+			if(!changeContentTextColumn){
+				dialogColumn.setContentText("Please enter the column of your title");
+			} else {
+				dialogColumn.setContentText("No titles was found, make sure the column index was good");
+			}
+			dialogColumn.showAndWait();
+			
+			int indexColumn = Integer.parseInt(dialogColumn.getResult()) - 1;
+			Iterator<Row> rowIterator =  sheet.iterator();
+			
+			
+			try{
+				int i = 0;
+				while(rowIterator.hasNext()){
+				Row row = rowIterator.next();
+				Cell cell = row.getCell(indexColumn);
+				if(cell.getCellTypeEnum() == CellType.FORMULA){
+					FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+					CellValue cellValue = evaluator.evaluate(cell);
+					if(cellValue.getCellTypeEnum() == CellType.STRING){
+						titles[i] = cellValue.getStringValue();
+						i++;
+					}
+				} else if (cell.getCellTypeEnum() == CellType.STRING){
+					titles[i] = cell.getStringCellValue();
+					i++;
+				}
+					titlesFoundInColumn = true;
+				}
+			} catch(NullPointerException e){
+				changeContentTextColumn = true;
+			}
+			
+			
+		}
+		
+		workbook.close();
+		
+		IdentifiedSpectra identifiedSpectra = IdentifiedSpectraController.getIdentifiedSpectra();
+		identifiedSpectra.setArrayTitles(titles);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -69,12 +129,5 @@ public class IdentifiedSpectraFromExcel {
 		return title;
 	}
 	
-	public static String rewriteGoodIndex(){
-		TextInputDialog dialogSheet = new TextInputDialog();
-		dialogSheet.setTitle("Information about the sheet used");
-		dialogSheet.setContentText("No titles was found. Please verify and enter the good index of your sheet");
-		dialogSheet.showAndWait();
-		
-		return dialogSheet.getResult();
-	}
+
 }
