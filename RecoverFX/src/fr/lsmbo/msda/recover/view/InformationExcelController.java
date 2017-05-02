@@ -24,11 +24,21 @@ public class InformationExcelController {
 	
 	@FXML
 	private void initialize(){
+
 		sheetList.setItems(IdentifiedSpectraFromExcel.getListSheet());
+		columnIndex.setPromptText("Ex : A3");
 	}
 	
 	@FXML
 	private void handleClickBtnOk(){
+		int index = Integer.parseInt(columnIndex.getText().replaceAll("\\D+", ""));
+		String column = columnIndex.getText().replaceAll("\\d+", "");
+		String sheetNameSelected = sheetList.getValue();
+		
+		IdentifiedSpectraFromExcel.setRowNumber(index - 1);
+		IdentifiedSpectraFromExcel.setColumn(column);
+		IdentifiedSpectraFromExcel.setCurrentSheetName(sheetNameSelected);
+		dialogStage.close();
 		
 	}
 }

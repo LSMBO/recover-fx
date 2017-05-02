@@ -19,12 +19,15 @@ import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
@@ -35,9 +38,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ExportBatchController {
+	
+	@FXML
+	private Button btnTest;
 
 	@FXML
 	private ListView<File> listFiles;
@@ -76,6 +83,8 @@ public class ExportBatchController {
 	private Button btnOutputFolder;
 	@FXML
 	private TextField outputFolder;
+	@FXML
+	private Button btnProcessFile;
 
 	@FXML
 	private ProgressBar progressBarProcessing;
@@ -98,7 +107,32 @@ public class ExportBatchController {
 		listFiles.setItems(ExportBatch.getListFile());
 		listIdentification.setItems(ExportBatch.getListIdentification());
 		listFilesProcessed.setItems(ExportBatch.getListFileProcess());
+		
+		//add specific identification excel file for a file
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem addExcelFile = new MenuItem("Add excel file ...");
+		contextMenu.getItems().add(addExcelFile);
+		listFiles.setContextMenu(contextMenu);
+		
+		addExcelFile.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			private Window dialogStage;
 
+			@Override
+			public void handle(ActionEvent event) {
+				File file = listFiles.getSelectionModel().getSelectedItem();
+				FileChooser filechooser = new FileChooser();
+				filechooser.setTitle("Import your excel file");
+				filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS","*.xlsx"));
+				File excelFile = filechooser.showOpenDialog(this.dialogStage);
+				ExportBatch.putExcelFileWithCorrespondingFile(file, excelFile);
+			}
+		});
+
+	}
+	
+	@FXML
+	private void doTest(){
+		ExportBatch.makeSomeTest();
 	}
 
 	public void setDialogStage(Stage dialogStage) {
@@ -117,6 +151,7 @@ public class ExportBatchController {
 			ExportBatch.addListFile(files);
 			btnResetFiles.setDisable(false);
 		}
+		
 	}
 
 	@FXML

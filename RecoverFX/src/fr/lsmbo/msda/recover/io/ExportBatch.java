@@ -1,9 +1,13 @@
 package fr.lsmbo.msda.recover.io;
 
 import java.io.File;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
+
+import com.sun.javafx.collections.MappingChange.Map;
 
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
@@ -16,6 +20,8 @@ import javafx.scene.control.ButtonType;
 
 public class ExportBatch {
 	private static ObservableList<File> listFile = FXCollections.observableArrayList();
+	private static HashMap<File, File> listFileExcelFile = new HashMap<File, File>();
+	
 	private static ObservableList<String> listIdentification = FXCollections.observableArrayList();
 	private static ObservableList<File> listFileProcess = FXCollections.observableArrayList();
 
@@ -23,21 +29,45 @@ public class ExportBatch {
 
 	public static Boolean useBatchSpectra = false;
 
+	
+	public static void addFileImportInHashMap(File file){
+			listFileExcelFile.put(file, null);
+	}
+	
+	public static void putExcelFileWithCorrespondingFile(File file, File fileExcel){
+		listFileExcelFile.put(file, fileExcel);
+	}
+	
+	public static void makeSomeTest(){
+		
+		for(Entry<File, File>  file : listFileExcelFile.entrySet()){
+			if(file.getValue() != null){
+			System.out.println(file.getKey().getName() + " " + file.getValue().getName());
+			} else
+				System.out.println(file.getKey().getName());
+		}
+	}
+	
 	//Method call every time batch mode was used. Clear all lists and directory folder
 	public static void initialize() {
+		
 		listFile.clear();
 		listIdentification.clear();
 		listFileProcess.clear();
 		directoryFolder = "";
+		listFileExcelFile.clear();
 
 	}
 
 	public static void Main() {
+
+		
 		useBatchSpectra = true;
 		ObservableList<File> duplicateListFile = FXCollections.observableArrayList(listFile);
 
 		for (File f : duplicateListFile) {
 
+			//look if the file is already present in the folder
 			if(isPresentInDirectoryFolder(f)){
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Same file in the directory folder");
@@ -48,9 +78,14 @@ public class ExportBatch {
 				}
 			}
 			
+
+			
 			PeaklistReader.load(f);
 			
+			//look if the file have a specific excel file for identification
+			if(listFileExcelFile.get(f) == null){
 			doIdentification();
+			} 
 			
 			Filter filter = new Filter();
 			filter.applyFilters();
@@ -60,9 +95,10 @@ public class ExportBatch {
 			PeaklistWriter.setFileReader(f);
 			PeaklistWriter.save(newFile);
 
-			removeOneFromListFile();
+			removeOneFromListFile();	
 			
 			listFileProcess.add(newFile);
+			
 
 			// System.out.println("Number of spectrum : " +
 			// spectra.getSpectraAsObservable().size() +" number of recover : "
@@ -81,6 +117,7 @@ public class ExportBatch {
 				alert.showAndWait();
 			} else {
 				listFile.add(f);
+				addFileImportInHashMap(f);
 			}
 		}
 	}
@@ -108,6 +145,7 @@ public class ExportBatch {
 
 	public static void resetListFile() {
 		listFile.clear();
+		listFileExcelFile.clear();
 	}
 
 	public static void removeOneFromListFile() {
@@ -116,7 +154,7 @@ public class ExportBatch {
 	}
 
 	
-	public static void addListIdentification(String[] titles) {
+	public static void addListIdentification(ArrayList<String> titles) {
 		for (String t : titles) {
 			if (isAlreadyPresentInListIdentification(t)) {
 				Alert alert = new Alert(AlertType.WARNING);

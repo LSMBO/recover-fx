@@ -1,6 +1,9 @@
 package fr.lsmbo.msda.recover.view;
 
+import java.util.ArrayList;
+
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.model.ConvertorArrayToArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -23,7 +26,8 @@ public class IdentifiedSpectraForBatchController {
 	@FXML
 	private void applyIdentificationOfSpectrum(){
 		String[] arrayTitles = titles.getText().split("\n");
-		identifiedSpectra.setArrayTitles(arrayTitles);
+		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
+		identifiedSpectra.setArrayTitles(arrayListTitles);
 		
 		identifiedSpectraForBatchStage.close();
 	}
@@ -31,4 +35,5 @@ public class IdentifiedSpectraForBatchController {
 	public static IdentifiedSpectra getIdentifiedSpectra(){
 		return identifiedSpectra ;
 	}
+	
 }

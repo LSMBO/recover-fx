@@ -1,12 +1,18 @@
 package fr.lsmbo.msda.recover.view;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import fr.lsmbo.msda.recover.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.model.ConvertorArrayToArrayList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
@@ -50,7 +56,8 @@ public class IdentifiedSpectraController {
 
 		if(!excelFileImported){
 		String[] arrayTitles = titles.getText().split("\n");
-		identifiedSpectra.setArrayTitles(arrayTitles);
+		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
+		identifiedSpectra.setArrayTitles(arrayListTitles);
 		}
 		
 		//TODO move this loop in other class
@@ -80,11 +87,19 @@ public class IdentifiedSpectraController {
 	
 	@FXML
 	private void handleClickDeleteImport(){
-		btnDeleteImport.setVisible(false);
-		infoExcelFile.setText(null);
-		infoExcelFile.setVisible(false);
-		identifiedSpectra.setArrayTitles(null);
-		excelFileImported = false;
-		ListOfSpectra.getFirstSpectra().resetIdentified();
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Remove excel file");
+		alert.setContentText("You are removing excel file. That will RESET ALL identified spectra."
+				+ "\nAre you sure you want to do this ?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK){
+			btnDeleteImport.setVisible(false);
+			infoExcelFile.setText(null);
+			infoExcelFile.setVisible(false);
+			identifiedSpectra.setArrayTitles(null);
+			excelFileImported = false;
+			ListOfSpectra.getFirstSpectra().resetIdentified();
+		}
+
 	}
 }
