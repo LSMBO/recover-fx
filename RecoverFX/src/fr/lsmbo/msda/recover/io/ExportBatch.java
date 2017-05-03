@@ -19,101 +19,71 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
 public class ExportBatch {
-	private static ObservableList<File> listFile = FXCollections.observableArrayList();
-	private static HashMap<File, File> listFileExcelFile = new HashMap<File, File>();
-	
-	private static ObservableList<String> listIdentification = FXCollections.observableArrayList();
-	private static ObservableList<File> listFileProcess = FXCollections.observableArrayList();
-
-	private static String directoryFolder = "";
-
+	private ObservableList<File> listFile = FXCollections.observableArrayList();
+	private HashMap<File, ArrayList<String>> listFileExcelFile = new HashMap<File, ArrayList<String>>();
+	private ObservableList<String> listIdentification = FXCollections.observableArrayList();
+	private ObservableList<File> listFileProcess = FXCollections.observableArrayList();
+	private String directoryFolder = "";
 	public static Boolean useBatchSpectra = false;
 
-	
-	public static void addFileImportInHashMap(File file){
-			listFileExcelFile.put(file, null);
+	public void addFileImportInHashMap(File file) {
+		listFileExcelFile.put(file, null);
 	}
-	
-	public static void putExcelFileWithCorrespondingFile(File file, File fileExcel){
-		listFileExcelFile.put(file, fileExcel);
+
+	public void addSpecificifIdentification(File file, ArrayList<String> specificListIdentification) {
+		listFileExcelFile.put(file, specificListIdentification);
 	}
-	
-	public static void makeSomeTest(){
-		
-		for(Entry<File, File>  file : listFileExcelFile.entrySet()){
-			if(file.getValue() != null){
-			System.out.println(file.getKey().getName() + " " + file.getValue().getName());
+
+	public void makeSomeTest() {
+
+		for (Entry<File, ArrayList<String>> file : listFileExcelFile.entrySet()) {
+			if (file.getValue() != null) {
+				System.out.println(file);
 			} else
-				System.out.println(file.getKey().getName());
+				System.out.println(file);
 		}
 	}
-	
-	//Method call every time batch mode was used. Clear all lists and directory folder
-	public static void initialize() {
-		
-		listFile.clear();
-		listIdentification.clear();
-		listFileProcess.clear();
-		directoryFolder = "";
-		listFileExcelFile.clear();
 
-	}
+	public void Main() {
 
-	public static void Main() {
-
-		
 		useBatchSpectra = true;
 		ObservableList<File> duplicateListFile = FXCollections.observableArrayList(listFile);
+		if(!stopCompute()){
 
 		for (File f : duplicateListFile) {
-
-			//look if the file is already present in the folder
-			if(isPresentInDirectoryFolder(f)){
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Same file in the directory folder");
-				alert.setHeaderText(f.getName() + "is already present in the directory folder. Are you sure you want to overwrite it ?");
-				Optional<ButtonType> result = alert.showAndWait();
-				if(result.get() == ButtonType.CANCEL){
-					continue;
-				}
-			}
-			
-
-			
 			PeaklistReader.load(f);
-			
-			//look if the file have a specific excel file for identification
-			if(listFileExcelFile.get(f) == null){
-			doIdentification();
-			} 
-			
+
+			// look if the file have a specific excel file for identification
+			if (listFileExcelFile.get(f) == null) {
+				doIdentification();
+			} else {
+				doSpecificIdentification(f);
+			}
+
 			Filter filter = new Filter();
 			filter.applyFilters();
-			
+
 			File newFile = new File(directoryFolder + "\\" + f.getName());
-			
+
 			PeaklistWriter.setFileReader(f);
 			PeaklistWriter.save(newFile);
 
-			removeOneFromListFile();	
-			
-			listFileProcess.add(newFile);
-			
+			removeOneFromListFile();
 
-			// System.out.println("Number of spectrum : " +
-			// spectra.getSpectraAsObservable().size() +" number of recover : "
-			// + spectra.getNbRecover() +" number of identified : " +
-			// spectra.getNbIdentified());
+			listFileProcess.add(newFile);
+		}
 		}
 	}
 
-	//add file form a List<File> to an observableList and check if the file is already present in this observablelist
-	public static void addListFile(List<File> file) {
+	// add file form a List<File> to an observableList and check if the file is
+	// already present in this observablelist
+	public void addListFile(List<File> file) {
 		for (File f : file) {
 			if (isAlreadyPresentInListFile(f)) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("File duplicate");
-				alert.setHeaderText("This file : " + f.getName() + " is already present in the list. It will not add to its");
+				alert.setHeaderText(
+						"This file : " + f.getName() + " is already present in the list. It will not add to its");
 				alert.showAndWait();
 			} else {
 				listFile.add(f);
@@ -122,8 +92,9 @@ public class ExportBatch {
 		}
 	}
 
-	//check if a file is already in the list. same object or if the name are the same.
-	private static Boolean isAlreadyPresentInListFile(File newFile) {
+	// check if a file is already in the list. same object or if the name are
+	// the same.
+	private Boolean isAlreadyPresentInListFile(File newFile) {
 		Boolean isPresent = false;
 
 		for (File f : listFile) {
@@ -138,28 +109,27 @@ public class ExportBatch {
 		return isPresent;
 	}
 
-	
-	public static ObservableList<File> getListFile() {
+	public ObservableList<File> getListFile() {
 		return listFile;
 	}
 
-	public static void resetListFile() {
+	public void resetListFile() {
 		listFile.clear();
 		listFileExcelFile.clear();
 	}
 
-	public static void removeOneFromListFile() {
+	public void removeOneFromListFile() {
 		if (listFile.size() > 0)
 			listFile.remove(0);
 	}
 
-	
-	public static void addListIdentification(ArrayList<String> titles) {
+	public void addListIdentification(ArrayList<String> titles) {
 		for (String t : titles) {
 			if (isAlreadyPresentInListIdentification(t)) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Title duplicate");
-				alert.setHeaderText("This title : \"" + t + "\" is already present in the list. It will not add to its");
+				alert.setHeaderText(
+						"This title : \"" + t + "\" is already present in the list. It will not add to its");
 				alert.showAndWait();
 			} else {
 				listIdentification.add(t);
@@ -167,7 +137,7 @@ public class ExportBatch {
 		}
 	}
 
-	private static Boolean isAlreadyPresentInListIdentification(String title) {
+	private Boolean isAlreadyPresentInListIdentification(String title) {
 		Boolean isPresent = false;
 
 		for (String t : listIdentification) {
@@ -179,41 +149,77 @@ public class ExportBatch {
 		return isPresent;
 	}
 
-	public static ObservableList<String> getListIdentification() {
+	public ObservableList<String> getListIdentification() {
 		return listIdentification;
 	}
 
-	public static void resetListIdentification() {
+	public void resetListIdentification() {
 		listIdentification.clear();
 	}
 
-	public static ObservableList<File> getListFileProcess() {
+	public ObservableList<File> getListFileProcess() {
 		return listFileProcess;
 	}
 
-	public static void setDirectoryFolder(String folder) {
+	public void setDirectoryFolder(String folder) {
 		directoryFolder = folder;
 	}
 
-	private static void doIdentification() {
+	private void doIdentification() {
 		IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 		for (String t : listIdentification) {
 			identifiedSpectra.setIdentified(t);
 		}
 	}
-	
-	private static Boolean isPresentInDirectoryFolder(File f){
+
+	private void doSpecificIdentification(File file) {
+		IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
+		for (String t : listIdentification) {
+			System.out.println("common identification : " + t);
+			identifiedSpectra.setIdentified(t);
+		}
+		for (String t : listFileExcelFile.get(file)) {
+			System.out.println("specific identification : " + t);
+			identifiedSpectra.setIdentified(t);
+		}
+	}
+
+	private Boolean isPresentInDirectoryFolder(File f) {
 		Boolean isPresent = false;
-		
+
 		File folder = new File(directoryFolder);
 		File[] listOfFilesDirectoryFolder = folder.listFiles();
-		
-		for(File file : listOfFilesDirectoryFolder){
-			if(f.getName().equals(file.getName())){
+
+		for (File file : listOfFilesDirectoryFolder) {
+			if (f.getName().equals(file.getName())) {
 				isPresent = true;
 			}
 		}
-		
 		return isPresent;
+	}
+
+	private Boolean stopCompute() {
+		Boolean stopCompute = false;
+		ObservableList<File> duplicateListFile = FXCollections.observableArrayList(listFile);
+		String allFiles = "";
+
+		for (File f : duplicateListFile) {
+			// look if the file is already present in the folder
+			if (isPresentInDirectoryFolder(f)) {
+				allFiles += f.getName() + "\n";
+			}
+		}
+		
+
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Same file in the directory folder");
+		alert.setHeaderText("Following files are already present in the directory folder. Are you sure you want to overwrite them ?" +"\n" + allFiles);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.CANCEL) {
+			stopCompute = true;
+			;
+		}
+		
+		return stopCompute;
 	}
 }

@@ -267,9 +267,8 @@ public class RecoverController {
 
 		ContextMenu contextMenuTable = new ContextMenu();
 		MenuItem infoFilter = new MenuItem("Information about filters applied");
-		MenuItem matchingSpectrum = new MenuItem("Find Matching Spectrum");
 		MenuItem flaggedSpectrum = new MenuItem("Flag");
-		contextMenuTable.getItems().addAll(infoFilter, matchingSpectrum, flaggedSpectrum);
+		contextMenuTable.getItems().addAll(infoFilter, flaggedSpectrum);
 		table.setContextMenu(contextMenuTable);
 
 		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {

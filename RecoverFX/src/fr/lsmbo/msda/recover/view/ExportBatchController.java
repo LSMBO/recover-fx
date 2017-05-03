@@ -2,6 +2,7 @@ package fr.lsmbo.msda.recover.view;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jfree.ui.ExtensionFileFilter;
@@ -42,7 +43,7 @@ import javafx.stage.Window;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class ExportBatchController {
-	
+
 	@FXML
 	private Button btnTest;
 
@@ -90,6 +91,9 @@ public class ExportBatchController {
 	private ProgressBar progressBarProcessing;
 
 	private Stage dialogStage;
+	private ExportBatch exportBatch = new ExportBatch();
+
+	public static Boolean specificIdentification = false;
 
 	@FXML
 	private void initialize() {
@@ -102,37 +106,41 @@ public class ExportBatchController {
 
 		rbtnIdenficationTextBox.setSelected(true);
 		rbtnFilterFromRecover.setSelected(true);
-		ExportBatch.initialize();
 
-		listFiles.setItems(ExportBatch.getListFile());
-		listIdentification.setItems(ExportBatch.getListIdentification());
-		listFilesProcessed.setItems(ExportBatch.getListFileProcess());
-		
-		//add specific identification excel file for a file
+		listFiles.setItems(exportBatch.getListFile());
+		listIdentification.setItems(exportBatch.getListIdentification());
+		listFilesProcessed.setItems(exportBatch.getListFileProcess());
+
+		// add specific identification excel file for a file
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem addExcelFile = new MenuItem("Add excel file ...");
 		contextMenu.getItems().add(addExcelFile);
 		listFiles.setContextMenu(contextMenu);
-		
+
 		addExcelFile.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			private Window dialogStage;
 
 			@Override
 			public void handle(ActionEvent event) {
 				File file = listFiles.getSelectionModel().getSelectedItem();
-				FileChooser filechooser = new FileChooser();
-				filechooser.setTitle("Import your excel file");
-				filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS","*.xlsx"));
-				File excelFile = filechooser.showOpenDialog(this.dialogStage);
-				ExportBatch.putExcelFileWithCorrespondingFile(file, excelFile);
+				if (file != null) {
+					FileChooser filechooser = new FileChooser();
+					filechooser.setTitle("Import your excel file");
+					filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
+					File excelFile = filechooser.showOpenDialog(this.dialogStage);
+					specificIdentification = true;
+					IdentifiedSpectraFromExcel.load(excelFile);
+					ArrayList<String> specListIdentification = new ArrayList<>(IdentifiedSpectraFromExcel.getTitles());
+					exportBatch.addSpecificifIdentification(file, specListIdentification);
+				}
 			}
 		});
 
 	}
-	
+
 	@FXML
-	private void doTest(){
-		ExportBatch.makeSomeTest();
+	private void doTest() {
+		exportBatch.makeSomeTest();
 	}
 
 	public void setDialogStage(Stage dialogStage) {
@@ -148,15 +156,15 @@ public class ExportBatchController {
 		List<File> files = fileChooser.showOpenMultipleDialog(this.dialogStage);
 
 		if (files != null) {
-			ExportBatch.addListFile(files);
+			exportBatch.addListFile(files);
 			btnResetFiles.setDisable(false);
 		}
-		
+
 	}
 
 	@FXML
 	private void handleClickBtnResetFiles() {
-		ExportBatch.resetListFile();
+		exportBatch.resetListFile();
 		btnResetFiles.setDisable(true);
 	}
 
@@ -178,7 +186,7 @@ public class ExportBatchController {
 
 			IdentifiedSpectra identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
 			if (identifiedSpectra.getArrayTitles() != null) {
-				ExportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+				exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
 
 				btnResetIdentification.setDisable(false);
 			}
@@ -190,16 +198,22 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnExcelFile() {
+		ExportBatch.useBatchSpectra = true;
 		FileChooser filechooser = new FileChooser();
 		filechooser.setTitle("Import your excel file");
-		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS","*.xlsx"));
+		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 		File excelFile = filechooser.showOpenDialog(this.dialogStage);
 		IdentifiedSpectraFromExcel.load(excelFile);
+		IdentifiedSpectra identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
+		if (identifiedSpectra.getArrayTitles() != null) {
+			exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+			btnResetIdentification.setDisable(false);
+		}
 	}
 
 	@FXML
 	private void handleClickBtnResetIdentification() {
-		ExportBatch.resetListIdentification();
+		exportBatch.resetListIdentification();
 		btnResetIdentification.setDisable(true);
 	}
 
@@ -215,7 +229,7 @@ public class ExportBatchController {
 			}
 
 			File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-			
+
 			if (loadFile != null) {
 				Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
 				FilterReaderJson.load(loadFile);
@@ -241,7 +255,7 @@ public class ExportBatchController {
 		File directory = directoryChooser.showDialog(this.dialogStage);
 		if (directory != null) {
 			outputFolder.setText(directory.getAbsolutePath());
-			ExportBatch.setDirectoryFolder(directory.getAbsolutePath());
+			exportBatch.setDirectoryFolder(directory.getAbsolutePath());
 		}
 	}
 
@@ -256,7 +270,7 @@ public class ExportBatchController {
 			handleClickBtnAddFiles();
 		}
 
-		else if (listIdentification.getItems().size() == 0 && Filters.nbFilterUsed() == 0) {
+		else if (listIdentification.getItems().size() == 0 && Filters.nbFilterUsed() == 0 && !specificIdentification) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Identification and filter missing");
 			alert.setHeaderText(
@@ -270,14 +284,14 @@ public class ExportBatchController {
 			handleClickBtnOutputFolder();
 		}
 
-		else{
+		else {
 			long startTime = System.currentTimeMillis();
-			ExportBatch.Main();
+			exportBatch.Main();
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
 			System.out.println("Time export batch: " + (double) totalTime / 1000 + " sec");
-		
-		ExportBatch.useBatchSpectra = false;
+
+			ExportBatch.useBatchSpectra = false;
 		}
 	}
 

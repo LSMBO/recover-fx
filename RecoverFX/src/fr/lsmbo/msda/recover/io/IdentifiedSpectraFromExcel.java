@@ -18,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.view.ExportBatchController;
 import fr.lsmbo.msda.recover.view.IdentifiedSpectraController;
 import fr.lsmbo.msda.recover.view.IdentifiedSpectraForBatchController;
 import fr.lsmbo.msda.recover.view.InformationExcelController;
@@ -37,9 +38,11 @@ public class IdentifiedSpectraFromExcel {
 	private static String column = "";
 	private static String currentSheetName = "";
 	private static ArrayList<String> titles = new ArrayList<>();
+	private static IdentifiedSpectra identifiedSpectra = null;
 
 	public static void load(File file) {
 		try {
+			
 			initialize();
 			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
@@ -75,8 +78,14 @@ public class IdentifiedSpectraFromExcel {
 				}
 			}
 			
-			IdentifiedSpectra identifiedSpectra = IdentifiedSpectraController.getIdentifiedSpectra();
-			identifiedSpectra.setArrayTitles(titles);
+			if(!ExportBatch.useBatchSpectra && !ExportBatchController.specificIdentification){
+				identifiedSpectra = IdentifiedSpectraController.getIdentifiedSpectra();
+				identifiedSpectra.setArrayTitles(titles);
+			} else if(ExportBatch.useBatchSpectra && !ExportBatchController.specificIdentification){
+				 identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
+				 identifiedSpectra.setArrayTitles(titles);
+			}
+			
 			
 			workbook.close();
 
@@ -138,5 +147,13 @@ public class IdentifiedSpectraFromExcel {
 
 	public static void setCurrentSheetName(String _currentSheetName) {
 		currentSheetName = _currentSheetName;
+	}
+	
+	public static IdentifiedSpectra getIdentifiedSpectraExcel(){
+		return identifiedSpectra;
+	}
+	
+	public static ArrayList<String> getTitles(){
+		return titles;
 	}
 }
