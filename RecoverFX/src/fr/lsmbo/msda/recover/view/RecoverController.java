@@ -135,7 +135,7 @@ public class RecoverController {
 
 	@FXML
 	private TableColumn<Spectrum, Boolean> colRecover;
-	
+
 	@FXML
 	private TableColumn<Spectrum, Integer> colNbMatch;
 
@@ -192,7 +192,7 @@ public class RecoverController {
 		colRecover.setCellValueFactory(cellData -> cellData.getValue().recoveredProperty());
 		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
 		colNbMatch.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbMatch"));
-		
+
 		colFlag.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isFlagged"));
 		colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
 			@Override
@@ -269,20 +269,23 @@ public class RecoverController {
 		MenuItem infoFilter = new MenuItem("Information about filters applied");
 		MenuItem flaggedSpectrum = new MenuItem("Flag");
 		contextMenuTable.getItems().addAll(infoFilter, flaggedSpectrum);
+
 		table.setContextMenu(contextMenuTable);
 
 		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-				if (!sp.getIsFlagged() && !sp.getIsRecover()) {
-					sp.setIsFlagged(true);
-				} else if (sp.getIsFlagged()) {
-					sp.setIsFlagged(false);
-					sp.setIsRecover(false);
-				}
-				table.refresh();
+				if (sp != null) {
+					if (!sp.getIsFlagged() && !sp.getIsRecover()) {
+						sp.setIsFlagged(true);
+					} else if (sp.getIsFlagged()) {
+						sp.setIsFlagged(false);
+						sp.setIsRecover(false);
+					}
+					table.refresh();
 
+				}
 			}
 		});
 
@@ -291,137 +294,139 @@ public class RecoverController {
 			@Override
 			public void handle(ActionEvent event) {
 				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
-				Filter filter = new Filter();
-				filter.applyFiltersForOneSpectrum(sp);
+				if (sp != null) {
+					Filter filter = new Filter();
+					filter.applyFiltersForOneSpectrum(sp);
 
-				// Filter HIT
-				if (sp.getIsRecoverHIT() == StatusFilterType.TRUE) {
-					infoHIT.setText(sp.getIsRecoverHIT().toString());
-					infoHIT.setTextFill(Color.GREEN);
-					infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverHIT() == StatusFilterType.FALSE) {
-					infoHIT.setText(sp.getIsRecoverHIT().toString());
-					infoHIT.setTextFill(Color.RED);
-					infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoHIT.setText(sp.getIsRecoverHIT().toString());
-					infoHIT.setTextFill(Color.BLACK);
-					infoHIT.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					// Filter HIT
+					if (sp.getIsRecoverHIT() == StatusFilterType.TRUE) {
+						infoHIT.setText(sp.getIsRecoverHIT().toString());
+						infoHIT.setTextFill(Color.GREEN);
+						infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverHIT() == StatusFilterType.FALSE) {
+						infoHIT.setText(sp.getIsRecoverHIT().toString());
+						infoHIT.setTextFill(Color.RED);
+						infoHIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoHIT.setText(sp.getIsRecoverHIT().toString());
+						infoHIT.setTextFill(Color.BLACK);
+						infoHIT.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Filter LIT
+					if (sp.getIsRecoverLIT() == StatusFilterType.TRUE) {
+						infoLIT.setText(sp.getIsRecoverLIT().toString());
+						infoLIT.setTextFill(Color.GREEN);
+						infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverLIT() == StatusFilterType.FALSE) {
+						infoLIT.setText(sp.getIsRecoverLIT().toString());
+						infoLIT.setTextFill(Color.RED);
+						infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoLIT.setText(sp.getIsRecoverLIT().toString());
+						infoLIT.setTextFill(Color.BLACK);
+						infoLIT.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Filter FI
+					if (sp.getIsRecoverFI() == StatusFilterType.TRUE) {
+						infoFI.setText(sp.getIsRecoverFI().toString());
+						infoFI.setTextFill(Color.GREEN);
+						infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverFI() == StatusFilterType.FALSE) {
+						infoFI.setText(sp.getIsRecoverFI().toString());
+						infoFI.setTextFill(Color.RED);
+						infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoFI.setText(sp.getIsRecoverFI().toString());
+						infoFI.setTextFill(Color.BLACK);
+						infoFI.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Filter WC
+					if (sp.getIsRecoverWC() == StatusFilterType.TRUE) {
+						infoWC.setText(sp.getIsRecoverWC().toString());
+						infoWC.setTextFill(Color.GREEN);
+						infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverWC() == StatusFilterType.FALSE) {
+						infoWC.setText(sp.getIsRecoverWC().toString());
+						infoWC.setTextFill(Color.RED);
+						infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoWC.setText(sp.getIsRecoverWC().toString());
+						infoWC.setTextFill(Color.BLACK);
+						infoWC.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Filter IS
+					if (sp.getIsRecoverIS() == StatusFilterType.TRUE) {
+						infoIS.setText(sp.getIsRecoverIS().toString());
+						infoIS.setTextFill(Color.GREEN);
+						infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverIS() == StatusFilterType.FALSE) {
+						infoIS.setText(sp.getIsRecoverIS().toString());
+						infoIS.setTextFill(Color.RED);
+						infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoIS.setText(sp.getIsRecoverIS().toString());
+						infoIS.setTextFill(Color.BLACK);
+						infoIS.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Filter IR
+					if (sp.getIsRecoverIR() == StatusFilterType.TRUE) {
+						infoIR.setText(sp.getIsRecoverIR().toString());
+						infoIR.setTextFill(Color.GREEN);
+						infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else if (sp.getIsRecoverIR() == StatusFilterType.FALSE) {
+						infoIR.setText(sp.getIsRecoverIR().toString());
+						infoIR.setTextFill(Color.RED);
+						infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
+					} else {
+						infoIR.setText(sp.getIsRecoverIR().toString());
+						infoIR.setTextFill(Color.BLACK);
+						infoIR.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
+					}
+
+					// Tooltip for HIT and its parameters
+					try {
+						HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters()
+								.get("HIT");
+						infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n"
+								+ "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
+					} catch (NullPointerException e) {
+					}
+
+					// Tooltip for LIT and its parameters
+					try {
+						LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters()
+								.get("LIT");
+						infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
+					} catch (NullPointerException e) {
+					}
+
+					// Tooltip for FI and its parameters
+					try {
+						FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
+						infoFI.setTooltip(new Tooltip(filterFI.getFullDescription()));
+					} catch (NullPointerException e) {
+					}
+
+					// Tooltip for IS and its parameters
+					try {
+						IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
+						infoIS.setTooltip(new Tooltip(filterIS.getFullDescription()));
+					} catch (NullPointerException e) {
+					}
+
+					// Tooltip for IR and its parameters
+					try {
+						IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
+						infoIR.setTooltip(new Tooltip(filterIR.getFullDescription()));
+					} catch (NullPointerException e) {
+					}
+
 				}
-
-				// Filter LIT
-				if (sp.getIsRecoverLIT() == StatusFilterType.TRUE) {
-					infoLIT.setText(sp.getIsRecoverLIT().toString());
-					infoLIT.setTextFill(Color.GREEN);
-					infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverLIT() == StatusFilterType.FALSE) {
-					infoLIT.setText(sp.getIsRecoverLIT().toString());
-					infoLIT.setTextFill(Color.RED);
-					infoLIT.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoLIT.setText(sp.getIsRecoverLIT().toString());
-					infoLIT.setTextFill(Color.BLACK);
-					infoLIT.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
-				}
-
-				// Filter FI
-				if (sp.getIsRecoverFI() == StatusFilterType.TRUE) {
-					infoFI.setText(sp.getIsRecoverFI().toString());
-					infoFI.setTextFill(Color.GREEN);
-					infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverFI() == StatusFilterType.FALSE) {
-					infoFI.setText(sp.getIsRecoverFI().toString());
-					infoFI.setTextFill(Color.RED);
-					infoFI.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoFI.setText(sp.getIsRecoverFI().toString());
-					infoFI.setTextFill(Color.BLACK);
-					infoFI.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
-				}
-
-				// Filter WC
-				if (sp.getIsRecoverWC() == StatusFilterType.TRUE) {
-					infoWC.setText(sp.getIsRecoverWC().toString());
-					infoWC.setTextFill(Color.GREEN);
-					infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverWC() == StatusFilterType.FALSE) {
-					infoWC.setText(sp.getIsRecoverWC().toString());
-					infoWC.setTextFill(Color.RED);
-					infoWC.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoWC.setText(sp.getIsRecoverWC().toString());
-					infoWC.setTextFill(Color.BLACK);
-					infoWC.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
-				}
-
-				// Filter IS
-				if (sp.getIsRecoverIS() == StatusFilterType.TRUE) {
-					infoIS.setText(sp.getIsRecoverIS().toString());
-					infoIS.setTextFill(Color.GREEN);
-					infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverIS() == StatusFilterType.FALSE) {
-					infoIS.setText(sp.getIsRecoverIS().toString());
-					infoIS.setTextFill(Color.RED);
-					infoIS.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoIS.setText(sp.getIsRecoverIS().toString());
-					infoIS.setTextFill(Color.BLACK);
-					infoIS.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
-				}
-
-				// Filter IR
-				if (sp.getIsRecoverIR() == StatusFilterType.TRUE) {
-					infoIR.setText(sp.getIsRecoverIR().toString());
-					infoIR.setTextFill(Color.GREEN);
-					infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else if (sp.getIsRecoverIR() == StatusFilterType.FALSE) {
-					infoIR.setText(sp.getIsRecoverIR().toString());
-					infoIR.setTextFill(Color.RED);
-					infoIR.setStyle("-fx-font-weight: bold;-fx-border-style: solid");
-				} else {
-					infoIR.setText(sp.getIsRecoverIR().toString());
-					infoIR.setTextFill(Color.BLACK);
-					infoIR.setStyle("-fx-font-weight: normal;-fx-border-style: solid");
-				}
-
-				// Tooltip for HIT and its parameters
-				try {
-					HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters()
-							.get("HIT");
-					infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n"
-							+ "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
-				} catch (NullPointerException e) {
-				}
-
-				// Tooltip for LIT and its parameters
-				try {
-					LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters()
-							.get("LIT");
-					infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
-				} catch (NullPointerException e) {
-				}
-
-				// Tooltip for FI and its parameters
-				try {
-					FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
-					infoFI.setTooltip(new Tooltip(filterFI.getFullDescription()));
-				} catch (NullPointerException e) {
-				}
-
-				// Tooltip for IS and its parameters
-				try {
-					IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
-					infoIS.setTooltip(new Tooltip(filterIS.getFullDescription()));
-				} catch (NullPointerException e) {
-				}
-
-				// Tooltip for IR and its parameters
-				try {
-					IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
-					infoIR.setTooltip(new Tooltip(filterIR.getFullDescription()));
-				} catch (NullPointerException e) {
-				}
-
 			}
 
 		});
@@ -584,6 +589,14 @@ public class RecoverController {
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
+		//check if the table is correctly fill
+				if(table.getItems().size()==0){
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("No spectra found");
+					alert.setHeaderText("No spectra imported with this file, please load other file");
+					alert.showAndWait();
+					handleClickMenuLoadFirst();
+				}
 		statusBar.setText(StatusBar.getInformation());
 		Filters.resetHashMap();
 		// resetViewSecondPeaklist();
@@ -601,6 +614,14 @@ public class RecoverController {
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
+		//check if the table is correctly fill
+				if(ListOfSpectra.getSecondSpectra().getSpectraAsObservable().size() ==0){
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("No spectra found");
+					alert.setHeaderText("No spectra imported with this file, please load other file");
+					alert.showAndWait();
+					handleClickMenuLoadSecond();
+				}
 		statusBar.setText(StatusBar.getInformation());
 		table.refresh();
 	}
@@ -613,9 +634,9 @@ public class RecoverController {
 		System.out.println("ABU loading time: " + (double) totalTime / 1000 + " sec");
 		System.out.println("ABU " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
 		System.out.println("ABU " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
-
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-		// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
+		
+		
 		statusBar.setText(StatusBar.getInformation());
 
 		this.dialogStage.setTitle(Main.recoverTitle());
@@ -648,9 +669,9 @@ public class RecoverController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
 				new ExtensionFilter("PKL", "*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		if (savedFile != null){
+		if (savedFile != null) {
 			Recover.useSecondPeaklist = false;
-		PeaklistWriter.save(savedFile);
+			PeaklistWriter.save(savedFile);
 		}
 		// System.out.println(bottomPanel.getDividerPositions()[0]);
 
@@ -658,7 +679,7 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuBatch() {
-		try{
+		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.EXPORT_BATCH);
 			AnchorPane page = (AnchorPane) loader.load();
@@ -668,10 +689,10 @@ public class RecoverController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			ExportBatchController exportBatchController = loader.getController();	
+			ExportBatchController exportBatchController = loader.getController();
 			exportBatchController.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
-		} catch(IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -766,26 +787,27 @@ public class RecoverController {
 	@FXML
 	private void handleClickMenuComparisonSpectra() {
 		try {
-			if(!mnComparisonUsed){
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Views.COMPARISON_SPECTRA);
-			BorderPane page = (BorderPane) loader.load();
-			Stage comparisonSpectraStage = new Stage();
-			comparisonSpectraStage.setTitle("Menu Comparison Spectra");
-			comparisonSpectraStage.initModality(Modality.NONE);
-			comparisonSpectraStage.initOwner(this.dialogStage);
-			Scene scene = new Scene(page);
-			comparisonSpectraStage.setScene(scene);
-			// ComparisonSpectraController comparisonSpectraController =
-			// loader.getController();
-			CSC = loader.getController();
-			// comparisonSpectraController.setDialogStage(comparisonSpectraStage);
-			CSC.setDialogStage(comparisonSpectraStage);
-			mnComparisonUsed = true;
-			comparisonSpectraStage.showAndWait();
-			if (!comparisonSpectraStage.isShowing()) {
-				mnComparisonUsed = false;
-			}}
+			if (!mnComparisonUsed) {
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Views.COMPARISON_SPECTRA);
+				BorderPane page = (BorderPane) loader.load();
+				Stage comparisonSpectraStage = new Stage();
+				comparisonSpectraStage.setTitle("Menu Comparison Spectra");
+				comparisonSpectraStage.initModality(Modality.NONE);
+				comparisonSpectraStage.initOwner(this.dialogStage);
+				Scene scene = new Scene(page);
+				comparisonSpectraStage.setScene(scene);
+				// ComparisonSpectraController comparisonSpectraController =
+				// loader.getController();
+				CSC = loader.getController();
+				// comparisonSpectraController.setDialogStage(comparisonSpectraStage);
+				CSC.setDialogStage(comparisonSpectraStage);
+				mnComparisonUsed = true;
+				comparisonSpectraStage.showAndWait();
+				if (!comparisonSpectraStage.isShowing()) {
+					mnComparisonUsed = false;
+				}
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -809,7 +831,6 @@ public class RecoverController {
 	public static void setMnComparisonUsed(Boolean bool) {
 		mnComparisonUsed = bool;
 	}
-	
 
 	// private void resetViewSecondPeaklist(){
 	// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());

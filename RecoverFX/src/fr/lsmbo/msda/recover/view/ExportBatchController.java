@@ -286,7 +286,9 @@ public class ExportBatchController {
 
 		else {
 			long startTime = System.currentTimeMillis();
+			progressBarProcessing.setProgress(-1);
 			exportBatch.Main();
+			progressBarProcessing.setProgress(1);
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
 			System.out.println("Time export batch: " + (double) totalTime / 1000 + " sec");

@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.filters;
 
-
 import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -64,10 +63,14 @@ public class LowIntensityThreasholdFilter implements BasicFilter {
 		spectrum.setUpn(nbFragmentsAboveThreashold);
 
 		// check if the spectrum is valid or not
-		if (nbFragmentsAboveThreashold >= minUPN && nbFragmentsAboveThreashold <= maxUPN)
-			return true;
+		if (maxUPN != 0) {
+			if (nbFragmentsAboveThreashold >= minUPN && nbFragmentsAboveThreashold <= maxUPN)
+				return true;
+		} else if (maxUPN == 0) {
+			if (nbFragmentsAboveThreashold >= minUPN)
+				return true;
+		}
 		return false;
-
 	}
 
 	/*

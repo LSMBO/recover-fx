@@ -31,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -113,9 +114,9 @@ public class FilterController {
 	@FXML
 	private CheckBox checkBoxIdentifiedSpectraFilter;
 	@FXML
-	private CheckBox checkRecoverForIdentified;
+	private RadioButton checkRecoverForIdentified;
 	@FXML
-	private CheckBox checkRecoverForNonIdentified;
+	private RadioButton checkRecoverForNonIdentified;
 	// @FXML
 	// private TextArea titles;
 	// @FXML
@@ -189,8 +190,6 @@ public class FilterController {
 		colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
 		colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));
 
-
-
 		// initialize previous values of the filterHIT
 		if ((Filters.getFilters().get("HIT")) != null) {
 			filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
@@ -199,7 +198,7 @@ public class FilterController {
 			mostIntensePeaksToConsider.setText(Integer.toString(filterHIT.getNbMostIntensePeaksToConsider()));
 			percentageOfTopLine.setText(Float.toString(filterHIT.getPercentageOfTopLine()));
 			maxNbPeaks.setText(Integer.toString(filterHIT.getMaxNbPeaks()));
-		} else{
+		} else {
 			checkBoxHighIntensityThresholdFilter.setSelected(false);
 			checkHighIntensityThresholdFilter();
 			mostIntensePeaksToConsider.clear();
@@ -217,7 +216,7 @@ public class FilterController {
 			maxUPN.setText(Integer.toString(filterLIT.getMaxUPN()));
 			if (filterLIT.getMode() == ComputationTypes.MEDIAN)
 				modeBaseline.getSelectionModel().selectLast();
-		} else{
+		} else {
 			checkBoxLowIntensityThresholdFilter.setSelected(false);
 			checkLowIntensityThresholdFilter();
 			emergence.clear();
@@ -233,7 +232,7 @@ public class FilterController {
 			checkFragmentIntensityFilter();
 			fragmentIntensity.setText(Integer.toString(filterFI.getIntensityFragment()));
 			comparatorFragmentIntensity.getSelectionModel().select(setIntegerToFragmentComparator());
-		} else{
+		} else {
 			checkBoxFragmentIntensityFilter.setSelected(false);
 			checkFragmentIntensityFilter();
 			fragmentIntensity.clear();
@@ -242,7 +241,7 @@ public class FilterController {
 
 		if ((Filters.getFilters().get("WC")) != null) {
 			checkBoxWrongChargeFilter.setSelected(true);
-		} else{
+		} else {
 			checkBoxWrongChargeFilter.setSelected(false);
 		}
 
@@ -258,7 +257,7 @@ public class FilterController {
 			// allTitle += st + "\n";
 			// }
 			// titles.setText(allTitle);
-		} else{
+		} else {
 			checkBoxIdentifiedSpectraFilter.setSelected(false);
 			checkIdentifiedSpectraFilter();
 			checkRecoverForIdentified.setSelected(false);
@@ -269,7 +268,7 @@ public class FilterController {
 			filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
 			checkBoxIonReporterFilter.setSelected(true);
 			checkIonReporterFilter();
-		} else{
+		} else {
 			checkBoxIonReporterFilter.setSelected(false);
 			checkIonReporterFilter();
 			resetIonToTableView();
@@ -301,6 +300,9 @@ public class FilterController {
 					alert.setHeaderText("Please enter a value (float) between 0 and 1 for percentage");
 					alert.showAndWait();
 				}
+				if (mostIntensePeaksToConsiderInt < 0 || maxNbPeaksInt < 0) {
+					alertNegativeValue();
+				}
 				filterHIT.setParameters(mostIntensePeaksToConsiderInt, percentageOfTopLineFloat, maxNbPeaksInt);
 
 			} catch (NumberFormatException e) {
@@ -323,8 +325,27 @@ public class FilterController {
 			try {
 				float emergenceInt = TextFieldConvertor.changeTextFieldToFloat(emergence);
 				Integer minUPNInt = TextFieldConvertor.changeTextFieldToInteger(minUPN);
-				Integer maxUPNInt = TextFieldConvertor.changeTextFieldToInteger(maxUPN);
+				Integer maxUPNInt;
 
+				if (!maxUPN.getText().isEmpty()) {
+					maxUPNInt = TextFieldConvertor.changeTextFieldToInteger(maxUPN);
+				} else {
+					maxUPNInt = 0;
+				}
+
+				if (emergenceInt < 0 || minUPNInt < 0 || maxUPNInt < 0) {
+					alertNegativeValue();
+				}
+
+				if (maxUPNInt != 0) {
+					if (minUPNInt > maxUPNInt) {
+						Alert alert = new Alert(AlertType.WARNING);
+						arrayAlert.add(alert);
+						alert.setTitle("Error UPN");
+						alert.setHeaderText("Minimum useful peaks must be lower than Maximum useful peaks !");
+						alert.showAndWait();
+					}
+				}
 				filterLIT.setParameters(emergenceInt, minUPNInt, maxUPNInt,
 						ComputationTypes.setChoiceMode(modeBaseline));
 			} catch (NumberFormatException e) {
@@ -345,6 +366,9 @@ public class FilterController {
 		if (checkBoxFragmentIntensityFilter.isSelected()) {
 			try {
 				Integer intensityInt = TextFieldConvertor.changeTextFieldToInteger(fragmentIntensity);
+				if(intensityInt <0){
+					alertNegativeValue();
+				}
 				filterFI.setParameters(intensityInt, ComparisonTypes.setChoiceComparator(comparatorFragmentIntensity));
 			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -378,6 +402,13 @@ public class FilterController {
 
 		// Verification and parameterization for the filter IR
 		if (checkBoxIonReporterFilter.isSelected()) {
+			if(tableIonReporter.getItems().isEmpty()){
+				Alert alert = new Alert(AlertType.WARNING);
+				arrayAlert.add(alert);
+				alert.setTitle("No ions reporter");
+				alert.setHeaderText("Filter for ion reporter is selected but there isn't ion(s). Please insert ion(s) or unselect the filter.");
+				alert.showAndWait();
+			} else
 			Filters.add("IR", filterIR);
 		}
 
@@ -472,39 +503,39 @@ public class FilterController {
 
 	@FXML
 	private void handleClickBtnLoad() throws JsonParseException, IOException {
-		try{
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Select a filter settings file");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
-		File initialDirectory = Session.DIRECTORY_FILTER_FILE;
-		if(initialDirectory !=null){
-			fileChooser.setInitialDirectory(initialDirectory);
-		}
-		
-		File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-		Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
-		FilterReaderJson.load(loadFile);
-		initialize();
-		} catch(NullPointerException e){
+		try {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Select a filter settings file");
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+			File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+			if (initialDirectory != null) {
+				fileChooser.setInitialDirectory(initialDirectory);
+			}
+
+			File loadFile = fileChooser.showOpenDialog(this.dialogStage);
+			Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
+			FilterReaderJson.load(loadFile);
+			initialize();
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@FXML
 	private void handleClickBtnSave() throws IOException {
-		try{
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save fitlers setting...");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
-		File initialDirectory = Session.DIRECTORY_FILTER_FILE;
-		if(initialDirectory !=null){
-			fileChooser.setInitialDirectory(initialDirectory);
-		}
-		
-		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-		Session.DIRECTORY_FILTER_FILE = savedFile.getParentFile();
-		FilterWriterJson.saveFilter(savedFile);
-		} catch (NullPointerException e){
+		try {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save fitlers setting...");
+			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+			File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+			if (initialDirectory != null) {
+				fileChooser.setInitialDirectory(initialDirectory);
+			}
+
+			File savedFile = fileChooser.showSaveDialog(this.dialogStage);
+			Session.DIRECTORY_FILTER_FILE = savedFile.getParentFile();
+			FilterWriterJson.saveFilter(savedFile);
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
 	}
@@ -538,5 +569,13 @@ public class FilterController {
 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
+	}
+
+	private void alertNegativeValue() {
+		Alert alert = new Alert(AlertType.WARNING);
+		arrayAlert.add(alert);
+		alert.setTitle("Negative Value");
+		alert.setHeaderText("Please enter a positive value !");
+		alert.showAndWait();
 	}
 }

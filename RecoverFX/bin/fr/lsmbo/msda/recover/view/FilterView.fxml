@@ -5,10 +5,12 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -206,14 +208,18 @@
 				</Button>
 				<Button fx:id="btnLoadFilterSettings" mnemonicParsing="false" onAction="#handleClickBtnLoad" text="Load filter settings..." GridPane.columnIndex="5" />
 				<Button fx:id="btnSaveFilterSettings" mnemonicParsing="false" onAction="#handleClickBtnSave" text="Save filter settings..." GridPane.columnIndex="6" />
-				<CheckBox fx:id="checkRecoverForIdentified" mnemonicParsing="false" text="Recover for &quot;identified&quot; spectra" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-				<CheckBox fx:id="checkRecoverForNonIdentified" mnemonicParsing="false" prefHeight="17.0" prefWidth="216.0" text="Recover for &quot;non-identified&quot; spectra" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="14" />
             <Separator prefHeight="0.0" prefWidth="769.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
             <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
             <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
             <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="10" />
             <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="12" />
             <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="15" />
+            <RadioButton fx:id="checkRecoverForIdentified" mnemonicParsing="false" text="Recover for &quot;identified&quot; spectra" GridPane.columnIndex="1" GridPane.rowIndex="14">
+               <toggleGroup>
+                  <ToggleGroup fx:id="rbtnIS" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="checkRecoverForNonIdentified" mnemonicParsing="false" text="Recover for &quot;non-identified&quot; spectra" toggleGroup="$rbtnIS" GridPane.columnIndex="4" GridPane.columnSpan="2147483647" GridPane.rowIndex="14" />
 			</children>
 		</GridPane>
 	</center>
