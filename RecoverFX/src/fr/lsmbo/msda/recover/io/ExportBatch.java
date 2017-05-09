@@ -34,44 +34,46 @@ public class ExportBatch {
 		listFileExcelFile.put(file, specificListIdentification);
 	}
 
-	public void makeSomeTest() {
-
-		for (Entry<File, ArrayList<String>> file : listFileExcelFile.entrySet()) {
-			if (file.getValue() != null) {
-				System.out.println(file);
-			} else
-				System.out.println(file);
-		}
-	}
+	// public void makeSomeTest() {
+	//
+	// for (Entry<File, ArrayList<String>> file : listFileExcelFile.entrySet())
+	// {
+	// if (file.getValue() != null) {
+	// System.out.println(file);
+	// } else
+	// System.out.println(file);
+	// }
+	// }
 
 	public void Main() {
 
 		useBatchSpectra = true;
 		ObservableList<File> duplicateListFile = FXCollections.observableArrayList(listFile);
-		if(!stopCompute()){
+		if (!stopCompute()) {
 
-		for (File f : duplicateListFile) {
-			PeaklistReader.load(f);
+			for (File f : duplicateListFile) {
+				PeaklistReader.load(f);
 
-			// look if the file have a specific excel file for identification
-			if (listFileExcelFile.get(f) == null) {
-				doIdentification();
-			} else {
-				doSpecificIdentification(f);
+				// look if the file have a specific excel file for
+				// identification
+				if (listFileExcelFile.get(f) == null) {
+					doIdentification();
+				} else {
+					doSpecificIdentification(f);
+				}
+
+				Filter filter = new Filter();
+				filter.applyFilters();
+
+				File newFile = new File(directoryFolder + "\\" + f.getName());
+
+				PeaklistWriter.setFileReader(f);
+				PeaklistWriter.save(newFile);
+
+				removeOneFromListFile();
+
+				listFileProcess.add(newFile);
 			}
-
-			Filter filter = new Filter();
-			filter.applyFilters();
-
-			File newFile = new File(directoryFolder + "\\" + f.getName());
-
-			PeaklistWriter.setFileReader(f);
-			PeaklistWriter.save(newFile);
-
-			removeOneFromListFile();
-
-			listFileProcess.add(newFile);
-		}
 		}
 	}
 
@@ -200,6 +202,7 @@ public class ExportBatch {
 
 	private Boolean stopCompute() {
 		Boolean stopCompute = false;
+
 		ObservableList<File> duplicateListFile = FXCollections.observableArrayList(listFile);
 		String allFiles = "";
 
@@ -209,17 +212,20 @@ public class ExportBatch {
 				allFiles += f.getName() + "\n";
 			}
 		}
-		
 
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Same file in the directory folder");
-		alert.setHeaderText("Following files are already present in the directory folder. Are you sure you want to overwrite them ?" +"\n" + allFiles);
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.CANCEL) {
-			stopCompute = true;
-			;
+		if (allFiles != "") {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Same file in the directory folder");
+			alert.setHeaderText(
+					"Following files are already present in the directory folder. Are you sure you want to overwrite them ?"
+							+ "\n" + allFiles);
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.CANCEL) {
+				stopCompute = true;
+				;
+			}
 		}
-		
+
 		return stopCompute;
 	}
 }

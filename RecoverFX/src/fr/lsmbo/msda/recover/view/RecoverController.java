@@ -166,7 +166,7 @@ public class RecoverController {
 	@FXML
 	private Label statusBar;
 
-	private ComparisonSpectraController CSC = new ComparisonSpectraController();
+	private ComparisonSpectraController comparisonSpectraController = new ComparisonSpectraController();
 
 	@FXML
 	private void initialize() {
@@ -597,7 +597,7 @@ public class RecoverController {
 					alert.showAndWait();
 					handleClickMenuLoadFirst();
 				}
-		statusBar.setText(StatusBar.getInformation());
+		statusBar.setText(StatusBar.refreshStatusBar());
 		Filters.resetHashMap();
 		// resetViewSecondPeaklist();
 	}
@@ -622,7 +622,7 @@ public class RecoverController {
 					alert.showAndWait();
 					handleClickMenuLoadSecond();
 				}
-		statusBar.setText(StatusBar.getInformation());
+		statusBar.setText(StatusBar.refreshStatusBar());
 		table.refresh();
 	}
 
@@ -637,7 +637,7 @@ public class RecoverController {
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		
 		
-		statusBar.setText(StatusBar.getInformation());
+		statusBar.setText(StatusBar.refreshStatusBar());
 
 		this.dialogStage.setTitle(Main.recoverTitle());
 		if (PeaklistReader.retentionTimesNotFound()) {
@@ -727,7 +727,7 @@ public class RecoverController {
 			dialogStage.showAndWait();
 			table.refresh();
 			// table1.refresh();
-			statusBar.setText(StatusBar.getInformation());
+			statusBar.setText(StatusBar.refreshStatusBar());
 		} catch (IOException e) {
 			e.printStackTrace();
 
@@ -779,6 +779,7 @@ public class RecoverController {
 			IdentifiedSpectraController controller = loader.getController();
 			controller.setDialogStage(identifiedSpectraStage);
 			identifiedSpectraStage.showAndWait();
+			statusBar.setText(StatusBar.refreshStatusBar());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -799,9 +800,9 @@ public class RecoverController {
 				comparisonSpectraStage.setScene(scene);
 				// ComparisonSpectraController comparisonSpectraController =
 				// loader.getController();
-				CSC = loader.getController();
+				comparisonSpectraController = loader.getController();
 				// comparisonSpectraController.setDialogStage(comparisonSpectraStage);
-				CSC.setDialogStage(comparisonSpectraStage);
+				comparisonSpectraController.setDialogStage(comparisonSpectraStage);
 				mnComparisonUsed = true;
 				comparisonSpectraStage.showAndWait();
 				if (!comparisonSpectraStage.isShowing()) {
@@ -891,6 +892,9 @@ public class RecoverController {
 		// }
 	}
 
+	public void refreshTable(){
+		table.refresh();
+	}
 	// private void defineChartMenu() {
 	// // display a menu with some actions (such as reset zoom, fixed axis,
 	// filters...)

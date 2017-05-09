@@ -112,10 +112,12 @@ public class Spectra {
 	}
 
 	public Integer getNbRecover() {
+		checkRecoveredAndIdentifiedSpectra();
 		return nbRecover;
 	}
 
 	public Integer getNbIdentified() {
+		checkRecoveredAndIdentifiedSpectra();
 		return nbIdentified;
 	}
 

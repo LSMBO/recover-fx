@@ -8,6 +8,7 @@ import org.jfree.chart.ChartPanel;
 
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
+import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.Fragment;
@@ -220,7 +221,9 @@ public class ComparisonSpectraController {
 			ComparisonSettingsController comparisonSettingsController = loader.getController();
 			comparisonSettingsController.setDialogStage(comparisonSettingsStage);
 			comparisonSettingsStage.showAndWait();
-
+			RecoverController recoverController = Recover.getRecoverController();
+			recoverController.refreshTable();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

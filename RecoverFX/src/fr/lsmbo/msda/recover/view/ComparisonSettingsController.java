@@ -55,34 +55,50 @@ public class ComparisonSettingsController {
 			Integer nbPeaksValue = 0;
 			Integer nbPeaksMinValue = 0;
 			Integer thetaMinValue = 0;
-			
+
 			Float deltaMozValue = TextFieldConvertor.changeTextFieldToFloat(deltaMoz);
 
-			//Condition for deltaRT
+			if (deltaMozValue < 0) {
+				alertNegativeValue();
+			}
+
+			// Condition for deltaRT
 			if (!deltaRT.getText().contains(".")) {
 				deltaRTValue = TextFieldConvertor.changeTextFieldToInteger(deltaRT);
+				if (deltaRTValue < 0) {
+					alertNegativeValue();
+				}
 			} else {
 				displayAlertIntError(deltaRT);
 			}
 
-			//Condition for nbPeaks
+			// Condition for nbPeaks
 			if (!nbPeaks.getText().contains(".")) {
-			nbPeaksValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaks);
+				nbPeaksValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaks);
+				if (nbPeaksValue < 0) {
+					alertNegativeValue();
+				}
 			} else {
 				displayAlertIntError(nbPeaks);
 			}
-			
-			//Condition for nbPeaksMin
+
+			// Condition for nbPeaksMin
 			if (!nbPeaksMin.getText().contains(".")) {
-			nbPeaksMinValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaksMin);
-			} else{
+				nbPeaksMinValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaksMin);
+				if (nbPeaksMinValue < 0) {
+					alertNegativeValue();
+				}
+			} else {
 				displayAlertIntError(nbPeaksMin);
 			}
-			
-			//Condition for thetaMin
+
+			// Condition for thetaMin
 			if (!thetaMin.getText().contains(".")) {
-			thetaMinValue = TextFieldConvertor.changeTextFieldToInteger(thetaMin);
-			} else{
+				thetaMinValue = TextFieldConvertor.changeTextFieldToInteger(thetaMin);
+				if (thetaMinValue < 0) {
+					alertNegativeValue();
+				}
+			} else {
 				displayAlertIntError(thetaMin);
 			}
 
@@ -91,8 +107,7 @@ public class ComparisonSettingsController {
 			ConstantComparisonSpectra.setNbPeaks(nbPeaksValue);
 			ConstantComparisonSpectra.setNbPeaksMin(nbPeaksMinValue);
 			ConstantComparisonSpectra.setThetaMin(thetaMinValue);
-			
-			
+
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
@@ -141,4 +156,13 @@ public class ComparisonSettingsController {
 		alert.setHeaderText("You should enter integer value for the field : " + fieldName);
 		alert.showAndWait();
 	}
+
+	private void alertNegativeValue() {
+		Alert alert = new Alert(AlertType.WARNING);
+		arrayAlert.add(alert);
+		alert.setTitle("Negative Value");
+		alert.setHeaderText("Please enter a positive value !");
+		alert.showAndWait();
+	}
+
 }

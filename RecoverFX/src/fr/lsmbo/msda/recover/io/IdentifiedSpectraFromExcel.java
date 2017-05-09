@@ -33,17 +33,24 @@ import javafx.stage.Stage;
 
 public class IdentifiedSpectraFromExcel {
 	private static String title = "";
-	private static ObservableList<String> sheetList = FXCollections.observableArrayList();
-	private static int rowNumber = 0;
-	private static String column = "";
-	private static String currentSheetName = "";
-	private static ArrayList<String> titles = new ArrayList<>();
-	private static IdentifiedSpectra identifiedSpectra = null;
+	private ObservableList<String> sheetList = FXCollections.observableArrayList();
+	private int rowNumber = 0;
+	private String column = "";
+	private String currentSheetName = "";
+	private ArrayList<String> titles = new ArrayList<>();
+	
+	private InformationExcelController informationExcelController;
+	
+	private IdentifiedSpectra identifiedSpectra;
 
-	public static void load(File file) {
+	public IdentifiedSpectraFromExcel(){
+		
+	}
+	
+	public void load(File file) {
 		try {
 			
-			initialize();
+			initialization();
 			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 
@@ -78,13 +85,12 @@ public class IdentifiedSpectraFromExcel {
 				}
 			}
 			
-			if(!ExportBatch.useBatchSpectra && !ExportBatchController.specificIdentification){
-				identifiedSpectra = IdentifiedSpectraController.getIdentifiedSpectra();
-				identifiedSpectra.setArrayTitles(titles);
-			} else if(ExportBatch.useBatchSpectra && !ExportBatchController.specificIdentification){
-				 identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
-				 identifiedSpectra.setArrayTitles(titles);
+			if(identifiedSpectra.getArrayTitles() != null){
+			identifiedSpectra.setArrayTitles(titles);
+			} else{
+				identifiedSpectra.addAllTitles(titles);
 			}
+
 			
 			
 			workbook.close();
@@ -94,7 +100,7 @@ public class IdentifiedSpectraFromExcel {
 		}
 	}
 
-	public static void initialize() {
+	public void initialization() {
 
 		if (sheetList != null) {
 			sheetList.clear();
@@ -114,8 +120,9 @@ public class IdentifiedSpectraFromExcel {
 		return title;
 	}
 
-	private static void openInformationExcel() {
+	private void openInformationExcel() {
 		try {
+			InformationExcelController.setSheets(sheetList);
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.INFORMATION_EXCEL);
 			BorderPane page = (BorderPane) loader.load();
@@ -124,36 +131,31 @@ public class IdentifiedSpectraFromExcel {
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			InformationExcelController controller = loader.getController();
-			InformationExcelController.setDialogStage(dialogStage);
+			
+			informationExcelController = loader.getController();	
+			informationExcelController.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
-
+			
+			rowNumber = informationExcelController.getIndex() - 1;
+			column = informationExcelController.getColumn();
+			currentSheetName = informationExcelController.getSheetNameSelected();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static ObservableList<String> getListSheet() {
+	public ObservableList<String> getListSheet() {
 		return sheetList;
 	}
 
-	public static void setRowNumber(int _rowNumber) {
-		rowNumber = _rowNumber;
-	}
-
-	public static void setColumn(String _column) {
-		column = _column;
-	}
-
-	public static void setCurrentSheetName(String _currentSheetName) {
-		currentSheetName = _currentSheetName;
+	
+	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra){
+		this.identifiedSpectra = identifiedSpectra;
 	}
 	
-	public static IdentifiedSpectra getIdentifiedSpectraExcel(){
-		return identifiedSpectra;
-	}
-	
-	public static ArrayList<String> getTitles(){
+	public ArrayList<String> getTitles(){
 		return titles;
 	}
+
 }

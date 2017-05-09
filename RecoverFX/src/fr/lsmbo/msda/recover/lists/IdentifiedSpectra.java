@@ -6,7 +6,7 @@ import fr.lsmbo.msda.recover.io.ExportBatch;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 public class IdentifiedSpectra {
-	private ArrayList<String> arrayTitles;
+	private ArrayList<String> arrayTitles = new ArrayList<>();
 	private Spectra spectra;
 
 	// Find the spectrum with his title
@@ -36,5 +36,13 @@ public class IdentifiedSpectra {
 		arrayTitles.add(title);
 	}
 	
+	public void addAllTitles(ArrayList<String> allTitles){
+		arrayTitles.addAll(allTitles);
+	}
 	
+	public void resetArrayTitles(){
+		arrayTitles.clear();
+	}
+	
+
 }

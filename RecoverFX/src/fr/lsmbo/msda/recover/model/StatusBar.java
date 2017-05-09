@@ -5,7 +5,7 @@ import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 
 public class StatusBar {
 	
-	public static String getInformation(){
+	public static String refreshStatusBar(){
 		int nbFirstSpectra = ListOfSpectra.getFirstSpectra().getNbSpectra() ;
 		int nbSecondSpectra = ListOfSpectra.getSecondSpectra().getNbSpectra() ;
 		int nbRecover = ListOfSpectra.getFirstSpectra().getNbRecover();

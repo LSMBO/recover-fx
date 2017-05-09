@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 public class Recover extends Application {
 	public static Boolean useSecondPeaklist = false;
+	private static RecoverController controller = new RecoverController();
 
 	public static void run() {
 		launch();
@@ -41,7 +42,7 @@ public class Recover extends Application {
 			BorderPane page = (BorderPane) loader.load();
 			Scene scene = new Scene(page);
 			primaryStage.setScene(scene);
-			RecoverController controller = loader.getController();
+			controller = loader.getController();
 			controller.setDialogStage(primaryStage);
 
 			// display frame
@@ -58,6 +59,10 @@ public class Recover extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static RecoverController getRecoverController(){
+		return controller;
 	}
 
 }

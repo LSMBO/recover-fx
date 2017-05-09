@@ -92,8 +92,10 @@ public class ExportBatchController {
 
 	private Stage dialogStage;
 	private ExportBatch exportBatch = new ExportBatch();
+	private IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 
 	public static Boolean specificIdentification = false;
+	private IdentifiedSpectraForBatchController identifiedSpectraForBatchController;
 
 	@FXML
 	private void initialize() {
@@ -129,8 +131,11 @@ public class ExportBatchController {
 					filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 					File excelFile = filechooser.showOpenDialog(this.dialogStage);
 					specificIdentification = true;
-					IdentifiedSpectraFromExcel.load(excelFile);
-					ArrayList<String> specListIdentification = new ArrayList<>(IdentifiedSpectraFromExcel.getTitles());
+					IdentifiedSpectra specificIdentifiedSpectra = new IdentifiedSpectra();
+					IdentifiedSpectraFromExcel specificIdentifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
+					specificIdentifiedSpectraFromExcel.setIdentifiedSpectra(specificIdentifiedSpectra);
+					specificIdentifiedSpectraFromExcel.load(excelFile);
+					ArrayList<String> specListIdentification = new ArrayList<>(specificIdentifiedSpectraFromExcel.getTitles());
 					exportBatch.addSpecificifIdentification(file, specListIdentification);
 				}
 			}
@@ -138,10 +143,10 @@ public class ExportBatchController {
 
 	}
 
-	@FXML
-	private void doTest() {
-		exportBatch.makeSomeTest();
-	}
+	// @FXML
+	// private void doTest() {
+	// exportBatch.makeSomeTest();
+	// }
 
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
@@ -180,14 +185,14 @@ public class ExportBatchController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			IdentifiedSpectraForBatchController identifiedSpectraForBatchController = loader.getController();
+			identifiedSpectraForBatchController = loader.getController();
 			identifiedSpectraForBatchController.setDialogStage(dialogStage);
+			identifiedSpectraForBatchController.setidentifiedSpectra(identifiedSpectra);
+			identifiedSpectra.resetArrayTitles();
 			dialogStage.showAndWait();
 
-			IdentifiedSpectra identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
-			if (identifiedSpectra.getArrayTitles() != null) {
+			if (!identifiedSpectra.getArrayTitles().isEmpty()) {
 				exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
-
 				btnResetIdentification.setDisable(false);
 			}
 		} catch (IOException e) {
@@ -203,17 +208,24 @@ public class ExportBatchController {
 		filechooser.setTitle("Import your excel file");
 		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 		File excelFile = filechooser.showOpenDialog(this.dialogStage);
-		IdentifiedSpectraFromExcel.load(excelFile);
-		IdentifiedSpectra identifiedSpectra = IdentifiedSpectraForBatchController.getIdentifiedSpectra();
-		if (identifiedSpectra.getArrayTitles() != null) {
-			exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
-			btnResetIdentification.setDisable(false);
+		if (excelFile != null) {
+
+			IdentifiedSpectraFromExcel identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
+			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
+			identifiedSpectra.resetArrayTitles();
+			identifiedSpectraFromExcel.load(excelFile);
+
+			if (identifiedSpectra.getArrayTitles() != null) {
+				exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+				btnResetIdentification.setDisable(false);
+			}
 		}
 	}
 
 	@FXML
 	private void handleClickBtnResetIdentification() {
 		exportBatch.resetListIdentification();
+		identifiedSpectraForBatchController.getIdentifiedSpectra().resetArrayTitles();
 		btnResetIdentification.setDisable(true);
 	}
 

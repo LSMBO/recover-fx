@@ -366,7 +366,7 @@ public class FilterController {
 		if (checkBoxFragmentIntensityFilter.isSelected()) {
 			try {
 				Integer intensityInt = TextFieldConvertor.changeTextFieldToInteger(fragmentIntensity);
-				if(intensityInt <0){
+				if (intensityInt < 0) {
 					alertNegativeValue();
 				}
 				filterFI.setParameters(intensityInt, ComparisonTypes.setChoiceComparator(comparatorFragmentIntensity));
@@ -402,14 +402,15 @@ public class FilterController {
 
 		// Verification and parameterization for the filter IR
 		if (checkBoxIonReporterFilter.isSelected()) {
-			if(tableIonReporter.getItems().isEmpty()){
+			if (tableIonReporter.getItems().isEmpty()) {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
 				alert.setTitle("No ions reporter");
-				alert.setHeaderText("Filter for ion reporter is selected but there isn't ion(s). Please insert ion(s) or unselect the filter.");
+				alert.setHeaderText(
+						"Filter for ion reporter is selected but there isn't ion(s). Please insert ion(s) or unselect the filter.");
 				alert.showAndWait();
 			} else
-			Filters.add("IR", filterIR);
+				Filters.add("IR", filterIR);
 		}
 
 		else {
@@ -483,10 +484,19 @@ public class FilterController {
 
 	@FXML
 	private void insertIonToTableView() {
+		try {
+			Float mozIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(mozIonReporter);
+			Float toleranceIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(toleranceIonReporter);
+			IonReporters
+					.add(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.WARNING);
+			arrayAlert.add(alert);
+			alert.setTitle("No numeric parameters have been chosen");
+			alert.setHeaderText("Please enter a numeric value for m/z and/or tolerance.");
+			alert.showAndWait();
+		}
 
-		Float mozIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(mozIonReporter);
-		Float toleranceIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(toleranceIonReporter);
-		IonReporters.add(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
 		tableIonReporter.refresh();
 	}
 
@@ -513,9 +523,11 @@ public class FilterController {
 			}
 
 			File loadFile = fileChooser.showOpenDialog(this.dialogStage);
-			Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
-			FilterReaderJson.load(loadFile);
-			initialize();
+			if (loadFile != null) {
+				Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
+				FilterReaderJson.load(loadFile);
+				initialize();
+			}
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -523,20 +535,24 @@ public class FilterController {
 
 	@FXML
 	private void handleClickBtnSave() throws IOException {
-		try {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save fitlers setting...");
-			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
-			File initialDirectory = Session.DIRECTORY_FILTER_FILE;
-			if (initialDirectory != null) {
-				fileChooser.setInitialDirectory(initialDirectory);
-			}
+		if (Filters.nbFilterUsed() != 0) {
+			try {
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Save fitlers setting...");
+				fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+				File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+				if (initialDirectory != null) {
+					fileChooser.setInitialDirectory(initialDirectory);
+				}
 
-			File savedFile = fileChooser.showSaveDialog(this.dialogStage);
-			Session.DIRECTORY_FILTER_FILE = savedFile.getParentFile();
-			FilterWriterJson.saveFilter(savedFile);
-		} catch (NullPointerException e) {
-			e.printStackTrace();
+				File savedFile = fileChooser.showSaveDialog(this.dialogStage);
+				if (savedFile != null) {
+					Session.DIRECTORY_FILTER_FILE = savedFile.getParentFile();
+					FilterWriterJson.saveFilter(savedFile);
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

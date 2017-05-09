@@ -12,28 +12,33 @@ import javafx.stage.Stage;
 public class IdentifiedSpectraForBatchController {
 
 	private Stage identifiedSpectraForBatchStage;
-	private static IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
-	
+	private IdentifiedSpectra identifiedSpectra;
+
 	@FXML
 	private TextArea titles;
 	@FXML
 	private Button apply;
-	
+
 	public void setDialogStage(Stage _identifiedSpectraStage) {
 		this.identifiedSpectraForBatchStage = _identifiedSpectraStage;
 	}
 
 	@FXML
-	private void applyIdentificationOfSpectrum(){
+	private void applyIdentificationOfSpectrum() {
 		String[] arrayTitles = titles.getText().split("\n");
 		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
 		identifiedSpectra.setArrayTitles(arrayListTitles);
-		
+
 		identifiedSpectraForBatchStage.close();
 	}
-	
-	public static IdentifiedSpectra getIdentifiedSpectra(){
-		return identifiedSpectra ;
+
+	public IdentifiedSpectra getIdentifiedSpectra() {
+		return identifiedSpectra;
 	}
+
+	public void setidentifiedSpectra(IdentifiedSpectra _identifiedSpectra){
+		this.identifiedSpectra = _identifiedSpectra;
+	}
+	
 	
 }

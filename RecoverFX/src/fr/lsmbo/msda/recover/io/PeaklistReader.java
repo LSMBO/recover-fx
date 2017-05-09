@@ -77,7 +77,12 @@ public class PeaklistReader {
 				spectrum.setLineStart(lineNumber);
 				spectrum.setId(spectrumId);
 			} else if (line.startsWith("TITLE")) {
-				spectrum.setTitle(line.replaceFirst("TITLE.\\s+", ""));
+				String title = line.replaceFirst("TITLE.\\s+", "");
+				if(!title.contains("TITLE=")){
+					spectrum.setTitle(line.replaceFirst("TITLE.\\s+", ""));
+				} else if(title.contains("TITLE=")){
+					spectrum.setTitle(line.replaceFirst("TITLE=", ""));
+				}
 				if (retentionTimesAreMissing && spectrum.getRetentionTime() > 0)
 					retentionTimesAreMissing = false;
 			} else if (line.startsWith("RTINSECONDS")) {
@@ -87,7 +92,11 @@ public class PeaklistReader {
 			} else if (line.startsWith("PEPMASS")) {
 				String[] items = line.replaceFirst("PEPMASS=", "").split("[\\t\\s]");
 				spectrum.setMz(new Float(items[0]));
-				spectrum.setIntensity(new Float(items[1]));
+				if (items.length > 1) {
+					spectrum.setIntensity(new Float(items[1]));
+				} else {
+					spectrum.setIntensity(0);
+				}
 			} else if (line.startsWith("CHARGE") && spectrum != null) {
 				spectrum.setCharge(new Integer(line.replaceFirst("CHARGE=", "").replaceAll("\\+", "")));
 			} else if (line.startsWith("END IONS")) {
@@ -126,10 +135,10 @@ public class PeaklistReader {
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
-		if (ExportBatch.useBatchSpectra){
+		if (ExportBatch.useBatchSpectra) {
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
-		
+
 	}
 
 	private static void readPklFile(BufferedReader reader) throws IOException {
