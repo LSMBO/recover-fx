@@ -41,7 +41,7 @@ public class IdentifiedSpectraController {
 
 	@FXML
 	private void initialize() {
-		
+
 		if (excelFileImported) {
 			btnDeleteImport.setVisible(true);
 			infoExcelFile.setVisible(true);
@@ -56,13 +56,13 @@ public class IdentifiedSpectraController {
 
 	@FXML
 	private void applyIdentificationOfSpectrum() {
-		if(ListOfSpectra.getFirstSpectra().getNbIdentified() !=0){
-			ListOfSpectra.getFirstSpectra().resetIdentified();	
+		if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
+			ListOfSpectra.getFirstSpectra().resetIdentified();
 		}
-		
+
 		String[] arrayTitles = titles.getText().split("\n");
 		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
-		
+
 		if (!excelFileImported) {
 			identifiedSpectra.setArrayTitles(arrayListTitles);
 		} else {
@@ -83,21 +83,24 @@ public class IdentifiedSpectraController {
 		filechooser.setTitle("Import your excel file");
 		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 		File excelFile = filechooser.showOpenDialog(this.identifiedSpectraStage);
-		
-		identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
-		identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
-		identifiedSpectraFromExcel.load(excelFile);
-		
-		if (identifiedSpectraFromExcel.getTitles().size() != 0) {
-			excelFileImported = true;
-			btnDeleteImport.setVisible(true);
-			infoExcelFile.setVisible(true);
-			infoExcelFile.setText(identifiedSpectraFromExcel.getTitle());
-		} else{
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("No titles found");
-			alert.setContentText("No titles imported from your excel file. Please select an other file or verify sheet or column selected");
-			alert.showAndWait();
+
+		if (excelFile != null) {
+			identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
+			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
+			identifiedSpectraFromExcel.load(excelFile);
+
+			if (identifiedSpectraFromExcel.getTitles().size() != 0) {
+				excelFileImported = true;
+				btnDeleteImport.setVisible(true);
+				infoExcelFile.setVisible(true);
+				infoExcelFile.setText(IdentifiedSpectraFromExcel.getTitle());
+			} else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("No titles found");
+				alert.setContentText(
+						"No titles imported from your excel file. Please select an other file or verify sheet or column selected");
+				alert.showAndWait();
+			}
 		}
 	}
 
@@ -116,7 +119,7 @@ public class IdentifiedSpectraController {
 			btnDeleteImport.setVisible(false);
 			infoExcelFile.setText(null);
 			infoExcelFile.setVisible(false);
-			identifiedSpectra.setArrayTitles(null);
+			identifiedSpectra.resetArrayTitles();
 			excelFileImported = false;
 			ListOfSpectra.getFirstSpectra().resetIdentified();
 		}

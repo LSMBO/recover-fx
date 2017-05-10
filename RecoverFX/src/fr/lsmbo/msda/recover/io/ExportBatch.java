@@ -127,6 +127,9 @@ public class ExportBatch {
 
 	public void addListIdentification(ArrayList<String> titles) {
 		for (String t : titles) {
+			if(t.isEmpty()){
+				continue;
+			}
 			if (isAlreadyPresentInListIdentification(t)) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Title duplicate");
