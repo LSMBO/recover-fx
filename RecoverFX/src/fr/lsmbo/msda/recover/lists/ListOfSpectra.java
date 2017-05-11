@@ -24,7 +24,7 @@ public class ListOfSpectra {
 	public static Spectra getSecondSpectra() {
 		return arraySpectra[1];
 	}
-	
+
 	public static Spectra getBatchSpectra() {
 		return arraySpectra[2];
 	}
@@ -36,14 +36,9 @@ public class ListOfSpectra {
 	public static void addSecondSpectra(Spectra spectra) {
 		arraySpectra[1] = spectra;
 	}
-	
-	public static void addBatchSpectra(Spectra spectra){
-		arraySpectra[2] = spectra ;
+
+	public static void addBatchSpectra(Spectra spectra) {
+		arraySpectra[2] = spectra;
 	}
 
-	public static Spectra choiceSpectra() {
-		if (Recover.useSecondPeaklist)
-			return ListOfSpectra.getSecondSpectra();
-		return ListOfSpectra.getFirstSpectra();
-	}
 }

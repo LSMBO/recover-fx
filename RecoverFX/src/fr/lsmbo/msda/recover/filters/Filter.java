@@ -9,7 +9,6 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
 
-
 /**
  * Calculate and apply different filters to spectra. Recover filters used and
  * scan all the spectrum to apply these filters: For a spectrum if the first
@@ -58,20 +57,20 @@ public class Filter {
 	 * 
 	 */
 	public void applyFilters() {
-		
+
 		Spectra spectra = new Spectra();
-		
-		if(!ExportBatch.useBatchSpectra){
+
+		if (!ExportBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 		} else {
 			spectra = ListOfSpectra.getBatchSpectra();
 		}
 
-		Integer nb = spectra.getSpectraAsObservable().size();
+		Integer numberOfSpectrum = spectra.getSpectraAsObservable().size();
 
 		// TODO find a way to get all methods from this package
 		// Scan all the spectrum
-		for (int i = 0; i < nb; i++) {
+		for (int i = 0; i < numberOfSpectrum; i++) {
 			Spectrum spectrum = spectra.getSpectraAsObservable().get(i);
 
 			// Scan all the filter used
@@ -126,8 +125,7 @@ public class Filter {
 						for (int k = 0; k < nbIon; k++) {
 							IonReporter ionReporter = IonReporters.getIonReporters().get(k);
 							// Initialize parameter for an ion(i)
-							filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(),
-									ionReporter.getTolerance());
+							filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
 
 							if (k >= 1)
 								spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
@@ -194,8 +192,7 @@ public class Filter {
 							for (int k = 0; k < nbIon; k++) {
 								IonReporter ionReporter = IonReporters.getIonReporters().get(k);
 								// Initialize parameter for an ion(i)
-								filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(),
-										ionReporter.getTolerance());
+								filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
 
 								if (k >= 1)
 									spectrum.setIsRecover(recoverIfSeveralIons(spectrum, filterIR));
@@ -212,7 +209,7 @@ public class Filter {
 			}
 		}
 		// Set the number of spectrum recover after utilization of filters
-		spectra.checkRecoveredAndIdentifiedSpectra();
+		spectra.countRecoveredAndIdentifiedSpectra();
 	}
 
 	public void applyFiltersForOneSpectrum(Spectrum spectrum) {
@@ -302,7 +299,7 @@ public class Filter {
 
 	// reset value of recover and upn (in other term, redo the application of
 	// filter from the beginning when a new window is open)
-	public static void redoFromTheBeginning() {
+	public static void restoreDefaultValue() {
 
 		Spectra spectra = ListOfSpectra.getFirstSpectra();
 

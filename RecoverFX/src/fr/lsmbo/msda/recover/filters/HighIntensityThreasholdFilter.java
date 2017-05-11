@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.filters;
 
-
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
@@ -44,6 +43,7 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 		}
 		// then calculate threashold
 		float threashold = topline * (1 - percentageOfTopLine);
+
 		spectrum.setHighIntensityThreshold(threashold);
 		spectrum.setTopLine(topline);
 		// invalidate if more than x peaks are above this value
@@ -66,10 +66,8 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 
 	@Override
 	public String getFullDescription() {
-		return "###Parameters used for High Intensity Threshold Filter : \n"
-				+ "###Number of most intense peaks to consider : " + getNbMostIntensePeaksToConsider() + " ; "
-				+ "Percentage of top line : " + getPercentageOfTopLine() + " ; " + "Maximum of number Peaks : "
-				+ getMaxNbPeaks() + "\n";
+		return "###Parameters used for High Intensity Threshold Filter : \n" + "###Number of most intense peaks to consider : " + getNbMostIntensePeaksToConsider() + " ; "
+				+ "Percentage of top line : " + getPercentageOfTopLine() + " ; " + "Maximum of number Peaks : " + getMaxNbPeaks() + "\n";
 	}
 
 	public int getNbMostIntensePeaksToConsider() {

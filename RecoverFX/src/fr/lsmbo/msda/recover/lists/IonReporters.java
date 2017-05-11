@@ -24,7 +24,7 @@ public class IonReporters {
 		return ionReporters;
 	}
 
-	public static void add(IonReporter ir) {
+	public static void addIonReporter(IonReporter ir) {
 		ionReporters.add(ir);
 	}
 

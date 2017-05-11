@@ -72,8 +72,8 @@ public class FilterWriterJson {
 
 		if(filterIS!=null){
 			generator.writeObjectFieldStart("filterIS");
-			generator.writeBooleanField("checkRecoverIdentified", filterIS.getCheckRecoverIdentified());
-			generator.writeBooleanField("checkRecoverNonIdentified", filterIS.getCheckRecoverNonIdentified());
+			generator.writeBooleanField("checkRecoverIdentified", filterIS.getRecoverSpectrumIdentified());
+			generator.writeBooleanField("checkRecoverNonIdentified", filterIS.getRecoverSpectrumNonIdentified());
 			generator.writeEndObject();
 		}
 		if(filterIR!=null){

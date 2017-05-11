@@ -90,13 +90,13 @@ public class ComparisonSpectraController {
 			colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
 			colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 			colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
-			colDeltaMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("deltaMozWithRS"));
+			colDeltaMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("deltaMozWithReferenceSpectrum"));
 			colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
 			colCharge.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
 			colRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
-			colDeltaRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("deltaRetentionTimeWithRS"));
+			colDeltaRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("deltaRetentionTimeWithReferenceSpectrum"));
 			colNbFragments.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
-			colNbPeaksIdentical.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbPeaksIdenticalWithRS"));
+			colNbPeaksIdentical.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbPeaksIdenticalWithReferenceSpectrum"));
 			colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum, Double>("cosTheta"));
 			colReferenceSpectrum.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("titleReferenceSpectrum"));
 			// set column sizes

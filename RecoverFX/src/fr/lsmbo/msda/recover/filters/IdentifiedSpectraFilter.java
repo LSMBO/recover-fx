@@ -12,25 +12,25 @@ import fr.lsmbo.msda.recover.model.Spectrum;
  */
 public class IdentifiedSpectraFilter {
 	private Boolean isUsed = false;
-	private Boolean checkRecoverIdentified = false;
-	private Boolean checkRecoverNonIdentified = false;
+	private Boolean recoverSpectrumIdentified = false;
+	private Boolean recoverSpectrumNonIdentified = false;
 
 	// public void setParameters(String[] _arrayTitles) {
 	// arrayTitles = _arrayTitles;
 	// }
 
-	public void setParameters(Boolean _checkRecoverIdentified, Boolean _checkRecoverNonIdentified) {
-		checkRecoverIdentified = _checkRecoverIdentified;
-		checkRecoverNonIdentified = _checkRecoverNonIdentified;
+	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
+		recoverSpectrumIdentified = _recoverSpectrumIdentified;
+		recoverSpectrumNonIdentified = _recoverSpectrumNonIdentified;
 	}
 
 	public Boolean isValid(Spectrum spectrum) {
 		if (spectrum.getIsIdentified() == true) {
-			if (checkRecoverIdentified)
+			if (recoverSpectrumIdentified)
 				return true;
 		}
 		if (spectrum.getIsIdentified() == false) {
-			if (checkRecoverNonIdentified)
+			if (recoverSpectrumNonIdentified)
 				return true;
 		}
 		return false;
@@ -54,12 +54,12 @@ public class IdentifiedSpectraFilter {
 		return "";
 	}
 
-	public Boolean getCheckRecoverIdentified() {
-		return checkRecoverIdentified;
+	public Boolean getRecoverSpectrumIdentified() {
+		return recoverSpectrumIdentified;
 	}
 
-	public Boolean getCheckRecoverNonIdentified() {
-		return checkRecoverNonIdentified;
+	public Boolean getRecoverSpectrumNonIdentified() {
+		return recoverSpectrumNonIdentified;
 	}
 
 	// @Override

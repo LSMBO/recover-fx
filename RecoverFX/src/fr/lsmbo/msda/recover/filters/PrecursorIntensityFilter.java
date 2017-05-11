@@ -1,6 +1,5 @@
 package fr.lsmbo.msda.recover.filters;
 
-
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
@@ -62,8 +61,7 @@ public class PrecursorIntensityFilter implements BasicFilter {
 
 	@Override
 	public String getFullDescription() {
-		return "###Parameters used for Fragment Intensity Filter : \n" + "###Intensity : " + getIntensityPrecursor()
-				+ " ; " + "Comparator : " + getComparator() + "\n";
+		return "###Parameters used for Fragment Intensity Filter : \n" + "###Intensity : " + getIntensityPrecursor() + " ; " + "Comparator : " + getComparator() + "\n";
 	}
 
 	public int getIntensityPrecursor() {

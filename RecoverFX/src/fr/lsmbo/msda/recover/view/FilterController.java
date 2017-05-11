@@ -250,8 +250,8 @@ public class FilterController {
 			filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
 			checkBoxIdentifiedSpectraFilter.setSelected(true);
 			checkIdentifiedSpectraFilter();
-			checkRecoverForIdentified.setSelected(filterIS.getCheckRecoverIdentified());
-			checkRecoverForNonIdentified.setSelected(filterIS.getCheckRecoverNonIdentified());
+			checkRecoverForIdentified.setSelected(filterIS.getRecoverSpectrumIdentified());
+			checkRecoverForNonIdentified.setSelected(filterIS.getRecoverSpectrumNonIdentified());
 			// String allTitle = "";
 			// for (String st : filterIS.getArrayTitles()) {
 			// allTitle += st + "\n";
@@ -277,7 +277,7 @@ public class FilterController {
 
 	@FXML
 	private void handleClickBtnApply() {
-		Filter.redoFromTheBeginning();
+		Filter.restoreDefaultValue();
 
 		// If the filter is selected, check the value (display an alert is the
 		// given value is false) and set the parameters for the given filter.
@@ -347,7 +347,7 @@ public class FilterController {
 					}
 				}
 				filterLIT.setParameters(emergenceInt, minUPNInt, maxUPNInt,
-						ComputationTypes.setChoiceMode(modeBaseline));
+						ComputationTypes.getMode(modeBaseline));
 			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
@@ -369,7 +369,7 @@ public class FilterController {
 				if (intensityInt < 0) {
 					alertNegativeValue();
 				}
-				filterFI.setParameters(intensityInt, ComparisonTypes.setChoiceComparator(comparatorFragmentIntensity));
+				filterFI.setParameters(intensityInt, ComparisonTypes.getComparator(comparatorFragmentIntensity));
 			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
@@ -488,7 +488,7 @@ public class FilterController {
 			Float mozIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(mozIonReporter);
 			Float toleranceIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(toleranceIonReporter);
 			IonReporters
-					.add(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
+					.addIonReporter(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);

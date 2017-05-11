@@ -22,8 +22,9 @@ import javafx.stage.Stage;
  */
 
 public class Recover extends Application {
+
 	public static Boolean useSecondPeaklist = false;
-	private static RecoverController controller = new RecoverController();
+	private static RecoverController recoverController = new RecoverController();
 
 	public static void run() {
 		launch();
@@ -42,8 +43,8 @@ public class Recover extends Application {
 			BorderPane page = (BorderPane) loader.load();
 			Scene scene = new Scene(page);
 			primaryStage.setScene(scene);
-			controller = loader.getController();
-			controller.setDialogStage(primaryStage);
+			recoverController = loader.getController();
+			recoverController.setDialogStage(primaryStage);
 
 			// display frame
 			primaryStage.setMaximized(true);
@@ -51,18 +52,18 @@ public class Recover extends Application {
 
 			// load files at the opening
 			if (Session.CURRENT_FILE != null) {
-				controller.loadFile(Session.CURRENT_FILE);
+				recoverController.loadFile(Session.CURRENT_FILE);
 				useSecondPeaklist = true;
-				controller.loadFile(Session.SECOND_FILE);
+				recoverController.loadFile(Session.SECOND_FILE);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static RecoverController getRecoverController(){
-		return controller;
+
+	public static RecoverController getRecoverController() {
+		return recoverController;
 	}
 
 }

@@ -48,7 +48,7 @@ public class ExportBatchController {
 	private Button btnTest;
 
 	@FXML
-	private ListView<File> listFiles;
+	private ListView<File> listViewFiles;
 	@FXML
 	private Button btnAddFiles;
 	@FXML
@@ -92,6 +92,8 @@ public class ExportBatchController {
 
 	private Stage dialogStage;
 	private ExportBatch exportBatch = new ExportBatch();
+	
+	//Object identifiedSpectra common for the TextBox(class IdentifiedSpectraForBatchController) and the excel file (class IdentifiedSpectraFromExcel)
 	private IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 
 	public static Boolean specificIdentification = false;
@@ -109,22 +111,26 @@ public class ExportBatchController {
 		rbtnIdenficationTextBox.setSelected(true);
 		rbtnFilterFromRecover.setSelected(true);
 
-		listFiles.setItems(exportBatch.getListFile());
-		listIdentification.setItems(exportBatch.getListIdentification());
-		listFilesProcessed.setItems(exportBatch.getListFileProcess());
+		//Different listView linked with variable of ExportBatch
+		listViewFiles.setItems(exportBatch.getListFileToProcess());
+		listIdentification.setItems(exportBatch.getListTitles());
+		listFilesProcessed.setItems(exportBatch.getListFileProcessed());
 
 		// add specific identification excel file for a file
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem addExcelFile = new MenuItem("Add excel file ...");
 		contextMenu.getItems().add(addExcelFile);
-		listFiles.setContextMenu(contextMenu);
+		listViewFiles.setContextMenu(contextMenu);
 
 		addExcelFile.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			private Window dialogStage;
 
 			@Override
 			public void handle(ActionEvent event) {
-				File file = listFiles.getSelectionModel().getSelectedItem();
+				//Open an excel file for the selected file and create new object of identified spectra. Set the object identified spectra and get titles for this excel file.
+				//Return this titles in an arrayList and add this file with titles in HashMap.
+				File file = listViewFiles.getSelectionModel().getSelectedItem();
+
 				if (file != null) {
 					FileChooser filechooser = new FileChooser();
 					filechooser.setTitle("Import your excel file");
@@ -136,7 +142,7 @@ public class ExportBatchController {
 					specificIdentifiedSpectraFromExcel.setIdentifiedSpectra(specificIdentifiedSpectra);
 					specificIdentifiedSpectraFromExcel.load(excelFile);
 					ArrayList<String> specListIdentification = new ArrayList<>(specificIdentifiedSpectraFromExcel.getTitles());
-					exportBatch.addSpecificifIdentification(file, specListIdentification);
+					exportBatch.addListTitlesWithCorrespondingFile(file, specListIdentification);
 				}
 			}
 		});
@@ -154,6 +160,7 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnAddFiles() {
+		//Open dialog to select multiple files and add them in an arrayList in ExportBatch
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Import your files");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
@@ -161,20 +168,22 @@ public class ExportBatchController {
 		List<File> files = fileChooser.showOpenMultipleDialog(this.dialogStage);
 
 		if (files != null) {
-			exportBatch.addListFile(files);
+			exportBatch.addFilesInObservableList(files);
 			btnResetFiles.setDisable(false);
 		}
 
 	}
 
+	
 	@FXML
 	private void handleClickBtnResetFiles() {
-		exportBatch.resetListFile();
+		exportBatch.resetListFileToProcess();
 		btnResetFiles.setDisable(true);
 	}
 
 	@FXML
 	private void handleClickBtnOpenTextBox() {
+		//Open a TextBox, set the object identifiedSpectra for the class identifiedSpectraForBatchController and use this class to get titles enter by the user
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.IDENTIFIED_SPECTRA_FOR_BATCH);
@@ -185,14 +194,18 @@ public class ExportBatchController {
 			dialogStage.initOwner(this.dialogStage);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
+			
 			identifiedSpectraForBatchController = loader.getController();
 			identifiedSpectraForBatchController.setDialogStage(dialogStage);
 			identifiedSpectraForBatchController.setidentifiedSpectra(identifiedSpectra);
+			
+			//Reset titles present in identifiedSpectra. if the text box is used more than once, identifiedSpectra is the same object. need to get only this title 
+			//(and not their present in previous TextBox) to add in the ArrayList in ExportBatch. If not, display a warning duplicate identification.
 			identifiedSpectra.resetArrayTitles();
 			dialogStage.showAndWait();
 
 			if (!identifiedSpectra.getArrayTitles().isEmpty()) {
-				exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+				exportBatch.addTitlesInObservableList(identifiedSpectra.getArrayTitles());
 				btnResetIdentification.setDisable(false);
 			}
 		} catch (IOException e) {
@@ -203,7 +216,7 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnExcelFile() {
-		ExportBatch.useBatchSpectra = true;
+		//Open dialog to select an excel file. Set identifiedSpectra in the class IdentifiedSpectraFromExcel (common with identifiedSpectraForBatchController)
 		FileChooser filechooser = new FileChooser();
 		filechooser.setTitle("Import your excel file");
 		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
@@ -212,11 +225,13 @@ public class ExportBatchController {
 
 			IdentifiedSpectraFromExcel identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
 			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
+			
+			//Same to handleClickBtnOpenTextBox()
 			identifiedSpectra.resetArrayTitles();
 			identifiedSpectraFromExcel.load(excelFile);
 
 			if (identifiedSpectra.getArrayTitles() != null) {
-				exportBatch.addListIdentification(identifiedSpectra.getArrayTitles());
+				exportBatch.addTitlesInObservableList(identifiedSpectra.getArrayTitles());
 				btnResetIdentification.setDisable(false);
 			}
 		}
@@ -224,24 +239,29 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnResetIdentification() {
-		exportBatch.resetListIdentification();
-		identifiedSpectraForBatchController.getIdentifiedSpectra().resetArrayTitles();
+		exportBatch.resetListTitles();
+		identifiedSpectra.resetArrayTitles();
 		btnResetIdentification.setDisable(true);
 	}
 
 	@FXML
 	private void handleClickBtnAddFilter() throws JsonParseException, IOException {
+		//open a dialog to load json file (contains parameters of filters)
 		try {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Select a filter settings file");
 			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
+			
+			//define the directory to find the file
 			File initialDirectory = Session.DIRECTORY_FILTER_FILE;
+			//
 			if (initialDirectory != null) {
 				fileChooser.setInitialDirectory(initialDirectory);
 			}
 
 			File loadFile = fileChooser.showOpenDialog(this.dialogStage);
 
+			//set parameters of filter (in the main recover)
 			if (loadFile != null) {
 				Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
 				FilterReaderJson.load(loadFile);
@@ -262,19 +282,21 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnOutputFolder() {
+		
+		//open dialog to choose the folder where save file exported
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose a destination folder");
 		File directory = directoryChooser.showDialog(this.dialogStage);
 		if (directory != null) {
 			outputFolder.setText(directory.getAbsolutePath());
-			exportBatch.setDirectoryFolder(directory.getAbsolutePath());
+			exportBatch.setNameDirectoryFolder(directory.getAbsolutePath());
 		}
 	}
 
 	@FXML
 	private void handleClickBtnProcessFile() {
 
-		if (listFiles.getItems().size() == 0) {
+		if (listViewFiles.getItems().size() == 0) {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Files missing");
 			alert.setHeaderText("Files to be processed are missing, please import files");

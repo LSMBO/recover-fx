@@ -49,7 +49,7 @@ public class Spectra {
 		nbIdentified = 0;
 	}
 
-	public void add(Spectrum spectrum) {
+	public void addSpectrum(Spectrum spectrum) {
 		// spectraPerId.put(spectrum.getId(), spectrum);
 		spectra.add(spectrum);
 		nbSpectra++;
@@ -79,7 +79,7 @@ public class Spectra {
 	 * Scan all the spectrum and increment the number of recover every time the
 	 * value of recover for this spectrum will be true
 	 */
-	public void checkRecoveredAndIdentifiedSpectra() {
+	public void countRecoveredAndIdentifiedSpectra() {
 		nbRecover = 0;
 		nbIdentified = 0;
 		Integer nb = getSpectraAsObservable().size();
@@ -112,12 +112,12 @@ public class Spectra {
 	}
 
 	public Integer getNbRecover() {
-		checkRecoveredAndIdentifiedSpectra();
+		countRecoveredAndIdentifiedSpectra();
 		return nbRecover;
 	}
 
 	public Integer getNbIdentified() {
-		checkRecoveredAndIdentifiedSpectra();
+		countRecoveredAndIdentifiedSpectra();
 		return nbIdentified;
 	}
 
@@ -165,7 +165,7 @@ public class Spectra {
 		}
 	}
 
-	public void setRecoverForFlaggedSepctrum() {
+	public void setRecoverForFlaggedSpectrum() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			if(sp.getIsFlagged()){
 				sp.setIsRecover(true);

@@ -174,7 +174,7 @@ public class FilterReaderJson {
 							}
 							
 							if(JsonToken.END_OBJECT.equals(token)){
-								IonReporters.add(new IonReporter(name,moz,tolerance));
+								IonReporters.addIonReporter(new IonReporter(name,moz,tolerance));
 							}
 						}
 						Filters.add("IR", filterIR);	

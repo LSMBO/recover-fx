@@ -241,7 +241,7 @@ public class RecoverController {
 			// number of fragment equals to Session.NB_PEAKS
 			if (mnComparisonUsed) {
 				if (newSelection.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
-					ComparisonSpectra.test(newSelection);
+					ComparisonSpectra.main(newSelection);
 				} else {
 					System.out.println("not enough number of fragment");
 					ComparisonSpectra.getValidSpectrum().initialize();
@@ -825,7 +825,7 @@ public class RecoverController {
 
 	@FXML
 	private void handleClickMenuRecoverForFlag() {
-		ListOfSpectra.getFirstSpectra().setRecoverForFlaggedSepctrum();
+		ListOfSpectra.getFirstSpectra().setRecoverForFlaggedSpectrum();
 		table.refresh();
 	}
 

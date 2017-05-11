@@ -101,7 +101,7 @@ public class PeaklistReader {
 				spectrum.setCharge(new Integer(line.replaceFirst("CHARGE=", "").replaceAll("\\+", "")));
 			} else if (line.startsWith("END IONS")) {
 				spectrum.setLineStop(lineNumber);
-				spectra.add(spectrum);
+				spectra.addSpectrum(spectrum);
 			} else if (line.matches("^[\\d\\s\\t\\.\\+]+$")) {
 				Fragment fragment = new Fragment();
 				try { // just in case casting fails
@@ -155,7 +155,7 @@ public class PeaklistReader {
 				if (spectrum != null) {
 					// store the previous spectrum if any
 					spectrum.setLineStop(lineNumber);
-					spectra.add(spectrum);
+					spectra.addSpectrum(spectrum);
 				}
 				// reset spectrum
 				spectrum = null;
