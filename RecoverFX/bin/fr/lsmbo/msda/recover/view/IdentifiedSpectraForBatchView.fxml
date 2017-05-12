@@ -45,7 +45,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-      						<Button fx:id="apply" mnemonicParsing="false" onAction="#applyIdentificationOfSpectrum" prefHeight="25.0" prefWidth="99.0" text="Apply" GridPane.columnIndex="2" />
+      						<Button fx:id="btnApply" mnemonicParsing="false" onAction="#handleClickBtnApply" prefHeight="25.0" prefWidth="99.0" text="Apply" GridPane.columnIndex="2" />
                </children>
             </GridPane>
          </bottom>

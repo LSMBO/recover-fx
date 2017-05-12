@@ -141,8 +141,6 @@ public class RecoverController {
 
 	@FXML
 	private AnchorPane filterAnchor;
-	@FXML
-	private AnchorPane filterAnchor1;
 
 	@FXML
 	private AnchorPane secondView;

@@ -4,10 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Optional;
-
-import com.sun.javafx.collections.MappingChange.Map;
 
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
@@ -79,7 +76,7 @@ public class ExportBatch {
 		}
 	}
 
-	// add file from a List<File> to an observableList and check if the file is
+	// add file from a List<File> to an observableList and the hashmap and check if the file is
 	// already present in this observablelist
 	public void addFilesInObservableList(List<File> file) {
 		for (File f : file) {
@@ -101,6 +98,10 @@ public class ExportBatch {
 		Boolean isPresent = false;
 
 		for (File f : listFileToProcess) {
+			// two possibility to check if files are equals. they have same pathway or the pathway
+			// isn't the same but they are the same name.
+			// Ex : C:\Users\LOMBART.benjamin\Desktop\X004081MROLM.mgf
+			//		C:\Users\LOMBART.benjamin\workspace\RecoverFX\bin\test\X004081MROLM.mgf
 			if (newFile.equals(f) || newFile.getName().equals(f.getName())) {
 				isPresent = true;
 				break;
@@ -179,11 +180,11 @@ public class ExportBatch {
 
 	private void doSpecificIdentification(File file) {
 		IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
-		
+
 		for (String t : listTitles) {
 			identifiedSpectra.setIdentified(t);
 		}
-		
+
 		for (String t : hashMapFileWithListTitles.get(file)) {
 			identifiedSpectra.setIdentified(t);
 		}
@@ -193,6 +194,7 @@ public class ExportBatch {
 		Boolean isPresent = false;
 
 		File folder = new File(nameDirectoryFolder);
+		//get all the file in the folder
 		File[] listOfFilesInDirectoryFolder = folder.listFiles();
 
 		for (File file : listOfFilesInDirectoryFolder) {

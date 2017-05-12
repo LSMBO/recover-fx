@@ -60,6 +60,7 @@ public class Filter {
 
 		Spectra spectra = new Spectra();
 
+		
 		if (!ExportBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 		} else {
@@ -69,55 +70,34 @@ public class Filter {
 		Integer numberOfSpectrum = spectra.getSpectraAsObservable().size();
 
 		// TODO find a way to get all methods from this package
+		
 		// Scan all the spectrum
 		for (int i = 0; i < numberOfSpectrum; i++) {
 			Spectrum spectrum = spectra.getSpectraAsObservable().get(i);
 
-			// Scan all the filter used
+			// Scan all the filter used (for the moment a filter have a specific index in the list. See Filters)
 			for (int j = 0; j < Filters.getFilterAsAnArray().size(); j++) {
 				// First filter encountered
 				if (j == 0) {
 					// filter HIT
 					if (Filters.getFilterAsAnArray().get(j) == 0) {
 						spectrum.setIsRecover(filterHIT.isValid(spectrum));
-						// // save information about this filter for this
-						// spectrum
-						// if (filterHIT.isValid(spectrum))
-						// spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 1) {
 						spectrum.setIsRecover(filterLIT.isValid(spectrum));
-						// if (filterLIT.isValid(spectrum))
-						// spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 2) {
 						spectrum.setIsRecover(filterFI.isValid(spectrum));
-						// if (filterFI.isValid(spectrum))
-						// spectrum.setIsRecoverFI(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverFI(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 3) {
 						spectrum.setIsRecover(filterWC.isValid(spectrum));
-						// if (filterWC.isValid(spectrum))
-						// spectrum.setIsRecoverWC(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverWC(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 4) {
 						spectrum.setIsRecover(filterIS.isValid(spectrum));
-						// if (filterIS.isValid(spectrum))
-						// spectrum.setIsRecoverIS(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverIS(StatusFilterType.FALSE);
 					}
 
 					if (Filters.getFilterAsAnArray().get(j) == 5) {
@@ -208,7 +188,7 @@ public class Filter {
 				}
 			}
 		}
-		// Set the number of spectrum recover after utilization of filters
+		// Set the number of spectrum recover and identified after utilization of filters
 		spectra.countRecoveredAndIdentifiedSpectra();
 	}
 

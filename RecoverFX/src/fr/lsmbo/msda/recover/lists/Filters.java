@@ -74,6 +74,5 @@ public class Filters {
 			arrayFilter.add(5);
 
 		return arrayFilter;
-
 	}
 }

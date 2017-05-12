@@ -44,10 +44,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class FilterController {
 	private Stage dialogStage;
 
-	private ObservableList<String> modeBaselineList = FXCollections.observableArrayList("Average of all peaks",
-			"Median of all peaks");
-	private ObservableList<String> comparatorIntensity = FXCollections.observableArrayList("=", "#", ">", ">=", "<",
-			"<=");
+	private ObservableList<String> modeBaselineList = FXCollections.observableArrayList("Average of all peaks", "Median of all peaks");
+	private ObservableList<String> comparatorIntensity = FXCollections.observableArrayList("=", "#", ">", ">=", "<", "<=");
 
 	// instance filters
 	private HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
@@ -166,8 +164,7 @@ public class FilterController {
 		controlLIT.addAll(modeBaseline, emergence, minUPN, maxUPN);
 		controlFI.addAll(comparatorFragmentIntensity, fragmentIntensity);
 		controlIS.addAll(checkRecoverForIdentified, checkRecoverForNonIdentified);
-		controlIR.addAll(tableIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter,
-				buttonInsertIonReporter, buttonResetIonReporter);
+		controlIR.addAll(tableIonReporter, mozIonReporter, toleranceIonReporter, nameIonReporter, buttonInsertIonReporter, buttonResetIonReporter);
 
 		// Disable all the control at the initialization.
 		setDisableControl(controlHIT, "disable");
@@ -286,8 +283,7 @@ public class FilterController {
 		if (checkBoxHighIntensityThresholdFilter.isSelected()) {
 			try {
 				// Convert value of the parameters in the text area.
-				Integer mostIntensePeaksToConsiderInt = TextFieldConvertor
-						.changeTextFieldToInteger(mostIntensePeaksToConsider);
+				Integer mostIntensePeaksToConsiderInt = TextFieldConvertor.changeTextFieldToInteger(mostIntensePeaksToConsider);
 				Integer maxNbPeaksInt = TextFieldConvertor.changeTextFieldToInteger(maxNbPeaks);
 				Float percentageOfTopLineFloat = TextFieldConvertor.changeTextFieldToFloat(percentageOfTopLine);
 
@@ -309,8 +305,7 @@ public class FilterController {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
 				alert.setTitle("No numeric parameters have been chosen");
-				alert.setHeaderText(
-						"Please enter numeric values for Most intense peaks/Number peaks and float for percentage");
+				alert.setHeaderText("Please enter numeric values for Most intense peaks/Number peaks and float for percentage");
 				alert.showAndWait();
 			}
 			Filters.add("HIT", filterHIT);
@@ -346,8 +341,7 @@ public class FilterController {
 						alert.showAndWait();
 					}
 				}
-				filterLIT.setParameters(emergenceInt, minUPNInt, maxUPNInt,
-						ComputationTypes.getMode(modeBaseline));
+				filterLIT.setParameters(emergenceInt, minUPNInt, maxUPNInt, ComputationTypes.getMode(modeBaseline));
 			} catch (NumberFormatException e) {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
@@ -406,8 +400,7 @@ public class FilterController {
 				Alert alert = new Alert(AlertType.WARNING);
 				arrayAlert.add(alert);
 				alert.setTitle("No ions reporter");
-				alert.setHeaderText(
-						"Filter for ion reporter is selected but there isn't ion(s). Please insert ion(s) or unselect the filter.");
+				alert.setHeaderText("Filter for ion reporter is selected but there isn't ion(s). Please insert ion(s) or unselect the filter.");
 				alert.showAndWait();
 			} else
 				Filters.add("IR", filterIR);
@@ -487,8 +480,7 @@ public class FilterController {
 		try {
 			Float mozIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(mozIonReporter);
 			Float toleranceIonReporterFloat = TextFieldConvertor.changeTextFieldToFloat(toleranceIonReporter);
-			IonReporters
-					.addIonReporter(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
+			IonReporters.addIonReporter(new IonReporter(nameIonReporter.getText(), mozIonReporterFloat, toleranceIonReporterFloat));
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
@@ -496,7 +488,6 @@ public class FilterController {
 			alert.setHeaderText("Please enter a numeric value for m/z and/or tolerance.");
 			alert.showAndWait();
 		}
-
 		tableIonReporter.refresh();
 	}
 

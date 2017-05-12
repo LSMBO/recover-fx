@@ -2,31 +2,27 @@ package fr.lsmbo.msda.recover.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.lists.IdentifiedSpectra;
-import fr.lsmbo.msda.recover.view.ExportBatchController;
-import fr.lsmbo.msda.recover.view.IdentifiedSpectraController;
-import fr.lsmbo.msda.recover.view.IdentifiedSpectraForBatchController;
+
 import fr.lsmbo.msda.recover.view.InformationExcelController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
+
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,18 +34,18 @@ public class IdentifiedSpectraFromExcel {
 	private String column = "";
 	private String currentSheetName = "";
 	private ArrayList<String> titles = new ArrayList<>();
-	
+
 	private InformationExcelController informationExcelController;
-	
+
 	private IdentifiedSpectra identifiedSpectra;
 
-	public IdentifiedSpectraFromExcel(){
-		
+	public IdentifiedSpectraFromExcel() {
+
 	}
-	
+
 	public void load(File file) {
 		try {
-			
+
 			initialization();
 			title = file.getName();
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
@@ -84,15 +80,13 @@ public class IdentifiedSpectraFromExcel {
 					}
 				}
 			}
-			
-			if(identifiedSpectra.getArrayTitles() != null){
-			identifiedSpectra.setArrayTitles(titles);
-			} else{
+
+			if (identifiedSpectra.getArrayTitles() != null) {
+				identifiedSpectra.setArrayTitles(titles);
+			} else {
 				identifiedSpectra.addAllTitles(titles);
 			}
 
-			
-			
 			workbook.close();
 
 		} catch (IOException e) {
@@ -131,15 +125,15 @@ public class IdentifiedSpectraFromExcel {
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			Scene scene = new Scene(page);
 			dialogStage.setScene(scene);
-			
-			informationExcelController = loader.getController();	
+
+			informationExcelController = loader.getController();
 			informationExcelController.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
-			
+
 			rowNumber = informationExcelController.getIndex() - 1;
 			column = informationExcelController.getColumn();
 			currentSheetName = informationExcelController.getSheetNameSelected();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -149,12 +143,11 @@ public class IdentifiedSpectraFromExcel {
 		return sheetList;
 	}
 
-	
-	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra){
+	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra) {
 		this.identifiedSpectra = identifiedSpectra;
 	}
-	
-	public ArrayList<String> getTitles(){
+
+	public ArrayList<String> getTitles() {
 		return titles;
 	}
 

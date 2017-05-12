@@ -2,16 +2,13 @@ package fr.lsmbo.msda.recover.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+
 import java.io.IOException;
 
-import com.fasterxml.jackson.*;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
 import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
@@ -24,15 +21,14 @@ import fr.lsmbo.msda.recover.lists.IonReporters;
 import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.ComputationTypes;
 import fr.lsmbo.msda.recover.model.IonReporter;
-import jdk.nashorn.internal.parser.JSONParser;
 
 public class FilterReaderJson {
 
 	public static void load(File loadFile) throws JsonParseException, IOException {
-		//Reset filter before any treatment
+		// Reset filter before any treatment
 		Filters.resetHashMap();
 		IonReporters.getIonReporters().clear();
-		
+
 		try {
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
@@ -41,7 +37,7 @@ public class FilterReaderJson {
 			while (!parser.isClosed()) {
 				JsonToken token = parser.nextToken();
 
-				//FILTER HIT
+				// FILTER HIT
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterHIT") {
 					HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
 					int nbMostIntensePeaksToConsider = 0;
@@ -66,15 +62,15 @@ public class FilterReaderJson {
 					filterHIT.setParameters(nbMostIntensePeaksToConsider, percentageOfTopLine, maxNbPeaks);
 					Filters.add("HIT", filterHIT);
 				}
-				
-				//FILTER LIT
+
+				// FILTER LIT
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterLIT") {
 					LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter();
-					float emergence = 0 ;
+					float emergence = 0;
 					int minUPN = 0;
 					int maxUPN = 0;
 					ComputationTypes mode = null;
-					
+
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -93,16 +89,16 @@ public class FilterReaderJson {
 							mode = ComputationTypes.valueOf(parser.getValueAsString());
 						}
 					}
-					filterLIT.setParameters(emergence,minUPN,maxUPN,mode);
+					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
 					Filters.add("LIT", filterLIT);
 				}
-				
-				//FILTER FI
+
+				// FILTER FI
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterFI") {
 					FragmentIntensityFilter filterFI = new FragmentIntensityFilter();
 					int intensity = 0;
 					ComparisonTypes comparator = null;
-					
+
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -115,22 +111,22 @@ public class FilterReaderJson {
 							comparator = ComparisonTypes.valueOf(parser.getValueAsString());
 						}
 					}
-					filterFI.setParameters(intensity,comparator);
+					filterFI.setParameters(intensity, comparator);
 					Filters.add("FI", filterFI);
 				}
-				
-				//FILTER WC
+
+				// FILTER WC
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterWC") {
 					WrongChargeFilter filterWC = new WrongChargeFilter();
 					Filters.add("WC", filterWC);
 				}
-				
-				//FILTER IS
-				if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
+
+				// FILTER IS
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
-					Boolean checkRecoverIdentified = null ;
+					Boolean checkRecoverIdentified = null;
 					Boolean checkRecoverNonIdentified = null;
-					
+
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -143,47 +139,47 @@ public class FilterReaderJson {
 							checkRecoverNonIdentified = parser.getValueAsBoolean();
 						}
 					}
-					filterIS.setParameters(checkRecoverIdentified,checkRecoverNonIdentified);
+					filterIS.setParameters(checkRecoverIdentified, checkRecoverNonIdentified);
 					Filters.add("IS", filterIS);
 				}
-				
-				//FILTER IR 
-				if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
+
+				// FILTER IR
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
 					IonReporterFilter filterIR = new IonReporterFilter();
 					String name = "";
 					float moz = 0;
 					float tolerance = 0;
-					
+
 					token = parser.nextToken();
 					token = parser.nextToken();
-					
-					if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter"){
-						
-						while(!JsonToken.END_ARRAY.equals(token)) {
+
+					if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter") {
+
+						while (!JsonToken.END_ARRAY.equals(token)) {
 							token = parser.nextToken();
-							
-							if(JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "name") {
+
+							if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "name") {
 								token = parser.nextToken();
 								name = parser.getValueAsString();
-							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "moz"){
+							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "moz") {
 								token = parser.nextToken();
 								moz = (float) parser.getValueAsDouble();
-							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "tolerance"){
+							} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "tolerance") {
 								token = parser.nextToken();
 								tolerance = (float) parser.getValueAsDouble();
 							}
-							
-							if(JsonToken.END_OBJECT.equals(token)){
-								IonReporters.addIonReporter(new IonReporter(name,moz,tolerance));
+
+							if (JsonToken.END_OBJECT.equals(token)) {
+								IonReporters.addIonReporter(new IonReporter(name, moz, tolerance));
 							}
 						}
-						Filters.add("IR", filterIR);	
+						Filters.add("IR", filterIR);
 					}
 				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 }

@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import fr.lsmbo.msda.recover.Session;
-import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
@@ -43,7 +42,7 @@ public class PeaklistWriter {
 			BufferedReader reader = new BufferedReader(new FileReader(fileReader));
 
 			writerNewPeaklist.write("###File created with RECOVER on " + actualDate + "\n### " + spectra.getNbRecover()
-					+ " spectrum have been saved" + "\n###________________________________________________________");
+					+ " spectra recovered" + "\n### " + spectra.getNbIdentified() +" spectra identified"+ "\n###________________________________________________________");
 			writerNewPeaklist.newLine();
 
 			// this loop scan the input file and store just one spectrum in an

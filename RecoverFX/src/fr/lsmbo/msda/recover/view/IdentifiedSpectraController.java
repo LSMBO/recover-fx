@@ -31,7 +31,7 @@ public class IdentifiedSpectraController {
 	@FXML
 	private TextArea titles;
 	@FXML
-	private Button apply;
+	private Button btnApply;
 	@FXML
 	private Button importTitlesFromExcel;
 	@FXML
@@ -55,7 +55,7 @@ public class IdentifiedSpectraController {
 	}
 
 	@FXML
-	private void applyIdentificationOfSpectrum() {
+	private void handleClickBtnApply() {
 		if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
 			ListOfSpectra.getFirstSpectra().resetIdentified();
 		}

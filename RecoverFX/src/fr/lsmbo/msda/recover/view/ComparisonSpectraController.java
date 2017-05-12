@@ -81,50 +81,44 @@ public class ComparisonSpectraController {
 	@FXML
 	private void initialize() {
 		validSpectra = ComparisonSpectra.getValidSpectrum();
-//		if(validSpectra==null){
-//		tableComparison.setItems(null);
-//		}
-//		else{
-			
-			tableComparison.setItems(validSpectra.getSpectraAsObservable());
-			colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
-			colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
-			colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
-			colDeltaMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("deltaMozWithReferenceSpectrum"));
-			colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
-			colCharge.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
-			colRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
-			colDeltaRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("deltaRetentionTimeWithReferenceSpectrum"));
-			colNbFragments.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
-			colNbPeaksIdentical.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbPeaksIdenticalWithReferenceSpectrum"));
-			colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum, Double>("cosTheta"));
-			colReferenceSpectrum.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("titleReferenceSpectrum"));
-			// set column sizes
-			colId.setPrefWidth(SIZE_COL_ID);
-			colMoz.setPrefWidth(SIZE_COL_MOZ);
-			colInt.setPrefWidth(SIZE_COL_INTENSITY);
-			colCharge.setPrefWidth(SIZE_COL_CHARGE);
-			colRT.setPrefWidth(SIZE_COL_RT);
-			colNbFragments.setPrefWidth(SIZE_COL_NBFRAGMENTS);
 
+		tableComparison.setItems(validSpectra.getSpectraAsObservable());
+		colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
+		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
+		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
+		colDeltaMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("deltaMozWithReferenceSpectrum"));
+		colInt.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("intensity"));
+		colCharge.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("charge"));
+		colRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
+		colDeltaRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("deltaRetentionTimeWithReferenceSpectrum"));
+		colNbFragments.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
+		colNbPeaksIdentical.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbPeaksIdenticalWithReferenceSpectrum"));
+		colCosTheta.setCellValueFactory(new PropertyValueFactory<Spectrum, Double>("cosTheta"));
+		colReferenceSpectrum.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("titleReferenceSpectrum"));
+		// set column sizes
+		colId.setPrefWidth(SIZE_COL_ID);
+		colMoz.setPrefWidth(SIZE_COL_MOZ);
+		colInt.setPrefWidth(SIZE_COL_INTENSITY);
+		colCharge.setPrefWidth(SIZE_COL_CHARGE);
+		colRT.setPrefWidth(SIZE_COL_RT);
+		colNbFragments.setPrefWidth(SIZE_COL_NBFRAGMENTS);
 
-//			mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
-//			filterAnchor.setPrefWidth(100);
-			
-			
-			tableComparison.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-					
-				// // set new data and title
-				// chart.setData(SpectrumChart.getData(newSelection));
-				// chart.setTitle(newSelection.getTitle());
-				// // reset axis values because autoranging is off (necessary to
-				// allow fixed axis)
-				// resetChartAxis(newSelection);
+		// mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
+		// filterAnchor.setPrefWidth(100);
 
-				if(tableComparison.getItems().size()!=0){
-					referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
+		tableComparison.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
+			// // set new data and title
+			// chart.setData(SpectrumChart.getData(newSelection));
+			// chart.setTitle(newSelection.getTitle());
+			// // reset axis values because autoranging is off (necessary to
+			// allow fixed axis)
+			// resetChartAxis(newSelection);
+
+			if (tableComparison.getItems().size() != 0) {
+				referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
 				// chart = SpectrumChart.getPlot(newSelection);
-				spectrumChart = new SpectrumChart(referenceSpectrum,newSelection);
+				spectrumChart = new SpectrumChart(referenceSpectrum, newSelection);
 				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -132,70 +126,66 @@ public class ComparisonSpectraController {
 						swingNodeForChart.setContent(chartPanel);
 					}
 				});
-				}
-			});
-			
-			ContextMenu contextMenuTable = new ContextMenu();
-			MenuItem displayMatchedSpectrum = new MenuItem("Display matched spectrum");
-			MenuItem displayReferenceSpectrum = new MenuItem("Display reference spectrum");
-			MenuItem displayBothSpectra = new MenuItem("Display both");
-			contextMenuTable.getItems().addAll(displayMatchedSpectrum, displayReferenceSpectrum, displayBothSpectra);
-			tableComparison.setContextMenu(contextMenuTable);
-			
-			
-			displayMatchedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
-					spectrumChart = new SpectrumChart(matchedSpectrum);
-					spectrumChart.changeAxisRange(referenceSpectrum, matchedSpectrum);
-					ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							swingNodeForChart.setContent(chartPanel);
-						}
-					});
+			}
+		});
 
+		ContextMenu contextMenuTable = new ContextMenu();
+		MenuItem displayMatchedSpectrum = new MenuItem("Display matched spectrum");
+		MenuItem displayReferenceSpectrum = new MenuItem("Display reference spectrum");
+		MenuItem displayBothSpectra = new MenuItem("Display both");
+		contextMenuTable.getItems().addAll(displayMatchedSpectrum, displayReferenceSpectrum, displayBothSpectra);
+		tableComparison.setContextMenu(contextMenuTable);
 
-				}
-			});
-			
-			displayReferenceSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
-					spectrumChart = new SpectrumChart(referenceSpectrum);
-					spectrumChart.changeAxisRange(referenceSpectrum, matchedSpectrum);
-					ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							swingNodeForChart.setContent(chartPanel);
-						}
-					});
+		displayMatchedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
+				spectrumChart = new SpectrumChart(matchedSpectrum);
+				spectrumChart.changeAxisRange(referenceSpectrum, matchedSpectrum);
+				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						swingNodeForChart.setContent(chartPanel);
+					}
+				});
 
+			}
+		});
 
-				}
-			});
-			
-			displayBothSpectra.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
-					spectrumChart = new SpectrumChart(referenceSpectrum, matchedSpectrum);
-					ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							swingNodeForChart.setContent(chartPanel);
-						}
-					});
+		displayReferenceSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
+				spectrumChart = new SpectrumChart(referenceSpectrum);
+				spectrumChart.changeAxisRange(referenceSpectrum, matchedSpectrum);
+				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						swingNodeForChart.setContent(chartPanel);
+					}
+				});
 
+			}
+		});
 
-				}
-			});
-			
+		displayBothSpectra.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
+				spectrumChart = new SpectrumChart(referenceSpectrum, matchedSpectrum);
+				ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						swingNodeForChart.setContent(chartPanel);
+					}
+				});
+
+			}
+		});
+
 	}
 
 	public void setDialogStage(Stage comparisonSpectraStage) {
@@ -221,9 +211,10 @@ public class ComparisonSpectraController {
 			ComparisonSettingsController comparisonSettingsController = loader.getController();
 			comparisonSettingsController.setDialogStage(comparisonSettingsStage);
 			comparisonSettingsStage.showAndWait();
+			
 			RecoverController recoverController = Recover.getRecoverController();
 			recoverController.refreshTable();
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

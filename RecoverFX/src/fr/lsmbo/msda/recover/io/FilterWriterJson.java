@@ -64,23 +64,23 @@ public class FilterWriterJson {
 			generator.writeStringField("comparator", filterFI.getComparator().name());
 			generator.writeEndObject();
 		}
-		
-		if(filterWC!=null){
+
+		if (filterWC != null) {
 			generator.writeObjectFieldStart("filterWC");
 			generator.writeEndObject();
 		}
 
-		if(filterIS!=null){
+		if (filterIS != null) {
 			generator.writeObjectFieldStart("filterIS");
 			generator.writeBooleanField("checkRecoverIdentified", filterIS.getRecoverSpectrumIdentified());
 			generator.writeBooleanField("checkRecoverNonIdentified", filterIS.getRecoverSpectrumNonIdentified());
 			generator.writeEndObject();
 		}
-		if(filterIR!=null){
+		if (filterIR != null) {
 			generator.writeObjectFieldStart("filterIR");
 			generator.writeArrayFieldStart("ionReporter");
 			Integer nbIon = IonReporters.getIonReporters().size();
-			for (int k = 0; k < nbIon; k++){
+			for (int k = 0; k < nbIon; k++) {
 				IonReporter ionReporter = IonReporters.getIonReporters().get(k);
 				generator.writeStartObject();
 				generator.writeStringField("name", ionReporter.getName());
@@ -91,9 +91,9 @@ public class FilterWriterJson {
 			generator.writeEndArray();
 			generator.writeEndObject();
 		}
-		
+
 		generator.writeEndObject();
-		
+
 		generator.close();
 	}
 

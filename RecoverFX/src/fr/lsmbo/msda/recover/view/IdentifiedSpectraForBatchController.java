@@ -17,14 +17,14 @@ public class IdentifiedSpectraForBatchController {
 	@FXML
 	private TextArea titles;
 	@FXML
-	private Button apply;
+	private Button btnApply;
 
 	public void setDialogStage(Stage _identifiedSpectraStage) {
 		this.identifiedSpectraForBatchStage = _identifiedSpectraStage;
 	}
 
 	@FXML
-	private void applyIdentificationOfSpectrum() {
+	private void handleClickBtnApply() {
 		String[] arrayTitles = titles.getText().split("\n");
 		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
 		identifiedSpectra.setArrayTitles(arrayListTitles);
