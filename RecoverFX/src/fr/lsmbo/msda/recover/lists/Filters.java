@@ -15,12 +15,13 @@ import java.util.Map;
  */
 public class Filters {
 	private static HashMap<String, Object> filters = initializeFilters();
+	private static ArrayList<Integer> arrayFilter = new ArrayList<Integer>();
 
 	public static void add(String nameFilter, Object filter) {
 		filters.put(nameFilter, filter);
 	}
 
-	// Initiliaze the hashmap which will be receive the different filter.
+	// Initialize the hashmap which will be receive the different filter.
 	private static HashMap<String, Object> initializeFilters() {
 		HashMap<String, Object> hashMap = new HashMap<String, Object>();
 		hashMap.put("HIT", null);
@@ -58,8 +59,9 @@ public class Filters {
 
 	// return an array of filter describe as an index. If a filter x was used,
 	// put in the array the corresponding index
-	public static ArrayList<Integer> getFilterAsAnArray() {
-		ArrayList<Integer> arrayFilter = new ArrayList<Integer>();
+	public static void computeFilterAsAnArray() {
+		arrayFilter.clear();
+		
 		if (filters.get("HIT") != null)
 			arrayFilter.add(0);
 		if (filters.get("LIT") != null)
@@ -72,7 +74,9 @@ public class Filters {
 			arrayFilter.add(4);
 		if (filters.get("IR") != null)
 			arrayFilter.add(5);
-
+	}
+	
+	public static ArrayList<Integer> getFilterAsAnArray(){
 		return arrayFilter;
 	}
 }

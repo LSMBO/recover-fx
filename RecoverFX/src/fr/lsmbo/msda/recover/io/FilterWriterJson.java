@@ -21,10 +21,11 @@ public class FilterWriterJson {
 
 	public static void saveFilter(File file) throws IOException {
 
+		//TODO Actually not used maybe incorporate it in the file and display somewhere in the filter window.
 		Date actualDate = Calendar.getInstance().getTime();
 		String nom = System.getProperty("user.name");
 
-		// get back all the filter
+		//Recover all the filter
 		HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
 		LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
 		FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
@@ -79,6 +80,8 @@ public class FilterWriterJson {
 		if (filterIR != null) {
 			generator.writeObjectFieldStart("filterIR");
 			generator.writeArrayFieldStart("ionReporter");
+			
+			//Scan all the ion contains in ionReporters and save it as an object in the array
 			Integer nbIon = IonReporters.getIonReporters().size();
 			for (int k = 0; k < nbIon; k++) {
 				IonReporter ionReporter = IonReporters.getIonReporters().get(k);

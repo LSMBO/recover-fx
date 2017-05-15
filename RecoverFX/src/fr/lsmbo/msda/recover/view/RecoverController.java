@@ -275,11 +275,11 @@ public class RecoverController {
 			public void handle(ActionEvent event) {
 				Spectrum sp = table.getSelectionModel().selectedItemProperty().get();
 				if (sp != null) {
-					if (!sp.getIsFlagged() && !sp.getIsRecover()) {
+					if (!sp.getIsFlagged() && !sp.getIsRecovered()) {
 						sp.setIsFlagged(true);
 					} else if (sp.getIsFlagged()) {
 						sp.setIsFlagged(false);
-						sp.setIsRecover(false);
+						sp.setIsRecovered(false);
 					}
 					table.refresh();
 

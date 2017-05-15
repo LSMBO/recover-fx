@@ -11,7 +11,7 @@ import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * Save a new file with only spectra recovered.
+ * Save a new file with only spectra recovered or identified.
  * 
  * @author BL
  *
@@ -29,6 +29,7 @@ public class PeaklistWriter {
 		ArrayList<String> arrayLine = new ArrayList<String>();
 		Spectra spectra;
 
+		//Recover the good spectra according to utilization (export or export_batch)
 		if (!ExportBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 			fileReader = Session.CURRENT_FILE;
@@ -71,7 +72,7 @@ public class PeaklistWriter {
 				// array line corresponding to this spectrum (index - 1 because
 				// need to write BEGIN IONS
 				// before the title.
-				if (spectrum != null && spectrum.getIsRecover()) {
+				if (spectrum != null && spectrum.getIsRecovered()) {
 					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n");
 				} else if (spectrum != null && spectrum.getIsIdentified()) {
 					writerNewPeaklist.write(arrayLine.get(lineNumber - 1) + "\n");
@@ -82,7 +83,7 @@ public class PeaklistWriter {
 				// set spectrum null and clear the array to store the next
 				// spectrum.
 				if (line.startsWith("END IONS")) {
-					if (spectrum != null && spectrum.getIsRecover()) {
+					if (spectrum != null && spectrum.getIsRecovered()) {
 						writerNewPeaklist
 								.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
 						writerNewPeaklist.newLine();

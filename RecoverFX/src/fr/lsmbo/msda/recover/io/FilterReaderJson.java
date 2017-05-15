@@ -25,7 +25,9 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 public class FilterReaderJson {
 
 	public static void load(File loadFile) throws JsonParseException, IOException {
-		// Reset filter before any treatment
+		
+		// Reset filter before any treatment in case some filter are used.
+		//List of ions reporter are reset too
 		Filters.resetHashMap();
 		IonReporters.getIonReporters().clear();
 
@@ -34,16 +36,19 @@ public class FilterReaderJson {
 			@SuppressWarnings("deprecation")
 			JsonParser parser = factory.createJsonParser(loadFile);
 
+			
 			while (!parser.isClosed()) {
 				JsonToken token = parser.nextToken();
 
 				// FILTER HIT
+				//Check if filterHIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterHIT") {
 					HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
 					int nbMostIntensePeaksToConsider = 0;
 					float percentageOfTopLine = 0;
 					int maxNbPeaks = 0;
 
+					//get values in the object fitlerHIT 
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -64,6 +69,7 @@ public class FilterReaderJson {
 				}
 
 				// FILTER LIT
+				//Check if filterLIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterLIT") {
 					LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter();
 					float emergence = 0;
@@ -71,6 +77,7 @@ public class FilterReaderJson {
 					int maxUPN = 0;
 					ComputationTypes mode = null;
 
+					//get values in the object filterLIT
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -94,11 +101,13 @@ public class FilterReaderJson {
 				}
 
 				// FILTER FI
+				//Check if filterFI is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterFI") {
 					FragmentIntensityFilter filterFI = new FragmentIntensityFilter();
 					int intensity = 0;
 					ComparisonTypes comparator = null;
 
+					//get values in the object filterFI
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -116,17 +125,20 @@ public class FilterReaderJson {
 				}
 
 				// FILTER WC
+				//check if filterWC is present and add it in Filters
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterWC") {
 					WrongChargeFilter filterWC = new WrongChargeFilter();
 					Filters.add("WC", filterWC);
 				}
 
 				// FILTER IS
+				//Check if filterIS is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
 					Boolean checkRecoverIdentified = null;
 					Boolean checkRecoverNonIdentified = null;
 
+					//get values in the object filterIS
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -144,17 +156,22 @@ public class FilterReaderJson {
 				}
 
 				// FILTER IR
+				//Check if filterIR is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
 					IonReporterFilter filterIR = new IonReporterFilter();
 					String name = "";
 					float moz = 0;
 					float tolerance = 0;
 
+					//Just after the token FIELD_NAME is the token START_OBJECT and after is again a token FIELD_NAME.
+					//need to go two step further to get the good token 
 					token = parser.nextToken();
 					token = parser.nextToken();
 
+					
 					if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter") {
 
+						//loop until end of array. Format are always the same for an ion reporter name, moz, tolerance.
 						while (!JsonToken.END_ARRAY.equals(token)) {
 							token = parser.nextToken();
 

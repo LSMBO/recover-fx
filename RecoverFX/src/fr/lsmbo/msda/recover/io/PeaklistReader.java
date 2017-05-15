@@ -15,8 +15,7 @@ import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * Read a file(mgf or pkl) and stock the information concerning spectrum and
- * spectra.
+ * Read a file(mgf or pkl) and stock the information concerning spectrum and spectra.
  * 
  * @see Spectrum, Spectra, ListOfSpectra
  * @author BL
@@ -31,8 +30,6 @@ public class PeaklistReader {
 	}
 
 	public static void load(File file) {
-		// Spectra firstSpectra = new Spectra();
-		// Spectra secondSpectra = new Spectra();
 
 		String filePath = file.getAbsolutePath();
 		Session.HIGHEST_FRAGMENT_MZ = 0F;
@@ -40,10 +37,6 @@ public class PeaklistReader {
 		// start read file
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			// initialize spectrum list (or reset it if already exists)
-			// if(Recover.loadSecondPeaklist == false)
-			// firstSpectra.initialize();
-			// else
-			// secondSpectra.initialize();
 
 			// read chunks of file and load data in sqlite
 			if (file.getName().endsWith(".mgf")) {
@@ -51,8 +44,6 @@ public class PeaklistReader {
 			} else if (file.getName().endsWith(".pkl")) {
 				readPklFile(reader);
 			}
-
-			// Session.CURRENT_FILE = file;
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -76,19 +67,22 @@ public class PeaklistReader {
 				spectrum = new Spectrum();
 				spectrum.setLineStart(lineNumber);
 				spectrum.setId(spectrumId);
+
 			} else if (line.startsWith("TITLE")) {
 				String title = line.replaceFirst("TITLE.\\s+", "");
-				if(!title.contains("TITLE=")){
+				if (!title.contains("TITLE=")) {
 					spectrum.setTitle(line.replaceFirst("TITLE.\\s+", ""));
-				} else if(title.contains("TITLE=")){
+				} else if (title.contains("TITLE=")) {
 					spectrum.setTitle(line.replaceFirst("TITLE=", ""));
 				}
 				if (retentionTimesAreMissing && spectrum.getRetentionTime() > 0)
 					retentionTimesAreMissing = false;
+
 			} else if (line.startsWith("RTINSECONDS")) {
 				// convert seconds in minutes
 				spectrum.setRetentionTime(new Float(line.replaceFirst("RTINSECONDS=", "")) / 60);
 				retentionTimesAreMissing = false;
+
 			} else if (line.startsWith("PEPMASS")) {
 				String[] items = line.replaceFirst("PEPMASS=", "").split("[\\t\\s]");
 				spectrum.setMz(new Float(items[0]));
@@ -97,11 +91,14 @@ public class PeaklistReader {
 				} else {
 					spectrum.setIntensity(0);
 				}
+
 			} else if (line.startsWith("CHARGE") && spectrum != null) {
 				spectrum.setCharge(new Integer(line.replaceFirst("CHARGE=", "").replaceAll("\\+", "")));
+
 			} else if (line.startsWith("END IONS")) {
 				spectrum.setLineStop(lineNumber);
 				spectra.addSpectrum(spectrum);
+
 			} else if (line.matches("^[\\d\\s\\t\\.\\+]+$")) {
 				Fragment fragment = new Fragment();
 				try { // just in case casting fails
@@ -119,12 +116,15 @@ public class PeaklistReader {
 				} catch (Exception e) {
 				}
 				spectrum.addFragment(fragment);
+
 			} else if (spectrum == null) {
 				textBeforeFirstSpectrum += line;
 			}
+
 			lineNumber++;
 		}
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
+		
 		// add spectra as a first spectra
 		if (Recover.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
 			System.out.println("first Peaklist");
@@ -135,6 +135,7 @@ public class PeaklistReader {
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
+		//
 		if (ExportBatch.useBatchSpectra) {
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
@@ -190,13 +191,18 @@ public class PeaklistReader {
 			}
 			lineNumber++;
 		}
-		if (Recover.useSecondPeaklist == false) {
+		// add spectra as a first spectra
+		if (Recover.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
 			System.out.println("first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
-		if (Recover.useSecondPeaklist == true) {
+		// add spectra as a second spectra
+		if (Recover.useSecondPeaklist == true && !ExportBatch.useBatchSpectra) {
 			System.out.println("Second Peaklists");
 			ListOfSpectra.addSecondSpectra(spectra);
+		}
+		if (ExportBatch.useBatchSpectra) {
+			ListOfSpectra.addBatchSpectra(spectra);
 		}
 		retentionTimesAreMissing = false; // actually there's no rt but if true
 											// it would trigger a dialogbox for

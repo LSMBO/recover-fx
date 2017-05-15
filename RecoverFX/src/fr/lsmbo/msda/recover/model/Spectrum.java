@@ -394,12 +394,12 @@ public class Spectrum {
 		return recovered;
 	}
 
-	public Boolean getIsRecover() {
+	public Boolean getIsRecovered() {
 		// return isRecover;
 		return recovered.get();
 	}
 
-	public void setIsRecover(Boolean isRecover) {
+	public void setIsRecovered(Boolean isRecover) {
 		// this.isRecover = isRecover;
 		this.recovered.set(isRecover);
 	}

@@ -35,6 +35,7 @@ public class IdentifiedSpectraFromExcel {
 	private String currentSheetName = "";
 	private ArrayList<String> titles = new ArrayList<>();
 
+	
 	private InformationExcelController informationExcelController;
 
 	private IdentifiedSpectra identifiedSpectra;
@@ -51,28 +52,35 @@ public class IdentifiedSpectraFromExcel {
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
+			
+			//recover number of sheet in the workbook and save all the sheets(name) present in list.
 			int nbSheet = workbook.getNumberOfSheets();
-
 			for (int i = 0; i < nbSheet; i++) {
 				XSSFSheet sheet = workbook.getSheetAt(i);
 				String sheetName = sheet.getSheetName();
 				sheetList.add(sheetName);
 			}
 
+			
 			openInformationExcel();
 
+			//transform a string column ("A", "B" ...) in an index
 			int columnIndex = CellReference.convertColStringToIndex(column);
+			
 			XSSFSheet currentSheet = workbook.getSheet(currentSheetName);
 
 			Iterator<Row> rowIterator = currentSheet.iterator();
 
+			//iterate through all row
 			while (rowIterator.hasNext()) {
 				Row row = rowIterator.next();
 				Iterator<Cell> cellIterator = row.cellIterator();
 
+				//iterate through all cell for a row 
 				while (cellIterator.hasNext()) {
 					Cell cell = cellIterator.next();
 
+					//add value contains in the cell only for the cells from specific row and in the good column
 					if (row.getRowNum() >= rowNumber) {
 						if (cell.getColumnIndex() == columnIndex) {
 							titles.add(cell.getStringCellValue());
@@ -81,6 +89,8 @@ public class IdentifiedSpectraFromExcel {
 				}
 			}
 
+			//add titles in the object identified spectra, if no titles are present in the object (list), just initialize it
+			//or else add in the list.
 			if (identifiedSpectra.getArrayTitles() != null) {
 				identifiedSpectra.setArrayTitles(titles);
 			} else {
@@ -94,6 +104,7 @@ public class IdentifiedSpectraFromExcel {
 		}
 	}
 
+	//Initialize value
 	public void initialization() {
 
 		if (sheetList != null) {
@@ -114,9 +125,12 @@ public class IdentifiedSpectraFromExcel {
 		return title;
 	}
 
+	//Open a window in order to get information about the excel file imported( sheet to use and column)
 	private void openInformationExcel() {
 		try {
+			//return the list of sheet
 			InformationExcelController.setSheets(sheetList);
+			
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Views.INFORMATION_EXCEL);
 			BorderPane page = (BorderPane) loader.load();
@@ -130,6 +144,7 @@ public class IdentifiedSpectraFromExcel {
 			informationExcelController.setDialogStage(dialogStage);
 			dialogStage.showAndWait();
 
+			//recover informations to use
 			rowNumber = informationExcelController.getIndex() - 1;
 			column = informationExcelController.getColumn();
 			currentSheetName = informationExcelController.getSheetNameSelected();

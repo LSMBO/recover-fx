@@ -85,7 +85,7 @@ public class Spectra {
 		Integer nb = getSpectraAsObservable().size();
 		for (int i = 0; i < nb; i++) {
 			Spectrum spectrum = getSpectraAsObservable().get(i);
-			if (spectrum.getIsRecover())
+			if (spectrum.getIsRecovered())
 				nbRecover++;
 			if (spectrum.getIsIdentified())
 				nbIdentified++;
@@ -147,7 +147,7 @@ public class Spectra {
 
 	public void resetRecover() {
 		for (Spectrum sp : getSpectraAsObservable()) {
-			sp.setIsRecover(false);
+			sp.setIsRecovered(false);
 			this.nbRecover = 0;
 		}
 	}
@@ -168,7 +168,7 @@ public class Spectra {
 	public void setRecoverForFlaggedSpectrum() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			if(sp.getIsFlagged()){
-				sp.setIsRecover(true);
+				sp.setIsRecovered(true);
 			}
 		}
 	}
