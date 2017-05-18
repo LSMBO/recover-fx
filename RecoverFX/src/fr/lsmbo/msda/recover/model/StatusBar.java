@@ -13,9 +13,9 @@ public class StatusBar {
 		String nameFirstPeaklist = Session.CURRENT_FILE.getName();
 		String nameSecondPeaklist = Session.SECOND_FILE.getName();
 		
-		return " First Peaklist (Left side) " + nameFirstPeaklist+ " : " + nbFirstSpectra + " spectra - " +
+		return " First Peaklist" + nameFirstPeaklist+ " : " + nbFirstSpectra + " spectra - " +
 				" Recovered : " + nbRecover + " - Identified : " + nbIdentified 
-				+ " // Second Peaklist (Right side) " + nameSecondPeaklist+ " : " + nbSecondSpectra + " spectra " 
+				+ " // Second Peaklist" + nameSecondPeaklist+ " : " + nbSecondSpectra + " spectra " 
 				;
 	} 
 }

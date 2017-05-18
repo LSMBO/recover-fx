@@ -92,8 +92,11 @@ public class PeaklistWriter {
 								.write(arrayLine.get(lineNumber - 1) + "\n" + arrayLine.get(lineNumber) + "\n");
 						writerNewPeaklist.newLine();
 					}
+					
+					//Reset parameters for the next spectrum
 					spectrum = null;
 					arrayLine.clear();
+					// -1 to start with lineNumber = 0 ( increment just after)
 					lineNumber = -1;
 				}
 				lineNumber++;

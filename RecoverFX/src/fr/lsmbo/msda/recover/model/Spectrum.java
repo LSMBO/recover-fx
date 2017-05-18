@@ -23,14 +23,17 @@ public class Spectrum {
 	private Integer charge = -1;
 	private float retentionTime = 0; // retention time in seconds
 	private String title = "";
+	
 	private Integer nbFragments = 0;
 	private Integer indexOfMostIntenseFragment = 0;
 	private float fragmentMaxMoz = 0;
 	private float fragmentMaxIntensity = 0;
-	private Integer lineStart = 0;
-	private Integer lineStop = 0;
 	private float medianFragmentsIntensities = 0;
 	private float averageFragmentsIntensities = 0;
+	
+	private Integer lineStart = 0;
+	private Integer lineStop = 0;
+
 	private Integer upn = -1;
 	private double cosTheta = 0D;
 
@@ -77,8 +80,6 @@ public class Spectrum {
 
 	private ArrayList<Fragment> fragmentEqualsToChart = new ArrayList<Fragment>();
 
-	// private Fragment[] nBIntensePeaks = new Fragment[nbPeaks];
-	// private Double[] squareRootnBIntensePeaks = new Double[nbPeaks];
 	private Fragment[] nbIntensePeaks;
 	private Double[] squareRootnbIntensePeaks;
 
@@ -348,7 +349,9 @@ public class Spectrum {
 	// this.upn = upn;
 	// }
 
-	public Fragment[] getNbIntensePeaks() {
+	//get the nbPeak last fragment of the spectrum ( sorted by intensity) and put them in an array.
+	//they are the most intense peaks of the spectrum
+	private void  computeNbIntensePeaks() {
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 		nbIntensePeaks = new Fragment[nbPeaks];
 		if (getNbFragments() >= nbPeaks) {
@@ -360,19 +363,27 @@ public class Spectrum {
 				nbIntensePeaks[firstValue - i] = fragment;
 			}
 		}
-
+	}
+	
+	public Fragment[] getNbIntensePeaks(){
+		computeNbIntensePeaks();
 		return nbIntensePeaks;
 	}
 
-	public Double[] getListSquareRootNbIntensePeaks() {
+	//Compute the square root for the nbIntensePeaks compute in computeNbIntensePeaks()
+	private void computeListSquareRootNbIntensePeaks() {
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 		squareRootnbIntensePeaks = new Double[nbPeaks];
 
 		for (int i = 0; i < nbPeaks; i++) {
-			Fragment fragment = getNbIntensePeaks()[i];
+			Fragment fragment = nbIntensePeaks[i];
 			float intensity = fragment.getIntensity();
 			squareRootnbIntensePeaks[i] = Math.sqrt(intensity);
 		}
+	}
+	
+	public Double[] getListSquareRootNbIntensePeaks(){
+		computeListSquareRootNbIntensePeaks();
 		return squareRootnbIntensePeaks;
 	}
 

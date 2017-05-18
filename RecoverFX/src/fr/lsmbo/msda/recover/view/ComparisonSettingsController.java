@@ -33,12 +33,17 @@ public class ComparisonSettingsController {
 	private Button btnClose;
 
 	private ObservableList<Alert> arrayAlert = FXCollections.observableArrayList();
+	private Integer deltaRTValue = 0;
+	private Integer nbPeaksValue = 0;
+	private Integer nbPeaksMinValue = 0;
+	private Integer thetaMinValue = 0;
+	private Float deltaMozValue = 0F;
 
 	@FXML
+	// Initialize differents field with the default value in the algorithm
 	private void initialize() {
 		deltaMoz.setText(ConstantComparisonSpectra.getDeltaMoz().toString());
 		deltaRT.setText(ConstantComparisonSpectra.getDeltaRT().toString());
-
 		nbPeaks.setText(ConstantComparisonSpectra.getNbPeaks().toString());
 		nbPeaksMin.setText(ConstantComparisonSpectra.getNbPeaksMin().toString());
 		thetaMin.setText(ConstantComparisonSpectra.getThetaMin().toString());
@@ -49,20 +54,20 @@ public class ComparisonSettingsController {
 	}
 
 	@FXML
+	//
 	private void handleClickBtnApply() {
 		try {
-			Integer deltaRTValue = 0;
-			Integer nbPeaksValue = 0;
-			Integer nbPeaksMinValue = 0;
-			Integer thetaMinValue = 0;
 
-			Float deltaMozValue = TextFieldConvertor.changeTextFieldToFloat(deltaMoz);
-
+			// convert string in float and check if the values isn't negative. If yes, display an
+			// alert window
+			deltaMozValue = TextFieldConvertor.changeTextFieldToFloat(deltaMoz);
 			if (deltaMozValue < 0) {
 				alertNegativeValue();
 			}
 
-			// Condition for deltaRT
+			// Check if the field deltaRT doesn't contains point (means it's a float). If not
+			// convert the value in integer
+			// and check if the values isn't negative. if yes, display an alert window
 			if (!deltaRT.getText().contains(".")) {
 				deltaRTValue = TextFieldConvertor.changeTextFieldToInteger(deltaRT);
 				if (deltaRTValue < 0) {
@@ -72,7 +77,7 @@ public class ComparisonSettingsController {
 				displayAlertIntError(deltaRT);
 			}
 
-			// Condition for nbPeaks
+			// Same as deltaRT
 			if (!nbPeaks.getText().contains(".")) {
 				nbPeaksValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaks);
 				if (nbPeaksValue < 0) {
@@ -82,7 +87,7 @@ public class ComparisonSettingsController {
 				displayAlertIntError(nbPeaks);
 			}
 
-			// Condition for nbPeaksMin
+			// Same as deltaRT
 			if (!nbPeaksMin.getText().contains(".")) {
 				nbPeaksMinValue = TextFieldConvertor.changeTextFieldToInteger(nbPeaksMin);
 				if (nbPeaksMinValue < 0) {
@@ -92,7 +97,7 @@ public class ComparisonSettingsController {
 				displayAlertIntError(nbPeaksMin);
 			}
 
-			// Condition for thetaMin
+			// Same as deltaRT
 			if (!thetaMin.getText().contains(".")) {
 				thetaMinValue = TextFieldConvertor.changeTextFieldToInteger(thetaMin);
 				if (thetaMinValue < 0) {
@@ -102,12 +107,6 @@ public class ComparisonSettingsController {
 				displayAlertIntError(thetaMin);
 			}
 
-			ConstantComparisonSpectra.setDeltamoz(deltaMozValue);
-			ConstantComparisonSpectra.setDeltaRT(deltaRTValue);
-			ConstantComparisonSpectra.setNbPeaks(nbPeaksValue);
-			ConstantComparisonSpectra.setNbPeaksMin(nbPeaksMinValue);
-			ConstantComparisonSpectra.setThetaMin(thetaMinValue);
-
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.WARNING);
 			arrayAlert.add(alert);
@@ -116,12 +115,18 @@ public class ComparisonSettingsController {
 			alert.showAndWait();
 		}
 		if (arrayAlert.size() == 0) {
+			ConstantComparisonSpectra.setDeltamoz(deltaMozValue);
+			ConstantComparisonSpectra.setDeltaRT(deltaRTValue);
+			ConstantComparisonSpectra.setNbPeaks(nbPeaksValue);
+			ConstantComparisonSpectra.setNbPeaksMin(nbPeaksMinValue);
+			ConstantComparisonSpectra.setThetaMin(thetaMinValue);
 			dialogComparisonSettingsStage.close();
 		} else
 			arrayAlert.clear();
 	}
 
 	@FXML
+	// re-initialize values of the algorithm
 	private void handleClickBtnValuesByDefault() {
 		ConstantComparisonSpectra.initialValue();
 		initialize();

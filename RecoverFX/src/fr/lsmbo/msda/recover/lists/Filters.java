@@ -5,10 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Save information of filters used into an hashmap. Keep parameters in memory
- * for all filters (until reset). Method to count number of filter used, to
- * reset filter used in the hashmap and to return filter used as an array
- * (filter was described as an index, 0 for HIT etc..)
+ * Save information of filters used into an hashmap. Keep parameters in memory for all filters
+ * (until reset). Method to count number of filter used, to reset filter used in the hashmap and to
+ * return filter used as an array (filter was described as an index, 0 for HIT etc..)
  * 
  * @author BL
  *
@@ -61,7 +60,7 @@ public class Filters {
 	// put in the array the corresponding index
 	public static void computeFilterAsAnArray() {
 		arrayFilter.clear();
-		
+
 		if (filters.get("HIT") != null)
 			arrayFilter.add(0);
 		if (filters.get("LIT") != null)
@@ -75,8 +74,8 @@ public class Filters {
 		if (filters.get("IR") != null)
 			arrayFilter.add(5);
 	}
-	
-	public static ArrayList<Integer> getFilterAsAnArray(){
+
+	public static ArrayList<Integer> getFilterAsAnArray() {
 		return arrayFilter;
 	}
 }

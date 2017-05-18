@@ -4,7 +4,7 @@ import fr.lsmbo.msda.recover.gui.Recover;
 
 /**
  * Keep the information for the two list of spectrum and method to access either
- * the first or the second spectra
+ * the first or the second spectra or spectra in batch mode
  * 
  * @author BL
  *

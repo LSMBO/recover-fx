@@ -28,9 +28,8 @@ public class ComparisonSpectra {
 	private static float[] listPeaksReferenceSpectrum;
 	private static float[] listPeaksTestedSpectrum;
 
-	// //Arraylist to display annotation on the graph
-	// private static ArrayList<Fragment> fragmentEquals = new
-	// ArrayList<Fragment>();
+	private static Double[] listSquareRootpeaksTestedSpectrum;
+	private static Double[] listSquareRootpeaksReferenceSpectrum;
 
 	// Constant
 	private static Float deltaMoz;
@@ -45,6 +44,7 @@ public class ComparisonSpectra {
 	private static void initialize() {
 		secondSpectra = ListOfSpectra.getSecondSpectra();
 		subListSecondSpectra.initialize();
+		;
 		validSpectra.initialize();
 		deltaMoz = ConstantComparisonSpectra.getDeltaMoz();
 		deltaRT = ConstantComparisonSpectra.getDeltaRT();
@@ -71,6 +71,7 @@ public class ComparisonSpectra {
 
 		float referenceSpectrumMoz = referenceSpectrum.getMz();
 		// RT of reference spectrum in sec.
+		// TODO think if RT was already in seconds
 		int referenceSpectrumRTSec = (int) (referenceSpectrum.getRetentionTime() * 60);
 
 		int nbSpectra = secondSpectra.getSpectraAsObservable().size();
@@ -155,8 +156,8 @@ public class ComparisonSpectra {
 	// find the non 0 values in the array of tested spectrum, compute the square
 	// root of this value and return a new array (size equals to number of peaks
 	// identical between TS and RS)
-	private static Double[] getListSquareRootpeaksTestedSpectrum() {
-		Double[] listSquareRootpeaksTestedSpectrum = new Double[nbPeaksEquals];
+	private static void computeListSquareRootpeaksTestedSpectrum() {
+		listSquareRootpeaksTestedSpectrum = new Double[nbPeaksEquals];
 		int j = 0;
 		for (int i = 0; i < listPeaksTestedSpectrum.length; i++) {
 			if (listPeaksTestedSpectrum[i] != 0) {
@@ -164,14 +165,13 @@ public class ComparisonSpectra {
 				j++;
 			}
 		}
-		return listSquareRootpeaksTestedSpectrum;
 	}
 
 	// find the non 0 values in the array of reference spectrum, get back the
 	// square root of this value and return a new array (size equals to number
 	// of peaks identical between TS and RS)
-	private static Double[] getSquareRootpeaksReferenceSpectrum() {
-		Double[] listSquareRootpeaksReferenceSpectrum = new Double[nbPeaksEquals];
+	private static void computeListSquareRootpeaksReferenceSpectrum() {
+		listSquareRootpeaksReferenceSpectrum = new Double[nbPeaksEquals];
 		int j = 0;
 		for (int i = 0; i < listPeaksReferenceSpectrum.length; i++) {
 			if (listPeaksReferenceSpectrum[i] != 0) {
@@ -180,6 +180,15 @@ public class ComparisonSpectra {
 				j++;
 			}
 		}
+	}
+
+	private static Double[] getListSquareRootpeaksTestedSpectrum() {
+		computeListSquareRootpeaksTestedSpectrum();
+		return listSquareRootpeaksTestedSpectrum;
+	}
+
+	private static Double[] getListSquareRootpeaksReferenceSpectrum() {
+		computeListSquareRootpeaksReferenceSpectrum();
 		return listSquareRootpeaksReferenceSpectrum;
 	}
 
@@ -204,7 +213,7 @@ public class ComparisonSpectra {
 	// intensity of peaks TS
 	// Cos theta = ∑NB_PEAKS(√RS.peak *
 	// √TS.peak)/(√(∑NB_PEAKS(RS.peak))*√(∑NB_PEAKS(TS.peak)))
-	private static double computeCosTheta() {
+	private static void computeCosTheta() {
 		cosTheta = 0D;
 		Double numeratorCosTheta = 0D;
 
@@ -214,11 +223,13 @@ public class ComparisonSpectra {
 		Double sumIntensityReferenceSpectrum = 0D;
 		Double sumIntensityTestedSpectrum = 0D;
 
+		Double[] arraySquareRootReferenceSpectrum = getListSquareRootpeaksReferenceSpectrum();
+		Double[] arraySquareRootTestedSpectrum = getListSquareRootpeaksTestedSpectrum();
 		// Compute the numerator of the equation (find the corresponding square
 		// root, multiply them and sum)
 		for (int i = 0; i < nbPeaksEquals; i++) {
-			Double squareRootReferenceSpectrum = getSquareRootpeaksReferenceSpectrum()[i];
-			Double squareRootTestedSpectrum = getListSquareRootpeaksTestedSpectrum()[i];
+			Double squareRootReferenceSpectrum = arraySquareRootReferenceSpectrum[i];
+			Double squareRootTestedSpectrum = arraySquareRootTestedSpectrum[i];
 			numeratorCosTheta += (squareRootReferenceSpectrum * squareRootTestedSpectrum);
 		}
 
@@ -239,7 +250,6 @@ public class ComparisonSpectra {
 		rightDenominator = Math.sqrt(sumIntensityTestedSpectrum);
 
 		cosTheta = numeratorCosTheta / (leftDenominator * rightDenominator);
-		return cosTheta;
 	}
 
 	public static void main(Spectrum spectrumRef) {
@@ -256,8 +266,6 @@ public class ComparisonSpectra {
 			// }
 			for (int i = 0; i < subListSecondSpectra.getSpectraAsObservable().size(); i++) {
 				Spectrum testedSpectrum = subListSecondSpectra.getSpectraAsObservable().get(i);
-				testedSpectrum.setDeltaMozWithReferenceSpectrum(testedSpectrum.getMz() - referenceSpectrum.getMz());
-				testedSpectrum.setDeltaRetentionTimeWithReferenceSpectrum((int) ((testedSpectrum.getRetentionTime() * 60) - (referenceSpectrum.getRetentionTime() * 60)));
 				findFragment(testedSpectrum);
 				countNbPeak();
 				testedSpectrum.setNbPeaksIdenticalWithReferenceSpectrum(nbPeaksEquals);
@@ -272,6 +280,8 @@ public class ComparisonSpectra {
 					if (cosTheta >= cosThetaMin) {
 						testedSpectrum.setCosThetha(cosTheta);
 						testedSpectrum.setTitleReferenceSpectrum(referenceSpectrum.getTitle());
+						testedSpectrum.setDeltaMozWithReferenceSpectrum(testedSpectrum.getMz() - referenceSpectrum.getMz());
+						testedSpectrum.setDeltaRetentionTimeWithReferenceSpectrum((int) ((testedSpectrum.getRetentionTime() * 60) - (referenceSpectrum.getRetentionTime() * 60)));
 						validSpectra.addSpectrum(testedSpectrum);
 
 					}
