@@ -170,4 +170,5 @@ public class ComparisonSettingsController {
 		alert.showAndWait();
 	}
 
+	
 }

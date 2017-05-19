@@ -6,9 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Regroup all spectrum as an ObservableList and make specific treatment like
- * add spectrum in the observable list, update retention time for all spectrum,
- * check the number of spectrum recovered, find a spectrum with its title.
+ * Regroup all spectrum as an ObservableList and make specific treatment like add spectrum in the
+ * observable list, update retention time for all spectrum, check the number of spectrum recovered,
+ * find a spectrum with its title.
  * 
  * @author BL
  *
@@ -20,6 +20,9 @@ public class Spectra {
 	private Integer nbSpectra = 0;
 	private Integer nbRecover = 0;
 	private Integer nbIdentified = 0;
+	private Integer nbMatched = 0;
+	private Float percentageRecover = 0F;
+	private Float percentageIdentified = 0F;
 
 	public Spectra() {
 		super();
@@ -47,6 +50,9 @@ public class Spectra {
 		nbSpectra = 0;
 		nbRecover = 0;
 		nbIdentified = 0;
+		percentageIdentified = 0F;
+		percentageRecover = 0F;
+		nbMatched = 0;
 	}
 
 	public void addSpectrum(Spectrum spectrum) {
@@ -76,8 +82,8 @@ public class Spectra {
 	}
 
 	/**
-	 * Scan all the spectrum and increment the number of recover every time the
-	 * value of recover for this spectrum will be true
+	 * Scan all the spectrum and increment the number of recover every time the value of recover for
+	 * this spectrum will be true
 	 */
 	public void countRecoveredAndIdentifiedSpectra() {
 		nbRecover = 0;
@@ -145,6 +151,29 @@ public class Spectra {
 		return specificSpectrum;
 	}
 
+	private void computePercentageRecover() {
+		if (nbSpectra != 0){
+			percentageRecover = (((float)nbRecover / (float)nbSpectra) * 100);
+}
+	}
+
+	private void computePercentageIdentified() {
+		if (nbSpectra != 0){
+			percentageIdentified =  (((float)nbIdentified / (float)nbSpectra) * 100);
+		}
+		
+	}
+
+	public Float getPercentageRecover() {
+		computePercentageRecover();
+		return percentageRecover;
+	}
+
+	public Float getPercentageIdentified() {
+		computePercentageIdentified();
+		return percentageIdentified;
+	}
+
 	public void resetRecover() {
 		for (Spectrum sp : getSpectraAsObservable()) {
 			sp.setIsRecovered(false);
@@ -167,9 +196,23 @@ public class Spectra {
 
 	public void setRecoverForFlaggedSpectrum() {
 		for (Spectrum sp : getSpectraAsObservable()) {
-			if(sp.getIsFlagged()){
+			if (sp.getIsFlagged()) {
 				sp.setIsRecovered(true);
 			}
 		}
+	}
+	
+	private void countNbMatched(){
+		nbMatched = 0;
+		for(Spectrum sp : getSpectraAsObservable()){
+			if(sp.getNbMatch() !=0){
+				nbMatched++;
+			}
+		}
+	}
+	
+	public Integer getNbMatched(){
+		countNbMatched();
+		return nbMatched ;
 	}
 }

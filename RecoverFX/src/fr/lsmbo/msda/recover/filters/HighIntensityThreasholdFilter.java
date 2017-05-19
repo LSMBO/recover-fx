@@ -57,7 +57,9 @@ public class HighIntensityThreasholdFilter implements BasicFilter {
 			}
 			i++;
 		}
+		
 		spectrum.setNbFragmentAboveHIT(i);
+		
 		if (i > maxNbPeaks)
 			return false;
 		return true;

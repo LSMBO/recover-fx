@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import javax.swing.SwingUtilities;
-
 import org.jfree.chart.ChartPanel;
 
 import fr.lsmbo.msda.recover.io.PeaklistWriter;
@@ -19,14 +18,14 @@ import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
 import fr.lsmbo.msda.recover.gui.Recover;
-import fr.lsmbo.msda.recover.io.ExportBatch;
+
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.ConstantComparisonSpectra;
-import fr.lsmbo.msda.recover.model.Fragment;
+
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
@@ -42,6 +41,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -50,7 +50,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 import javafx.util.Callback;
 
 public class RecoverController {
@@ -71,6 +71,13 @@ public class RecoverController {
 	private Stage dialogStage;
 	// private JFreeChart chart;
 	private SpectrumChart spectrumChart;
+
+	@FXML
+	private Label percentageRecover;
+	@FXML
+	private Label percentageIdentified;
+	@FXML
+	private Label nbMatched;
 
 	// @FXML
 	// private MenuItem mnLoadPeaklist;
@@ -169,7 +176,9 @@ public class RecoverController {
 	@FXML
 	private void initialize() {
 
+		updateStat();
 		// Left view
+
 		Spectra spectra = ListOfSpectra.getFirstSpectra();
 		// define spectrum list
 		table.setItems(spectra.getSpectraAsObservable());
@@ -227,24 +236,12 @@ public class RecoverController {
 		colUPN.setPrefWidth(SIZE_COL_UPN);
 		colIdentified.setPrefWidth(SIZE_COL_IDENTIFIED);
 		colRecover.setPrefWidth(SIZE_COL_RECOVERED);
-		colTitle.prefWidthProperty()
-				.bind(table.widthProperty()
-						.subtract(SIZE_COL_ID + SIZE_COL_MOZ + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT
-								+ SIZE_COL_NBFRAGMENTS + SIZE_COL_UPN + SIZE_COL_IDENTIFIED + SIZE_COL_RECOVERED + 0));
+		colTitle.prefWidthProperty().bind(table.widthProperty()
+				.subtract(SIZE_COL_ID + SIZE_COL_MOZ + SIZE_COL_INTENSITY + SIZE_COL_CHARGE + SIZE_COL_RT + SIZE_COL_NBFRAGMENTS + SIZE_COL_UPN + SIZE_COL_IDENTIFIED + SIZE_COL_RECOVERED + 0));
 
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			// Use the algorithm only if the reference spectrum have at least a
-			// number of fragment equals to Session.NB_PEAKS
-			if (mnComparisonUsed) {
-				if (newSelection.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
-					ComparisonSpectra.main(newSelection);
-				} else {
-					System.out.println("not enough number of fragment");
-					ComparisonSpectra.getValidSpectrum().initialize();
-				}
-			}
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
 			// chart.setTitle(newSelection.getTitle());
@@ -388,17 +385,14 @@ public class RecoverController {
 
 					// Tooltip for HIT and its parameters
 					try {
-						HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters()
-								.get("HIT");
-						infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n"
-								+ "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
+						HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+						infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n" + "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
 					} catch (NullPointerException e) {
 					}
 
 					// Tooltip for LIT and its parameters
 					try {
-						LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters()
-								.get("LIT");
+						LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
 						infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
 					} catch (NullPointerException e) {
 					}
@@ -561,8 +555,7 @@ public class RecoverController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Select a peaklist file");
 		// default folder is 'Documents'
-		File initialDirectory = new File(
-				System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
+		File initialDirectory = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
 		// if it does not exist, then it's home folder
 		if (!initialDirectory.exists())
 			initialDirectory = new File(System.getProperty("user.home"));
@@ -570,9 +563,30 @@ public class RecoverController {
 		if (Session.CURRENT_FILE != null)
 			initialDirectory = Session.CURRENT_FILE.getParentFile();
 		fileChooser.setInitialDirectory(initialDirectory);
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All peaklists files", "*.*"),
-				new FileChooser.ExtensionFilter("MGF", "*.mgf"), new FileChooser.ExtensionFilter("PKL", "*.pkl"));
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("All peaklists files", "*.*"), new FileChooser.ExtensionFilter("MGF", "*.mgf"),
+				new FileChooser.ExtensionFilter("PKL", "*.pkl"));
 		return fileChooser;
+	}
+
+	@FXML
+	private void clickItem(MouseEvent event) {
+		
+		if (event.getClickCount() >= 1) {
+			Spectrum sp = table.getSelectionModel().getSelectedItem();
+			System.out.println(sp.getTitle());
+
+			// Use the algorithm only if the reference spectrum have at least a
+			// number of fragment equals to Session.NB_PEAKS
+			if (mnComparisonUsed) {
+				if (sp.getNbFragments() >= ConstantComparisonSpectra.getNbPeaks()) {
+					ComparisonSpectra.main(sp);
+				} else {
+					System.out.println("not enough number of fragment");
+					ComparisonSpectra.getValidSpectrum().initialize();
+				}
+			}
+		}
+
 	}
 
 	// Action to load the first table with a peaklist
@@ -587,16 +601,18 @@ public class RecoverController {
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
-		//check if the table is correctly fill
-				if(table.getItems().size()==0){
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("No spectra found");
-					alert.setHeaderText("No spectra imported with this file, please load other file");
-					alert.showAndWait();
-					handleClickMenuLoadFirst();
-				}
+		// check if the table is correctly fill
+		if (table.getItems().size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("No spectra found");
+			alert.setHeaderText("No spectra imported with this file, please load other file");
+			alert.showAndWait();
+			handleClickMenuLoadFirst();
+		}
 		statusBar.setText(StatusBar.refreshStatusBar());
 		Filters.resetHashMap();
+
+		updateStat();
 		// resetViewSecondPeaklist();
 	}
 
@@ -612,15 +628,16 @@ public class RecoverController {
 			// Filter f = new Filter();
 			// f.applyFilters();
 		}
-		//check if the table is correctly fill
-				if(ListOfSpectra.getSecondSpectra().getSpectraAsObservable().size() ==0){
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setTitle("No spectra found");
-					alert.setHeaderText("No spectra imported with this file, please load other file");
-					alert.showAndWait();
-					handleClickMenuLoadSecond();
-				}
+		// check if the table is correctly fill
+		if (ListOfSpectra.getSecondSpectra().getSpectraAsObservable().size() == 0) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("No spectra found");
+			alert.setHeaderText("No spectra imported with this file, please load other file");
+			alert.showAndWait();
+			handleClickMenuLoadSecond();
+		}
 		statusBar.setText(StatusBar.refreshStatusBar());
+		updateStat();
 		table.refresh();
 	}
 
@@ -633,8 +650,7 @@ public class RecoverController {
 		System.out.println("ABU " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
 		System.out.println("ABU " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-		
-		
+
 		statusBar.setText(StatusBar.refreshStatusBar());
 
 		this.dialogStage.setTitle(Main.recoverTitle());
@@ -643,8 +659,7 @@ public class RecoverController {
 			// parsing rules
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Retention times are missing");
-			alert.setHeaderText(
-					"Retention times could not be extracted from titles, do you want to open the Parsing rules selection list ?");
+			alert.setHeaderText("Retention times could not be extracted from titles, do you want to open the Parsing rules selection list ?");
 			ButtonType btnYes = new ButtonType("Yes", ButtonData.YES);
 			ButtonType btnNo = new ButtonType("No", ButtonData.NO);
 			alert.getButtonTypes().setAll(btnYes, btnNo);
@@ -664,8 +679,7 @@ public class RecoverController {
 	private void handleClickMenuExportFirst() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save your new peaklist");
-		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"),
-				new ExtensionFilter("PKL", "*.pkl"));
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"), new ExtensionFilter("PKL", "*.pkl"));
 		File savedFile = fileChooser.showSaveDialog(this.dialogStage);
 		if (savedFile != null) {
 			Recover.useSecondPeaklist = false;
@@ -726,6 +740,7 @@ public class RecoverController {
 			table.refresh();
 			// table1.refresh();
 			statusBar.setText(StatusBar.refreshStatusBar());
+			updateStat();
 		} catch (IOException e) {
 			e.printStackTrace();
 
@@ -778,6 +793,7 @@ public class RecoverController {
 			controller.setDialogStage(identifiedSpectraStage);
 			identifiedSpectraStage.showAndWait();
 			statusBar.setText(StatusBar.refreshStatusBar());
+			updateStat();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -819,63 +835,21 @@ public class RecoverController {
 		ListOfSpectra.getFirstSpectra().resetRecover();
 		table.refresh();
 		Filters.resetHashMap();
+		statusBar.setText(StatusBar.refreshStatusBar());
+		updateStat();
 	}
 
 	@FXML
 	private void handleClickMenuRecoverForFlag() {
 		ListOfSpectra.getFirstSpectra().setRecoverForFlaggedSpectrum();
 		table.refresh();
+		statusBar.setText(StatusBar.refreshStatusBar());
+		updateStat();
 	}
 
 	public static void setMnComparisonUsed(Boolean bool) {
 		mnComparisonUsed = bool;
 	}
-
-	// private void resetViewSecondPeaklist(){
-	// table1.setItems(ListOfSpectra.getSecondSpectra().getSpectraAsObservable());
-	// }
-
-	// @FXML
-	// private void handleCheckRecoverForIdentified() {
-	// if (mnCheckRecoverForIdentified.isSelected()) {
-	// mnUncheckRecoverForIdentified.setSelected(false);
-	// IdentifiedSpectraFilter.setCheckRecoverIdentified(true);
-	// IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
-	// } else {
-	// IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
-	// }
-	// }
-	//
-	// @FXML
-	// private void handleUncheckRecoverForIdentified() {
-	// if (mnUncheckRecoverForIdentified.isSelected()) {
-	// mnCheckRecoverForIdentified.setSelected(false);
-	// IdentifiedSpectraFilter.setUncheckRecoverIdentified(true);
-	// IdentifiedSpectraFilter.setCheckRecoverIdentified(false);
-	// } else
-	// IdentifiedSpectraFilter.setUncheckRecoverIdentified(false);
-	// }
-	//
-	// @FXML
-	// private void handleCheckRecoverForNonIdentified() {
-	// if (mnCheckRecoverForNonIdentified.isSelected()) {
-	// mnUncheckRecoverForNonIdentified.setSelected(false);
-	// IdentifiedSpectraFilter.setCheckRecoverNonIdentified(true);
-	// IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
-	// } else
-	// IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
-	// }
-	//
-	// @FXML
-	// private void handleUncheckRecoverForNonIdentified() {
-	// if (mnUncheckRecoverForNonIdentified.isSelected()) {
-	// mnCheckRecoverForNonIdentified.setSelected(false);
-	// IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(true);
-	// IdentifiedSpectraFilter.setCheckRecoverNonIdentified(false);
-	// } else
-	// IdentifiedSpectraFilter.setUncheckRecoverNonIdentified(false);
-	//
-	// }
 
 	private void resetChartAxis(Spectrum spectrum) {
 		// if(chart.getData().size() > 0) {
@@ -890,8 +864,18 @@ public class RecoverController {
 		// }
 	}
 
-	public void refreshTable(){
+	public void refreshTable() {
 		table.refresh();
+	}
+
+	private void updateStat() {
+		Spectra spectra = ListOfSpectra.getFirstSpectra();
+		String percentageRecoverFormat = String.format("%.1f", spectra.getPercentageRecover());
+		String percentageIdentifiedFormat = String.format("%.1f", spectra.getPercentageIdentified());
+
+		percentageRecover.setText("Recover: " + percentageRecoverFormat + "%");
+		percentageIdentified.setText("Identified: " + percentageIdentifiedFormat + "%");
+		nbMatched.setText("Nb spectrum with min 1 match : " + spectra.getNbMatched());
 	}
 	// private void defineChartMenu() {
 	// // display a menu with some actions (such as reset zoom, fixed axis,

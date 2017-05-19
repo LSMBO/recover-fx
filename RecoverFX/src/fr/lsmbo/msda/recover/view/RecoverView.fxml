@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
+<BorderPane prefHeight="661.0" prefWidth="1313.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
 	<top>
 		<MenuBar BorderPane.alignment="CENTER">
 			<menus>
@@ -90,7 +90,7 @@
 		</MenuBar>
 	</top>
 	<bottom>
-		<HBox prefHeight="36.0" prefWidth="1313.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
+		<HBox prefHeight="50.0" prefWidth="1313.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
 			<children>
 				<Label fx:id="statusBar" textFill="WHITE">
 					<font>
@@ -109,7 +109,7 @@
 									<center>
 										<SplitPane dividerPositions="0.33256880733944955" orientation="VERTICAL" BorderPane.alignment="CENTER">
 											<items>
-												<TableView fx:id="table">
+												<TableView fx:id="table" onMouseClicked="#clickItem">
 													<columns>
                                     				<TableColumn fx:id="colFlag" maxWidth="-1.0" minWidth="30.0" prefWidth="30.0" text="Flag" />
 														<TableColumn fx:id="colId" editable="false" prefWidth="25.0" text="#" />
@@ -137,7 +137,7 @@
 												</TableView>
 												<BorderPane prefHeight="309.0" prefWidth="638.0">
 													<left>
-														<AnchorPane fx:id="filterAnchor" prefHeight="282.0" prefWidth="79.0" BorderPane.alignment="CENTER">
+														<AnchorPane fx:id="filterAnchor" prefHeight="282.0" prefWidth="110.0" BorderPane.alignment="CENTER">
 															<children>
 																<Label fx:id="infoHIT" layoutY="2.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
 																<Label fx:id="infoLIT" layoutY="52.0" prefHeight="44.0" prefWidth="79.0" style="-fx-border-style: solid;" />
@@ -175,6 +175,9 @@
 																		<Font name="Arial Bold" size="14.0" />
 																	</font>
 																</Label>
+                                          <Label fx:id="percentageRecover" layoutY="317.0" prefHeight="17.0" prefWidth="110.0" text="Recover:" />
+                                          <Label fx:id="percentageIdentified" layoutY="334.0" prefHeight="17.0" prefWidth="110.0" text="Identified:" />
+                                          <Label fx:id="nbMatched" layoutY="351.0" prefHeight="34.0" prefWidth="110.0" text="Nb spectrum with min 1 match :" wrapText="true" />
 															</children>
 														</AnchorPane>
 													</left>
