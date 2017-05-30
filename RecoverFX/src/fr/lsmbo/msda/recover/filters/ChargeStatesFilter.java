@@ -3,10 +3,8 @@ package fr.lsmbo.msda.recover.filters;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * filter to keep spectrum according to specific charges: 1,2,3,4,5 or above 5.
- * Take different Boolean in parameters to use this filter. A charge will be
- * kept (Boolean = true) or rejected (Boolean = false) If the Boolean is false
- * for a specific charge, all the spectrum with this charge will not be recover.
+ * This class provide information about charge states filter (getter and setter). filter spectrum according to his specific charge and charges we want to keep.
+ * Parameters used in this class are booleans. Spectrum will be kept according to value of these booleans.
  * 
  * @author BL
  * 
@@ -20,22 +18,25 @@ public class ChargeStatesFilter implements BasicFilter {
 	private Boolean keepCharge5 = true;
 	private Boolean keepChargeAbove5 = true;
 	private Boolean keepUnknownCharge = true;
-	private Boolean isUsed = false;
-	// private Boolean[] associatedSpectrum = new
-	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 2;
 
 	/**
 	 * set the different parameters (Boolean) to this class
 	 * 
 	 * @param z1
-	 *            Boolean of charge 1 = true if we keep this charge
+	 * 	value of the boolean to keep or not charge +1
 	 * @param z2
+	 * value of the boolean to keep or not charge +2
 	 * @param z3
+	 * value of the boolean to keep or not charge +3
 	 * @param z4
+	 * value of the boolean to keep or not charge +4
 	 * @param z5
+	 * value of the boolean to keep or not charge +5
 	 * @param zOver5
+	 * value of the boolean to keep or not charge over +5
 	 * @param zUnknown
+	 * value of the boolean to keep or not unknown charge
 	 */
 	public void setParameters(Boolean z1, Boolean z2, Boolean z3, Boolean z4, Boolean z5, Boolean zOver5,
 			Boolean zUnknown) {
@@ -51,9 +52,10 @@ public class ChargeStatesFilter implements BasicFilter {
 	// test if the spectra is valid or not
 	@Override
 	/**
+	 * Determine if the spectrum are keep or not by comparing this charge with charges we want to keep
 	 * @param spectrum
-	 *            A specific spectrum
-	 * @return Boolean false or true to set the value of recover
+	 *		spectrum to apply charge states filter
+	 * @return true (spectrum are kept) or false (spectrum are rejected)
 	 * @see Spectrum
 	 */
 	public Boolean isValid(Spectrum spectrum) {
@@ -84,54 +86,48 @@ public class ChargeStatesFilter implements BasicFilter {
 				+ getKeepUnknownCharge() + "\n";
 	}
 
+	/**
+	 * @return states of the boolean for charge +1
+	 */
 	public Boolean getKeepCharge1() {
 		return keepCharge1;
 	}
-
+	/**
+	 * @return states of the boolean for charge +2
+	 */
 	public Boolean getKeepCharge2() {
 		return keepCharge2;
 	}
-
+	/**
+	 * @return states of the boolean for charge +3
+	 */
 	public Boolean getKeepCharge3() {
 		return keepCharge3;
 	}
-
+	/**
+	 * @return states of the boolean for charge +4
+	 */
 	public Boolean getKeepCharge4() {
 		return keepCharge4;
 	}
-
+	/**
+	 * @return states of the boolean for charge +5
+	 */
 	public Boolean getKeepCharge5() {
 		return keepCharge5;
 	}
-
+	/**
+	 * @return states of the boolean for charge over +5
+	 */
 	public Boolean getKeepChargeAbove5() {
 		return keepChargeAbove5;
 	}
-
+	/**
+	 * @return states of the boolean for unkwnown charge
+	 */
 	public Boolean getKeepUnknownCharge() {
 		return keepUnknownCharge;
 	}
-
-	@Override
-	public Boolean getIsUsed() {
-		return isUsed;
-	}
-
-	public void setIsUsed(Boolean _isUsed) {
-		this.isUsed = _isUsed;
-	}
-
-	// public Boolean[] getAssociatedSpectrum(){
-	// return associatedSpectrum;
-	// }
-	//
-	// public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-	// this.associatedSpectrum = associatedSpectrum;
-	// }
-	//
-	// public void addRecover(Boolean bool, int i){
-	// associatedSpectrum[i] = bool;
-	// }
 
 	public int getId() {
 		return id;

@@ -10,10 +10,6 @@ public interface BasicFilter {
 	// returns description
 	String getFullDescription();
 
-	Boolean getIsUsed();
-
 	int getId();
-	// Boolean[] getAssociatedSpectrum() ;
-	// void addRecover(Boolean bool, int i);
 
 }

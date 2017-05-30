@@ -13,10 +13,10 @@ import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.Views;
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
-import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.Recover;
 
 import fr.lsmbo.msda.recover.io.PeaklistReader;
@@ -385,14 +385,14 @@ public class RecoverController {
 
 					// Tooltip for HIT and its parameters
 					try {
-						HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+						HighIntensityThresholdFilter filterHIT = (HighIntensityThresholdFilter) Filters.getFilters().get("HIT");
 						infoHIT.setTooltip(new Tooltip(filterHIT.getFullDescription() + "\n" + "Number of fragment above threshold :" + sp.getNbFragmentAboveHIT()));
 					} catch (NullPointerException e) {
 					}
 
 					// Tooltip for LIT and its parameters
 					try {
-						LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+						LowIntensityThresholdFilter filterLIT = (LowIntensityThresholdFilter) Filters.getFilters().get("LIT");
 						infoLIT.setTooltip(new Tooltip(filterLIT.getFullDescription()));
 					} catch (NullPointerException e) {
 					}
@@ -573,7 +573,6 @@ public class RecoverController {
 		
 		if (event.getClickCount() >= 1) {
 			Spectrum sp = table.getSelectionModel().getSelectedItem();
-			System.out.println(sp.getTitle());
 
 			// Use the algorithm only if the reference spectrum have at least a
 			// number of fragment equals to Session.NB_PEAKS

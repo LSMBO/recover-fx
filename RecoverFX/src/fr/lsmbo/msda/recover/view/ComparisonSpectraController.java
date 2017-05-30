@@ -115,6 +115,7 @@ public class ComparisonSpectraController {
 			// allow fixed axis)
 			// resetChartAxis(newSelection);
 
+			//Condition in case there is no spectrum selected (doesn't really work) to not display chart
 			if (tableComparison.getItems().size() != 0) {
 				referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
 				// chart = SpectrumChart.getPlot(newSelection);
@@ -212,6 +213,7 @@ public class ComparisonSpectraController {
 			comparisonSettingsController.setDialogStage(comparisonSettingsStage);
 			comparisonSettingsStage.showAndWait();
 			
+			//Refresh the main tableview to re-compute number of matched for all spectrum
 			RecoverController recoverController = Recover.getRecoverController();
 			recoverController.refreshTable();
 
@@ -220,30 +222,5 @@ public class ComparisonSpectraController {
 		}
 	}
 
-	// public void displayGraph(){
-	// tableComparison.getSelectionModel().selectedItemProperty().addListener((obs,
-	// oldSelection, newSelection) -> {
-	//
-	// // // set new data and title
-	// // chart.setData(SpectrumChart.getData(newSelection));
-	// // chart.setTitle(newSelection.getTitle());
-	// // // reset axis values because autoranging is off (necessary to
-	// // allow fixed axis)
-	// // resetChartAxis(newSelection);
-	//
-	// if(tableComparison.getItems().size()!=0){
-	// System.out.println(tableComparison.getItems());
-	// referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
-	// // chart = SpectrumChart.getPlot(newSelection);
-	// spectrumChart = new SpectrumChart(referenceSpectrum,newSelection);
-	// ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-	// SwingUtilities.invokeLater(new Runnable() {
-	// @Override
-	// public void run() {
-	// swingNodeForChart.setContent(chartPanel);
-	// }
-	// });
-	// }
-	// });
-	// }
+
 }

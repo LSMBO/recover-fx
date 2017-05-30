@@ -4,11 +4,8 @@ import fr.lsmbo.msda.recover.model.ComparisonTypes;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * Filter to remove specific spectrum according to intensity of fragments. Make
- * a comparison with these fragment( equals, different, greater, lower). For
- * example, lower than xxx intensity, all the spectrum with a fragment's
- * intensity lower than this value will be removed.
- *
+ * This class provide information about Fragment intensity filter (getter and setter). Filter spectrum according to maximal intensity of fragment.
+ * 
  * @author BL
  *
  */
@@ -17,15 +14,27 @@ public class FragmentIntensityFilter implements BasicFilter {
 
 	private int intensity;
 	private ComparisonTypes comparator;
-	private Boolean isUsed = false;
 	private int id = 4;
 
+	/**
+	 * 
+	 * @param _intensity
+	 *	intensity to compare
+	 * @param _comparator
+	 *  comparator of intensity (equals, not equals, greater, greater or equals, lower, lower or equals)
+	 */
 	public void setParameters(int _intensity, ComparisonTypes _comparator) {
 		intensity = _intensity;
 		comparator = _comparator;
 	}
 
 	@Override
+	/**
+	 * Determine if a spectrum are keep or not by comparing maximal intensity of these fragment with a specific intensity
+	 * @param spectrum
+	 * Spectrum to apply fragment intensity filter
+	 * @return true (spectrum are kept) or false (spectrum are rejected)
+	 */
 	public Boolean isValid(Spectrum spectrum) {
 		switch (comparator) {
 		case EQUALS_TO:
@@ -64,34 +73,21 @@ public class FragmentIntensityFilter implements BasicFilter {
 				+ " ; " + "Comparator : " + getComparator() + "\n";
 	}
 
+	/**
+	 * 
+	 * @return Value of intensity
+	 */
 	public int getIntensityFragment() {
 		return intensity;
 	}
 
+	/**
+	 * 
+	 * @return A comparator of intensity
+	 */
 	public ComparisonTypes getComparator() {
 		return comparator;
 	}
-
-	@Override
-	public Boolean getIsUsed() {
-		return isUsed;
-	}
-
-	public void setIsUsed(Boolean _isUsed) {
-		this.isUsed = _isUsed;
-	}
-
-	// public Boolean[] getAssociatedSpectrum(){
-	// return associatedSpectrum;
-	// }
-	//
-	// public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-	// this.associatedSpectrum = associatedSpectrum;
-	// }
-	//
-	// public void addRecover(Boolean bool, int i){
-	// associatedSpectrum[i] = bool;
-	// }
 
 	public int getId() {
 		return id;

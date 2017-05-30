@@ -7,10 +7,10 @@ import java.util.Iterator;
 import com.fasterxml.jackson.core.JsonParseException;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
-import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.io.FilterWriterJson;
@@ -48,8 +48,8 @@ public class FilterController {
 	private ObservableList<String> comparatorIntensity = FXCollections.observableArrayList("=", "#", ">", ">=", "<", "<=");
 
 	// instance filters
-	private HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
-	private LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter();
+	private HighIntensityThresholdFilter filterHIT = new HighIntensityThresholdFilter();
+	private LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 	private FragmentIntensityFilter filterFI = new FragmentIntensityFilter();
 	private WrongChargeFilter filterWC = new WrongChargeFilter();
 	private IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
@@ -189,7 +189,7 @@ public class FilterController {
 
 		// initialize previous values of the filterHIT
 		if ((Filters.getFilters().get("HIT")) != null) {
-			filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+			filterHIT = (HighIntensityThresholdFilter) Filters.getFilters().get("HIT");
 			checkBoxHighIntensityThresholdFilter.setSelected(true);
 			checkHighIntensityThresholdFilter();
 			mostIntensePeaksToConsider.setText(Integer.toString(filterHIT.getNbMostIntensePeaksToConsider()));
@@ -205,7 +205,7 @@ public class FilterController {
 
 		// initialize previous values of the filterLIT
 		if ((Filters.getFilters().get("LIT")) != null) {
-			filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+			filterLIT = (LowIntensityThresholdFilter) Filters.getFilters().get("LIT");
 			checkBoxLowIntensityThresholdFilter.setSelected(true);
 			checkLowIntensityThresholdFilter();
 			emergence.setText(Float.toString(filterLIT.getEmergence()));

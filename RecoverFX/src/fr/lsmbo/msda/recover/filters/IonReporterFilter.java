@@ -17,7 +17,6 @@ public class IonReporterFilter implements BasicFilter {
 	private String name;
 	private Float moz;
 	private Float tolerance;
-	private Boolean isUsed = false;
 	// private Boolean[] associatedSpectrum = new
 	// Boolean[Spectra.getSpectraAsObservable().size()];
 	private int id = 6;
@@ -59,27 +58,6 @@ public class IonReporterFilter implements BasicFilter {
 
 		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons;
 	}
-
-	@Override
-	public Boolean getIsUsed() {
-		return isUsed;
-	}
-
-	public void setIsUsed(Boolean _isUsed) {
-		this.isUsed = _isUsed;
-	}
-
-	// public Boolean[] getAssociatedSpectrum(){
-	// return associatedSpectrum;
-	// }
-	//
-	// public void setAssociatedSpectrum(Boolean[] associatedSpectrum){
-	// this.associatedSpectrum = associatedSpectrum;
-	// }
-	//
-	// public void addRecover(Boolean bool, int i){
-	// associatedSpectrum[i] = bool;
-	// }
 
 	public int getId() {
 		return id;

@@ -18,16 +18,19 @@ import fr.lsmbo.msda.recover.model.StatusFilterType;
  * (recover, UPN, filters used).
  * 
  * @author BL
- * @see FragmentIntensityFilter, HighIntensityThreasholdFilter,
- *      IdentifiedSpectraFilter, IonReporterFilter,
- *      LowIntensityThreasholdFilter, WrongChargeFilter
+ * @see FragmentIntensityFilter
+ * @see HighIntensityThresholdFilter
+ * @see IdentifiedSpectraFilter
+ * @see IonReporterFilter
+ * @see LowIntensityThresholdFilter
+ * @see WrongChargeFilter
  * @see Filters
  *
  */
 public class Filter {
 
-	private HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
-	private LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+	private HighIntensityThresholdFilter filterHIT = (HighIntensityThresholdFilter) Filters.getFilters().get("HIT");
+	private LowIntensityThresholdFilter filterLIT = (LowIntensityThresholdFilter) Filters.getFilters().get("LIT");
 	private FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
 	private WrongChargeFilter filterWC = (WrongChargeFilter) Filters.getFilters().get("WC");
 	private IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");
@@ -36,11 +39,8 @@ public class Filter {
 	/**
 	 * First of all, check if the filter identified spectra is used and apply
 	 * this filter: scan all the title given and find the associated spectrum
-	 * for this title
-	 * 
-	 * @see IdentifiedSpectraFilter
-	 * 
-	 *      Then, scan the different spectrum and for all this spectrum,scan the
+	 * for this title.
+	 * 	 Then, scan the different spectrum and for all this spectrum,scan the
 	 *      different filter used (as an array of index, each index
 	 *      corresponding to a specific filter @see Filters). First filter
 	 *      encountered set the value of recover for this spectrum. If there are
@@ -54,6 +54,9 @@ public class Filter {
 	 *      recoverIfSeveralIons) because if a first ion reporter return a value
 	 *      of recover true we keep this value even if we have more ion reporter
 	 *      And finally, calculate number of spectrum recovered
+	 * @see IdentifiedSpectraFilter
+	 * 
+
 	 * 
 	 */
 	public void applyFilters() {

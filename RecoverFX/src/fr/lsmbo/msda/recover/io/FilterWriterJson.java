@@ -8,10 +8,10 @@ import java.util.Date;
 import com.fasterxml.jackson.core.*;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
-import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -26,8 +26,8 @@ public class FilterWriterJson {
 		String nom = System.getProperty("user.name");
 
 		//Recover all the filter
-		HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
-		LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+		HighIntensityThresholdFilter filterHIT = (HighIntensityThresholdFilter) Filters.getFilters().get("HIT");
+		LowIntensityThresholdFilter filterLIT = (LowIntensityThresholdFilter) Filters.getFilters().get("LIT");
 		FragmentIntensityFilter filterFI = (FragmentIntensityFilter) Filters.getFilters().get("FI");
 		WrongChargeFilter filterWC = (WrongChargeFilter) Filters.getFilters().get("WC");
 		IdentifiedSpectraFilter filterIS = (IdentifiedSpectraFilter) Filters.getFilters().get("IS");

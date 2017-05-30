@@ -148,11 +148,18 @@ public class ExportBatchController {
 					filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 					File excelFile = filechooser.showOpenDialog(this.dialogStage);
 					specificIdentification = true;
+					
 					IdentifiedSpectra specificIdentifiedSpectra = new IdentifiedSpectra();
 					IdentifiedSpectraFromExcel specificIdentifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
+					
+					//call method load from identifiedSpectraFromExcel to find titles in the excel file
 					specificIdentifiedSpectraFromExcel.setIdentifiedSpectra(specificIdentifiedSpectra);
 					specificIdentifiedSpectraFromExcel.load(excelFile);
+					
+					//array list contains titles found in excel file
 					ArrayList<String> specificListTitles = new ArrayList<>(specificIdentifiedSpectraFromExcel.getTitles());
+					
+					//add in the hashmap the corresponding file with its titles
 					exportBatch.addListTitlesWithCorrespondingFile(file, specificListTitles);
 				}
 			}
@@ -180,6 +187,8 @@ public class ExportBatchController {
 
 		if (files != null) {
 			exportBatch.addFilesInObservableList(files);
+			
+			//allow to reset with enable the button reset
 			btnResetFiles.setDisable(false);
 		}
 
@@ -187,6 +196,7 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnResetFiles() {
+		//reset the list and the hashmap in exportBatch and disable button reset
 		exportBatch.resetListFileToProcess();
 		btnResetFiles.setDisable(true);
 	}
@@ -258,8 +268,8 @@ public class ExportBatchController {
 
 	@FXML
 	private void handleClickBtnResetIdentification() {
+		//reset the list which contains titles and disable button reset 
 		exportBatch.resetListTitles();
-		identifiedSpectra.resetArrayTitles();
 		btnResetIdentification.setDisable(true);
 	}
 
@@ -273,7 +283,6 @@ public class ExportBatchController {
 
 			// define the directory to find the file
 			File initialDirectory = Session.DIRECTORY_FILTER_FILE;
-			//
 			if (initialDirectory != null) {
 				fileChooser.setInitialDirectory(initialDirectory);
 			}
@@ -283,7 +292,11 @@ public class ExportBatchController {
 			// set parameters of filter (in the main recover)
 			if (loadFile != null) {
 				Session.DIRECTORY_FILTER_FILE = loadFile.getParentFile();
+				
+				//Import parameter of filter
 				FilterReaderJson.load(loadFile);
+				
+				//Put the name of the file in the textField
 				fileFilter.setText(loadFile.getName());
 				btnResetFilter.setDisable(false);
 			}
@@ -302,7 +315,7 @@ public class ExportBatchController {
 	@FXML
 	private void handleClickBtnOutputFolder() {
 
-		// open dialog to choose the folder where save file exported
+		// open dialog to choose the folder where save files exported
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Choose a destination folder");
 		File directory = directoryChooser.showDialog(this.dialogStage);

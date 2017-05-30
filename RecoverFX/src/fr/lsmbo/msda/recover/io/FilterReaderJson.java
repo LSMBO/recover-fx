@@ -11,10 +11,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
 import fr.lsmbo.msda.recover.filters.FragmentIntensityFilter;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.filters.IonReporterFilter;
-import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.lists.IonReporters;
@@ -43,7 +43,7 @@ public class FilterReaderJson {
 				// FILTER HIT
 				//Check if filterHIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterHIT") {
-					HighIntensityThreasholdFilter filterHIT = new HighIntensityThreasholdFilter();
+					HighIntensityThresholdFilter filterHIT = new HighIntensityThresholdFilter();
 					int nbMostIntensePeaksToConsider = 0;
 					float percentageOfTopLine = 0;
 					int maxNbPeaks = 0;
@@ -71,7 +71,7 @@ public class FilterReaderJson {
 				// FILTER LIT
 				//Check if filterLIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterLIT") {
-					LowIntensityThreasholdFilter filterLIT = new LowIntensityThreasholdFilter();
+					LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 					float emergence = 0;
 					int minUPN = 0;
 					int maxUPN = 0;

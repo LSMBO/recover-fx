@@ -19,8 +19,8 @@ import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
 
 import fr.lsmbo.msda.recover.Session;
-import fr.lsmbo.msda.recover.filters.HighIntensityThreasholdFilter;
-import fr.lsmbo.msda.recover.filters.LowIntensityThreasholdFilter;
+import fr.lsmbo.msda.recover.filters.HighIntensityThresholdFilter;
+import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.lists.Filters;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.ConstantComparisonSpectra;
@@ -299,7 +299,7 @@ public class SpectrumChart {
 				createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
 				Layer.BACKGROUND);
 		if (Filters.getFilters().get("LIT") != null) {
-			LowIntensityThreasholdFilter filterLIT = (LowIntensityThreasholdFilter) Filters.getFilters().get("LIT");
+			LowIntensityThresholdFilter filterLIT = (LowIntensityThresholdFilter) Filters.getFilters().get("LIT");
 			float emergence = filterLIT.getEmergence();
 			String mode = filterLIT.getMode().toString();
 			// raw baseline if chosen
@@ -314,7 +314,7 @@ public class SpectrumChart {
 					"Low intensity threshold : " + emergence + " * raw baseline", new Color(255, 183, 87, 220));
 		}
 		if (Filters.getFilters().get("HIT") != null) {
-			HighIntensityThreasholdFilter filterHIT = (HighIntensityThreasholdFilter) Filters.getFilters().get("HIT");
+			HighIntensityThresholdFilter filterHIT = (HighIntensityThresholdFilter) Filters.getFilters().get("HIT");
 			int nbMostIntensePeaks = filterHIT.getNbMostIntensePeaksToConsider();
 			int percentageTopLine = (int) (filterHIT.getPercentageOfTopLine() * 100);
 			// high intensity threshold if chosen
