@@ -103,17 +103,8 @@ public class ComparisonSpectraController {
 		colRT.setPrefWidth(SIZE_COL_RT);
 		colNbFragments.setPrefWidth(SIZE_COL_NBFRAGMENTS);
 
-		// mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
-		// filterAnchor.setPrefWidth(100);
 
 		tableComparison.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-
-			// // set new data and title
-			// chart.setData(SpectrumChart.getData(newSelection));
-			// chart.setTitle(newSelection.getTitle());
-			// // reset axis values because autoranging is off (necessary to
-			// allow fixed axis)
-			// resetChartAxis(newSelection);
 
 			//Condition in case there is no spectrum selected (doesn't really work) to not display chart
 			if (tableComparison.getItems().size() != 0) {

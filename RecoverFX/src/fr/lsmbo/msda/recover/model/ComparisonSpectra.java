@@ -44,7 +44,6 @@ public class ComparisonSpectra {
 	private static void initialize() {
 		secondSpectra = ListOfSpectra.getSecondSpectra();
 		subListSecondSpectra.initialize();
-		;
 		validSpectra.initialize();
 		deltaMoz = ConstantComparisonSpectra.getDeltaMoz();
 		deltaRT = ConstantComparisonSpectra.getDeltaRT();
@@ -52,11 +51,6 @@ public class ComparisonSpectra {
 		thetaMin = ConstantComparisonSpectra.getThetaMin();
 		cosThetaMin = Math.cos(Math.toRadians(thetaMin));
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
-		// fragmentEquals.clear();
-
-		// System.out.println("deltaMoz: " + deltaMoz + " deltaRT: " + deltaRT +
-		// " nbPeaksMin: " + nbPeaksMin + " thetaMin: " + thetaMin + "
-		// cosThetaMin: " + cosThetaMin);
 	}
 
 	// Reset the array
@@ -259,24 +253,14 @@ public class ComparisonSpectra {
 		initialize();
 		computeSubListSecondSpectra();
 		if (subListSecondSpectra.getSpectraAsObservable().size() != 0) {
-			// System.out.println("_______________________NEW
-			// COMPARISON_______________________");
-			// for(Spectrum sp : subListSecondSpectra.getSpectraAsObservable()){
-			// System.out.println("spectrum in subList : " + sp.getTitle());
-			// }
 			for (int i = 0; i < subListSecondSpectra.getSpectraAsObservable().size(); i++) {
 				Spectrum testedSpectrum = subListSecondSpectra.getSpectraAsObservable().get(i);
 				findFragment(testedSpectrum);
 				countNbPeak();
 				testedSpectrum.setNbPeaksIdenticalWithReferenceSpectrum(nbPeaksEquals);
-				//
-				// System.out.println("Number of peaks equals between two
-				// spectra : " + nbPeaksEquals);
 				if (nbPeaksEquals >= nbPeaksMin) {
 					computeCosTheta();
-					// System.out.println("Spectrum : " +
-					// testedSpectrum.getTitle() + " have cosTheta = " +
-					// cosTheta);
+
 					if (cosTheta >= cosThetaMin) {
 						testedSpectrum.setCosThetha(cosTheta);
 						testedSpectrum.setTitleReferenceSpectrum(referenceSpectrum.getTitle());
@@ -287,12 +271,7 @@ public class ComparisonSpectra {
 					}
 				}
 			}
-			// System.out.println("Constant at the end : \n deltaMOZ: " +
-			// deltaMoz + "\n deltaRT: " + deltaRT + "\n nbpeak : " + nbPeaks +
-			// "\n nbPeaksMin: " + nbPeaksMin + "\n thetamin: " + thetaMin +
-			// "cos thetamin: " + cosThetaMin);
-			// System.out.println("_______________________END OF
-			// COMPARISON_______________________");
+
 		}
 	}
 

@@ -17,9 +17,7 @@ public class IonReporterFilter implements BasicFilter {
 	private String name;
 	private Float moz;
 	private Float tolerance;
-	// private Boolean[] associatedSpectrum = new
-	// Boolean[Spectra.getSpectraAsObservable().size()];
-	private int id = 6;
+
 
 	public void setParameters(String _name, Float _moz, Float _tolerance) {
 		name = _name;
@@ -35,9 +33,7 @@ public class IonReporterFilter implements BasicFilter {
 
 		for (int i = 0; i < spectrum.getNbFragments(); i++) {
 			float mozFragment = spectrum.getFragments().get(i).getMz();
-			// System.out.println("nb fragment : "+ spectrum.getNbFragments() +
-			// " fragment : " + (i+1) + " mozFragment : " + mozFragment + "
-			// mozMin : " + mozMin + " mozMax : " + mozMax);
+
 			if (mozFragment > mozMin && mozFragment < mozMax) {
 				ionReporterFound = true;
 				break;
@@ -59,7 +55,4 @@ public class IonReporterFilter implements BasicFilter {
 		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons;
 	}
 
-	public int getId() {
-		return id;
-	}
 }

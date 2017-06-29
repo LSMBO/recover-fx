@@ -27,6 +27,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Class to extract titles in excel file and put them in class identifiedSpectra. Read an excel file, recover sheets, open a new window to get back information
+ * about the sheet and the column to extract these titles by iteration.
+ * 
+ * @author LOMBART.benjamin
+ *
+ */
 public class IdentifiedSpectraFromExcel {
 	private static String title = "";
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
@@ -41,10 +48,13 @@ public class IdentifiedSpectraFromExcel {
 	private IdentifiedSpectra identifiedSpectra;
 
 	public IdentifiedSpectraFromExcel() {
-
 	}
 
-	public void load(File file) {
+	/**
+	 * 
+	 * @param file
+	 * 		Excel file which contains titles to make identification
+	 */ public void load(File file) {
 		try {
 
 			initialization();

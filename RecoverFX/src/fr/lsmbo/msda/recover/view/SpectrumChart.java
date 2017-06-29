@@ -26,7 +26,11 @@ import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.ConstantComparisonSpectra;
 import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
-
+/**
+ * 
+ * @author LOMBART.benjamin
+ *
+ */
 public class SpectrumChart {
 
 	private JFreeChart chart;
@@ -35,6 +39,11 @@ public class SpectrumChart {
 	private ArrayList<Fragment> testMatchedFragment = new ArrayList<>();
 
 	@SuppressWarnings("unchecked")
+	/**
+	 * Constructor to display an overlap of two spectrum
+	 * @param referenceSpectrum
+	 * @param matchedSpectrum
+	 */
 	public SpectrumChart(Spectrum referenceSpectrum, Spectrum matchedSpectrum) {
 		XYSeries series2 = new XYSeries("Fragments of the reference spectrum");
 		XYSeries series1 = new XYSeries("Fragments of the matched spectrum");
@@ -252,7 +261,7 @@ public class SpectrumChart {
 				Layer.BACKGROUND);
 	}
 
-	public JFreeChart getChart() {
+	public JFreeChart getChart() { 
 		return chart;
 	}
 

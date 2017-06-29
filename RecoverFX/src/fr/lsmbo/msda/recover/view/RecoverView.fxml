@@ -14,7 +14,10 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="661.0" prefWidth="1313.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.lsmbo.msda.recover.view.RecoverController">
@@ -92,11 +95,27 @@
 	<bottom>
 		<HBox prefHeight="50.0" prefWidth="1313.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
 			<children>
-				<Label fx:id="statusBar" textFill="WHITE">
-					<font>
-						<Font name="Arial Bold" size="14.0" />
-					</font>
-				</Label>
+            <GridPane prefHeight="50.0" prefWidth="1339.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1105.0" minWidth="10.0" prefWidth="1032.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="464.0" minWidth="0.0" prefWidth="89.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="244.0" minWidth="0.0" prefWidth="86.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="169.0" minWidth="10.0" prefWidth="106.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+      				<Label fx:id="statusBar" textFill="WHITE">
+      					<font>
+      						<Font name="Arial Bold" size="14.0" />
+      					</font>
+      				</Label>
+                  <Label fx:id="percentageRecover" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="110.0" text="Recover:" textFill="WHITE" GridPane.columnIndex="1" />
+                  <Label fx:id="percentageIdentified" prefHeight="17.0" prefWidth="110.0" text="Identified:" textFill="WHITE" GridPane.columnIndex="2" />
+                  <Label fx:id="nbMatched" prefHeight="34.0" prefWidth="110.0" text="Nb spectrum with min 1 match :" textFill="WHITE" wrapText="true" GridPane.columnIndex="3" />
+               </children>
+            </GridPane>
 			</children>
 		</HBox>
 	</bottom>
@@ -175,9 +194,6 @@
 																		<Font name="Arial Bold" size="14.0" />
 																	</font>
 																</Label>
-                                          <Label fx:id="percentageRecover" layoutY="317.0" prefHeight="17.0" prefWidth="110.0" text="Recover:" />
-                                          <Label fx:id="percentageIdentified" layoutY="334.0" prefHeight="17.0" prefWidth="110.0" text="Identified:" />
-                                          <Label fx:id="nbMatched" layoutY="351.0" prefHeight="34.0" prefWidth="110.0" text="Nb spectrum with min 1 match :" wrapText="true" />
 															</children>
 														</AnchorPane>
 													</left>

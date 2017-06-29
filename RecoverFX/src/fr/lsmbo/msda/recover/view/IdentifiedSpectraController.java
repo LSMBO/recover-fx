@@ -56,13 +56,16 @@ public class IdentifiedSpectraController {
 
 	@FXML
 	private void handleClickBtnApply() {
+		//Reset Spectra identified
 		if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
 			ListOfSpectra.getFirstSpectra().resetIdentified();
 		}
 
+		//Recover text in the text box and convert him in arraylist
 		String[] arrayTitles = titles.getText().split("\n");
 		ArrayList<String> arrayListTitles = ConvertorArrayToArrayList.arrayToArrayListString(arrayTitles);
 
+		
 		if (!excelFileImported) {
 			identifiedSpectra.setArrayTitles(arrayListTitles);
 		} else {

@@ -23,14 +23,14 @@ public class Spectrum {
 	private Integer charge = -1;
 	private float retentionTime = 0; // retention time in seconds
 	private String title = "";
-	
+
 	private Integer nbFragments = 0;
 	private Integer indexOfMostIntenseFragment = 0;
 	private float fragmentMaxMoz = 0;
 	private float fragmentMaxIntensity = 0;
 	private float medianFragmentsIntensities = 0;
 	private float averageFragmentsIntensities = 0;
-	
+
 	private Integer lineStart = 0;
 	private Integer lineStop = 0;
 
@@ -349,9 +349,9 @@ public class Spectrum {
 	// this.upn = upn;
 	// }
 
-	//get the nbPeak last fragment of the spectrum ( sorted by intensity) and put them in an array.
-	//they are the most intense peaks of the spectrum
-	private void  computeNbIntensePeaks() {
+	// get the nbPeak last fragment of the spectrum ( sorted by intensity) and put them in an array.
+	// they are the most intense peaks of the spectrum
+	private void computeNbIntensePeaks() {
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 		nbIntensePeaks = new Fragment[nbPeaks];
 		if (getNbFragments() >= nbPeaks) {
@@ -364,13 +364,13 @@ public class Spectrum {
 			}
 		}
 	}
-	
-	public Fragment[] getNbIntensePeaks(){
+
+	public Fragment[] getNbIntensePeaks() {
 		computeNbIntensePeaks();
 		return nbIntensePeaks;
 	}
 
-	//Compute the square root for the nbIntensePeaks compute in computeNbIntensePeaks()
+	// Compute the square root for the nbIntensePeaks compute in computeNbIntensePeaks()
 	private void computeListSquareRootNbIntensePeaks() {
 		nbPeaks = ConstantComparisonSpectra.getNbPeaks();
 		squareRootnbIntensePeaks = new Double[nbPeaks];
@@ -381,8 +381,8 @@ public class Spectrum {
 			squareRootnbIntensePeaks[i] = Math.sqrt(intensity);
 		}
 	}
-	
-	public Double[] getListSquareRootNbIntensePeaks(){
+
+	public Double[] getListSquareRootNbIntensePeaks() {
 		computeListSquareRootNbIntensePeaks();
 		return squareRootnbIntensePeaks;
 	}

@@ -11,7 +11,7 @@ import fr.lsmbo.msda.recover.model.Spectrum;
  */
 public class WrongChargeFilter implements BasicFilter {
 
-	private int id = 5;
+
 
 	@Override
 	public Boolean isValid(Spectrum spectrum) {
@@ -25,7 +25,4 @@ public class WrongChargeFilter implements BasicFilter {
 		return "";
 	}
 
-	public int getId() {
-		return id;
-	}
 }

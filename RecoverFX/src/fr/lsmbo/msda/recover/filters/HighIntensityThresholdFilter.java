@@ -15,7 +15,6 @@ public class HighIntensityThresholdFilter implements BasicFilter {
 	private int nbMostIntensePeaksToConsider;
 	private float percentageOfTopLine; // should be between 0 and 1
 	private int maxNbPeaks;
-	private int id = 0;
 
 	/**
 	 * 
@@ -109,7 +108,4 @@ public class HighIntensityThresholdFilter implements BasicFilter {
 		return maxNbPeaks;
 	}
 
-	public int getId() {
-		return id;
-	}
 }

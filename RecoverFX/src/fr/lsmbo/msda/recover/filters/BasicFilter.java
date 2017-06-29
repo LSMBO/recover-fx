@@ -10,6 +10,6 @@ public interface BasicFilter {
 	// returns description
 	String getFullDescription();
 
-	int getId();
+//	int getId();
 
 }

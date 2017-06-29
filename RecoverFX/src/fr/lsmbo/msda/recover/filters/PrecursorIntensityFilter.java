@@ -16,7 +16,6 @@ public class PrecursorIntensityFilter implements BasicFilter {
 
 	private int intensity;
 	private ComparisonTypes comparator;
-	private int id = 3;
 
 	public void setParameters(int _intensity, ComparisonTypes _comparator) {
 		intensity = _intensity;
@@ -69,7 +68,5 @@ public class PrecursorIntensityFilter implements BasicFilter {
 		return comparator;
 	}
 
-	public int getId() {
-		return id;
-	}
+
 }

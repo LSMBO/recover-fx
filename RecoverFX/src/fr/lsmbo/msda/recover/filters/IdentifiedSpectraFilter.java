@@ -11,13 +11,10 @@ import fr.lsmbo.msda.recover.model.Spectrum;
  *
  */
 public class IdentifiedSpectraFilter {
-	private Boolean isUsed = false;
+
 	private Boolean recoverSpectrumIdentified = false;
 	private Boolean recoverSpectrumNonIdentified = false;
 
-	// public void setParameters(String[] _arrayTitles) {
-	// arrayTitles = _arrayTitles;
-	// }
 
 	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
 		recoverSpectrumIdentified = _recoverSpectrumIdentified;
@@ -36,21 +33,10 @@ public class IdentifiedSpectraFilter {
 		return false;
 	}
 
-	public Boolean getIsUsed() {
-		return isUsed;
-	}
 
-	public void setIsUsed(Boolean _isUsed) {
-		this.isUsed = _isUsed;
-	}
 
 	public String getFullDescription() {
-		// String titles = "";
-		// for (String title : arrayTitles) {
-		// titles += "###" + title + " ;\n";
-		// }
-		// return "###Identified Spectra Filter used with " +
-		// getArrayTitles().length + " titles :\n" + titles;
+
 		return "";
 	}
 
@@ -62,14 +48,5 @@ public class IdentifiedSpectraFilter {
 		return recoverSpectrumNonIdentified;
 	}
 
-	// @Override
-	// public Boolean isValid(Spectrum spectrum){
-	// for (int i = 0; i < arrayTitle.length; i++){
-	// String title = arrayTitle[i];
-	// if (spectrum.getTitle().equalsIgnoreCase(title)){
-	// return true;
-	// }
-	// }return false;
-	// }
 
 }

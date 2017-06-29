@@ -1,5 +1,10 @@
 package fr.lsmbo.msda.recover.model;
 
+/**
+ * Class which contains default values for the algorithm and getter and setter. 
+ * @author LOMBART.benjamin
+ *
+ */
 public class ConstantComparisonSpectra {
 	private static float deltaMoz = 0.007F;
 	private static Integer deltaRT = 90;

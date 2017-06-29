@@ -18,7 +18,6 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 	private int minUPN;
 	private int maxUPN;
 	private ComputationTypes mode;
-	private int id = 1;
 
 	/**
 	 * 
@@ -107,7 +106,4 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 		return mode;
 	}
 
-	public int getId() {
-		return id;
-	}
 }

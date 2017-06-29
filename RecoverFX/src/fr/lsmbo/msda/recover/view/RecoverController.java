@@ -25,7 +25,7 @@ import fr.lsmbo.msda.recover.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.lists.Spectra;
 import fr.lsmbo.msda.recover.model.ComparisonSpectra;
 import fr.lsmbo.msda.recover.model.ConstantComparisonSpectra;
-
+import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusBar;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
@@ -200,6 +200,7 @@ public class RecoverController {
 		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
 		colNbMatch.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbMatch"));
 
+		//Display a flag according to the value of boolean isFlagged
 		colFlag.setCellValueFactory(new PropertyValueFactory<Spectrum, Boolean>("isFlagged"));
 		colFlag.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
 			@Override
@@ -242,6 +243,7 @@ public class RecoverController {
 		mnUseFixedAxis.setSelected(Session.USE_FIXED_AXIS);
 		filterAnchor.setPrefWidth(100);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+
 			// // set new data and title
 			// chart.setData(SpectrumChart.getData(newSelection));
 			// chart.setTitle(newSelection.getTitle());
@@ -267,6 +269,7 @@ public class RecoverController {
 
 		table.setContextMenu(contextMenuTable);
 
+		//Flag
 		flaggedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -284,6 +287,7 @@ public class RecoverController {
 			}
 		});
 
+		//Information about filters applied
 		infoFilter.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 
 			@Override

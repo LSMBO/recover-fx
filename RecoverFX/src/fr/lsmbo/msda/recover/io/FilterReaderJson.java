@@ -24,6 +24,13 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 
 public class FilterReaderJson {
 
+	/**
+	 * Parse a file at format JSON to set and parameter filters
+	 * @param loadFile
+	 *		File at format JSON which contains parameters of filters
+	 * @throws JsonParseException
+	 * @throws IOException
+	 */
 	public static void load(File loadFile) throws JsonParseException, IOException {
 		
 		// Reset filter before any treatment in case some filter are used.

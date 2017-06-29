@@ -19,6 +19,12 @@ import fr.lsmbo.msda.recover.model.IonReporter;
 
 public class FilterWriterJson {
 
+	/**
+	 * Save parameters of filters in a file at format JSON
+	 * @param file
+	 * 		The file to save filters
+	 * @throws IOException
+	 */
 	public static void saveFilter(File file) throws IOException {
 
 		//TODO Actually not used maybe incorporate it in the file and display somewhere in the filter window.

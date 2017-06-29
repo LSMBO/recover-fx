@@ -14,7 +14,6 @@ public class FragmentIntensityFilter implements BasicFilter {
 
 	private int intensity;
 	private ComparisonTypes comparator;
-	private int id = 4;
 
 	/**
 	 * 
@@ -89,7 +88,5 @@ public class FragmentIntensityFilter implements BasicFilter {
 		return comparator;
 	}
 
-	public int getId() {
-		return id;
-	}
+
 }

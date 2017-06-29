@@ -120,9 +120,9 @@ public class ExportBatchController {
 		rbtnFilterFromRecover.setSelected(true);
 
 		// Different listView linked with variable of ExportBatch
-		listViewFilesToProcess.setItems(exportBatch.getListFileToProcess());
+		listViewFilesToProcess.setItems(exportBatch.getListFilesToProcess());
 		listViewTitles.setItems(exportBatch.getListTitles());
-		listViewFilesProcessed.setItems(exportBatch.getListFileProcessed());
+		listViewFilesProcessed.setItems(exportBatch.getListFilesProcessed());
 
 		// add specific identification excel file for a file
 		ContextMenu contextMenu = new ContextMenu();
@@ -167,19 +167,13 @@ public class ExportBatchController {
 
 	}
 
-	// @FXML
-	// private void doTest() {
-	// exportBatch.makeSomeTest();
-	// }
-
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
 
 	@FXML
 	private void handleClickBtnAddFiles() {
-		// Open dialog to select multiple files and add them in an arrayList in
-		// ExportBatch
+		// Open dialog to select multiple files and add them in an arrayList in ExportBatch
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Import your files");
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("MGF", "*.mgf"), new ExtensionFilter("PKL", "*.pkl"));

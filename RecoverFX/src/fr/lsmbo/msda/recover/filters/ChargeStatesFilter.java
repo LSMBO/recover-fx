@@ -18,7 +18,7 @@ public class ChargeStatesFilter implements BasicFilter {
 	private Boolean keepCharge5 = true;
 	private Boolean keepChargeAbove5 = true;
 	private Boolean keepUnknownCharge = true;
-	private int id = 2;
+
 
 	/**
 	 * set the different parameters (Boolean) to this class
@@ -129,7 +129,5 @@ public class ChargeStatesFilter implements BasicFilter {
 		return keepUnknownCharge;
 	}
 
-	public int getId() {
-		return id;
-	}
+
 }

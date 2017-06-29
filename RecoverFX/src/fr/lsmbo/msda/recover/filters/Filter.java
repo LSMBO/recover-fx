@@ -61,22 +61,22 @@ public class Filter {
 	 */
 	public void applyFilters() {
 
-		Spectra spectra = new Spectra();
+		Spectra spectraToFilter = new Spectra();
 		Filters.computeFilterAsAnArray();
 		
 		if (!ExportBatch.useBatchSpectra) {
-			spectra = ListOfSpectra.getFirstSpectra();
+			spectraToFilter = ListOfSpectra.getFirstSpectra();
 		} else {
-			spectra = ListOfSpectra.getBatchSpectra();
+			spectraToFilter = ListOfSpectra.getBatchSpectra();
 		}
 
-		Integer numberOfSpectrum = spectra.getSpectraAsObservable().size();
+		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 
 		// TODO find a way to get all methods from this package
 		
 		// Scan all the spectrum
 		for (int i = 0; i < numberOfSpectrum; i++) {
-			Spectrum spectrum = spectra.getSpectraAsObservable().get(i);
+			Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 
 			// Scan all the filter used (for the moment a filter have a specific index in the list. See Filters)
 			for (int j = 0; j < Filters.getFilterAsAnArray().size(); j++) {
@@ -192,7 +192,7 @@ public class Filter {
 			}
 		}
 		// Set the number of spectrum recover and identified after utilization of filters
-		spectra.countRecoveredAndIdentifiedSpectra();
+		spectraToFilter.countRecoveredAndIdentifiedSpectra();
 	}
 
 	public void applyFiltersForOneSpectrum(Spectrum spectrum) {

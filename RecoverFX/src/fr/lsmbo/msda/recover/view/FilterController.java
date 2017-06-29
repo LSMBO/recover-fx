@@ -115,10 +115,7 @@ public class FilterController {
 	private RadioButton checkRecoverForIdentified;
 	@FXML
 	private RadioButton checkRecoverForNonIdentified;
-	// @FXML
-	// private TextArea titles;
-	// @FXML
-	// private Button buttonIdentifiedSpectra;
+
 
 	/********************************
 	 * Control for Ion ReporterFilter
@@ -133,8 +130,7 @@ public class FilterController {
 	private TableColumn<IonReporter, Float> colTolerance;
 	@FXML
 	private TableColumn<IonReporter, String> colName;
-	// @FXML
-	// private Button buttonIonReporter;
+
 	@FXML
 	private TextField mozIonReporter;
 	@FXML
@@ -249,11 +245,7 @@ public class FilterController {
 			checkIdentifiedSpectraFilter();
 			checkRecoverForIdentified.setSelected(filterIS.getRecoverSpectrumIdentified());
 			checkRecoverForNonIdentified.setSelected(filterIS.getRecoverSpectrumNonIdentified());
-			// String allTitle = "";
-			// for (String st : filterIS.getArrayTitles()) {
-			// allTitle += st + "\n";
-			// }
-			// titles.setText(allTitle);
+
 		} else {
 			checkBoxIdentifiedSpectraFilter.setSelected(false);
 			checkIdentifiedSpectraFilter();
