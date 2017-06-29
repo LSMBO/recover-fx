@@ -40,7 +40,7 @@ public class ComparisonSettingsController {
 	private Float deltaMozValue = 0F;
 
 	@FXML
-	// Initialize differents field with the default value in the algorithm
+	// Initialize different field with the default value in the algorithm
 	private void initialize() {
 		deltaMoz.setText(ConstantComparisonSpectra.getDeltaMoz().toString());
 		deltaRT.setText(ConstantComparisonSpectra.getDeltaRT().toString());

@@ -10,11 +10,10 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.model.StatusFilterType;
 
 /**
- * Calculate and apply different filters to spectra. Recover filters used and
- * scan all the spectrum to apply these filters: For a spectrum if the first
- * filter return a false value for recover, we check the next spectrum. If the
- * filter return a true value for recover, we check the second filter, then the
- * third etc until the last filter or a false value for recover Reset values
+ * Calculate and apply different filters to spectra. Recover filters used and scan all the spectrum
+ * to apply these filters: For a spectrum if the first filter return a false value for recover, we
+ * check the next spectrum. If the filter return a true value for recover, we check the second
+ * filter, then the third etc until the last filter or a false value for recover Reset values
  * (recover, UPN, filters used).
  * 
  * @author BL
@@ -37,33 +36,29 @@ public class Filter {
 	private IonReporterFilter filterIR = (IonReporterFilter) Filters.getFilters().get("IR");
 
 	/**
-	 * First of all, check if the filter identified spectra is used and apply
-	 * this filter: scan all the title given and find the associated spectrum
-	 * for this title.
-	 * 	 Then, scan the different spectrum and for all this spectrum,scan the
-	 *      different filter used (as an array of index, each index
-	 *      corresponding to a specific filter @see Filters). First filter
-	 *      encountered set the value of recover for this spectrum. If there are
-	 *      more than one filter, before applied the second filter check if the
-	 *      first filter return false for the spectrum (in this case, move to
-	 *      the next spectrum) If the value was true: apply this filter (true or
-	 *      false) and do it again for the third or more filter(check the value
-	 *      etc...)
+	 * First of all, check if the filter identified spectra is used and apply this filter: scan all
+	 * the title given and find the associated spectrum for this title. Then, scan the different
+	 * spectrum and for all this spectrum,scan the different filter used (as an array of index, each
+	 * index corresponding to a specific filter @see Filters). First filter encountered set the
+	 * value of recover for this spectrum. If there are more than one filter, before applied the
+	 * second filter check if the first filter return false for the spectrum (in this case, move to
+	 * the next spectrum) If the value was true: apply this filter (true or false) and do it again
+	 * for the third or more filter(check the value etc...)
 	 * 
-	 *      If IonReporterFilter was used: special treatment (method
-	 *      recoverIfSeveralIons) because if a first ion reporter return a value
-	 *      of recover true we keep this value even if we have more ion reporter
-	 *      And finally, calculate number of spectrum recovered
+	 * If IonReporterFilter was used: special treatment (method recoverIfSeveralIons) because if a
+	 * first ion reporter return a value of recover true we keep this value even if we have more ion
+	 * reporter And finally, calculate number of spectrum recovered
+	 * 
 	 * @see IdentifiedSpectraFilter
 	 * 
-
+	 * 
 	 * 
 	 */
 	public void applyFilters() {
 
 		Spectra spectraToFilter = new Spectra();
 		Filters.computeFilterAsAnArray();
-		
+
 		if (!ExportBatch.useBatchSpectra) {
 			spectraToFilter = ListOfSpectra.getFirstSpectra();
 		} else {
@@ -73,12 +68,13 @@ public class Filter {
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 
 		// TODO find a way to get all methods from this package
-		
+
 		// Scan all the spectrum
 		for (int i = 0; i < numberOfSpectrum; i++) {
 			Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 
-			// Scan all the filter used (for the moment a filter have a specific index in the list. See Filters)
+			// Scan all the filter used (for the moment a filter have a specific index in the list.
+			// See Filters)
 			for (int j = 0; j < Filters.getFilterAsAnArray().size(); j++) {
 				// First filter encountered
 				if (j == 0) {
@@ -115,10 +111,6 @@ public class Filter {
 							else
 								spectrum.setIsRecovered(filterIR.isValid(spectrum));
 						}
-						// if(spectrum.getIsRecover())
-						// spectrum.setIsRecoverIR(StatusFilterType.TRUE);
-						// else
-						// spectrum.setIsRecoverIR(StatusFilterType.FALSE);
 					}
 				}
 
@@ -132,42 +124,27 @@ public class Filter {
 						// filter HIT
 						if (Filters.getFilterAsAnArray().get(j) == 0) {
 							spectrum.setIsRecovered(filterHIT.isValid(spectrum));
-							// if (filterHIT.isValid(spectrum))
-							// spectrum.setIsRecoverHIT(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverHIT(StatusFilterType.FALSE);
+
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 1) {
 							spectrum.setIsRecovered(filterLIT.isValid(spectrum));
-							// if (filterLIT.isValid(spectrum))
-							// spectrum.setIsRecoverLIT(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverLIT(StatusFilterType.FALSE);
+
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 2) {
 							spectrum.setIsRecovered(filterFI.isValid(spectrum));
-							// if (filterFI.isValid(spectrum))
-							// spectrum.setIsRecoverFI(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverFI(StatusFilterType.FALSE);
+
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 3) {
 							spectrum.setIsRecovered(filterWC.isValid(spectrum));
-							// if (filterWC.isValid(spectrum))
-							// spectrum.setIsRecoverWC(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverWC(StatusFilterType.FALSE);
+
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 4) {
 							spectrum.setIsRecovered(filterIS.isValid(spectrum));
-							// if (filterIS.isValid(spectrum))
-							// spectrum.setIsRecoverIS(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverIS(StatusFilterType.FALSE);
+
 						}
 
 						if (Filters.getFilterAsAnArray().get(j) == 5) {
@@ -182,10 +159,7 @@ public class Filter {
 								else
 									spectrum.setIsRecovered(filterIR.isValid(spectrum));
 							}
-							// if(spectrum.getIsRecover())
-							// spectrum.setIsRecoverIR(StatusFilterType.TRUE);
-							// else
-							// spectrum.setIsRecoverIR(StatusFilterType.FALSE);
+
 						}
 					}
 				}
@@ -267,9 +241,8 @@ public class Filter {
 	 * @param spectrum
 	 *            a specific spectrum
 	 * @param filter
-	 * @return if the value of recover for a spectrum is true, return true else,
-	 *         check if an ion reporter is present for this spectrum and return
-	 *         true or false in the different case.
+	 * @return if the value of recover for a spectrum is true, return true else, check if an ion
+	 *         reporter is present for this spectrum and return true or false in the different case.
 	 * 
 	 */
 	public Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter) {

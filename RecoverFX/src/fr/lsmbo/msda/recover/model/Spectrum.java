@@ -47,8 +47,7 @@ public class Spectrum {
 
 	private final BooleanProperty recovered = new SimpleBooleanProperty();
 	private final BooleanProperty identified = new SimpleBooleanProperty();
-	// private Boolean isIdentified = false;
-	// private Boolean isRecover = false;
+
 	private float highIntensityThreshold = Session.HIGH_INTENSITY_THRESHOLD;
 	private float lowIntensityThreshold = Session.LOW_INTENSITY_THRESHOLD;
 	private float topLine = Session.TOP_LINE;
@@ -555,9 +554,9 @@ public class Spectrum {
 		return fragmentEqualsToChart;
 	}
 
-	public void setFragmentEqualsToChart(ArrayList<Fragment> fragmentEqualsToChart) {
-		this.fragmentEqualsToChart = fragmentEqualsToChart;
-	}
+//	public void setFragmentEqualsToChart(ArrayList<Fragment> fragmentEqualsToChart) {
+//		this.fragmentEqualsToChart = fragmentEqualsToChart;
+//	}
 
 	public Integer getNbMatch() {
 		computeNbMatch();

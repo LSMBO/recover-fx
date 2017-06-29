@@ -36,9 +36,9 @@ public class IdentifiedSpectra {
 	}
 	
 	
-	public void addTitle(String title){
-		arrayTitles.add(title);
-	}
+//	public void addTitle(String title){
+//		arrayTitles.add(title);
+//	}
 	
 	public void addAllTitles(ArrayList<String> allTitles){
 		arrayTitles.addAll(allTitles);

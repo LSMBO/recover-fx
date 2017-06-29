@@ -209,57 +209,57 @@ public class SpectrumChart {
 		chart.getXYPlot().setBackgroundPaint(Color.WHITE);
 	}
 
-	public SpectrumChart(Spectrum spectrum, String file) {
-
-		this.spectrum = spectrum;
-
-		// add data
-		XYSeries series1 = new XYSeries("Fragments below low intensity threshold");
-		XYSeries series2 = new XYSeries("Fragments above low intensity threshold");
-		XYSeries series3 = new XYSeries("Fragments above high intensity threshold");
-
-		XYSeriesCollection dataset = new XYSeriesCollection();
-		dataset.addSeries(series1);
-		dataset.addSeries(series2);
-		dataset.addSeries(series3);
-
-		for (Fragment f : spectrum.getFragments()) {
-			float mz = f.getMz();
-			float intensity = f.getIntensity();
-			series2.add(mz, intensity);
-		}
-
-		// create the plot
-		chart = ChartFactory.createXYBarChart(spectrum.getTitle(), "M/z", false, "Intensity", dataset);
-
-		// set default axis ranges
-		changeAxisRange();
-
-		// make it look gorgeous
-		// sticks display
-		XYStickRenderer renderer = new XYStickRenderer();
-		renderer.setBaseStroke(new BasicStroke(0.8f));
-		renderer.setSeriesPaint(0, new Color(50, 50, 255)
-		/**
-		 * Color . blue
-		 */
-		);
-		renderer.setSeriesPaint(1, new Color(255, 50, 50) /*
-															 * Color . red
-															 */);
-		renderer.setSeriesPaint(2, new Color(100, 200, 70) /*
-															 * Color red
-															 */);
-
-		// hide grid lines
-		chart.getXYPlot().setRangeGridlinesVisible(false);
-		chart.getXYPlot().setDomainGridlinesVisible(false);
-		// set background color
-		chart.getXYPlot().setBackgroundPaint(Color.WHITE);
-		chart.getXYPlot().addDomainMarker(
-				createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
-				Layer.BACKGROUND);
-	}
+//	public SpectrumChart(Spectrum spectrum, String file) {
+//
+//		this.spectrum = spectrum;
+//
+//		// add data
+//		XYSeries series1 = new XYSeries("Fragments below low intensity threshold");
+//		XYSeries series2 = new XYSeries("Fragments above low intensity threshold");
+//		XYSeries series3 = new XYSeries("Fragments above high intensity threshold");
+//
+//		XYSeriesCollection dataset = new XYSeriesCollection();
+//		dataset.addSeries(series1);
+//		dataset.addSeries(series2);
+//		dataset.addSeries(series3);
+//
+//		for (Fragment f : spectrum.getFragments()) {
+//			float mz = f.getMz();
+//			float intensity = f.getIntensity();
+//			series2.add(mz, intensity);
+//		}
+//
+//		// create the plot
+//		chart = ChartFactory.createXYBarChart(spectrum.getTitle(), "M/z", false, "Intensity", dataset);
+//
+//		// set default axis ranges
+//		changeAxisRange();
+//
+//		// make it look gorgeous
+//		// sticks display
+//		XYStickRenderer renderer = new XYStickRenderer();
+//		renderer.setBaseStroke(new BasicStroke(0.8f));
+//		renderer.setSeriesPaint(0, new Color(50, 50, 255)
+//		/**
+//		 * Color . blue
+//		 */
+//		);
+//		renderer.setSeriesPaint(1, new Color(255, 50, 50) /*
+//															 * Color . red
+//															 */);
+//		renderer.setSeriesPaint(2, new Color(100, 200, 70) /*
+//															 * Color red
+//															 */);
+//
+//		// hide grid lines
+//		chart.getXYPlot().setRangeGridlinesVisible(false);
+//		chart.getXYPlot().setDomainGridlinesVisible(false);
+//		// set background color
+//		chart.getXYPlot().setBackgroundPaint(Color.WHITE);
+//		chart.getXYPlot().addDomainMarker(
+//				createMarker(spectrum.getMz(), spectrum.getMz(), "Precursor M/z", new Color(150, 150, 255)),
+//				Layer.BACKGROUND);
+//	}
 
 	public JFreeChart getChart() { 
 		return chart;

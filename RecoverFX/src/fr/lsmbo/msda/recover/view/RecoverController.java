@@ -601,8 +601,7 @@ public class RecoverController {
 			Recover.useSecondPeaklist = false;
 			Session.CURRENT_FILE = file;
 			loadFile(file);
-			// Filter f = new Filter();
-			// f.applyFilters();
+
 		}
 		// check if the table is correctly fill
 		if (table.getItems().size() == 0) {
@@ -628,8 +627,6 @@ public class RecoverController {
 			Recover.useSecondPeaklist = true;
 			Session.SECOND_FILE = file;
 			loadFile(file);
-			// Filter f = new Filter();
-			// f.applyFilters();
 		}
 		// check if the table is correctly fill
 		if (ListOfSpectra.getSecondSpectra().getSpectraAsObservable().size() == 0) {
@@ -815,10 +812,7 @@ public class RecoverController {
 				comparisonSpectraStage.initOwner(this.dialogStage);
 				Scene scene = new Scene(page);
 				comparisonSpectraStage.setScene(scene);
-				// ComparisonSpectraController comparisonSpectraController =
-				// loader.getController();
 				comparisonSpectraController = loader.getController();
-				// comparisonSpectraController.setDialogStage(comparisonSpectraStage);
 				comparisonSpectraController.setDialogStage(comparisonSpectraStage);
 				mnComparisonUsed = true;
 				comparisonSpectraStage.showAndWait();

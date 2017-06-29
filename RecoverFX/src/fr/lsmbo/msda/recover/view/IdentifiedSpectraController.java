@@ -87,8 +87,10 @@ public class IdentifiedSpectraController {
 		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
 		File excelFile = filechooser.showOpenDialog(this.identifiedSpectraStage);
 
+		
 		if (excelFile != null) {
 			identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
+			//Use the same object identifiedSpectra to recover title
 			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
 			identifiedSpectraFromExcel.load(excelFile);
 
