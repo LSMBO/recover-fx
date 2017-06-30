@@ -83,6 +83,7 @@ public class ComparisonSpectraController {
 		validSpectra = ComparisonSpectra.getValidSpectrum();
 
 		tableComparison.setItems(validSpectra.getSpectraAsObservable());
+
 		colId.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));
 		colTitle.setCellValueFactory(new PropertyValueFactory<Spectrum, String>("title"));
 		colMoz.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("mz"));
@@ -103,10 +104,10 @@ public class ComparisonSpectraController {
 		colRT.setPrefWidth(SIZE_COL_RT);
 		colNbFragments.setPrefWidth(SIZE_COL_NBFRAGMENTS);
 
-
 		tableComparison.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 
-			//Condition in case there is no spectrum selected (doesn't really work) to not display chart
+			// Condition in case there is no spectrum selected (doesn't really work) to not display
+			// chart
 			if (tableComparison.getItems().size() != 0) {
 				referenceSpectrum = ComparisonSpectra.getReferenceSpectrum();
 				// chart = SpectrumChart.getPlot(newSelection);
@@ -124,8 +125,8 @@ public class ComparisonSpectraController {
 		ContextMenu contextMenuTable = new ContextMenu();
 		MenuItem displayMatchedSpectrum = new MenuItem("Display matched spectrum");
 		MenuItem displayReferenceSpectrum = new MenuItem("Display reference spectrum");
-		MenuItem displayBothSpectra = new MenuItem("Display both");
-		contextMenuTable.getItems().addAll(displayMatchedSpectrum, displayReferenceSpectrum, displayBothSpectra);
+		MenuItem displayOverlapSpectra = new MenuItem("Display both");
+		contextMenuTable.getItems().addAll(displayMatchedSpectrum, displayReferenceSpectrum, displayOverlapSpectra);
 		tableComparison.setContextMenu(contextMenuTable);
 
 		displayMatchedSpectrum.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
@@ -162,7 +163,7 @@ public class ComparisonSpectraController {
 			}
 		});
 
-		displayBothSpectra.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
+		displayOverlapSpectra.setOnAction(new javafx.event.EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				Spectrum matchedSpectrum = tableComparison.getSelectionModel().getSelectedItem();
@@ -203,8 +204,8 @@ public class ComparisonSpectraController {
 			ComparisonSettingsController comparisonSettingsController = loader.getController();
 			comparisonSettingsController.setDialogStage(comparisonSettingsStage);
 			comparisonSettingsStage.showAndWait();
-			
-			//Refresh the main tableview to re-compute number of matched for all spectrum
+
+			// Refresh the main tableview to re-compute number of matched for all spectrum
 			RecoverController recoverController = Recover.getRecoverController();
 			recoverController.refreshTable();
 
@@ -212,6 +213,5 @@ public class ComparisonSpectraController {
 			e.printStackTrace();
 		}
 	}
-
 
 }

@@ -179,6 +179,7 @@ public class FilterController {
 
 		// Initialize table view for Ion Reporter
 		tableIonReporter.setItems(IonReporters.getIonReporters());
+		
 		colMoz.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("moz"));
 		colTolerance.setCellValueFactory(new PropertyValueFactory<IonReporter, Float>("tolerance"));
 		colName.setCellValueFactory(new PropertyValueFactory<IonReporter, String>("name"));

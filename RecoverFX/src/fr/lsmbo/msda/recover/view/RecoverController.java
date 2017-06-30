@@ -151,11 +151,9 @@ public class RecoverController {
 
 	@FXML
 	private AnchorPane secondView;
-
-	// @FXML
-	// private AnchorPane chartAnchor;
 	@FXML
 	private SwingNode swingNodeForChart;
+	
 	@FXML
 	private Label infoHIT;
 	@FXML
@@ -177,7 +175,6 @@ public class RecoverController {
 	private void initialize() {
 
 		updateStat();
-		// Left view
 
 		Spectra spectra = ListOfSpectra.getFirstSpectra();
 		// define spectrum list
@@ -190,14 +187,13 @@ public class RecoverController {
 		colRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 		colNbFragments.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
 		colUPN.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("upn"));
-		// colIdentified.setCellValueFactory(new PropertyValueFactory<Spectrum,
-		// Boolean>("isIdentified"));
+
 		colIdentified.setCellValueFactory(cellData -> cellData.getValue().identifiedProperty());
 		colIdentified.setCellFactory(CheckBoxTableCell.forTableColumn(colIdentified));
-		// colRecover.setCellValueFactory(new PropertyValueFactory<Spectrum,
-		// Boolean>("isRecover"));
+
 		colRecover.setCellValueFactory(cellData -> cellData.getValue().recoveredProperty());
 		colRecover.setCellFactory(CheckBoxTableCell.forTableColumn(colRecover));
+		
 		colNbMatch.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbMatch"));
 
 		//Display a flag according to the value of boolean isFlagged
@@ -649,6 +645,7 @@ public class RecoverController {
 		System.out.println("ABU loading time: " + (double) totalTime / 1000 + " sec");
 		System.out.println("ABU " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
 		System.out.println("ABU " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
+		
 		table.setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 
 		statusBar.setText(StatusBar.refreshStatusBar());
@@ -671,7 +668,6 @@ public class RecoverController {
 			} else {
 				System.out.println("no");
 			}
-
 		}
 	}
 

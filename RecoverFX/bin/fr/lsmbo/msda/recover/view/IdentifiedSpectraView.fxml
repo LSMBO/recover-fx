@@ -47,7 +47,7 @@
               </rowConstraints>
                <children>
       						<Button fx:id="btnApply" mnemonicParsing="false" onAction="#handleClickBtnApply" prefHeight="25.0" prefWidth="99.0" text="Apply" GridPane.columnIndex="2" />
-						<Button fx:id="importTitlesFromExcel" mnemonicParsing="false" onAction="#importExcelFile" prefHeight="25.0" prefWidth="119.0" text="Import from Excel..." GridPane.columnIndex="4" />
+						<Button fx:id="btnImportTitlesFromExcel" mnemonicParsing="false" onAction="#importExcelFile" prefHeight="25.0" prefWidth="119.0" text="Import from Excel..." GridPane.columnIndex="4" />
                   <Button fx:id="btnDeleteImport" mnemonicParsing="false" onAction="#handleClickDeleteImport" text="X" visible="false">
                      <GridPane.margin>
                         <Insets left="5.0" />

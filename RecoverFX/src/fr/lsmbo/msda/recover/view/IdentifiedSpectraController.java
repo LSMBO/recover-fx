@@ -33,7 +33,7 @@ public class IdentifiedSpectraController {
 	@FXML
 	private Button btnApply;
 	@FXML
-	private Button importTitlesFromExcel;
+	private Button btnImportTitlesFromExcel;
 	@FXML
 	private Button btnDeleteImport;
 	@FXML
