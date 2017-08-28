@@ -1,13 +1,12 @@
 package fr.lsmbo.msda.recover;
 
-import java.io.File;
-
+//import java.io.File;
 import fr.lsmbo.msda.recover.gui.Recover;
 
 public class Main {
 
 	private static final String recover = "Recover";
-	private static final String version = "3.0.0 pre-alpha";
+	private static final String version = "3.0.0 pre-alpha"; // TODO grab the version from the pom file
 	private static final String date = "20160411";
 
 	public static void main(String[] args) {
@@ -20,8 +19,8 @@ public class Main {
 			// open GUI
 			System.out.println("open GUI");
 			// TODO just for fast testing
-			Session.CURRENT_FILE = new File(Main.class.getClassLoader().getResource("test/X004081MROLM.mgf").getFile());
-			Session.SECOND_FILE = new File(Main.class.getClassLoader().getResource("test/X004094MROLM.mgf").getFile());
+//			Session.CURRENT_FILE = new File(Main.class.getClassLoader().getResource("test/X004081MROLM.mgf").getFile());
+//			Session.SECOND_FILE = new File(Main.class.getClassLoader().getResource("test/X004094MROLM.mgf").getFile());
 			Recover.run();
 
 		} else {
