@@ -7,6 +7,7 @@ public class Session {
 	// static list of session values
 	public static String FILE_HEADER = "";
 	public static String RECOVER_RELEASE_NAME = "";
+	public static String RECOVER_RELEASE_DESCRIPTION = "";
 	public static String RECOVER_RELEASE_VERSION = "";
 	public static String RECOVER_RELEASE_DATE = "";
 	// public static Boolean DATABASE_LOADED = false;

@@ -8,26 +8,56 @@ import java.util.Properties;
 public class Config {
 
 	private static String propertiesFileName = "application.conf";
+	private static String staticPropertiesFileName = "recoverfx.properties";
 	private static Properties properties = null;
 
-	private static void initializeIfNeeded() {
-		if (properties == null) {
-			// lazy loading
-			properties = new Properties();
-			try (InputStream input = Main.class.getClassLoader().getResourceAsStream(propertiesFileName)) {
-				if (input == null) {
-					System.out.println("Can't find properties");
-				}
-				properties.load(input);
-			} catch (IOException e) {
-				e.printStackTrace();
+	public static void initialize() {
+		// read recoverfx.properties
+		try (InputStream input = Main.class.getClassLoader().getResourceAsStream(staticPropertiesFileName)) {
+			if (input == null) {
+				System.err.println("Properties file '"+staticPropertiesFileName+"' does not exist");
+			} else {
+				Properties recoverProperties = new Properties();
+				recoverProperties.load(input);
+				Session.RECOVER_RELEASE_NAME = recoverProperties.getProperty("name");
+				Session.RECOVER_RELEASE_DESCRIPTION = recoverProperties.getProperty("description");
+				Session.RECOVER_RELEASE_VERSION = recoverProperties.getProperty("version");
+				Session.RECOVER_RELEASE_DATE = recoverProperties.getProperty("build-date");
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// read application.conf
+		properties = new Properties();
+		try (InputStream input = Main.class.getClassLoader().getResourceAsStream(propertiesFileName)) {
+			if (input == null) {
+				System.out.println("Properties file '"+propertiesFileName+"' does not exist");
+			}
+			properties.load(input);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
+//	private static void initializeIfNeeded() {
+//		if (properties == null) {
+//			// lazy loading
+//			properties = new Properties();
+//			try (InputStream input = Main.class.getClassLoader().getResourceAsStream(propertiesFileName)) {
+//				if (input == null) {
+////					System.out.println("Can't find properties");
+//					System.out.println("Properties file '"+propertiesFileName+"' does not exist");
+//				}
+//				properties.load(input);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+
 	// example: Config.get("max.file.size")
 	private static Object _get(String key) {
-		initializeIfNeeded();
+//		initializeIfNeeded();
 		return properties.getProperty(key);
 	}
 
@@ -46,7 +76,7 @@ public class Config {
 	}
 
 	public static ArrayList<String> getPropertyKeys(String regex) {
-		initializeIfNeeded();
+//		initializeIfNeeded();
 		ArrayList<String> keys = new ArrayList<String>();
 		for (String key : properties.stringPropertyNames()) {
 			if (key.matches(regex))
