@@ -650,7 +650,7 @@ public class RecoverController {
 
 		statusBar.setText(StatusBar.refreshStatusBar());
 
-		this.dialogStage.setTitle(Main.recoverTitle());
+//		this.dialogStage.setTitle(Main.recoverTitle());
 		if (PeaklistReader.retentionTimesNotFound()) {
 			// open a dialogbox to warn the user that he should try other
 			// parsing rules

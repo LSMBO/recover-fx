@@ -1,0 +1,76 @@
+{
+
+  "userName": "",
+  "timestamp": "",
+  "recoverVersion": "3.0.0-SNAPSHOT",
+  
+  "qualityFilters": {
+    "chargeStateFilter": {
+      "selectedFilter": false,
+      "keepCharge1": false,
+      "keepCharge2": false,
+      "keepCharge3": false,
+      "keepCharge4": false,
+      "keepCharge5": false,
+      "keepChargeAbove5": false,
+      "keepUnknownCharge": false
+    },
+    "fragmentIntensityFilter": {
+      "selectedFilter": false,
+      "operator": "=",
+      "intensity": 0
+    },
+    "highIntensityThresholdFilter": {
+      "selectedFilter": false,
+      "mostIntensePeaksToConsider": 0,
+      "percentageOfTopLine": 20.0,
+      "maxNumberOfPeaks": 10
+    },
+    "identificationFilter": {
+      "selectedFilter": false,
+      "recoverIdentified": true,
+      "recoverNonIdentified": true,
+      "excelFilePath": "",
+      "excelSheetName": "",
+      "excelColumn": "A",
+      "excelFirstRow": 1
+    },
+    "ionReporterFilter": {
+      "selectedFilter": false,
+      "ionList": []
+    },
+    "lowIntensityThresholdFilter": {
+      "selectedFilter": false,
+      "method": "MEDIAN",
+      "emergence": 3.0,
+      "minUPN": 5,
+      "maxUPN": 15
+    },
+    "precursorIntensityFilter": {
+      "selectedFilter": false,
+      "operator": "=",
+      "intensity": 0
+    },
+    "WrongChargeFilter": {
+      "selectedFilter": false
+    }
+  },
+  
+  "chart": {
+    "useFixedAxis": false
+  },
+  
+  "comparison": {
+    "deltaMoz": 0.007,
+    "deltaRT": 90,
+    "numberOfPeaksToCompare": 8,
+    "minimumNumberOfIdenticalPeaks": 4,
+    "minimumThetaAngle": 11
+  },
+  
+  "parsingRules": {
+    "parsingRuleName": "msconvert",
+    "parsingRuleValue": "RTmin:\"(\\d+\\.\\d+)\""
+  }
+  
+}

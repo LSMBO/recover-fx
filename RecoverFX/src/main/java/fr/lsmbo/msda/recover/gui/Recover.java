@@ -53,8 +53,8 @@ public class Recover extends Application {
 			// load files at the opening
 			if (Session.CURRENT_FILE != null) {
 				recoverController.loadFile(Session.CURRENT_FILE);
-				useSecondPeaklist = true;
-				recoverController.loadFile(Session.SECOND_FILE);
+//				useSecondPeaklist = true;
+//				recoverController.loadFile(Session.SECOND_FILE);
 			}
 
 		} catch (IOException e) {

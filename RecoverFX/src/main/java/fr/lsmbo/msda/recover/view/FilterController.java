@@ -14,6 +14,7 @@ import fr.lsmbo.msda.recover.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.filters.WrongChargeFilter;
 import fr.lsmbo.msda.recover.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.io.FilterWriterJson;
+import fr.lsmbo.msda.recover.Config;
 import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.filters.Filter;
 import fr.lsmbo.msda.recover.lists.Filters;
@@ -519,6 +520,7 @@ public class FilterController {
 
 	@FXML
 	private void handleClickBtnSave() throws IOException {
+		Config.saveUserParams();
 		if (Filters.nbFilterUsed() != 0) {
 			try {
 				FileChooser fileChooser = new FileChooser();

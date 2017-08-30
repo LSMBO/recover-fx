@@ -2,6 +2,8 @@ package fr.lsmbo.msda.recover;
 
 import java.io.File;
 
+import fr.lsmbo.msda.recover.model.settings.UserParams;
+
 public class Session {
 
 	// static list of session values
@@ -32,4 +34,6 @@ public class Session {
 	// public static Integer FILTER_UPN_MAX = 0;
 	// public static String FILTER_NOISE_ALGORITHM = "median"; // TODO change
 	// this into a enum or something like that
+	
+	public static UserParams parameters = new UserParams();
 }
