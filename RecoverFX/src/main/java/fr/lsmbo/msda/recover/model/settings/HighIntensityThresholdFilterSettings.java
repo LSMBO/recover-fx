@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class HighIntensityThresholdFilterSettings {
+public class HighIntensityThresholdFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private Integer mostIntensePeaksToConsider;
@@ -8,6 +8,7 @@ public class HighIntensityThresholdFilterSettings {
 	private Integer maxNumberOfPeaks;
 
 	public HighIntensityThresholdFilterSettings() {
+		this.initialize();
 	}
 
 	public HighIntensityThresholdFilterSettings(Boolean selectedFilter, Integer mostIntensePeaksToConsider,
@@ -17,6 +18,12 @@ public class HighIntensityThresholdFilterSettings {
 		this.mostIntensePeaksToConsider = mostIntensePeaksToConsider;
 		this.percentageOfTopLine = percentageOfTopLine;
 		this.maxNumberOfPeaks = maxNumberOfPeaks;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "High intensity threshold";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {

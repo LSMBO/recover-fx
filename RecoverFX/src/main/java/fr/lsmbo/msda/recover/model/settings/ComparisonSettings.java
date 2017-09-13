@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class ComparisonSettings {
+public class ComparisonSettings extends RecoverSetting {
 
 	private Float deltaMoz;
 	private Integer deltaRT;
@@ -9,6 +9,7 @@ public class ComparisonSettings {
 	private Integer minimumThetaAngle;
 
 	public ComparisonSettings() {
+		this.initialize();
 	}
 
 	public ComparisonSettings(Float deltaMoz, Integer deltaRT, Integer numberOfPeaksToCompare,
@@ -19,6 +20,12 @@ public class ComparisonSettings {
 		this.numberOfPeaksToCompare = numberOfPeaksToCompare;
 		this.minimumNumberOfIdenticalPeaks = minimumNumberOfIdenticalPeaks;
 		this.minimumThetaAngle = minimumThetaAngle;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Spectrum comparison settings";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Float getDeltaMoz() {

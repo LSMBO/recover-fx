@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class QualityFiltersSettings {
+public class QualityFiltersSettings extends RecoverSetting {
 
 	private ChargeStateFilterSettings chargeStateFilter;
 	private FragmentIntensityFilterSettings fragmentIntensityFilter;
@@ -20,6 +20,7 @@ public class QualityFiltersSettings {
 		this.lowIntensityThresholdFilter = new LowIntensityThresholdFilterSettings();
 		this.precursorIntensityFilter = new PrecursorIntensityFilterSettings();
 		this.WrongChargeFilter = new WrongChargeFilterSettings();
+		this.initialize();
 	}
 
 	public QualityFiltersSettings(ChargeStateFilterSettings chargeStateFilter,
@@ -37,6 +38,12 @@ public class QualityFiltersSettings {
 		this.lowIntensityThresholdFilter = lowIntensityThresholdFilter;
 		this.precursorIntensityFilter = precursorIntensityFilter;
 		this.WrongChargeFilter = wrongChargeFilter;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Quality filters";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public ChargeStateFilterSettings getChargeStateFilter() {

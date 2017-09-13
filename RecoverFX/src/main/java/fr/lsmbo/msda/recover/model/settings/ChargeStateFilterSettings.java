@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class ChargeStateFilterSettings {
+public class ChargeStateFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private Boolean keepCharge1;
@@ -12,6 +12,7 @@ public class ChargeStateFilterSettings {
 	private Boolean keepUnknownCharge;
 
 	public ChargeStateFilterSettings() {
+		this.initialize();
 	}
 
 	public ChargeStateFilterSettings(Boolean selectedFilter, Boolean keepCharge1, Boolean keepCharge2,
@@ -26,6 +27,12 @@ public class ChargeStateFilterSettings {
 		this.keepCharge5 = keepCharge5;
 		this.keepChargeAbove5 = keepChargeAbove5;
 		this.keepUnknownCharge = keepUnknownCharge;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Charge state";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {

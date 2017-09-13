@@ -1,12 +1,13 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class FragmentIntensityFilterSettings {
+public class FragmentIntensityFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private String operator;
 	private Integer intensity;
 
 	public FragmentIntensityFilterSettings() {
+		this.initialize();
 	}
 
 	public FragmentIntensityFilterSettings(Boolean selectedFilter, String operator, Integer intensity) {
@@ -14,6 +15,12 @@ public class FragmentIntensityFilterSettings {
 		this.selectedFilter = selectedFilter;
 		this.operator = operator;
 		this.intensity = intensity;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Fragment intensity";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {

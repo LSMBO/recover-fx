@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class UserParams {
+public class UserParams extends RecoverSetting {
 
 	private String userName;
 	private String timestamp;
@@ -31,6 +31,12 @@ public class UserParams {
 		this.chart = chart;
 		this.comparison = comparison;
 		this.parsingRules = parsingRules;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Current user parameters";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public String getUserName() {

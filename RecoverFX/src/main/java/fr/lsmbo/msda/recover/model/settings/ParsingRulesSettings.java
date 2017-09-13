@@ -1,17 +1,24 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class ParsingRulesSettings {
+public class ParsingRulesSettings extends RecoverSetting {
 
 	private String parsingRuleName;
 	private String parsingRuleValue;
 
 	public ParsingRulesSettings() {
+		this.initialize();
 	}
 
 	public ParsingRulesSettings(String parsingRuleName, String parsingRuleValue) {
 		super();
 		this.parsingRuleName = parsingRuleName;
 		this.parsingRuleValue = parsingRuleValue;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Retention times parsing rules";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public String getParsingRuleName() {

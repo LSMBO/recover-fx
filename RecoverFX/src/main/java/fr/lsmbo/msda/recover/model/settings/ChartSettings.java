@@ -1,15 +1,22 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class ChartSettings {
+public class ChartSettings extends RecoverSetting {
 
 	private Boolean useFixedAxis;
 
 	public ChartSettings() {
+		this.initialize();
 	}
 
 	public ChartSettings(Boolean useFixedAxis) {
 		super();
 		this.useFixedAxis = useFixedAxis;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Chart settings";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getUseFixedAxis() {

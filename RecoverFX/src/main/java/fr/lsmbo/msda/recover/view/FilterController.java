@@ -524,7 +524,7 @@ public class FilterController {
 		if (Filters.nbFilterUsed() != 0) {
 			try {
 				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Save fitlers setting...");
+				fileChooser.setTitle("Save filters setting...");
 				fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON", "*.json"));
 				File initialDirectory = Session.DIRECTORY_FILTER_FILE;
 				if (initialDirectory != null) {

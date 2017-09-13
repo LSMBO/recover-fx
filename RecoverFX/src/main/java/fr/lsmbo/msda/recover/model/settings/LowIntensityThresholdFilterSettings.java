@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class LowIntensityThresholdFilterSettings {
+public class LowIntensityThresholdFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private String method;
@@ -9,6 +9,7 @@ public class LowIntensityThresholdFilterSettings {
 	private Integer maxUPN;
 
 	public LowIntensityThresholdFilterSettings() {
+		this.initialize();
 	}
 
 	public LowIntensityThresholdFilterSettings(Boolean selectedFilter, String method, Float emergence, Integer minUPN,
@@ -19,6 +20,12 @@ public class LowIntensityThresholdFilterSettings {
 		this.emergence = emergence;
 		this.minUPN = minUPN;
 		this.maxUPN = maxUPN;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Low intensity threshold";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {

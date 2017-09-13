@@ -3,18 +3,25 @@ package fr.lsmbo.msda.recover.model.settings;
 import java.util.List;
 import fr.lsmbo.msda.recover.model.IonReporter;
 
-public class IonReporterFilterSettings {
+public class IonReporterFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private List<IonReporter> ionList;
 
 	public IonReporterFilterSettings() {
+		this.initialize();
 	}
 
 	public IonReporterFilterSettings(Boolean selectedFilter, List<IonReporter> ionList) {
 		super();
 		this.selectedFilter = selectedFilter;
 		this.ionList = ionList;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Ions Reporter";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {

@@ -1,6 +1,6 @@
 package fr.lsmbo.msda.recover.model.settings;
 
-public class IdentificationFilterSettings {
+public class IdentificationFilterSettings extends RecoverSetting {
 
 	private Boolean selectedFilter;
 	private Boolean recoverIdentified;
@@ -12,6 +12,7 @@ public class IdentificationFilterSettings {
 	private Integer excelFirstRow;
 
 	public IdentificationFilterSettings() {
+		this.initialize();
 	}
 
 	public IdentificationFilterSettings(Boolean selectedFilter, Boolean recoverIdentified, Boolean recoverNonIdentified, 
@@ -24,6 +25,12 @@ public class IdentificationFilterSettings {
 		this.excelSheetName = excelSheetName;
 		this.excelColumn = excelColumn;
 		this.excelFirstRow = excelFirstRow;
+		this.initialize();
+	}
+	
+	private void initialize() {
+		this.name = "Identification results";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public Boolean getSelectedFilter() {
