@@ -1,5 +1,12 @@
 package fr.lsmbo.msda.recover.view.panel;
 
-public class UserPanel {
+import javafx.scene.layout.VBox;
+
+/**
+ * 
+ * @author aromdhani
+ *
+ */
+public class UserPanel extends VBox {
 
 }

@@ -8,9 +8,10 @@ import javafx.scene.layout.VBox;
  *
  */
 public class DataPanel extends VBox {
-	//public VBox userPanel = new VBox();
-	//public taskPanel = new VBox();
+	private VBox userPanel = new UserPanel();
+	private VBox taskPanel = new VBox();
+
 	public DataPanel() {
-		super();
+		
 	}
 }
