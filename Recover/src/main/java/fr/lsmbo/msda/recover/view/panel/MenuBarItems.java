@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.view.panel;
 
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -29,16 +30,17 @@ public class MenuBarItems extends MenuBar {
 		Menu helpMenu = new Menu("Help");
 		// file menu items
 		MenuItem openFile = new MenuItem("Open File  ...  Ctrl+O ");
-//		 System.out.println(IconRessource.getImage(ICON.LOAD));
-//		ImageView imageView = new ImageView(IconRessource.getImage(ICON.LOAD));
-//		imageView.setFitWidth(25);
-//		imageView.setFitHeight(25);
-//		openFile.setGraphic(imageView);
+		// System.out.println(IconRessource.getImage(ICON.LOAD));
+		// ImageView imageView = new
+		// ImageView(IconRessource.getImage(ICON.LOAD));
+		// imageView.setFitWidth(25);
+		// imageView.setFitHeight(25);
+		// openFile.setGraphic(imageView);
 		MenuItem exportFile = new MenuItem("Export File  ...  Ctrl+E ");
 		MenuItem exportInBatchFile = new MenuItem("Export in batch  ... ");
 		MenuItem exitFile = new MenuItem("Exit Ctrl+Q");
 		exitFile.setOnAction((ActionEvent t) -> {
-			new ExitPopup("Exit Recover", "Are you sure you want to exit Recover ? ",Recover.mainStage);
+			new ExitPopup("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
 		});
 		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
 
@@ -54,6 +56,12 @@ public class MenuBarItems extends MenuBar {
 		// help menu items
 		MenuItem getStartedHelp = new MenuItem(" Get started ");
 		MenuItem aboutHelp = new MenuItem(" About ");
+		aboutHelp.setOnAction((ActionEvent t) -> {
+			new AboutPopup("About Recover",
+					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "
+							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:",new Hyperlink("https://msda.unistra.fr/"),
+					Recover.mainStage);
+		});
 		helpMenu.getItems().addAll(getStartedHelp, aboutHelp);
 		this.getMenus().addAll(fileMenu, actionsMenu, helpMenu);
 	}

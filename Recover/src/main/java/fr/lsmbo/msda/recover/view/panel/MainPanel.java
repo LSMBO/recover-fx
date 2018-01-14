@@ -14,9 +14,10 @@ import fr.lsmbo.msda.recover.util.TitledBorderPane;;
 public class MainPanel extends BorderPane {
 	// initialize menu
 	public static VBox menuPane = new MenuPanel();
-	public static VBox spectrumListPane = new TitledBorderPane("", new VBox(), "", "slategrey");
-	public static VBox spectrumPane = new TitledBorderPane("", new VBox(), "","slategrey");
+	public static VBox spectrumListPane = new TitledBorderPane("", new VBox(), "");
+	public static VBox spectrumPane = new TitledBorderPane("", new VBox(), "");
 	public static VBox dataPane = new VBox();
+
 	// create main panel
 	public MainPanel() {
 		this.setTop(menuPane);
