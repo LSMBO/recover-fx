@@ -31,9 +31,10 @@ public class AboutPopup extends Stage {
 		buttonOk.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
-//		final WebView browser = new WebView();
-//		final WebEngine webEngine = browser.getEngine();
-
+		
+		// final WebView browser = new WebView();
+		// final WebEngine webEngine = browser.getEngine();
+		
 		HBox buttonsPanel = new HBox(buttonOk);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
 		Label messageLabel = new Label(message);

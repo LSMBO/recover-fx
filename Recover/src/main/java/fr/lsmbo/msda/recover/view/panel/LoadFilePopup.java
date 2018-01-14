@@ -18,16 +18,18 @@ import javafx.scene.layout.VBox;
  *
  */
 public class LoadFilePopup extends Stage {
-	public LoadFilePopup(String popupTitle,  VBox node, Stage parentStage) {
+	public LoadFilePopup(String popupTitle, VBox node, Stage parentStage) {
 		Stage popup = this;
 		this.initOwner(parentStage);
+		
+		//button cancel
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(75);
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
-
+        //button apply
 		Button buttonApply = new Button(" Apply ");
 		buttonApply.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonApply.setPrefWidth(75);
@@ -35,12 +37,16 @@ public class LoadFilePopup extends Stage {
 			Platform.exit();
 			System.exit(0);
 		});
-		VBox root = new VBox(20);
-		root.setStyle(StyleUtils.DIALOG_MODAL);
+		
+		//buuon's panel
 		HBox buttonsPanel = new HBox(60, buttonApply, buttonCancel);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
 		
-        VBox lodPanel = new VBox(20);
+        //load panels='s component 
+		VBox lodPanel = new VBox(20);
+		
+		VBox root = new VBox(20);
+		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(lodPanel, buttonsPanel);
 		// scene
 		Scene scene = new Scene(new VBox(5, root));
