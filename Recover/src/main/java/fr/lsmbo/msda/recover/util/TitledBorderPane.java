@@ -12,10 +12,6 @@ import javafx.scene.control.Label;
  *
  */
 public class TitledBorderPane extends VBox {
-	String title = "";
-	Node node = null;
-	String toolTip = "";
-
 	public TitledBorderPane(String title, Node node, String toolTip) {
 		Label titleLabel = new Label(" " + toolTip + "");
 		titleLabel.setAlignment(Pos.TOP_LEFT);
