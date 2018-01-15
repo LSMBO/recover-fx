@@ -1,7 +1,9 @@
 package fr.lsmbo.msda.recover.view.panel;
 
 import javafx.stage.Stage;
+import fr.lsmbo.msda.recover.util.IconRessource;
 import fr.lsmbo.msda.recover.util.StyleUtils;
+import fr.lsmbo.msda.recover.util.IconRessource.ICON;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -25,16 +28,15 @@ public class AboutPopup extends Stage {
 
 		Stage popup = this;
 		this.initOwner(parentStage);
+		// component
 		Button buttonOk = new Button(" Ok ");
 		buttonOk.setStyle(StyleUtils.BUTTON_SHADOW);
-		buttonOk.setPrefWidth(75);
+		buttonOk.setGraphic(new ImageView(IconRessource.getImage(ICON.TICK)));
+		buttonOk.setPrefWidth(100);
 		buttonOk.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
-		
-		// final WebView browser = new WebView();
-		// final WebEngine webEngine = browser.getEngine();
-		
+
 		HBox buttonsPanel = new HBox(buttonOk);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
 		Label messageLabel = new Label(message);
@@ -45,6 +47,7 @@ public class AboutPopup extends Stage {
 		linkPanel.setAlignment(Pos.BASELINE_CENTER);
 		messagePanel.getChildren().addAll(messageLabel, linkPanel);
 		messageLabel.setAlignment(Pos.BASELINE_CENTER);
+		
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(messagePanel, new Line(), buttonsPanel);

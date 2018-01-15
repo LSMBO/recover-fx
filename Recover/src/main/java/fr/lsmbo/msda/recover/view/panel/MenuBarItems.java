@@ -35,11 +35,11 @@ public class MenuBarItems extends MenuBar {
 
 		// export file
 		MenuItem exportFile = new MenuItem("Export File  ...  Ctrl+E ");
-		exportFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT_DATA)));
+		exportFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT)));
 
 		// export in batch
 		MenuItem exportInBatchFile = new MenuItem("Export in batch  ... ");
-		exportInBatchFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT)));
+		exportInBatchFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT_DATA)));
 
 		// exit Recover
 		MenuItem exitFile = new MenuItem("Exit Ctrl+Q");
@@ -52,7 +52,10 @@ public class MenuBarItems extends MenuBar {
 		// action menu items
 		Menu actionsMenu = new Menu("Actions");
 		MenuItem applyQFilterAction = new MenuItem(" Apply Quality Filter ");
+		
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
+		editPRulesAction.setGraphic(new ImageView(IconRessource.getImage(ICON.EDIT)));
+		
 		MenuItem getIdentifiedSpecAction = new MenuItem(" Get Identified Spectra ");
 		MenuItem getIdentifiedAxisAction = new MenuItem(" Use Identified Axis ");
 		MenuItem resetRecoverAction = new MenuItem(" Reset Recover ");
