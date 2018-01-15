@@ -51,7 +51,10 @@ public class MenuBarItems extends MenuBar {
 
 		// action menu items
 		Menu actionsMenu = new Menu("Actions");
+		
+		//apply filter
 		MenuItem applyQFilterAction = new MenuItem(" Apply Quality Filter ");
+		applyQFilterAction.setGraphic(new ImageView(IconRessource.getImage(ICON.APPLYFILTER)));
 		
 		// edit Parsing Rules
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
@@ -59,10 +62,12 @@ public class MenuBarItems extends MenuBar {
 		
 		// get Identified Spectra
 		MenuItem getIdentifiedSpecAction = new MenuItem(" Get Identified Spectra ");
+		getIdentifiedSpecAction.setGraphic(new ImageView(IconRessource.getImage(ICON.GETSPECTRUM)));
 		
 		// Use Identified Axis
 		MenuItem getIdentifiedAxisAction = new MenuItem(" Use Identified Axis ");
-
+		getIdentifiedAxisAction.setGraphic(new ImageView(IconRessource.getImage(ICON.USEAXIS)));
+		
 		// reset Recover
 		MenuItem resetRecoverAction = new MenuItem(" Reset Recover ");
 		resetRecoverAction.setGraphic(new ImageView(IconRessource.getImage(ICON.RESET)));
@@ -85,7 +90,6 @@ public class MenuBarItems extends MenuBar {
 							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:",
 					new Hyperlink("https://msda.unistra.fr"), Recover.mainStage);
 		});
-
 		helpMenu.getItems().addAll(getStartedHelp, aboutHelp);
 		this.getMenus().addAll(fileMenu, actionsMenu, helpMenu);
 	}
