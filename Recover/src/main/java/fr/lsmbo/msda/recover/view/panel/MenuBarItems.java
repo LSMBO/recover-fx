@@ -12,6 +12,7 @@ import fr.lsmbo.msda.recover.util.IconRessource;
 import fr.lsmbo.msda.recover.util.IconRessource.ICON;
 import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.gui.Recover;
+import fr.lsmbo.msda.recover.Main;
 
 /**
  * 
@@ -24,18 +25,25 @@ public class MenuBarItems extends MenuBar {
 	 * @return menuBar
 	 */
 	public MenuBarItems() {
+
 		// file menu items
 		Menu fileMenu = new Menu("File");
+
+		// load file
 		MenuItem openFile = new MenuItem("Open File  ...  Ctrl+O ");
-		// System.out.println(IconRessource.getImage(ICON.LOAD));
-		// ImageView imageView = new
-		// ImageView(IconRessource.getImage(ICON.LOAD));
-		// imageView.setFitWidth(25);
-		// imageView.setFitHeight(25);
-		// openFile.setGraphic(imageView);
+		openFile.setGraphic(new ImageView(IconRessource.getImage(ICON.LOAD)));
+
+		// export file
 		MenuItem exportFile = new MenuItem("Export File  ...  Ctrl+E ");
+		exportFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT_DATA)));
+
+		// export in batch
 		MenuItem exportInBatchFile = new MenuItem("Export in batch  ... ");
+		exportInBatchFile.setGraphic(new ImageView(IconRessource.getImage(ICON.EXPORT)));
+
+		// exit Recover
 		MenuItem exitFile = new MenuItem("Exit Ctrl+Q");
+		exitFile.setGraphic(new ImageView(IconRessource.getImage(ICON.CROSS)));
 		exitFile.setOnAction((ActionEvent t) -> {
 			new ExitPopup("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
 		});
@@ -55,7 +63,9 @@ public class MenuBarItems extends MenuBar {
 		// help menu items
 		Menu helpMenu = new Menu("Help");
 		MenuItem getStartedHelp = new MenuItem(" Get started ");
+		getStartedHelp.setGraphic(new ImageView(IconRessource.getImage(ICON.HELP)));
 		MenuItem aboutHelp = new MenuItem(" About ");
+		aboutHelp.setGraphic(new ImageView(IconRessource.getImage(ICON.INFORMATION)));
 		aboutHelp.setOnAction((ActionEvent t) -> {
 			new AboutPopup("About Recover",
 					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "
