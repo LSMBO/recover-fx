@@ -53,13 +53,23 @@ public class MenuBarItems extends MenuBar {
 		Menu actionsMenu = new Menu("Actions");
 		MenuItem applyQFilterAction = new MenuItem(" Apply Quality Filter ");
 		
+		// edit Parsing Rules
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
 		editPRulesAction.setGraphic(new ImageView(IconRessource.getImage(ICON.EDIT)));
 		
+		// get Identified Spectra
 		MenuItem getIdentifiedSpecAction = new MenuItem(" Get Identified Spectra ");
+		
+		// Use Identified Axis
 		MenuItem getIdentifiedAxisAction = new MenuItem(" Use Identified Axis ");
+
+		// reset Recover
 		MenuItem resetRecoverAction = new MenuItem(" Reset Recover ");
+		resetRecoverAction.setGraphic(new ImageView(IconRessource.getImage(ICON.RESET)));
+
 		MenuItem flaggedSpecAction = new MenuItem(" Flagged Spectrum ");
+		flaggedSpecAction.setGraphic(new ImageView(IconRessource.getImage(ICON.FLAG)));
+
 		actionsMenu.getItems().addAll(applyQFilterAction, editPRulesAction, getIdentifiedSpecAction,
 				getIdentifiedAxisAction, resetRecoverAction, flaggedSpecAction);
 
