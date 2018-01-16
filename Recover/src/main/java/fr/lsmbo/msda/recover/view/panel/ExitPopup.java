@@ -1,9 +1,9 @@
 package fr.lsmbo.msda.recover.view.panel;
 
 import javafx.stage.Stage;
-import fr.lsmbo.msda.recover.util.IconRessource;
+import fr.lsmbo.msda.recover.util.IconFactory;
 import fr.lsmbo.msda.recover.util.StyleUtils;
-import fr.lsmbo.msda.recover.util.IconRessource.ICON;
+import fr.lsmbo.msda.recover.util.IconFactory.ICON;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -26,7 +26,7 @@ public class ExitPopup extends Stage {
 
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
-		buttonCancel.setGraphic(new ImageView(IconRessource.getImage(ICON.CROSS)));
+		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
 		buttonCancel.setPrefWidth(100);
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
@@ -34,7 +34,7 @@ public class ExitPopup extends Stage {
 
 		Button buttonExit = new Button(" Exit ");
 		buttonExit.setStyle(StyleUtils.BUTTON_SHADOW);
-		buttonExit.setGraphic(new ImageView(IconRessource.getImage(ICON.TICK)));
+		buttonExit.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
 		buttonExit.setPrefWidth(100);
 		buttonExit.setOnAction((ActionEvent t) -> {
 			Platform.exit();
