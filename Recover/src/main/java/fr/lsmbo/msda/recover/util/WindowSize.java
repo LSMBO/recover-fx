@@ -15,4 +15,6 @@ public class WindowSize {
 	public static final double prefHeight = (primaryScreenBounds.getHeight() * 0.90);
 	public static final double minWidth = (primaryScreenBounds.getWidth() * 0.25);
 	public static final double minHeight = (primaryScreenBounds.getHeight() * 0.25);
+	public static final double popupPrefHeight = (prefHeight - 200);
+	public static final double popupPrefWidth = (prefWidth - 100);
 }
