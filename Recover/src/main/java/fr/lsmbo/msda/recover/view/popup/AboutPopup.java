@@ -1,8 +1,9 @@
-package fr.lsmbo.msda.recover.view.panel;
+package fr.lsmbo.msda.recover.view.popup;
 
 import javafx.stage.Stage;
 import fr.lsmbo.msda.recover.util.IconFactory;
 import fr.lsmbo.msda.recover.util.StyleUtils;
+import fr.lsmbo.msda.recover.util.WindowSize;
 import fr.lsmbo.msda.recover.util.IconFactory.ICON;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -32,7 +33,7 @@ public class AboutPopup extends Stage {
 		Button buttonOk = new Button(" Ok ");
 		buttonOk.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonOk.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
-		buttonOk.setPrefWidth(100);
+		buttonOk.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonOk.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});

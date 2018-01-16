@@ -5,13 +5,19 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.scene.control.MenuBar;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import fr.lsmbo.msda.recover.util.FileUtils;
 import fr.lsmbo.msda.recover.util.IconFactory;
 import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.view.popup.AboutPopup;
+import fr.lsmbo.msda.recover.view.popup.ExitPopup;
 import fr.lsmbo.msda.recover.gui.Recover;
-import fr.lsmbo.msda.recover.gui.Recover;
+
+import java.io.File;
+
 import fr.lsmbo.msda.recover.Main;
 
 /**
@@ -32,8 +38,16 @@ public class MenuBarItems extends MenuBar {
 		// load file
 		MenuItem openFile = new MenuItem(" Open File  ...  Ctrl+O ");
 		openFile.setGraphic(new ImageView(IconFactory.getImage(ICON.LOAD)));
+		openFile.setOnAction((ActionEvent t) -> {
+			final FileChooser fileChooser = new FileChooser();
+			FileUtils.cofigureFileChooser(fileChooser, "Select .mgf or .raw files");
+			File file = fileChooser.showOpenDialog(Recover.mainStage);
+			if (file != null) {
+				FileUtils.open(file);
+			}
+		});
 
-		// export file 
+		// export file
 		MenuItem exportFile = new MenuItem(" Export File  ...  Ctrl+E ");
 		exportFile.setGraphic(new ImageView(IconFactory.getImage(ICON.EXPORT)));
 
