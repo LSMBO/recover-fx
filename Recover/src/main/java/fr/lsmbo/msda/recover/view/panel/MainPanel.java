@@ -18,7 +18,6 @@ import fr.lsmbo.msda.recover.util.WindowSize;;
 public class MainPanel extends BorderPane {
 	// menu panel
 	private final static VBox menuPane = new MenuPanel();
-
 	// main panel
 	public final static SplitPane splitPane = new SplitPane();
 	public final static VBox spectrumlistPane = new VBox();
@@ -27,17 +26,23 @@ public class MainPanel extends BorderPane {
 
 	// create main panel
 	public MainPanel() {
+		// create menu panel
 		this.setTop(menuPane);
 
-		VBox SpectrumPanel = new VBox(5);
+		// create main panel
+		VBox mainPanel = new VBox(5);
 		splitPane.setOrientation(Orientation.VERTICAL);
 		splitPane.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight);
-		splitPane.getItems().addAll(spectrumlistPane, spectrumPane, dataPane);
-		SpectrumPanel.setPadding(new Insets(5, 10, 5, 10));
-		SpectrumPanel.getChildren().addAll(splitPane);
-		SpectrumPanel.autosize();
-		this.setCenter(SpectrumPanel);
-		this.autosize();
+       
+		dataPane.getChildren().addAll(new ConsolePanel());
+		dataPane.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight / 4);
+		dataPane.setMaxHeight(WindowSize.mainPanePreferHeight / 4);
 
+		splitPane.getItems().addAll(spectrumlistPane, spectrumPane, dataPane);
+		mainPanel.setPadding(new Insets(5, 10, 5, 10));
+		mainPanel.getChildren().addAll(splitPane);
+		mainPanel.autosize();
+		this.setCenter(mainPanel);
+		this.autosize();
 	}
 }

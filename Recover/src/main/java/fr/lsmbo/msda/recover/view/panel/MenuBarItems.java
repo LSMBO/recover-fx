@@ -18,6 +18,8 @@ import fr.lsmbo.msda.recover.gui.Recover;
 
 import java.io.File;
 
+import com.sun.media.jfxmedia.logging.Logger;
+
 import fr.lsmbo.msda.recover.Main;
 
 /**
@@ -62,7 +64,6 @@ public class MenuBarItems extends MenuBar {
 			new ExitPopup("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
 		});
 		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
-
 		// action menu items
 		Menu actionsMenu = new Menu(" Actions ");
 
