@@ -6,5 +6,5 @@ public class StyleUtils {
 	public static final String BUTTON_SHADOW = "-fx-font: bold italic 8pt Arial;";
 	public static final String TITLED_BORDER_PANE_TITLE = "-fx-font-size: 14;-fx-font-weight: bold;-fx-font-style: italic;-fx-translate-y: -20;-fx-translate-x: 15;";
 	public static final String TITLED_BORDER_PANE = "-fx-content-display: center;-fx-border-color: slategrey;-fx-border-width: 1;-fx-border-radius: 2;";
-	
+	public static final String WEBVIEW_BORDER = "-fx-border-color: #C0C0C0; -fx-border-width:1;-fx-border-radius:2;";
 }

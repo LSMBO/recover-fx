@@ -21,7 +21,7 @@ public class WindowSize {
 	public static final double minHeight = (primaryScreenBounds.getHeight() * 0.25);
 	// main panel prefered size
 	public static final Double mainPanePreferHeight = prefHeight - 30;
-	public static final Double mainPanePreferWidth = prefHeight - 20;
+	public static final Double mainPanePreferWidth = prefWidth - 20;
 	// popup prefered size
 	public static final double popupPrefHeight = (prefHeight - 200);
 	public static final double popupPrefWidth = (prefWidth - 100);
