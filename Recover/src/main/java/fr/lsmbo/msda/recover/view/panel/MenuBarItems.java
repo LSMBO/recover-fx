@@ -62,6 +62,7 @@ public class MenuBarItems extends MenuBar {
 		exitFile.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
 		exitFile.setOnAction((ActionEvent t) -> {
 			new ExitPopup("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
+			System.out.println("info - close Recover.");
 		});
 		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
 		// action menu items
@@ -93,10 +94,12 @@ public class MenuBarItems extends MenuBar {
 		actionsMenu.getItems().addAll(applyQFilterAction, editPRulesAction, getIdentifiedSpecAction,
 				getIdentifiedAxisAction, resetRecoverAction, flaggedSpecAction);
 
-		// help menu items
+		/** help menu items */
+		// get started menu item
 		Menu helpMenu = new Menu(" Help ");
 		MenuItem getStartedHelp = new MenuItem(" Get started ");
 		getStartedHelp.setGraphic(new ImageView(IconFactory.getImage(ICON.HELP)));
+		// about menu item
 		MenuItem aboutHelp = new MenuItem(" About ");
 		aboutHelp.setGraphic(new ImageView(IconFactory.getImage(ICON.INFORMATION)));
 		aboutHelp.setOnAction((ActionEvent t) -> {
@@ -104,6 +107,7 @@ public class MenuBarItems extends MenuBar {
 					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "
 							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:",
 					new Hyperlink("https://msda.unistra.fr"), Recover.mainStage);
+			System.out.println("Info - about Recover.");
 		});
 		helpMenu.getItems().addAll(getStartedHelp, aboutHelp);
 		this.getMenus().addAll(fileMenu, actionsMenu, helpMenu);

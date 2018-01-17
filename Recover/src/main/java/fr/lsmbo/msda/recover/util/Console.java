@@ -28,8 +28,7 @@ public class Console extends OutputStream {
 
 	public synchronized void addText(String newlines) {
 
-		strBuilder.append("<span style=\"white-space:pre-line\">" + newlines + "</span>")
-				.append(System.lineSeparator());
+		strBuilder.append(textMatch("<span style=\"white-space:pre-line\">" + newlines + "</span>"));	
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -40,17 +39,17 @@ public class Console extends OutputStream {
 	}
 
 	public String textMatch(String text) {
-		String color = "balck";
-		if (isTextMatches("error") || isTextMatches("exception") || isTextMatches("fail")) {
+		String color = "black";
+		if (text.contains("error") || text.contains("exception") || text.contains("fail")) {
 			color = "red";
-		} else if (isTextMatches("warn")) {
+		} else if (text.contains("warn")) {
 			color = "orange";
-		} else if (isTextMatches("info") || isTextMatches("success")) {
+		} else if (text.contains("success")) {
 			color = "green";
 		} else {
-			color = "balck";
+			color = "black";
 		}
-		return "<kbd style =\'color:" + color + "\'</bd>";
+		return "<kbd style =\'color:" + color + "\'>"+text+"</kbd>";
 	}
 
 	public boolean isTextMatches(String text) {
