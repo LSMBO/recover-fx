@@ -22,9 +22,11 @@ import javafx.scene.layout.VBox;
  */
 public class ExitPopup extends Stage {
 	public ExitPopup(String popupTitle, String message, Stage parentStage) {
+		
 		Stage popup = this;
-		this.initOwner(parentStage);
-
+		popup.initOwner(parentStage);
+		popup.getIcons().add(IconFactory.getImage(ICON.CROSS));
+		
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));

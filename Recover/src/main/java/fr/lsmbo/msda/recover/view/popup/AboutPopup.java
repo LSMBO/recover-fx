@@ -28,7 +28,8 @@ public class AboutPopup extends Stage {
 	public AboutPopup(String popupTitle, String message, Hyperlink link, Stage parentStage) {
 
 		Stage popup = this;
-		this.initOwner(parentStage);
+		popup.initOwner(parentStage);
+		popup.getIcons().add(IconFactory.getImage(ICON.INFORMATION));
 		// component
 		Button buttonOk = new Button(" Ok ");
 		buttonOk.setStyle(StyleUtils.BUTTON_SHADOW);

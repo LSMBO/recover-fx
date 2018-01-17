@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.io.File;
 import fr.lsmbo.msda.recover.util.*;
+import fr.lsmbo.msda.recover.util.IconFactory.ICON;
 import fr.lsmbo.msda.recover.gui.Recover;
 
 /**
@@ -17,12 +18,12 @@ import fr.lsmbo.msda.recover.gui.Recover;
  * @author aromdhani
  *
  */
-public class LoadFilePopup extends Stage {
-	public LoadFilePopup(String popupTitle, Stage parentStage) {
+public class ApplyFilterPopup extends Stage {
+	public ApplyFilterPopup(String popupTitle, Stage parentStage) {
 		Stage popup = this;
-		this.initOwner(parentStage);
-		final FileChooser fileChooser = new FileChooser();
-		
+		popup.initOwner(parentStage);
+		popup.getIcons().add(IconFactory.getImage(ICON.APPLYFILTER));
+
 		// button cancel
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
@@ -30,17 +31,13 @@ public class LoadFilePopup extends Stage {
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
-		
-		// button open
-		Button buttonOpen = new Button(" Open ");
+
+		// button apply
+		Button buttonOpen = new Button(" apply ");
 		buttonOpen.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonOpen.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonOpen.setOnAction((ActionEvent t) -> {
-			FileUtils.cofigureFileChooser(fileChooser, "Select mgf or raw files");
-			File file = fileChooser.showOpenDialog(Recover.mainStage);
-			if (file != null) {
-				FileUtils.open(file);
-			}
+			// apply filter
 		});
 
 		// buuon's panel
