@@ -18,8 +18,8 @@ import fr.lsmbo.msda.recover.gui.Recover;
  * @author aromdhani
  *
  */
-public class ApplyFilterPopup extends Stage {
-	public ApplyFilterPopup(String popupTitle, Stage parentStage) {
+public class ApplyFilter extends Stage {
+	public ApplyFilter(String popupTitle, Stage parentStage) {
 		Stage popup = this;
 		popup.initOwner(parentStage);
 		popup.getIcons().add(IconFactory.getImage(ICON.APPLYFILTER));
@@ -33,7 +33,7 @@ public class ApplyFilterPopup extends Stage {
 		});
 
 		// button apply
-		Button buttonOpen = new Button(" apply ");
+		Button buttonOpen = new Button(" Apply ");
 		buttonOpen.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonOpen.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonOpen.setOnAction((ActionEvent t) -> {
@@ -54,7 +54,7 @@ public class ApplyFilterPopup extends Stage {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		popup.setAlwaysOnTop(true);
+		//popup.setAlwaysOnTop(true);
 		// window prefered size
 		popup.setWidth(WindowSize.popupPrefWidth);
 		popup.setMinWidth(WindowSize.popupMinHeight);

@@ -20,8 +20,8 @@ import javafx.scene.layout.VBox;
  * @author aromdhani
  *
  */
-public class ExitPopup extends Stage {
-	public ExitPopup(String popupTitle, String message, Stage parentStage) {
+public class Exit extends Stage {
+	public Exit(String popupTitle, String message, Stage parentStage) {
 		
 		Stage popup = this;
 		popup.initOwner(parentStage);
@@ -55,7 +55,7 @@ public class ExitPopup extends Stage {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		popup.setAlwaysOnTop(true);
+		//popup.setAlwaysOnTop(true);
 		popup.setWidth(400);
 		popup.setMinWidth(400);
 		popup.setHeight(150);

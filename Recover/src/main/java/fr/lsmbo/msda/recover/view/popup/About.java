@@ -24,8 +24,8 @@ import javafx.scene.web.WebView;
  * @author aromdhani
  *
  */
-public class AboutPopup extends Stage {
-	public AboutPopup(String popupTitle, String message, Hyperlink link, Stage parentStage) {
+public class About extends Stage {
+	public About(String popupTitle, String message, Hyperlink link, Stage parentStage) {
 
 		Stage popup = this;
 		popup.initOwner(parentStage);
@@ -57,7 +57,7 @@ public class AboutPopup extends Stage {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		popup.setAlwaysOnTop(true);
+		//popup.setAlwaysOnTop(true);
 		popup.setWidth(400);
 		popup.setMinWidth(600);
 		popup.setHeight(200);
