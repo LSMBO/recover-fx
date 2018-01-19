@@ -22,13 +22,12 @@ public class ConsolePanel extends StackPane {
 	public WebView webview = new WebView();
 
 	public ConsolePanel() {
-
 		PrintStream psOut = new PrintStream(new Console(webview));
 		System.setOut(psOut);
 		System.setErr(psOut);
 		webview.autosize();
 		this.setStyle(StyleUtils.WEBVIEW_BORDER);
-		this.setPadding(new Insets(5,5,5,5));
+		this.setPadding(new Insets(5, 5, 5, 5));
 		this.autosize();
 		this.getChildren().addAll(webview);
 	}

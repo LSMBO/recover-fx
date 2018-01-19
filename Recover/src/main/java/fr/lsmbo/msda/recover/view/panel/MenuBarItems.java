@@ -19,6 +19,10 @@ import fr.lsmbo.msda.recover.view.popup.Exit;
 import fr.lsmbo.msda.recover.gui.Recover;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.sun.media.jfxmedia.logging.Logger;
 
@@ -31,14 +35,13 @@ import fr.lsmbo.msda.recover.Main;
  */
 public class MenuBarItems extends MenuBar {
 	/**
-	 * 
 	 * @return menuBar
 	 */
+
 	public MenuBarItems() {
-
 		// file menu items
+		ExecutorService executorService = Executors.newFixedThreadPool(10);
 		Menu fileMenu = new Menu(" File ");
-
 		// load file
 		MenuItem openFile = new MenuItem(" Open File  ...  Ctrl+O ");
 		openFile.setGraphic(new ImageView(IconFactory.getImage(ICON.LOAD)));
@@ -61,10 +64,10 @@ public class MenuBarItems extends MenuBar {
 
 		// exit Recover
 		MenuItem exitFile = new MenuItem(" Exit Ctrl+Q ");
-		exitFile.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
+		exitFile.setGraphic(new ImageView(IconFactory.getImage(ICON.EXIT)));
 		exitFile.setOnAction((ActionEvent t) -> {
 			new Exit("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
-			System.out.println("Info - Recover will be closed.");
+			System.out.println("Info Recover will be closed.");
 		});
 		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
 		// action menu items
@@ -76,7 +79,7 @@ public class MenuBarItems extends MenuBar {
 		applyQFilterAction.setOnAction((ActionEvent t) -> {
 			new ApplyFilter("Apply Filter", Recover.mainStage);
 		});
-		
+
 		// edit Parsing Rules
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
 		editPRulesAction.setGraphic(new ImageView(IconFactory.getImage(ICON.EDIT)));
@@ -106,7 +109,7 @@ public class MenuBarItems extends MenuBar {
 		/** help menu items */
 		// get started menu item
 		Menu helpMenu = new Menu(" Help ");
-		MenuItem getStartedHelp = new MenuItem(" Get started ");
+		MenuItem getStartedHelp = new MenuItem(" User guide ");
 		getStartedHelp.setGraphic(new ImageView(IconFactory.getImage(ICON.HELP)));
 		// about menu item
 		MenuItem aboutHelp = new MenuItem(" About ");
@@ -116,7 +119,7 @@ public class MenuBarItems extends MenuBar {
 					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "
 							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:",
 					new Hyperlink("https://msda.unistra.fr"), Recover.mainStage);
-			System.out.println("Info - About Recover.");
+			System.out.println("Info about Recover.");
 		});
 		helpMenu.getItems().addAll(getStartedHelp, aboutHelp);
 		this.getMenus().addAll(fileMenu, actionsMenu, helpMenu);

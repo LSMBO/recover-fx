@@ -40,7 +40,7 @@ public class Console extends OutputStream {
 
 	public String textMatch(String text) {
 		String color = "black";
-		if (text.contains("error") || text.contains("exception") || text.contains("fail")) {
+		if (text.contains("error") || text.contains("Exception") || text.contains("fail")) {
 			color = "red";
 		} else if (text.contains("warn")) {
 			color = "orange";
