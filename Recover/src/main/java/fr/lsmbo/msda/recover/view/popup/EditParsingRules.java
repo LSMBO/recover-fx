@@ -1,17 +1,16 @@
 package fr.lsmbo.msda.recover.view.popup;
 
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import java.io.File;
+
 import fr.lsmbo.msda.recover.util.*;
 import fr.lsmbo.msda.recover.util.IconFactory.ICON;
-import fr.lsmbo.msda.recover.gui.Recover;
 
 /**
  * 
@@ -28,6 +27,7 @@ public class EditParsingRules extends Stage {
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
+		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
@@ -36,6 +36,7 @@ public class EditParsingRules extends Stage {
 		Button buttonOpen = new Button(" Apply ");
 		buttonOpen.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonOpen.setPrefWidth(WindowSize.BUTTON_WITDH);
+		buttonOpen.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
 		buttonOpen.setOnAction((ActionEvent t) -> {
 			// apply filter
 		});
@@ -62,4 +63,5 @@ public class EditParsingRules extends Stage {
 		popup.setMinHeight(WindowSize.popupMinHeight);
 		popup.show();
 	}
+
 }

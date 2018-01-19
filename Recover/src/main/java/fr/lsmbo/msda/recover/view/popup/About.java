@@ -1,6 +1,9 @@
 package fr.lsmbo.msda.recover.view.popup;
 
 import javafx.stage.Stage;
+
+import java.util.concurrent.Callable;
+
 import fr.lsmbo.msda.recover.util.IconFactory;
 import fr.lsmbo.msda.recover.util.StyleUtils;
 import fr.lsmbo.msda.recover.util.WindowSize;
@@ -16,8 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+
 
 /**
  * 

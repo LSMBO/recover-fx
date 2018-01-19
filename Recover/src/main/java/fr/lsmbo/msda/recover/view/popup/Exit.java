@@ -22,11 +22,11 @@ import javafx.scene.layout.VBox;
  */
 public class Exit extends Stage {
 	public Exit(String popupTitle, String message, Stage parentStage) {
-		
+
 		Stage popup = this;
 		popup.initOwner(parentStage);
-		popup.getIcons().add(IconFactory.getImage(ICON.CROSS));
-		
+		popup.getIcons().add(IconFactory.getImage(ICON.EXIT));
+
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
@@ -55,7 +55,7 @@ public class Exit extends Stage {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		//popup.setAlwaysOnTop(true);
+		// popup.setAlwaysOnTop(true);
 		popup.setWidth(400);
 		popup.setMinWidth(400);
 		popup.setHeight(150);
