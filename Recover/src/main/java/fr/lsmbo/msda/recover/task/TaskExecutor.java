@@ -1,13 +1,14 @@
-package fr.lsmbo.msda.recover.view.executor;
+package fr.lsmbo.msda.recover.task;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
 
 /**
  * Asynchronous task executor
@@ -17,8 +18,8 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class TaskExecutor {
-	private final Logger logger = LogManager.getLogger(TaskExecutor.class);
-	private final ExecutorService executorService = Executors.newCachedThreadPool();
+	//private final Logger logger = LogManager.getLogger(TaskExecutor.class);
+	public ExecutorService executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 
 	private TaskExecutor() {
 	}
@@ -57,7 +58,7 @@ public class TaskExecutor {
 	 *            <T> Callable<T> task
 	 * @return Callable task
 	 */
-	public static <T> Callable<T> creatCallable(final Callable<T> task) {
+	public <T> Callable<T> creatCallable(final Callable<T> task) {
 		return () -> {
 			try {
 				return task.call();
@@ -80,7 +81,7 @@ public class TaskExecutor {
 			} catch (Exception e) {
 				System.err.println("Error while trying to execute runnable task");
 				throw e;
-			}
+			} 
 		};
 	}
 
