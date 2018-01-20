@@ -28,7 +28,6 @@ public class MainPanel extends BorderPane {
 	public MainPanel() {
 		// create menu panel
 		this.setTop(menuPane);
-
 		// create main panel
 		VBox mainPanel = new VBox(5);
 		splitPane.setOrientation(Orientation.VERTICAL);

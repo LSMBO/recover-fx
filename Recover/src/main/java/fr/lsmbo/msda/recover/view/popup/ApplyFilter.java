@@ -11,13 +11,14 @@ import javafx.scene.layout.VBox;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.Callable;
 
+import fr.lsmbo.msda.recover.task.TaskExecutor;
+import fr.lsmbo.msda.recover.task.ThreadPoolType;
+import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
 import fr.lsmbo.msda.recover.util.*;
 import fr.lsmbo.msda.recover.util.IconFactory.ICON;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -25,13 +26,11 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class ApplyFilter extends Stage {
-	private ExecutorService exec;
+	Stage popup = this;
 
 	public ApplyFilter(String popupTitle, Stage parentStage) {
-		Stage popup = this;
 		popup.initOwner(parentStage);
 		popup.getIcons().add(IconFactory.getImage(ICON.APPLYFILTER));
-
 		// button cancel
 
 		Button buttonCancel = new Button(" Cancel ");
@@ -61,12 +60,12 @@ public class ApplyFilter extends Stage {
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(lodPanel, buttonsPanel);
+
 		// scene
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		// popup.setAlwaysOnTop(true);
-		// window prefered size
+		// window preferred size
 		popup.setWidth(WindowSize.popupPrefWidth);
 		popup.setMinWidth(WindowSize.popupMinHeight);
 		popup.setHeight(WindowSize.popupPrefHeight);
@@ -75,19 +74,20 @@ public class ApplyFilter extends Stage {
 	}
 
 	public void apply() {
-		exec = Executors.newCachedThreadPool();
+		TaskExecutor task = TaskExecutor.getInstance();
+		task.executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 		try {
-			Callable<Void> connectionListener = () -> {
-				System.out.println("Info appling filter ... ");
-				return null;
-			};
-			exec.submit(connectionListener);
-		} catch (Exception exc) {
-			System.out.println("Error - while trying to apply filter");
-			exc.printStackTrace();
-			throw exc;
+			Future<?> f = task.submitRunnabletask(() -> {
+				System.out.println("Info applying filter with the new parameters {}");
+			});
+			f.get();
+			while (!f.isDone()) {
+				System.out.println("task is running ...");
+			}
+		} catch (Exception e) {
+			System.out.println("error while trying to apply filter: " + e);
 		} finally {
-			exec.shutdown();
+			popup.close();
 		}
 	}
 }

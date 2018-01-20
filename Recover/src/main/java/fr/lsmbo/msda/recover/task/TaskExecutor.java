@@ -18,8 +18,8 @@ import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
  */
 
 public class TaskExecutor {
-	//private final Logger logger = LogManager.getLogger(TaskExecutor.class);
-	public ExecutorService executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
+	// private final Logger logger = LogManager.getLogger(TaskExecutor.class);
+	public ExecutorService executorService = null;
 
 	private TaskExecutor() {
 	}
@@ -81,7 +81,7 @@ public class TaskExecutor {
 			} catch (Exception e) {
 				System.err.println("Error while trying to execute runnable task");
 				throw e;
-			} 
+			}
 		};
 	}
 
@@ -115,13 +115,13 @@ public class TaskExecutor {
 			executorService.shutdown();
 			executorService.awaitTermination(5, TimeUnit.SECONDS);
 		} catch (Exception e) {
-			System.err.println("Error while trying to shutdown executor service");
+			System.out.println("Error while trying to shutdown executor service");
 		} finally {
 			if (!executorService.isTerminated()) {
-				System.err.println("Cancel non finished tasks");
+				System.out.println("Error Cancel non finished tasks");
 			}
 			executorService.shutdownNow();
-			System.out.println("shutdown of executorService.");
+			System.out.println("Info shutdown of ExecutorService.");
 		}
 
 	}

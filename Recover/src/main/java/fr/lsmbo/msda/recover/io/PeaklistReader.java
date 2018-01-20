@@ -15,7 +15,8 @@ import fr.lsmbo.msda.recover.model.Fragment;
 import fr.lsmbo.msda.recover.model.Spectrum;
 
 /**
- * Read a file(mgf or pkl) and stock the information concerning spectrum and spectra.
+ * Read a file(mgf or pkl) and stock the information concerning spectrum and
+ * spectra.
  * 
  * @see Spectrum, Spectra, ListOfSpectra
  * @author BL
@@ -30,7 +31,7 @@ public class PeaklistReader {
 	}
 
 	public static void load(File file) {
-        //to do check if valid path and use logger 
+		// to do check if valid path and use logger
 		String filePath = file.getAbsolutePath();
 		Session.HIGHEST_FRAGMENT_MZ = 0F;
 		Session.HIGHEST_FRAGMENT_INTENSITY = 0F;
@@ -124,7 +125,7 @@ public class PeaklistReader {
 			lineNumber++;
 		}
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
-		
+
 		// add spectra as a first spectra
 		if (Recover.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
 			System.out.println("first Peaklist");

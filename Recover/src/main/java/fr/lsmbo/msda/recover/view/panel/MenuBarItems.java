@@ -3,11 +3,9 @@ package fr.lsmbo.msda.recover.view.panel;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuBar;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import fr.lsmbo.msda.recover.util.FileUtils;
 import fr.lsmbo.msda.recover.util.IconFactory;
@@ -19,14 +17,7 @@ import fr.lsmbo.msda.recover.view.popup.Exit;
 import fr.lsmbo.msda.recover.gui.Recover;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import com.sun.media.jfxmedia.logging.Logger;
-
-import fr.lsmbo.msda.recover.Main;
 
 /**
  * 
@@ -40,7 +31,6 @@ public class MenuBarItems extends MenuBar {
 
 	public MenuBarItems() {
 		// file menu items
-		ExecutorService executorService = Executors.newFixedThreadPool(10);
 		Menu fileMenu = new Menu(" File ");
 		// load file
 		MenuItem openFile = new MenuItem(" Open File  ...  Ctrl+O ");

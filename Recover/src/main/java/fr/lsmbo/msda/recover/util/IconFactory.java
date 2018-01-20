@@ -81,7 +81,6 @@ public class IconFactory {
 			case EXIT:
 				images.put(icon, new Image(IconFactory.class.getResourceAsStream("/images/exit.png")));
 				break;
-
 			default:
 				break;
 			}
