@@ -82,6 +82,7 @@ public class EditParsingRules extends Stage {
 			if (f.isDone()) {
 				popup.close();
 			}
+
 		} catch (Exception e) {
 			System.out.println("error while trying to edit parsing rules!" + e);
 		}

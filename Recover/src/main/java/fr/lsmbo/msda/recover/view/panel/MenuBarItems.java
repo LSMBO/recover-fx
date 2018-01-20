@@ -18,18 +18,22 @@ import fr.lsmbo.msda.recover.gui.Recover;
 
 import java.io.File;
 
-
 /**
  * 
  * @author aromdhani
  *
  */
 public class MenuBarItems extends MenuBar {
-	/**
-	 * @return menuBar
-	 */
 
-	public MenuBarItems() {
+	private static class Holder {
+		private static final MenuBarItems MenuBarItems = new MenuBarItems();
+	}
+
+	public static MenuBarItems getInstance() {
+		return Holder.MenuBarItems;
+	}
+
+	private MenuBarItems() {
 		// file menu items
 		Menu fileMenu = new Menu(" File ");
 		// load file

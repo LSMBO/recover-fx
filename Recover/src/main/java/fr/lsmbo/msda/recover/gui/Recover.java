@@ -46,7 +46,7 @@ public class Recover extends Application {
 		// FXMLLoader loader = new FXMLLoader();
 		// loader.setLocation(Views.RECOVER);
 		// AnchorPane page = (AnchorPane) loader.load();
-		BorderPane page = new MainPanel();
+		BorderPane page = MainPanel.getInstance();
 		Scene scene = new Scene(page);
 		primaryStage.setScene(scene);
 		// recoverController = loader.getController();

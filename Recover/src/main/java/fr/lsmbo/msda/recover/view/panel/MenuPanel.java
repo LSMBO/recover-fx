@@ -11,8 +11,22 @@ import javafx.scene.control.MenuBar;
  */
 
 public class MenuPanel extends VBox {
-	public static MenuBar menuBar = new MenuBarItems();
-	public MenuPanel() {
+	private MenuBar menuBar = null;
+
+	public MenuBar getMenuBar() {
+		return menuBar;
+	}
+
+	private static class Holder {
+		private static final MenuPanel menuPanel = new MenuPanel();
+	}
+
+	public static MenuPanel getInstance() {
+		return Holder.menuPanel;
+	}
+
+	private MenuPanel() {
+		menuBar = MenuBarItems.getInstance();
 		this.getChildren().addAll(menuBar);
 		this.setPadding(new Insets(10, 5, 10, 5));
 	}

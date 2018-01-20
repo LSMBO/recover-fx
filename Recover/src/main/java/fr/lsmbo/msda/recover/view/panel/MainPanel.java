@@ -3,11 +3,8 @@ package fr.lsmbo.msda.recover.view.panel;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
-import fr.lsmbo.msda.recover.util.TitledBorderPane;
 import fr.lsmbo.msda.recover.util.WindowSize;;
 
 /**
@@ -17,23 +14,37 @@ import fr.lsmbo.msda.recover.util.WindowSize;;
  */
 public class MainPanel extends BorderPane {
 	// menu panel
-	private final static VBox menuPane = new MenuPanel();
+	private VBox menuPane = null;
+	
 	// main panel
-	public final static SplitPane splitPane = new SplitPane();
-	public final static VBox spectrumlistPane = new VBox();
-	public final static VBox spectrumPane = new VBox();
-	public final static VBox dataPane = new VBox();
+	private SplitPane splitPane = null;
+	private VBox spectrumlistPane = null;
+	private VBox spectrumPane = null;
+	private VBox dataPane = null;
+
+	private static class Holder {
+		private static final MainPanel mainPanel = new MainPanel();
+	}
+
+	public static MainPanel getInstance() {
+		return Holder.mainPanel;
+	}
 
 	// create main panel
-	public MainPanel() {
+	private MainPanel() {
+		menuPane = MenuPanel.getInstance();
+		splitPane = new SplitPane();
+		spectrumlistPane = ListSpetrumPanel.getInstance();
+		spectrumPane = new VBox();
+		dataPane = new VBox();
 		// create menu panel
 		this.setTop(menuPane);
 		// create main panel
 		VBox mainPanel = new VBox(5);
 		splitPane.setOrientation(Orientation.VERTICAL);
 		splitPane.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight);
-       
-		dataPane.getChildren().addAll(new ConsolePanel());
+
+		dataPane.getChildren().addAll(ConsolePanel.getInstance());
 		dataPane.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight / 4);
 		dataPane.setMaxHeight(WindowSize.mainPanePreferHeight / 4);
 

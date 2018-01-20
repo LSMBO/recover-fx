@@ -19,9 +19,19 @@ import javafx.scene.web.WebView;
 
 public class ConsolePanel extends StackPane {
 
-	public WebView webview = new WebView();
+	private WebView webview = null;
 
-	public ConsolePanel() {
+	private static class Holder {
+    	private final static  ConsolePanel consolePanel= new ConsolePanel();
+    }
+
+	public static ConsolePanel getInstance()
+	{
+		return Holder.consolePanel;
+	}
+
+	private ConsolePanel() {
+		webview = new WebView();
 		PrintStream psOut = new PrintStream(new Console(webview));
 		System.setOut(psOut);
 		System.setErr(psOut);

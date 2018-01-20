@@ -9,10 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.Callable;
 
 import fr.lsmbo.msda.recover.task.TaskExecutor;
 import fr.lsmbo.msda.recover.task.ThreadPoolType;
@@ -83,6 +80,7 @@ public class ApplyFilter extends Stage {
 			f.get();
 			while (!f.isDone()) {
 				System.out.println("task is running ...");
+
 			}
 		} catch (Exception e) {
 			System.out.println("error while trying to apply filter: " + e);

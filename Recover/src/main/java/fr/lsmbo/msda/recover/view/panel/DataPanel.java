@@ -8,10 +8,15 @@ import javafx.scene.layout.VBox;
  *
  */
 public class DataPanel extends VBox {
-	private VBox userPanel = new UserPanel();
-	private VBox taskPanel = new VBox();
+	
+	private static class Holder {
+		private static final DataPanel dataPanel = new DataPanel();
+	}
 
-	public DataPanel() {
-		
+	private DataPanel() {
+	}
+
+	public static DataPanel getInstance() {
+		return Holder.dataPanel;
 	}
 }
