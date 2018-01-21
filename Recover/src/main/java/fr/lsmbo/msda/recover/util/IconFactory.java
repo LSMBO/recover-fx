@@ -13,7 +13,7 @@ public class IconFactory {
 	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
 
 	public enum ICON {
-		APPLYFILTER, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, USEAXIS, CROSS, TICK, SAVE, SETTINGS, RECOVER, GETSPECTRUM, TRASH, WARNING, RESET, FLAG, EXIT;
+		APPLYFILTER,CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, USEAXIS, CROSS, TICK, SAVE, SETTINGS, RECOVER, GETSPECTRUM, TRASH, WARNING, RESET, FLAG, EXIT;
 	}
 
 	/**
@@ -81,6 +81,10 @@ public class IconFactory {
 			case EXIT:
 				images.put(icon, new Image(IconFactory.class.getResourceAsStream("/images/exit.png")));
 				break;
+			case CONSOLE:
+				images.put(icon, new Image(IconFactory.class.getResourceAsStream("/images/console.png")));
+				break;
+				
 			default:
 				break;
 			}

@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.view.panel;
 
+import fr.lsmbo.msda.recover.util.WindowSize;
 import javafx.geometry.Insets;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,7 +11,7 @@ import javafx.scene.layout.VBox;
  * @author aromdhani
  *
  */
-public class ListSpetrumPanel extends VBox {
+public class SpectrumListPanel extends VBox {
 	// create table
 	private TableView<String> table = null;
 
@@ -19,14 +20,14 @@ public class ListSpetrumPanel extends VBox {
 	}
 
 	private static class Holder {
-		private final static ListSpetrumPanel listPanel = new ListSpetrumPanel();
+		private final static SpectrumListPanel listPanel = new SpectrumListPanel();
 	}
 
-	public static ListSpetrumPanel getInstance() {
+	public static SpectrumListPanel getInstance() {
 		return Holder.listPanel;
 	}
 
-	private ListSpetrumPanel() {
+	private SpectrumListPanel() {
 		table = new TableView<>();
 		TableColumn idCol = new TableColumn("Id");
 		TableColumn specNameCol = new TableColumn("Spectrum Name");
@@ -41,6 +42,7 @@ public class ListSpetrumPanel extends VBox {
 				totalPeakNumberCol, identifiedCol, recoverCol);
 		table.autosize();
 		table.setColumnResizePolicy(table.CONSTRAINED_RESIZE_POLICY);
+		this.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight / 5);
 		this.setPadding(new Insets(5, 5, 5, 5));
 		this.getChildren().addAll(table);
 	}

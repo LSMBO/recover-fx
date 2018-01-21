@@ -1,5 +1,6 @@
 package fr.lsmbo.msda.recover.util;
 
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,15 +12,15 @@ import javafx.scene.control.Label;
  * @author aromdhani
  *
  */
-public class TitledBorderPane extends VBox {
+public class TitledBorderPane extends StackPane {
 	public TitledBorderPane(String title, Node node, String toolTip) {
-		Label titleLabel = new Label(" " + toolTip + "");
-		titleLabel.setAlignment(Pos.TOP_LEFT);
+		Label titleLabel = new Label(" " + title + "");
 		titleLabel.setStyle(StyleUtils.TITLED_BORDER_PANE_TITLE);
-		VBox contenNode = new VBox(5, node);
-		contenNode.setPadding(new Insets(10, 5, 10, 5));
+		this.setAlignment(titleLabel, Pos.TOP_LEFT);
+		this.setMargin(titleLabel, new Insets(8, 0, 0, 0));
+		this.setPadding(new Insets(10, 5, 10, 5));
 		this.setStyle(StyleUtils.TITLED_BORDER_PANE);
 		this.setPadding(new Insets(10, 5, 10, 5));
-		this.getChildren().addAll(titleLabel, contenNode);
+		this.getChildren().addAll(titleLabel, node);
 	}
 }
