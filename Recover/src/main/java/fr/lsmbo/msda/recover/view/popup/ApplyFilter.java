@@ -53,7 +53,7 @@ public class ApplyFilter extends Stage {
 
 		// load panels's component
 		VBox lodPanel = new VBox(20);
-
+		lodPanel.getChildren().addAll(new AccordionPanel());
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(lodPanel, buttonsPanel);
