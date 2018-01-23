@@ -53,8 +53,8 @@ public class FileUtils {
 	public static void cofigureFileChooser(final FileChooser fileChooser, String fileChooserTitle) {
 		fileChooser.setTitle(fileChooserTitle);
 		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".pkl files", "*.pkl"),
-				new FileChooser.ExtensionFilter(".mgf files", "*.mgf"));
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".mgf files", "*.mgf"),
+				new FileChooser.ExtensionFilter(".pkl files", "*.pkl"));
 	}
 
 	public static void open(File file) {
