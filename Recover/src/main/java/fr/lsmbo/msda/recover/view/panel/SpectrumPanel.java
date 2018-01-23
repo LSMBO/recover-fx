@@ -1,7 +1,7 @@
 package fr.lsmbo.msda.recover.view.panel;
 
-import fr.lsmbo.msda.recover.util.IconFactory;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import fr.lsmbo.msda.recover.util.TitledBorderPane;
 import fr.lsmbo.msda.recover.util.WindowSize;
 import javafx.geometry.Insets;
@@ -42,9 +42,9 @@ public class SpectrumPanel extends SplitPane {
 	private SpectrumPanel() {
 		this.setOrientation(Orientation.HORIZONTAL);
 		this.setPadding(new Insets(5, 5, 5, 5));
-		infoPane = new TitledBorderPane("", IconFactory.getImage(ICON.DATAQUERY), new VBox(), "");
+		infoPane = new TitledBorderPane("", IconResource.getImage(ICON.DATAQUERY), new VBox(), "");
 		infoPane.setPrefWidth(WindowSize.mainPanePreferWidth / 4);
-		graphPane = new TitledBorderPane("", IconFactory.getImage(ICON.GRAPH), new VBox(), "");
+		graphPane = new TitledBorderPane("", IconResource.getImage(ICON.GRAPH), new VBox(), "");
 		this.getItems().addAll(infoPane, graphPane);
 	}
 

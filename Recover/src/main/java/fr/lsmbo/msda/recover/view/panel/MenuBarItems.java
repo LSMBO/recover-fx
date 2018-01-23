@@ -8,8 +8,8 @@ import javafx.stage.FileChooser;
 import javafx.scene.control.MenuBar;
 import javafx.event.ActionEvent;
 import fr.lsmbo.msda.recover.util.FileUtils;
-import fr.lsmbo.msda.recover.util.IconFactory;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import fr.lsmbo.msda.recover.view.popup.About;
 import fr.lsmbo.msda.recover.view.popup.ApplyFilter;
 import fr.lsmbo.msda.recover.view.popup.EditParsingRules;
@@ -38,7 +38,7 @@ public class MenuBarItems extends MenuBar {
 		Menu fileMenu = new Menu(" File ");
 		// load file
 		MenuItem openFile = new MenuItem(" Open File  ...  Ctrl+O ");
-		openFile.setGraphic(new ImageView(IconFactory.getImage(ICON.LOAD)));
+		openFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		openFile.setOnAction((ActionEvent t) -> {
 			final FileChooser fileChooser = new FileChooser();
 			FileUtils.cofigureFileChooser(fileChooser, "Select .mgf or .raw files");
@@ -50,15 +50,15 @@ public class MenuBarItems extends MenuBar {
 
 		// export file
 		MenuItem exportFile = new MenuItem(" Export File  ...  Ctrl+E ");
-		exportFile.setGraphic(new ImageView(IconFactory.getImage(ICON.EXPORT)));
+		exportFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT)));
 
 		// export in batch
 		MenuItem exportInBatchFile = new MenuItem(" Export in batch  ... ");
-		exportInBatchFile.setGraphic(new ImageView(IconFactory.getImage(ICON.EXPORT_DATA)));
+		exportInBatchFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
 
 		// exit Recover
 		MenuItem exitFile = new MenuItem(" Exit Ctrl+Q ");
-		exitFile.setGraphic(new ImageView(IconFactory.getImage(ICON.EXIT)));
+		exitFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXIT)));
 		exitFile.setOnAction((ActionEvent t) -> {
 			new Exit("Exit Recover", "Are you sure you want to exit Recover ? ", Recover.mainStage);
 			System.out.println("Info Recover will be closed.");
@@ -69,33 +69,33 @@ public class MenuBarItems extends MenuBar {
 
 		// apply filter
 		MenuItem applyQFilterAction = new MenuItem(" Apply Quality Filter ");
-		applyQFilterAction.setGraphic(new ImageView(IconFactory.getImage(ICON.APPLYFILTER)));
+		applyQFilterAction.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
 		applyQFilterAction.setOnAction((ActionEvent t) -> {
 			new ApplyFilter("Apply Filter", Recover.mainStage);
 		});
 
 		// edit Parsing Rules
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
-		editPRulesAction.setGraphic(new ImageView(IconFactory.getImage(ICON.EDIT)));
+		editPRulesAction.setGraphic(new ImageView(IconResource.getImage(ICON.EDIT)));
 		editPRulesAction.setOnAction((ActionEvent t) -> {
 			new EditParsingRules("Edit Parsing Rules", Recover.mainStage);
 		});
 
 		// get Identified Spectra
 		MenuItem getIdentifiedSpecAction = new MenuItem(" Get Identified Spectra ");
-		getIdentifiedSpecAction.setGraphic(new ImageView(IconFactory.getImage(ICON.GETSPECTRUM)));
+		getIdentifiedSpecAction.setGraphic(new ImageView(IconResource.getImage(ICON.GETSPECTRUM)));
 
 		// Use Identified Axis
 		MenuItem getIdentifiedAxisAction = new MenuItem(" Use Identified Axis ");
-		getIdentifiedAxisAction.setGraphic(new ImageView(IconFactory.getImage(ICON.USEAXIS)));
+		getIdentifiedAxisAction.setGraphic(new ImageView(IconResource.getImage(ICON.USEAXIS)));
 
 		// reset Recover
 		MenuItem resetRecoverAction = new MenuItem(" Reset Recover ");
-		resetRecoverAction.setGraphic(new ImageView(IconFactory.getImage(ICON.RESET)));
+		resetRecoverAction.setGraphic(new ImageView(IconResource.getImage(ICON.RESET)));
 
 		// flagged Spectrum
 		MenuItem flaggedSpecAction = new MenuItem(" Flagged Spectrum ");
-		flaggedSpecAction.setGraphic(new ImageView(IconFactory.getImage(ICON.FLAG)));
+		flaggedSpecAction.setGraphic(new ImageView(IconResource.getImage(ICON.FLAG)));
 
 		actionsMenu.getItems().addAll(applyQFilterAction, editPRulesAction, getIdentifiedSpecAction,
 				getIdentifiedAxisAction, resetRecoverAction, flaggedSpecAction);
@@ -104,10 +104,10 @@ public class MenuBarItems extends MenuBar {
 		// get started menu item
 		Menu helpMenu = new Menu(" Help ");
 		MenuItem getStartedHelp = new MenuItem(" User guide ");
-		getStartedHelp.setGraphic(new ImageView(IconFactory.getImage(ICON.HELP)));
+		getStartedHelp.setGraphic(new ImageView(IconResource.getImage(ICON.HELP)));
 		// about menu item
 		MenuItem aboutHelp = new MenuItem(" About ");
-		aboutHelp.setGraphic(new ImageView(IconFactory.getImage(ICON.INFORMATION)));
+		aboutHelp.setGraphic(new ImageView(IconResource.getImage(ICON.INFORMATION)));
 		aboutHelp.setOnAction((ActionEvent t) -> {
 			new About("About Recover",
 					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "

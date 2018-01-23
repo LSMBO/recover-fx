@@ -9,8 +9,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import fr.lsmbo.msda.recover.util.IconFactory;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import fr.lsmbo.msda.recover.util.WindowSize;;
 
 /**
@@ -56,7 +56,7 @@ public class MainPanel extends BorderPane {
 		Tab tab = new Tab();
 		tab.setText("Console");
 		tab.setClosable(false);
-		tab.setGraphic(new ImageView(IconFactory.getImage(ICON.CONSOLE)));
+		tab.setGraphic(new ImageView(IconResource.getImage(ICON.CONSOLE)));
 		tab.setContent(ConsolePanel.getInstance());
 		tabPane.getTabs().add(tab);
 

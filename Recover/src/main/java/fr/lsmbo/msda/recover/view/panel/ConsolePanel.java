@@ -4,7 +4,6 @@ import java.io.PrintStream;
 
 import com.sun.media.jfxmedia.logging.Logger;
 
-import fr.lsmbo.msda.recover.util.Console;
 import fr.lsmbo.msda.recover.util.StyleUtils;
 import fr.lsmbo.msda.recover.util.WindowSize;
 import javafx.geometry.Insets;
