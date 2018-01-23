@@ -1,9 +1,6 @@
 package fr.lsmbo.msda.recover.view.popup;
 
-import java.util.HashMap;
-
 import fr.lsmbo.msda.recover.util.WindowSize;
-import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
@@ -22,5 +19,7 @@ public class AccordionPanel extends Accordion {
 				new TitledPane("Filter 3", filterPanel3));
 		this.autosize();
 		this.setExpandedPane(filetr1);
+	
+		
 	}
 }
