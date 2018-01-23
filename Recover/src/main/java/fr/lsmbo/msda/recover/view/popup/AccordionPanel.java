@@ -19,7 +19,7 @@ public class AccordionPanel extends Accordion {
 				new TitledPane("Filter 3", filterPanel3));
 		this.autosize();
 		this.setExpandedPane(filetr1);
-	
+	    
 		
 	}
 }

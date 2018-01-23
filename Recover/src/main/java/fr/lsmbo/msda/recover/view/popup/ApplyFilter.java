@@ -50,8 +50,7 @@ public class ApplyFilter extends Stage {
 		// buuon's panel
 		HBox buttonsPanel = new HBox(60, buttonApply, buttonCancel);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
-		
-
+		buttonsPanel.setLayoutY(WindowSize.popupPrefWidth - 5);
 		// load panels's component
 		VBox lodPanel = new VBox(20);
 		lodPanel.getChildren().addAll(new AccordionPanel());
