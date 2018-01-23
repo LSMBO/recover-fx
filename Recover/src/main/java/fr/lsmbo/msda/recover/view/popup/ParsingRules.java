@@ -23,15 +23,14 @@ import fr.lsmbo.msda.recover.util.IconResource.ICON;
  * @author aromdhani
  *
  */
-public class ApplyFilter extends Stage implements WorkPopup {
+public class ParsingRules extends Stage implements WorkPopup {
 	Stage popup = this;
 
-	public ApplyFilter(String popupTitle, Stage parentStage) {
+	public ParsingRules(String popupTitle, Stage parentStage) {
 		popup.initOwner(parentStage);
 		popup.initModality(Modality.APPLICATION_MODAL);
-		popup.getIcons().add(IconResource.getImage(ICON.APPLYFILTER));
+		popup.getIcons().add(IconResource.getImage(ICON.EDIT));
 		// button cancel
-
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
@@ -39,7 +38,6 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
-
 		// button apply
 		Button buttonApply = new Button(" Apply ");
 		buttonApply.setStyle(StyleUtils.BUTTON_SHADOW);
@@ -49,13 +47,13 @@ public class ApplyFilter extends Stage implements WorkPopup {
 			apply();
 		});
 
-		// buuon's panel
+		// panel of buttons
 		HBox buttonsPanel = new HBox(60, buttonApply, buttonCancel);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
-		buttonsPanel.setLayoutY(WindowSize.popupPrefWidth - 5);
+
 		// load panels's component
 		VBox lodPanel = new VBox(20);
-		lodPanel.getChildren().addAll(new FiltersPane());
+		lodPanel.getChildren().addAll(new ParsingRulesPane());
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(lodPanel, buttonsPanel);
@@ -64,6 +62,7 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
+
 		// window preferred size
 		popup.setWidth(WindowSize.popupPrefWidth);
 		popup.setMinWidth(WindowSize.popupMinHeight);
@@ -74,27 +73,31 @@ public class ApplyFilter extends Stage implements WorkPopup {
 
 	@Override
 	public void apply() {
+
+		// get task executor instance
 		TaskExecutor task = TaskExecutor.getInstance();
 		task.executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 		try {
 			Future<?> f = task.submitRunnabletask(() -> {
-				System.out.println("Info applying filter with the new parameters {}");
+				System.out.println("Info editing parsing rules with the new parameters {}");
 			});
 			f.get();
 			while (!f.isDone()) {
 				System.out.println("task is running ...");
-
 			}
+			if (f.isDone()) {
+				popup.close();
+			}
+
 		} catch (Exception e) {
-			System.out.println("error while trying to apply filter: " + e);
-		} finally {
-			popup.close();
+			System.out.println("error while trying to edit parsing rules!" + e);
 		}
 	}
 
 	@Override
 	public void cancel() {
+		// TODO Auto-generated method stub
 		popup.close();
-
 	}
+
 }

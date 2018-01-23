@@ -12,7 +12,7 @@ import fr.lsmbo.msda.recover.util.IconResource;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import fr.lsmbo.msda.recover.view.popup.About;
 import fr.lsmbo.msda.recover.view.popup.ApplyFilter;
-import fr.lsmbo.msda.recover.view.popup.EditParsingRules;
+import fr.lsmbo.msda.recover.view.popup.ParsingRules;
 import fr.lsmbo.msda.recover.view.popup.Exit;
 import fr.lsmbo.msda.recover.gui.Recover;
 
@@ -78,7 +78,8 @@ public class MenuBarItems extends MenuBar {
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
 		editPRulesAction.setGraphic(new ImageView(IconResource.getImage(ICON.EDIT)));
 		editPRulesAction.setOnAction((ActionEvent t) -> {
-			new EditParsingRules("Edit Parsing Rules", Recover.mainStage);
+			new ParsingRules("Edit Parsing Rules", Recover.mainStage);
+
 		});
 
 		// get Identified Spectra
