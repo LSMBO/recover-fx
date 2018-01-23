@@ -4,10 +4,10 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.Callable;
 
-import fr.lsmbo.msda.recover.util.IconFactory;
+import fr.lsmbo.msda.recover.util.IconResource;
 import fr.lsmbo.msda.recover.util.StyleUtils;
 import fr.lsmbo.msda.recover.util.WindowSize;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -31,11 +31,11 @@ public class About extends Stage {
 
 		Stage popup = this;
 		popup.initOwner(parentStage);
-		popup.getIcons().add(IconFactory.getImage(ICON.INFORMATION));
+		popup.getIcons().add(IconResource.getImage(ICON.INFORMATION));
 		// component
 		Button buttonOk = new Button(" Ok ");
 		buttonOk.setStyle(StyleUtils.BUTTON_SHADOW);
-		buttonOk.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
+		buttonOk.setGraphic(new ImageView(IconResource.getImage(ICON.TICK)));
 		buttonOk.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonOk.setOnAction((ActionEvent t) -> {
 			popup.close();

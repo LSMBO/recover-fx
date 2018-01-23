@@ -15,7 +15,7 @@ import fr.lsmbo.msda.recover.task.TaskExecutor;
 import fr.lsmbo.msda.recover.task.ThreadPoolType;
 import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
 import fr.lsmbo.msda.recover.util.*;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 
 /**
  * 
@@ -27,12 +27,12 @@ public class EditParsingRules extends Stage {
 
 	public EditParsingRules(String popupTitle, Stage parentStage) {
 		popup.initOwner(parentStage);
-		popup.getIcons().add(IconFactory.getImage(ICON.EDIT));
+		popup.getIcons().add(IconResource.getImage(ICON.EDIT));
 		// button cancel
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
-		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
+		buttonCancel.setGraphic(new ImageView(IconResource.getImage(ICON.CROSS)));
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
@@ -40,7 +40,7 @@ public class EditParsingRules extends Stage {
 		Button buttonOpen = new Button(" Apply ");
 		buttonOpen.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonOpen.setPrefWidth(WindowSize.BUTTON_WITDH);
-		buttonOpen.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
+		buttonOpen.setGraphic(new ImageView(IconResource.getImage(ICON.TICK)));
 		buttonOpen.setOnAction((ActionEvent t) -> {
 			apply();
 		});

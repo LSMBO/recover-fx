@@ -15,7 +15,7 @@ import fr.lsmbo.msda.recover.task.TaskExecutor;
 import fr.lsmbo.msda.recover.task.ThreadPoolType;
 import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
 import fr.lsmbo.msda.recover.util.*;
-import fr.lsmbo.msda.recover.util.IconFactory.ICON;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 
 /**
  * 
@@ -27,13 +27,13 @@ public class ApplyFilter extends Stage {
 
 	public ApplyFilter(String popupTitle, Stage parentStage) {
 		popup.initOwner(parentStage);
-		popup.getIcons().add(IconFactory.getImage(ICON.APPLYFILTER));
+		popup.getIcons().add(IconResource.getImage(ICON.APPLYFILTER));
 		// button cancel
 
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
-		buttonCancel.setGraphic(new ImageView(IconFactory.getImage(ICON.CROSS)));
+		buttonCancel.setGraphic(new ImageView(IconResource.getImage(ICON.CROSS)));
 		buttonCancel.setOnAction((ActionEvent t) -> {
 			popup.close();
 		});
@@ -42,18 +42,17 @@ public class ApplyFilter extends Stage {
 		Button buttonApply = new Button(" Apply ");
 		buttonApply.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonApply.setPrefWidth(WindowSize.BUTTON_WITDH);
-		buttonApply.setGraphic(new ImageView(IconFactory.getImage(ICON.TICK)));
+		buttonApply.setGraphic(new ImageView(IconResource.getImage(ICON.TICK)));
 		buttonApply.setOnAction((ActionEvent t) -> {
 			apply();
 		});
-
 		// buuon's panel
 		HBox buttonsPanel = new HBox(60, buttonApply, buttonCancel);
 		buttonsPanel.setAlignment(Pos.BASELINE_CENTER);
 		buttonsPanel.setLayoutY(WindowSize.popupPrefWidth - 5);
 		// load panels's component
 		VBox lodPanel = new VBox(20);
-		lodPanel.getChildren().addAll(new AccordionPanel());
+		lodPanel.getChildren().addAll(new FiltersPane());
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(lodPanel, buttonsPanel);

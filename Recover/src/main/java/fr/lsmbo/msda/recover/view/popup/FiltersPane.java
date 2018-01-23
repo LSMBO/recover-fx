@@ -5,9 +5,9 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
-public class AccordionPanel extends Accordion {
+public class FiltersPane extends Accordion {
 
-	public AccordionPanel() {
+	public FiltersPane() {
 		VBox filterPane1 = new VBox();
 		filterPane1.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		VBox filterPanel2 = new VBox();
