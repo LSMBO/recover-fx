@@ -1,4 +1,4 @@
-package fr.lsmbo.msda.recover.view.panel;
+package fr.lsmbo.msda.recover.view.component;
 
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
@@ -14,9 +14,14 @@ import fr.lsmbo.msda.recover.view.popup.About;
 import fr.lsmbo.msda.recover.view.popup.ApplyFilter;
 import fr.lsmbo.msda.recover.view.popup.ParsingRules;
 import fr.lsmbo.msda.recover.view.popup.Exit;
+import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.gui.Recover;
+import fr.lsmbo.msda.recover.io.PeaklistReader;
+import fr.lsmbo.msda.recover.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.task.TaskExecutor;
 
 import java.io.File;
+import java.util.concurrent.Future;
 
 /**
  * 
@@ -24,6 +29,117 @@ import java.io.File;
  *
  */
 public class MenuBarItems extends MenuBar {
+	// menu Items
+	private MenuItem openFile = null;
+
+	public MenuItem getOpenFile() {
+		return openFile;
+	}
+
+	public void setOpenFile(MenuItem openFile) {
+		this.openFile = openFile;
+	}
+
+	public MenuItem getExportFile() {
+		return exportFile;
+	}
+
+	public void setExportFile(MenuItem exportFile) {
+		this.exportFile = exportFile;
+	}
+
+	public MenuItem getExportInBatchFile() {
+		return exportInBatchFile;
+	}
+
+	public void setExportInBatchFile(MenuItem exportInBatchFile) {
+		this.exportInBatchFile = exportInBatchFile;
+	}
+
+	public MenuItem getExitFile() {
+		return exitFile;
+	}
+
+	public void setExitFile(MenuItem exitFile) {
+		this.exitFile = exitFile;
+	}
+
+	public MenuItem getApplyQFilterAction() {
+		return applyQFilterAction;
+	}
+
+	public void setApplyQFilterAction(MenuItem applyQFilterAction) {
+		this.applyQFilterAction = applyQFilterAction;
+	}
+
+	public MenuItem getEditPRulesAction() {
+		return editPRulesAction;
+	}
+
+	public void setEditPRulesAction(MenuItem editPRulesAction) {
+		this.editPRulesAction = editPRulesAction;
+	}
+
+	public MenuItem getGetIdentifiedSpecAction() {
+		return getIdentifiedSpecAction;
+	}
+
+	public void setGetIdentifiedSpecAction(MenuItem getIdentifiedSpecAction) {
+		this.getIdentifiedSpecAction = getIdentifiedSpecAction;
+	}
+
+	public MenuItem getGetIdentifiedAxisAction() {
+		return getIdentifiedAxisAction;
+	}
+
+	public void setGetIdentifiedAxisAction(MenuItem getIdentifiedAxisAction) {
+		this.getIdentifiedAxisAction = getIdentifiedAxisAction;
+	}
+
+	public MenuItem getResetRecoverAction() {
+		return resetRecoverAction;
+	}
+
+	public void setResetRecoverAction(MenuItem resetRecoverAction) {
+		this.resetRecoverAction = resetRecoverAction;
+	}
+
+	public MenuItem getFlaggedSpecAction() {
+		return flaggedSpecAction;
+	}
+
+	public void setFlaggedSpecAction(MenuItem flaggedSpecAction) {
+		this.flaggedSpecAction = flaggedSpecAction;
+	}
+
+	public MenuItem getGetStartedHelp() {
+		return getStartedHelp;
+
+	}
+
+	public void setGetStartedHelp(MenuItem getStartedHelp) {
+		this.getStartedHelp = getStartedHelp;
+	}
+
+	public MenuItem getAboutHelp() {
+		return aboutHelp;
+	}
+
+	public void setAboutHelp(MenuItem aboutHelp) {
+		this.aboutHelp = aboutHelp;
+	}
+
+	private MenuItem exportFile = null;
+	private MenuItem exportInBatchFile = null;
+	private MenuItem exitFile = null;
+	private MenuItem applyQFilterAction = null;
+	private MenuItem editPRulesAction = null;
+	private MenuItem getIdentifiedSpecAction = null;
+	private MenuItem getIdentifiedAxisAction = null;
+	private MenuItem resetRecoverAction = null;
+	private MenuItem flaggedSpecAction = null;
+	private MenuItem getStartedHelp = null;
+	private MenuItem aboutHelp = null;
 
 	private static class Holder {
 		private static final MenuBarItems MenuBarItems = new MenuBarItems();
@@ -34,6 +150,7 @@ public class MenuBarItems extends MenuBar {
 	}
 
 	private MenuBarItems() {
+		TaskExecutor task = TaskExecutor.getInstance();
 		// file menu items
 		Menu fileMenu = new Menu(" File ");
 		// load file
@@ -45,6 +162,19 @@ public class MenuBarItems extends MenuBar {
 			File file = fileChooser.showOpenDialog(Recover.mainStage);
 			if (file != null) {
 				FileUtils.open(file);
+				if (file != null) {
+					long startTime = System.currentTimeMillis();
+					System.out.println("Info loading file...");
+					System.out.println(
+							"Info the file: " + file.getAbsolutePath() + " has been imported with success. ");
+					PeaklistReader.load(file);
+					long endTime = System.currentTimeMillis();
+					long totalTime = endTime - startTime;
+					System.out.println("Info loading time: " + (double) totalTime / 1000 + " sec");
+					System.out.println("Info " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
+					System.out.println("Info " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
+					Table.getInstance().setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+				}
 			}
 		});
 

@@ -1,4 +1,4 @@
-package fr.lsmbo.msda.recover.view.panel;
+package fr.lsmbo.msda.recover.view.component;
 
 import java.io.IOException;
 import java.io.OutputStream;

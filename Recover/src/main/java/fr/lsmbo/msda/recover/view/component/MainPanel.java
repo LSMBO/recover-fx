@@ -1,4 +1,4 @@
-package fr.lsmbo.msda.recover.view.panel;
+package fr.lsmbo.msda.recover.view.component;
 
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
@@ -24,7 +24,7 @@ public class MainPanel extends BorderPane {
 
 	// main panel
 	private SplitPane mainSplitPane = null;
-	private VBox spectrumlistPane = null;
+	private Table table = null;
 	private SplitPane spectrumPane = null;
 	private VBox dataPane = null;
 
@@ -38,10 +38,10 @@ public class MainPanel extends BorderPane {
 
 	// create main panel
 	private MainPanel() {
-
+		
 		menuPane = MenuPanel.getInstance();
 		mainSplitPane = new SplitPane();
-		spectrumlistPane = SpectrumListPanel.getInstance();
+		table = Table.getInstance();
 		spectrumPane = SpectrumPanel.getInstance();
 		dataPane = new VBox();
 		// create menu panel
@@ -64,11 +64,12 @@ public class MainPanel extends BorderPane {
 		dataPane.setPrefSize(WindowSize.mainPanePreferWidth, WindowSize.mainPanePreferHeight / 5);
 		dataPane.setMaxHeight(WindowSize.mainPanePreferHeight / 4);
 
-		mainSplitPane.getItems().addAll(spectrumlistPane, spectrumPane, dataPane);
+		mainSplitPane.getItems().addAll(table, spectrumPane, dataPane);
 		mainPanel.setPadding(new Insets(5, 10, 5, 10));
 		mainPanel.getChildren().addAll(mainSplitPane);
 		mainPanel.autosize();
 		this.setCenter(mainPanel);
 		this.autosize();
+		
 	}
 }
