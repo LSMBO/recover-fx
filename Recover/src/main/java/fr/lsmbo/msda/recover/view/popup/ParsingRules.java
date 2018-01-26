@@ -36,7 +36,7 @@ public class ParsingRules extends Stage implements WorkPopup {
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonCancel.setGraphic(new ImageView(IconResource.getImage(ICON.CROSS)));
 		buttonCancel.setOnAction((ActionEvent t) -> {
-			popup.close();
+			cancel();
 		});
 		// button apply
 		Button buttonApply = new Button(" Apply ");
@@ -79,7 +79,7 @@ public class ParsingRules extends Stage implements WorkPopup {
 		task.executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 		try {
 			Future<?> f = task.submitRunnabletask(() -> {
-				System.out.println("Info editing parsing rules with the new parameters {}");
+				System.out.println("Info editing parsing rules with parameters {}");
 			});
 			f.get();
 			while (!f.isDone()) {

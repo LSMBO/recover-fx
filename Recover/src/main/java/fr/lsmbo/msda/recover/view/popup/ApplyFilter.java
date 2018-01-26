@@ -30,14 +30,14 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		popup.initOwner(parentStage);
 		popup.initModality(Modality.APPLICATION_MODAL);
 		popup.getIcons().add(IconResource.getImage(ICON.APPLYFILTER));
-		// button cancel
 
+		// button cancel
 		Button buttonCancel = new Button(" Cancel ");
 		buttonCancel.setStyle(StyleUtils.BUTTON_SHADOW);
 		buttonCancel.setPrefWidth(WindowSize.BUTTON_WITDH);
 		buttonCancel.setGraphic(new ImageView(IconResource.getImage(ICON.CROSS)));
 		buttonCancel.setOnAction((ActionEvent t) -> {
-			popup.close();
+			cancel();
 		});
 
 		// button apply
@@ -78,7 +78,7 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		task.executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 		try {
 			Future<?> f = task.submitRunnabletask(() -> {
-				System.out.println("Info applying filter with the new parameters {}");
+				System.out.println("Info applying filter with parameters {}");
 			});
 			f.get();
 			while (!f.isDone()) {
