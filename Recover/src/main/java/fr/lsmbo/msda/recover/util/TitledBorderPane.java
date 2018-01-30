@@ -2,6 +2,7 @@ package fr.lsmbo.msda.recover.util;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import fr.lsmbo.msda.recover.view.SpectrumChart;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;

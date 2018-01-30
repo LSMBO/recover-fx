@@ -3,9 +3,13 @@ package fr.lsmbo.msda.recover.view.component;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuBar;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import fr.lsmbo.msda.recover.util.FileUtils;
 import fr.lsmbo.msda.recover.util.IconResource;
@@ -13,15 +17,14 @@ import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import fr.lsmbo.msda.recover.view.popup.About;
 import fr.lsmbo.msda.recover.view.popup.ApplyFilter;
 import fr.lsmbo.msda.recover.view.popup.ParsingRules;
+import fr.lsmbo.msda.recover.view.popup.ProgressPane;
 import fr.lsmbo.msda.recover.view.popup.Exit;
-import fr.lsmbo.msda.recover.Session;
 import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
-import fr.lsmbo.msda.recover.task.TaskExecutor;
+import fr.lsmbo.msda.recover.service.ImportFileService;
 
 import java.io.File;
-import java.util.concurrent.Future;
 
 /**
  * 
@@ -150,7 +153,7 @@ public class MenuBarItems extends MenuBar {
 	}
 
 	private MenuBarItems() {
-		TaskExecutor task = TaskExecutor.getInstance();
+
 		// file menu items
 		Menu fileMenu = new Menu(" File ");
 		// load file
@@ -163,17 +166,19 @@ public class MenuBarItems extends MenuBar {
 			if (file != null) {
 				FileUtils.open(file);
 				if (file != null) {
-					long startTime = System.currentTimeMillis();
-					System.out.println("Info loading file...");
-					System.out.println(
-							"Info the file: " + file.getAbsolutePath() + " has been imported with success. ");
-					PeaklistReader.load(file);
-					long endTime = System.currentTimeMillis();
-					long totalTime = endTime - startTime;
-					System.out.println("Info loading time: " + (double) totalTime / 1000 + " sec");
-					System.out.println("Info " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
-					System.out.println("Info " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
-					Table.getInstance().setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+					final ImportFileService importService = new ImportFileService();
+					importService.setExecutor(Recover.executor);
+					importService.setFile(file);
+					importService.start();
+					ProgressPane progress = new ProgressPane("Load file", "loading file...", Recover.mainStage);
+					progress.workProgress.progressProperty().bind(importService.progressProperty());
+					importService.setOnSucceeded(f -> {
+						System.out.println(
+								"Info the file: " + file.getAbsolutePath() + " has been imported with success. ");
+						Table.getInstance().setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+						progress.close();
+					});
+					
 				}
 			}
 		});

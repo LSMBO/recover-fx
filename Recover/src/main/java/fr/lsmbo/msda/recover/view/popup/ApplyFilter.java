@@ -10,11 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.util.concurrent.Future;
-
-import fr.lsmbo.msda.recover.task.TaskExecutor;
-import fr.lsmbo.msda.recover.task.ThreadPoolType;
-import fr.lsmbo.msda.recover.task.ThreadPoolType.TYPE;
 import fr.lsmbo.msda.recover.util.*;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
 
@@ -74,17 +69,8 @@ public class ApplyFilter extends Stage implements WorkPopup {
 
 	@Override
 	public void apply() {
-		TaskExecutor task = TaskExecutor.getInstance();
-		task.executorService = ThreadPoolType.getThreadExecutor(TYPE.SHORTTASK);
 		try {
-			Future<?> f = task.submitRunnabletask(() -> {
-				System.out.println("Info applying filter with parameters {}");
-			});
-			f.get();
-			while (!f.isDone()) {
-				System.out.println("task is running ...");
 
-			}
 		} catch (Exception e) {
 			System.out.println("error while trying to apply filter: " + e);
 		} finally {
