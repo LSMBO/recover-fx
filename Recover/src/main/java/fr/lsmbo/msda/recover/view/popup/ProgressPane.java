@@ -30,7 +30,7 @@ public class ProgressPane extends Stage {
 		// component
 		workProgress = new ProgressBar();
 		statusLabel = new Label(message);
-		VBox root = new VBox(30);
+		VBox root = new VBox(15);
 		root.setAlignment(Pos.CENTER);
 		Scene scene = new Scene(new VBox(5, root));
 		root.getChildren().addAll(statusLabel, workProgress);
@@ -38,8 +38,8 @@ public class ProgressPane extends Stage {
 		popup.setScene(scene);
 		popup.setMinWidth(250);
 		popup.setMaxWidth(250);
-		popup.setHeight(150);
-		popup.setMaxHeight(150);
+		popup.setMinHeight(125);
+		popup.setMaxHeight(125);
 		popup.show();
 	}
 }
