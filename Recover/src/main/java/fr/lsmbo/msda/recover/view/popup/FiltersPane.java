@@ -3,10 +3,7 @@ package fr.lsmbo.msda.recover.view.popup;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.lsmbo.msda.recover.util.IconResource;
-import fr.lsmbo.msda.recover.util.TitledBorderPane;
 import fr.lsmbo.msda.recover.util.WindowSize;
-import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
@@ -18,6 +15,110 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FiltersPane extends Accordion {
+
+	public CheckBox getfHighIntensityChbx() {
+		return fHighIntensityChbx;
+	}
+
+	public void setfHighIntensityChbx(CheckBox fHighIntensityChbx) {
+		this.fHighIntensityChbx = fHighIntensityChbx;
+	}
+
+	public TextField getMostIntensetTField() {
+		return mostIntensetTField;
+	}
+
+	public void setMostIntensetTField(TextField mostIntensetTField) {
+		this.mostIntensetTField = mostIntensetTField;
+	}
+
+	public TextField getPercentageTopLineTFiled() {
+		return percentageTopLineTFiled;
+	}
+
+	public void setPercentageTopLineTFiled(TextField percentageTopLineTFiled) {
+		this.percentageTopLineTFiled = percentageTopLineTFiled;
+	}
+
+	public TextField getNumberPeaksTField() {
+		return numberPeaksTField;
+	}
+
+	public void setNumberPeaksTField(TextField numberPeaksTField) {
+		this.numberPeaksTField = numberPeaksTField;
+	}
+
+	public CheckBox getfLowIntensityChbx() {
+		return fLowIntensityChbx;
+	}
+
+	public void setfLowIntensityChbx(CheckBox fLowIntensityChbx) {
+		this.fLowIntensityChbx = fLowIntensityChbx;
+	}
+
+	public TextField getEmergenceTField() {
+		return emergenceTField;
+	}
+
+	public void setEmergenceTField(TextField emergenceTField) {
+		this.emergenceTField = emergenceTField;
+	}
+
+	public TextField getMinUsefulTFiled() {
+		return minUsefulTFiled;
+	}
+
+	public void setMinUsefulTFiled(TextField minUsefulTFiled) {
+		this.minUsefulTFiled = minUsefulTFiled;
+	}
+
+	public TextField getMaxUsefulTField() {
+		return maxUsefulTField;
+	}
+
+	public void setMaxUsefulTField(TextField maxUsefulTField) {
+		this.maxUsefulTField = maxUsefulTField;
+	}
+
+	public CheckBox getfFragmentIntensityChbx() {
+		return fFragmentIntensityChbx;
+	}
+
+	public void setfFragmentIntensityChbx(CheckBox fFragmentIntensityChbx) {
+		this.fFragmentIntensityChbx = fFragmentIntensityChbx;
+	}
+
+	public ComboBox<String> getRemoveFragInetesityCBox() {
+		return removeFragInetesityCBox;
+	}
+
+	public void setRemoveFragInetesityCBox(ComboBox<String> removeFragInetesityCBox) {
+		this.removeFragInetesityCBox = removeFragInetesityCBox;
+	}
+
+	public TextField getRemoveFragmentIntTField() {
+		return removeFragmentIntTField;
+	}
+
+	public void setRemoveFragmentIntTField(TextField removeFragmentIntTField) {
+		this.removeFragmentIntTField = removeFragmentIntTField;
+	}
+
+	public CheckBox getfWrongChargeChbx() {
+		return fWrongChargeChbx;
+	}
+
+	public void setfWrongChargeChbx(CheckBox fWrongChargeChbx) {
+		this.fWrongChargeChbx = fWrongChargeChbx;
+	}
+
+	public CheckBox getfIdentifiedSpectraChbx() {
+		return fIdentifiedSpectraChbx;
+	}
+
+	public void setfIdentifiedSpectraChbx(CheckBox fIdentifiedSpectraChbx) {
+		this.fIdentifiedSpectraChbx = fIdentifiedSpectraChbx;
+	}
 
 	//
 	private CheckBox fHighIntensityChbx = null;
@@ -93,7 +194,6 @@ public class FiltersPane extends Accordion {
 		/**
 		 * layout
 		 */
-
 		// first filter
 		VBox fHighInVbox = new VBox(20);
 		HBox fHighInHox = new HBox(5);
