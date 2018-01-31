@@ -218,14 +218,14 @@ public class Table extends TableView<Spectrum> {
 			// resetChartAxis(newSelection);
 
 			// chart = SpectrumChart.getPlot(newSelection);
-//			SpectrumChart spectrumChart = new SpectrumChart(newSelection);
-//			ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					//SpectrumPanel.getInstance().getSwingNodeForChart().setContent(spectrumChart);
-				}
-			});
+			// SpectrumChart spectrumChart = new SpectrumChart(newSelection);
+			// ChartPanel chartPanel = new ChartPanel(spectrumChart.getChart());
+			// SwingUtilities.invokeLater(new Runnable() {
+			// @Override
+			// public void run() {
+			// SpectrumPanel.getInstance().getSwingNodeForChart().setContent(spectrumChart);
+			// }
+			// });
 		});
 
 		this.autosize();

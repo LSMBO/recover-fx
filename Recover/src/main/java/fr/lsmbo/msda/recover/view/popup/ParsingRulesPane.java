@@ -14,6 +14,5 @@ public class ParsingRulesPane extends Accordion {
 		this.getPanes().addAll(filetr1);
 		this.autosize();
 		this.setExpandedPane(filetr1);
-
 	}
 }

@@ -20,7 +20,6 @@ public class ProgressPane extends Stage {
 	public ProgressBar workProgress;
 	Label statusLabel;
 	Stage Stage;
-
 	public ProgressPane(String popupTitle, String message, Stage Stage) {
 		Stage popup = this;
 		popup.initOwner(Stage);

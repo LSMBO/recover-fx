@@ -28,7 +28,7 @@ public class Console extends OutputStream {
 
 	public synchronized void addText(String newlines) {
 
-		strBuilder.append(textMatch("<span style=\"white-space:pre-line\">" + newlines + "</span>"));	
+		strBuilder.append(textMatch("<span style=\"white-space:pre-line\">" + newlines + "</span>"));
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -49,7 +49,7 @@ public class Console extends OutputStream {
 		} else {
 			color = "black";
 		}
-		return "<kbd style =\'color:" + color + "\'>"+text+"</kbd>";
+		return "<kbd style =\'color:" + color + "\'>" + text + "</kbd>";
 	}
 
 	public boolean isTextMatches(String text) {
