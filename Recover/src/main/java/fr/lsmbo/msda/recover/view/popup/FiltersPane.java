@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.lsmbo.msda.recover.util.WindowSize;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -168,34 +170,41 @@ public class FiltersPane extends Accordion {
 		Label removeFragmentIntLabel = new Label("Remove fragment intensity");
 		removeFragInetesityCBox = new ComboBox<String>();
 		removeFragInetesityCBox.getItems().addAll("=", "<", "<=", ">", ">=", "!=");
+		removeFragInetesityCBox.getSelectionModel().selectFirst();
 		removeFragmentIntTField = new TextField();
+
 		/**
 		 * Style
 		 */
+
 		List<Label> list = new ArrayList<Label>();
-		// list.add(mostIntensetTField);
-		// list.add(percentageTopLineTFiled);
-		// list.add(numberPeaksTField);
-		// list.add(emergenceTField);
-		// list.add(minUsefulTFiled);
-		// list.add(maxUsefulTField);
-		// list.add(removeFragmentIntTField);
 
 		list.add(mostIntensetLabel);
 		list.add(percentageTopLineLabel);
 		list.add(numberPeaksLabel);
-
 		list.add(emergenceLabel);
 		list.add(minUsefulLabel);
 		list.add(maxUsefulLabel);
 		list.add(removeFragmentIntLabel);
-		
 		for (Label label : list) {
 			label.setMinWidth(130);
 		}
 
+		List<TextField> listTf = new ArrayList<TextField>();
+
+		listTf.add(mostIntensetTField);
+		listTf.add(percentageTopLineTFiled);
+		listTf.add(numberPeaksTField);
+		listTf.add(emergenceTField);
+		listTf.add(minUsefulTFiled);
+		listTf.add(maxUsefulTField);
+		listTf.add(removeFragmentIntTField);
+		for (TextField tf : listTf) {
+			tf.setMinWidth(130);
+		}
+
 		/**
-		 * layout
+		 * Layout
 		 */
 
 		// filter 1
@@ -211,11 +220,13 @@ public class FiltersPane extends Accordion {
 
 		HBox fHighInHbox = new HBox(20);
 		fHighInHbox.getChildren().addAll(fMostInetnseHbox, fToplineHbox, fnumberPeaksHbox);
+		fHighInHbox.disableProperty().bind(this.fHighIntensityChbx.selectedProperty().not());
 		fHighInHbox.autosize();
 
 		VBox fHighInVbox = new VBox(20);
 		fHighInVbox.getChildren().addAll(fHighIntensityChbx, fHighInHbox);
 		fHighInVbox.autosize();
+
 		// line 2
 		HBox femergenceHbox = new HBox(5);
 		femergenceHbox.getChildren().addAll(emergenceLabel, emergenceTField);
@@ -228,28 +239,52 @@ public class FiltersPane extends Accordion {
 
 		HBox fLowInHbox = new HBox(20);
 		fLowInHbox.getChildren().addAll(femergenceHbox, fMinUsefulHbox, fMaxUsefulHbox);
+		fLowInHbox.disableProperty().bind(this.fLowIntensityChbx.selectedProperty().not());
 		fLowInHbox.autosize();
 
 		VBox fLowInVbox = new VBox(20);
 		fLowInVbox.getChildren().addAll(fLowIntensityChbx, fLowInHbox);
 		fLowInVbox.autosize();
 		// line 3
-		HBox fRemoveInHox = new HBox(10);
+		HBox fRemoveInHox = new HBox(20);
 		fRemoveInHox.getChildren().addAll(removeFragmentIntLabel, removeFragInetesityCBox, removeFragmentIntTField);
 		fRemoveInHox.autosize();
 
 		VBox fRemoveInVbox = new VBox(20);
 		fLowInVbox.getChildren().addAll(fFragmentIntensityChbx, fRemoveInHox);
+		fRemoveInHox.disableProperty().bind(this.fFragmentIntensityChbx.selectedProperty().not());
 		fRemoveInVbox.autosize();
 
-		VBox filterPane1 = new VBox(20);
+		VBox filterPane1 = new VBox(25);
 		filterPane1.getChildren().addAll(fHighInVbox, fLowInVbox, fRemoveInVbox);
-		// end filter 1
 		filterPane1.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		filterPane1.autosize();
-		// second filter
-		VBox filterPanel2 = new VBox();
+		// end filter 1
+
+		// filter 2
+		// line 1
+		fWrongChargeChbx = new CheckBox("Filter Wrong Charge");
+
+		// line 2
+		fIdentifiedSpectraChbx = new CheckBox("Filter Identifed Spectra");
+		ToggleGroup tg = new ToggleGroup();
+		RadioButton identifiedSpecRB = new RadioButton("Recover For Identified Spectra");
+		identifiedSpecRB.setToggleGroup(tg);
+		RadioButton noIdentifiedSpecRB = new RadioButton("Recover For No Identified Spectra");
+		noIdentifiedSpecRB.setToggleGroup(tg);
+
+		HBox toggleGroupHbox = new HBox(150);
+		toggleGroupHbox.getChildren().addAll(identifiedSpecRB, noIdentifiedSpecRB);
+		toggleGroupHbox.setAlignment(Pos.BASELINE_CENTER);
+
+		VBox identifedSpecVbox = new VBox(25);
+		identifedSpecVbox.getChildren().addAll(fIdentifiedSpectraChbx, toggleGroupHbox);
+
+		VBox filterPanel2 = new VBox(50);
+		filterPanel2.getChildren().addAll(new Label(), fWrongChargeChbx, identifedSpecVbox);
 		filterPanel2.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
+		// end filter 2
+
 		VBox filterPanel3 = new VBox();
 		filterPanel3.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		TitledPane filetr1 = new TitledPane("Filter 1", filterPane1);
@@ -258,6 +293,5 @@ public class FiltersPane extends Accordion {
 				new TitledPane("Filter 3", filterPanel3));
 		this.autosize();
 		this.setExpandedPane(filetr1);
-
 	}
 }
