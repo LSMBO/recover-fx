@@ -11,6 +11,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -155,7 +156,7 @@ public class FiltersPane extends Accordion {
 		//
 		fLowIntensityChbx = new CheckBox("Filter by low intensity threshold");
 
-		Label emergenceLabel = new Label("Emergence");
+		Label emergenceLabel = new Label("Emergence  ");
 		Label minUsefulLabel = new Label("Min useful peaks number");
 		Label maxUsefulLabel = new Label("Max useful peaks number");
 		emergenceTField = new TextField();
@@ -171,14 +172,14 @@ public class FiltersPane extends Accordion {
 		/**
 		 * Style
 		 */
-		List<Node> list = new ArrayList<Node>();
-		list.add(mostIntensetTField);
-		list.add(percentageTopLineTFiled);
-		list.add(numberPeaksTField);
-		list.add(emergenceTField);
-		list.add(minUsefulTFiled);
-		list.add(maxUsefulTField);
-		list.add(removeFragmentIntTField);
+		List<Label> list = new ArrayList<Label>();
+		// list.add(mostIntensetTField);
+		// list.add(percentageTopLineTFiled);
+		// list.add(numberPeaksTField);
+		// list.add(emergenceTField);
+		// list.add(minUsefulTFiled);
+		// list.add(maxUsefulTField);
+		// list.add(removeFragmentIntTField);
 
 		list.add(mostIntensetLabel);
 		list.add(percentageTopLineLabel);
@@ -187,40 +188,72 @@ public class FiltersPane extends Accordion {
 		list.add(emergenceLabel);
 		list.add(minUsefulLabel);
 		list.add(maxUsefulLabel);
-
-		for (Node l : list) {
-			l.minWidth(120);
+		list.add(removeFragmentIntLabel);
+		
+		for (Label label : list) {
+			label.setMinWidth(130);
 		}
+
 		/**
 		 * layout
 		 */
-		// first filter
+
+		// filter 1
+		// line 1
+		HBox fMostInetnseHbox = new HBox(5);
+		fMostInetnseHbox.getChildren().addAll(mostIntensetLabel, mostIntensetTField);
+
+		HBox fToplineHbox = new HBox(5);
+		fToplineHbox.getChildren().addAll(percentageTopLineLabel, percentageTopLineTFiled);
+
+		HBox fnumberPeaksHbox = new HBox(5);
+		fnumberPeaksHbox.getChildren().addAll(numberPeaksLabel, numberPeaksTField);
+
+		HBox fHighInHbox = new HBox(20);
+		fHighInHbox.getChildren().addAll(fMostInetnseHbox, fToplineHbox, fnumberPeaksHbox);
+		fHighInHbox.autosize();
+
 		VBox fHighInVbox = new VBox(20);
-		HBox fHighInHox = new HBox(5);
-		fHighInHox.getChildren().addAll(mostIntensetLabel, mostIntensetTField, percentageTopLineLabel,
-				percentageTopLineTFiled, numberPeaksLabel, numberPeaksTField);
-		fHighInVbox.getChildren().addAll(fHighIntensityChbx, fHighInHox);
+		fHighInVbox.getChildren().addAll(fHighIntensityChbx, fHighInHbox);
+		fHighInVbox.autosize();
+		// line 2
+		HBox femergenceHbox = new HBox(5);
+		femergenceHbox.getChildren().addAll(emergenceLabel, emergenceTField);
 
-		VBox fLowInVbox = new VBox(15);
-		HBox fLowInHox = new HBox(5);
-		fLowInHox.getChildren().addAll(emergenceLabel, emergenceTField, minUsefulLabel, minUsefulTFiled, maxUsefulLabel,
-				maxUsefulTField);
-		fLowInVbox.getChildren().addAll(fLowIntensityChbx, fLowInHox);
+		HBox fMinUsefulHbox = new HBox(5);
+		fMinUsefulHbox.getChildren().addAll(minUsefulLabel, minUsefulTFiled);
 
-		VBox fRemoveInVbox = new VBox(15);
-		HBox fRemoveInHox = new HBox(5);
+		HBox fMaxUsefulHbox = new HBox(5);
+		fMaxUsefulHbox.getChildren().addAll(maxUsefulLabel, maxUsefulTField);
+
+		HBox fLowInHbox = new HBox(20);
+		fLowInHbox.getChildren().addAll(femergenceHbox, fMinUsefulHbox, fMaxUsefulHbox);
+		fLowInHbox.autosize();
+
+		VBox fLowInVbox = new VBox(20);
+		fLowInVbox.getChildren().addAll(fLowIntensityChbx, fLowInHbox);
+		fLowInVbox.autosize();
+		// line 3
+		HBox fRemoveInHox = new HBox(10);
 		fRemoveInHox.getChildren().addAll(removeFragmentIntLabel, removeFragInetesityCBox, removeFragmentIntTField);
+		fRemoveInHox.autosize();
+
+		VBox fRemoveInVbox = new VBox(20);
 		fLowInVbox.getChildren().addAll(fFragmentIntensityChbx, fRemoveInHox);
+		fRemoveInVbox.autosize();
 
 		VBox filterPane1 = new VBox(20);
 		filterPane1.getChildren().addAll(fHighInVbox, fLowInVbox, fRemoveInVbox);
+		// end filter 1
 		filterPane1.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
+		filterPane1.autosize();
 		// second filter
 		VBox filterPanel2 = new VBox();
 		filterPanel2.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		VBox filterPanel3 = new VBox();
 		filterPanel3.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		TitledPane filetr1 = new TitledPane("Filter 1", filterPane1);
+		filetr1.autosize();
 		this.getPanes().addAll(filetr1, new TitledPane("Filter 2", filterPanel2),
 				new TitledPane("Filter 3", filterPanel3));
 		this.autosize();

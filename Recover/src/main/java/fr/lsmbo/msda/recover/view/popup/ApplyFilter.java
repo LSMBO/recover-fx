@@ -59,6 +59,7 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
+		
 		// window preferred size
 		popup.setWidth(WindowSize.popupPrefWidth);
 		popup.setMinWidth(WindowSize.popupMinHeight);
@@ -66,7 +67,6 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		popup.setMinHeight(WindowSize.popupMinHeight);
 		popup.show();
 	}
-
 	@Override
 	public void apply() {
 		try {
