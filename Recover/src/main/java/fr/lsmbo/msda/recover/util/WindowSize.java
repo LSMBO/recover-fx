@@ -24,7 +24,7 @@ public class WindowSize {
 	public static final Double mainPanePreferWidth = prefWidth - 20;
 	// popup prefered size
 	public static final double popupPrefHeight = (prefHeight - 200);
-	public static final double popupPrefWidth = (prefWidth - 100);
+	public static final double popupPrefWidth = (prefWidth - 40);
 	// popup minsize
 	public static final double popupMinHeight = (prefHeight / 2);
 	public static final double popupMinWidth = (prefWidth / 2);

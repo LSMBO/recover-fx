@@ -16,8 +16,13 @@ import javafx.scene.image.ImageView;
 public class TitledBorderPane extends StackPane {
 	public TitledBorderPane(String title, Image icon, Node node, String toolTip) {
 		VBox mainPanel = new VBox(2);
-		ImageView imageView = new ImageView(icon);
-		mainPanel.getChildren().addAll(imageView, node);
+		ImageView imageView = null;
+		if (icon != null) {
+			imageView = new ImageView(icon);
+			mainPanel.getChildren().addAll(imageView, node);
+		} else {
+			mainPanel.getChildren().addAll(node);
+		}
 		this.setStyle(StyleUtils.TITLED_BORDER_PANE);
 		this.setPadding(new Insets(5, 5, 5, 5));
 		this.getChildren().addAll(mainPanel);

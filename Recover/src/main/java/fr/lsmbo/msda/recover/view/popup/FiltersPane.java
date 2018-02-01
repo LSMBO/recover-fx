@@ -3,17 +3,23 @@ package fr.lsmbo.msda.recover.view.popup;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.lsmbo.msda.recover.util.IconResource;
 import fr.lsmbo.msda.recover.util.WindowSize;
+import fr.lsmbo.msda.recover.util.IconResource.ICON;
 import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -142,8 +148,10 @@ public class FiltersPane extends Accordion {
 	//
 	private CheckBox fWrongChargeChbx = null;
 	private CheckBox fIdentifiedSpectraChbx = null;
-
+	private CheckBox fIonReporterChbx = null;
 	//
+	TableView<String> ionReporterTable = null;
+
 	public FiltersPane() {
 		// component
 		fHighIntensityChbx = new CheckBox("Filter by high intensity threshold");
@@ -172,6 +180,18 @@ public class FiltersPane extends Accordion {
 		removeFragInetesityCBox.getItems().addAll("=", "<", "<=", ">", ">=", "!=");
 		removeFragInetesityCBox.getSelectionModel().selectFirst();
 		removeFragmentIntTField = new TextField();
+		//
+		Label mZLabel = new Label("M/Z");
+		mZLabel.setMinWidth(100);
+
+		Label toleranceLabel = new Label("Tolerance");
+		toleranceLabel.setMinWidth(100);
+		Label nameLabel = new Label("Name");
+		nameLabel.setMinWidth(100);
+
+		TextField mZTf = new TextField();
+		TextField toleranceTf = new TextField();
+		TextField nameTf = new TextField();
 
 		/**
 		 * Style
@@ -185,11 +205,9 @@ public class FiltersPane extends Accordion {
 		list.add(emergenceLabel);
 		list.add(minUsefulLabel);
 		list.add(maxUsefulLabel);
-		list.add(removeFragmentIntLabel);
 		for (Label label : list) {
-			label.setMinWidth(130);
+			label.setPrefWidth(140);
 		}
-
 		List<TextField> listTf = new ArrayList<TextField>();
 
 		listTf.add(mostIntensetTField);
@@ -199,8 +217,11 @@ public class FiltersPane extends Accordion {
 		listTf.add(minUsefulTFiled);
 		listTf.add(maxUsefulTField);
 		listTf.add(removeFragmentIntTField);
+		listTf.add(mZTf);
+		listTf.add(toleranceTf);
+		listTf.add(nameTf);
 		for (TextField tf : listTf) {
-			tf.setMinWidth(130);
+			tf.setPrefWidth(130);
 		}
 
 		/**
@@ -264,7 +285,6 @@ public class FiltersPane extends Accordion {
 		// filter 2
 		// line 1
 		fWrongChargeChbx = new CheckBox("Filter Wrong Charge");
-
 		// line 2
 		fIdentifiedSpectraChbx = new CheckBox("Filter Identifed Spectra");
 		ToggleGroup tg = new ToggleGroup();
@@ -279,18 +299,57 @@ public class FiltersPane extends Accordion {
 
 		VBox identifedSpecVbox = new VBox(25);
 		identifedSpecVbox.getChildren().addAll(fIdentifiedSpectraChbx, toggleGroupHbox);
+		toggleGroupHbox.disableProperty().bind(this.fIdentifiedSpectraChbx.selectedProperty().not());
 
 		VBox filterPanel2 = new VBox(50);
 		filterPanel2.getChildren().addAll(new Label(), fWrongChargeChbx, identifedSpecVbox);
 		filterPanel2.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		// end filter 2
 
-		VBox filterPanel3 = new VBox();
+		// Filter 3
+		fIonReporterChbx = new CheckBox("Filter Ion Reporter");
+
+		// first line
+		HBox fMzHbox = new HBox(5);
+		fMzHbox.getChildren().addAll(mZLabel, mZTf);
+
+		HBox fToleranceHbox = new HBox(5);
+		fToleranceHbox.getChildren().addAll(toleranceLabel, toleranceTf);
+
+		HBox fNameHbox = new HBox(5);
+		fNameHbox.getChildren().addAll(nameLabel, nameTf);
+		Button addBut = new Button("Add");
+		addBut.setGraphic(new ImageView(IconResource.getImage(ICON.PLUS)));
+		addBut.setPrefWidth(100);
+		HBox insertDataHbox = new HBox(20);
+		insertDataHbox.getChildren().addAll(fMzHbox, fToleranceHbox, fNameHbox, addBut);
+		// end first line
+
+		// second line
+		ionReporterTable = new TableView<String>();
+		TableColumn mzCol = new TableColumn("Mz");
+		TableColumn tolCol = new TableColumn("Tolerance");
+		TableColumn nameCol = new TableColumn("Name");
+		ionReporterTable.setColumnResizePolicy(ionReporterTable.CONSTRAINED_RESIZE_POLICY);
+		ionReporterTable.getColumns().addAll(mzCol, tolCol, nameCol);
+		ionReporterTable.setPrefWidth(WindowSize.popupPrefWidth * 0.75);
+		Button resetBut = new Button("Reset");
+		resetBut.setGraphic(new ImageView(IconResource.getImage(ICON.RESET)));
+		resetBut.setPrefWidth(100);
+		HBox showDataHbox = new HBox(20);
+		showDataHbox.getChildren().addAll(ionReporterTable, resetBut);
+		// end second line
+		VBox filterPanel3 = new VBox(50);
+		filterPanel3.getChildren().addAll(fIonReporterChbx, insertDataHbox, showDataHbox);
+		insertDataHbox.disableProperty().bind(this.fIonReporterChbx.selectedProperty().not());
+		showDataHbox.disableProperty().bind(this.fIonReporterChbx.selectedProperty().not());
+		// end filter 3
+
 		filterPanel3.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		TitledPane filetr1 = new TitledPane("Filter 1", filterPane1);
 		filetr1.autosize();
-		this.getPanes().addAll(filetr1, new TitledPane("Filter 2", filterPanel2),
-				new TitledPane("Filter 3", filterPanel3));
+		this.getPanes().addAll(filetr1, new TitledPane("Filter 2", filterPanel3),
+				new TitledPane("Filter 3", filterPanel2));
 		this.autosize();
 		this.setExpandedPane(filetr1);
 	}
