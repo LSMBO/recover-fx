@@ -25,6 +25,9 @@ import javafx.scene.layout.VBox;
 
 public class FiltersPane extends Accordion {
 
+
+	//
+	private CheckBox fHighIntensityChbx = null;
 	public CheckBox getfHighIntensityChbx() {
 		return fHighIntensityChbx;
 	}
@@ -129,8 +132,22 @@ public class FiltersPane extends Accordion {
 		this.fIdentifiedSpectraChbx = fIdentifiedSpectraChbx;
 	}
 
-	//
-	private CheckBox fHighIntensityChbx = null;
+	public CheckBox getfIonReporterChbx() {
+		return fIonReporterChbx;
+	}
+
+	public void setfIonReporterChbx(CheckBox fIonReporterChbx) {
+		this.fIonReporterChbx = fIonReporterChbx;
+	}
+
+	public TableView<String> getIonReporterTable() {
+		return ionReporterTable;
+	}
+
+	public void setIonReporterTable(TableView<String> ionReporterTable) {
+		this.ionReporterTable = ionReporterTable;
+	}
+
 	private TextField mostIntensetTField = null;
 	private TextField percentageTopLineTFiled = null;
 	private TextField numberPeaksTField = null;
