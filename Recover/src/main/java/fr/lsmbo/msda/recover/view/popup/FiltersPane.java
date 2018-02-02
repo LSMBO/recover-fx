@@ -6,6 +6,8 @@ import java.util.List;
 import fr.lsmbo.msda.recover.util.IconResource;
 import fr.lsmbo.msda.recover.util.WindowSize;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -17,17 +19,17 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class FiltersPane extends Accordion {
 
-
 	//
 	private CheckBox fHighIntensityChbx = null;
+
 	public CheckBox getfHighIntensityChbx() {
 		return fHighIntensityChbx;
 	}
@@ -205,9 +207,28 @@ public class FiltersPane extends Accordion {
 		toleranceLabel.setMinWidth(100);
 		Label nameLabel = new Label("Name");
 		nameLabel.setMinWidth(100);
-
+		// accept only double value
 		TextField mZTf = new TextField();
+		mZTf.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d{0,7}([\\.]\\d{0,9})?")) {
+					mZTf.setText(oldValue);
+				}
+			}
+		});
+		mZTf.setTooltip(new Tooltip("Please insert numeric values"));
+		// accept only double value
 		TextField toleranceTf = new TextField();
+		toleranceTf.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d{0,7}([\\.]\\d{0,9})?")) {
+					toleranceTf.setText(oldValue);
+				}
+			}
+		});
+		toleranceTf.setTooltip(new Tooltip("Please insert numeric values"));
 		TextField nameTf = new TextField();
 
 		/**

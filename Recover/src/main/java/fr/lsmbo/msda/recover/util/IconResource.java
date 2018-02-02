@@ -13,7 +13,7 @@ public class IconResource {
 	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
 
 	public enum ICON {
-		APPLYFILTER, PLUS, CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, USEAXIS, GRAPH, DATAQUERY, CROSS, TICK, SAVE, SETTINGS, RECOVER, GETSPECTRUM, TRASH, WARNING, RESET, FLAG, EXIT;
+		APPLYFILTER, CHECK, PLUS, CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, USEAXIS, GRAPH, DATAQUERY, CROSS, TICK, SAVE, SETTINGS, RECOVER, GETSPECTRUM, TRASH, WARNING, RESET, FLAG, EXIT;
 	}
 
 	/**
@@ -93,7 +93,9 @@ public class IconResource {
 			case PLUS:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/plus.png")));
 				break;
-
+			case CHECK:
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/check.png")));
+				break;
 			default:
 				break;
 			}
