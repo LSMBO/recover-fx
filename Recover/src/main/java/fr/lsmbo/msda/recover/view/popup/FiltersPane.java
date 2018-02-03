@@ -217,7 +217,7 @@ public class FiltersPane extends Accordion {
 				}
 			}
 		});
-		mZTf.setTooltip(new Tooltip("Please insert numeric values"));
+		mZTf.setTooltip(new Tooltip("Please insert numeric value"));
 		// accept only double value
 		TextField toleranceTf = new TextField();
 		toleranceTf.textProperty().addListener(new ChangeListener<String>() {
@@ -228,7 +228,7 @@ public class FiltersPane extends Accordion {
 				}
 			}
 		});
-		toleranceTf.setTooltip(new Tooltip("Please insert numeric values"));
+		toleranceTf.setTooltip(new Tooltip("Please insert numeric value"));
 		TextField nameTf = new TextField();
 
 		/**
