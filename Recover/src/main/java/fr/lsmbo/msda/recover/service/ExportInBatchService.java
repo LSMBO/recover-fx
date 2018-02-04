@@ -8,31 +8,26 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 /**
- * Service to import .mgf and .pkl files
+ * Service to export files
  * 
- * @author aromdhani 
+ * @author aromdhani
  *
  */
-public class ImportFileService extends Service<Void> {
-	private File file;
+public class ExportInBatchService extends Service<Void> {
 
-	public void setFile(File file) {
-		this.file = file;
-	}
 	@Override
 	protected Task<Void> createTask() {
 		// TODO Auto-generated method stub
 		return new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
+
 				long startTime = System.currentTimeMillis();
-				System.out.println("Info Start Service loading file ...");
-				PeaklistReader.load(file);
+				System.out.println("Info Start Service Export in batch ...");
+				// Export in batch;
 				long endTime = System.currentTimeMillis();
 				long totalTime = endTime - startTime;
-				System.out.println("Info loading time: " + (double) totalTime / 1000 + " secondes");
-				System.out.println("Info " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra");
-				System.out.println("Info " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra");
+				System.out.println("Info Export in batch time: " + (double) totalTime / 1000 + " secondes");
 				return null;
 			}
 		};
