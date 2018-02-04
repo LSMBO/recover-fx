@@ -22,6 +22,7 @@ import fr.lsmbo.msda.recover.view.popup.Exit;
 import fr.lsmbo.msda.recover.gui.Recover;
 import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.service.ExportInBatchService;
 import fr.lsmbo.msda.recover.service.ImportFileService;
 
 import java.io.File;
@@ -178,7 +179,7 @@ public class MenuBarItems extends MenuBar {
 						Table.getInstance().setItems(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 						progress.close();
 					});
-					
+
 				}
 			}
 		});
@@ -186,10 +187,15 @@ public class MenuBarItems extends MenuBar {
 		// export file
 		MenuItem exportFile = new MenuItem(" Export File  ...  Ctrl+E ");
 		exportFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT)));
+	
 
 		// export in batch
 		MenuItem exportInBatchFile = new MenuItem(" Export in batch  ... ");
 		exportInBatchFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
+		exportInBatchFile.setOnAction((ActionEvent t) -> {
+			final ExportInBatchService exportService = new ExportInBatchService();
+			exportService.start();
+		});
 
 		// exit Recover
 		MenuItem exitFile = new MenuItem(" Exit Ctrl+Q ");
