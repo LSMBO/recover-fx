@@ -3,13 +3,11 @@ package fr.lsmbo.msda.recover.view.component;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ProgressBar;
+
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuBar;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
+
 import javafx.event.ActionEvent;
 import fr.lsmbo.msda.recover.util.FileUtils;
 import fr.lsmbo.msda.recover.util.IconResource;
@@ -20,10 +18,8 @@ import fr.lsmbo.msda.recover.view.popup.ParsingRules;
 import fr.lsmbo.msda.recover.view.popup.ProgressPane;
 import fr.lsmbo.msda.recover.view.popup.Exit;
 import fr.lsmbo.msda.recover.gui.Recover;
-import fr.lsmbo.msda.recover.io.PeaklistReader;
 import fr.lsmbo.msda.recover.lists.ListOfSpectra;
-import fr.lsmbo.msda.recover.service.ExportInBatchService;
-import fr.lsmbo.msda.recover.service.ImportFileService;
+import fr.lsmbo.msda.recover.service.*;
 
 import java.io.File;
 
@@ -187,7 +183,10 @@ public class MenuBarItems extends MenuBar {
 		// export file
 		MenuItem exportFile = new MenuItem(" Export File  ...  Ctrl+E ");
 		exportFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT)));
-	
+		exportFile.setOnAction((ActionEvent t) -> {
+			final ExportFileService exportFileService = new ExportFileService();
+			exportFileService.start();
+		});
 
 		// export in batch
 		MenuItem exportInBatchFile = new MenuItem(" Export in batch  ... ");
