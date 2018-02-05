@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import fr.lsmbo.msda.recover.service.FilterQualityService;
 import fr.lsmbo.msda.recover.util.*;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
 
@@ -59,7 +59,7 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		
+
 		// window preferred size
 		popup.setWidth(WindowSize.popupPrefWidth);
 		popup.setMinWidth(WindowSize.popupMinHeight);
@@ -67,10 +67,12 @@ public class ApplyFilter extends Stage implements WorkPopup {
 		popup.setMinHeight(WindowSize.popupMinHeight);
 		popup.show();
 	}
+
 	@Override
 	public void apply() {
 		try {
-
+			final FilterQualityService filterQuality = new FilterQualityService();
+			filterQuality.start();
 		} catch (Exception e) {
 			System.out.println("error while trying to apply filter: " + e);
 		} finally {

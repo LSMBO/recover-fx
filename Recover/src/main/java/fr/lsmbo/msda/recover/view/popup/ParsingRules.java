@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
+import fr.lsmbo.msda.recover.service.ParsingRuleService;
 import fr.lsmbo.msda.recover.util.*;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
 
@@ -70,9 +70,13 @@ public class ParsingRules extends Stage implements WorkPopup {
 	public void apply() {
 		// get task executor instance
 		try {
-
+			ParsingRuleService parsingRules= new ParsingRuleService();
+			parsingRules.start();
+			
 		} catch (Exception e) {
 			System.out.println("error while trying to edit parsing rules!" + e);
+		}finally{
+			popup.close();
 		}
 	}
 
