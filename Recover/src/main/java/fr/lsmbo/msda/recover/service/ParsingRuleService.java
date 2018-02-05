@@ -8,12 +8,12 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 /**
- * Service to export in batch
+ * Service to apply parsing rules
  * 
  * @author aromdhani
  *
  */
-public class ExportInBatchService extends Service<Void> {
+public class ParsingRuleService extends Service<Void> {
 
 	@Override
 	protected Task<Void> createTask() {
@@ -23,11 +23,11 @@ public class ExportInBatchService extends Service<Void> {
 			protected Void call() throws Exception {
 
 				long startTime = System.currentTimeMillis();
-				System.out.println("Info Start Service Export in batch ...");
+				System.out.println("Info Start Service Parsing Rule...");
 				// Export in batch;
 				long endTime = System.currentTimeMillis();
 				long totalTime = endTime - startTime;
-				System.out.println("Info Export in batch time: " + (double) totalTime / 1000 + " secondes");
+				System.out.println("Info Parsing Rule time: " + (double) totalTime / 1000 + " secondes");
 				return null;
 			}
 		};
