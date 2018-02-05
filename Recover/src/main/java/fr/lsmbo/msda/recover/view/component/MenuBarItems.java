@@ -252,7 +252,8 @@ public class MenuBarItems extends MenuBar {
 		aboutHelp.setOnAction((ActionEvent t) -> {
 			new About("About Recover",
 					"Recover and RecoverFX have been developped by \n Alexandre Walter, Alexandre Burel ,Aymen Romdhani and Benjamin Lombart at LSMBO,\n "
-							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:",
+							+ "Under the supervision of Christine Carapito \n"
+							+ "IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site:\n \n",
 					new Hyperlink("https://msda.unistra.fr"), Recover.mainStage);
 			System.out.println("Info about Recover.");
 		});

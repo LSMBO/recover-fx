@@ -7,8 +7,11 @@ import fr.lsmbo.msda.recover.model.Spectrum;
 import fr.lsmbo.msda.recover.util.IconResource;
 import fr.lsmbo.msda.recover.util.WindowSize;
 import fr.lsmbo.msda.recover.util.IconResource.ICON;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -29,17 +32,28 @@ public class ParsingRulesPane extends Accordion {
 	private ComboBox<String> parsingRulesCBox = null;
 	private TextField selectedPRuleTf = null;
 	private TableView<Spectrum> parsingRuletable = null;
+	private ParsingRule selectedParsingRule = null;
 
 	public ParsingRulesPane() {
+		// Parsing rules
 		Label pRulesLabel = new Label("Select a parsing rule");
 		pRulesLabel.setPrefWidth(130);
 		parsingRulesCBox = new ComboBox();
-//		parsingRulesCBox.getItems().addAll("Data-Analysis", "Mascot-Distiller", "Mascot-dll", "MsConvert", "Proline");
-//		parsingRulesCBox.getSelectionModel().selectFirst();
 		for (ParsingRule pr : ParsingRules.get()) {
 			parsingRulesCBox.getItems().add(pr.getName());
 		}
 		parsingRulesCBox.setPrefWidth(160);
+		parsingRulesCBox.valueProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				// TODO Auto-generated method stub
+				selectedParsingRule = ParsingRules.get(newValue);
+				selectedPRuleTf.setText(selectedParsingRule.getRegex());
+				tryRegex();
+			}
+		});
+
+		//
 		HBox parsingRulesHbox = new HBox(15);
 		parsingRulesHbox.getChildren().addAll(pRulesLabel, parsingRulesCBox);
 
@@ -50,15 +64,18 @@ public class ParsingRulesPane extends Accordion {
 
 		HBox selectedPRHbox = new HBox(15);
 		selectedPRHbox.getChildren().addAll(selectedPRuleLabel, selectedPRuleTf);
-		Button testButton = new Button("  Test");
+		// Button check
+		Button testButton = new Button("  Check");
 		testButton.setGraphic(new ImageView(IconResource.getImage(ICON.CHECK)));
 		testButton.setPrefWidth(130);
+		testButton.setOnAction((ActionEvent t) -> {
+			checkParsingRule();
+		});
+		//
 		HBox insertDataHbox = new HBox(50);
 		insertDataHbox.getChildren().addAll(parsingRulesHbox, selectedPRHbox, testButton);
 		insertDataHbox.setAlignment(Pos.CENTER);
-
-		//
-		// fill table
+		// populate table
 		titles.clear();
 		Integer nb = ListOfSpectra.getFirstSpectra().getSpectraAsObservable().size();
 		if (nb > 5)
@@ -88,6 +105,20 @@ public class ParsingRulesPane extends Accordion {
 		this.autosize();
 		this.setExpandedPane(filetr1);
 		//
-		
 	}
+
+	// chek Parsing rule
+	private void checkParsingRule() {
+		selectedParsingRule = new ParsingRule(null, selectedPRuleTf.getText(), null, -1);
+		System.out.println("Info -Parsing rule description: " + selectedParsingRule.getFullDescription());
+		tryRegex();
+	}
+
+	// try Regex
+	private void tryRegex() {
+		for (Spectrum s : titles) {
+			s.setRetentionTimeFromTitle(selectedParsingRule.getRegex());
+		}
+	}
+
 }

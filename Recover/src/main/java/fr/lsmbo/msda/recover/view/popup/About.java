@@ -20,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 
-
 /**
  * 
  * @author aromdhani
@@ -51,7 +50,7 @@ public class About extends Stage {
 		linkPanel.setAlignment(Pos.BASELINE_CENTER);
 		messagePanel.getChildren().addAll(messageLabel, linkPanel);
 		messageLabel.setAlignment(Pos.BASELINE_CENTER);
-		
+
 		VBox root = new VBox(20);
 		root.setStyle(StyleUtils.DIALOG_MODAL);
 		root.getChildren().addAll(messagePanel, new Line(), buttonsPanel);
@@ -59,10 +58,9 @@ public class About extends Stage {
 		Scene scene = new Scene(new VBox(5, root));
 		popup.setTitle(popupTitle);
 		popup.setScene(scene);
-		//popup.setAlwaysOnTop(true);
 		popup.setWidth(400);
 		popup.setMinWidth(600);
-		popup.setHeight(200);
+		popup.setHeight(250);
 		popup.setMinHeight(200);
 		popup.show();
 	}
