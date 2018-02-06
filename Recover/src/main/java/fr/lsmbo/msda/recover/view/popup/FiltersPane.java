@@ -27,41 +27,6 @@ import javafx.scene.layout.VBox;
 
 public class FiltersPane extends Accordion {
 
-	//
-	private CheckBox fHighIntensityChbx = null;
-
-	public CheckBox getfHighIntensityChbx() {
-		return fHighIntensityChbx;
-	}
-
-	public void setfHighIntensityChbx(CheckBox fHighIntensityChbx) {
-		this.fHighIntensityChbx = fHighIntensityChbx;
-	}
-
-	public TextField getMostIntensetTField() {
-		return mostIntensetTField;
-	}
-
-	public void setMostIntensetTField(TextField mostIntensetTField) {
-		this.mostIntensetTField = mostIntensetTField;
-	}
-
-	public TextField getPercentageTopLineTFiled() {
-		return percentageTopLineTFiled;
-	}
-
-	public void setPercentageTopLineTFiled(TextField percentageTopLineTFiled) {
-		this.percentageTopLineTFiled = percentageTopLineTFiled;
-	}
-
-	public TextField getNumberPeaksTField() {
-		return numberPeaksTField;
-	}
-
-	public void setNumberPeaksTField(TextField numberPeaksTField) {
-		this.numberPeaksTField = numberPeaksTField;
-	}
-
 	public CheckBox getfLowIntensityChbx() {
 		return fLowIntensityChbx;
 	}
@@ -150,21 +115,18 @@ public class FiltersPane extends Accordion {
 		this.ionReporterTable = ionReporterTable;
 	}
 
-	private TextField mostIntensetTField = null;
-	private TextField percentageTopLineTFiled = null;
-	private TextField numberPeaksTField = null;
-
-	//
+	// low intensity filter
 	private CheckBox fLowIntensityChbx = null;
 	private TextField emergenceTField = null;
 	private TextField minUsefulTFiled = null;
 	private TextField maxUsefulTField = null;
 
-	//
+	// fragment intensity filter
 	private CheckBox fFragmentIntensityChbx = null;
 	private ComboBox<String> removeFragInetesityCBox = null;
 	private TextField removeFragmentIntTField = null;
-	//
+
+	// wrong charge filter
 	private CheckBox fWrongChargeChbx = null;
 	private CheckBox fIdentifiedSpectraChbx = null;
 	private CheckBox fIonReporterChbx = null;
@@ -173,36 +135,68 @@ public class FiltersPane extends Accordion {
 
 	public FiltersPane() {
 		// component
-		fHighIntensityChbx = new CheckBox("Filter by high intensity threshold");
 
-		Label mostIntensetLabel = new Label("Most peaks to consider");
-		Label percentageTopLineLabel = new Label("Percentage of top line");
-		Label numberPeaksLabel = new Label("Number of Peaks");
-
-		mostIntensetTField = new TextField();
-		percentageTopLineTFiled = new TextField();
-		numberPeaksTField = new TextField();
-		//
+		// low intensity filter
 		fLowIntensityChbx = new CheckBox("Filter by low intensity threshold");
 
 		Label emergenceLabel = new Label("Emergence  ");
 		Label minUsefulLabel = new Label("Min useful peaks number");
 		Label maxUsefulLabel = new Label("Max useful peaks number");
-		emergenceTField = new TextField();
-		minUsefulTFiled = new TextField();
-		maxUsefulTField = new TextField();
 
-		//
+		// emergence accept only float
+		emergenceTField = new TextField();
+		emergenceTField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*([\\.]\\d*)?")) {
+					emergenceTField.setText(oldValue);
+				}
+			}
+		});
+		emergenceTField.setTooltip(new Tooltip("Enter emergence value. Accept only float numbers."));
+
+		// minUseful accept only digits
+		minUsefulTFiled = new TextField();
+		minUsefulTFiled.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					minUsefulTFiled.setText(oldValue);
+				}
+			}
+		});
+		minUsefulTFiled.setTooltip(new Tooltip("Enter min useful peaks number. Accept only integer numbers."));
+		// maxUseful accept only digits
+		maxUsefulTField = new TextField();
+		maxUsefulTField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					maxUsefulTField.setText(oldValue);
+				}
+			}
+		});
+		maxUsefulTField.setTooltip(new Tooltip("Enter max useful peaks number. Accept only integer numbers."));
+
+		// fragment intensity
 		fFragmentIntensityChbx = new CheckBox("Filter by fragment intensity");
 		Label removeFragmentIntLabel = new Label("Remove fragment intensity");
 		removeFragInetesityCBox = new ComboBox<String>();
 		removeFragInetesityCBox.getItems().addAll("=", "<", "<=", ">", ">=", "!=");
 		removeFragInetesityCBox.getSelectionModel().selectFirst();
 		removeFragmentIntTField = new TextField();
+		removeFragmentIntTField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					removeFragmentIntTField.setText(oldValue);
+				}
+			}
+		});
+		removeFragmentIntTField.setTooltip(new Tooltip("Enter fragment intensity. Accept only integer numbers."));
 		//
 		Label mZLabel = new Label("M/Z");
 		mZLabel.setMinWidth(100);
-
 		Label toleranceLabel = new Label("Tolerance");
 		toleranceLabel.setMinWidth(100);
 		Label nameLabel = new Label("Name");
@@ -212,34 +206,32 @@ public class FiltersPane extends Accordion {
 		mZTf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (!newValue.matches("\\d{0,7}([\\.]\\d{0,9})?")) {
+				if (!newValue.matches("\\d*([\\.]\\d*)?")) {
 					mZTf.setText(oldValue);
 				}
 			}
 		});
-		mZTf.setTooltip(new Tooltip("Please insert numeric value"));
+		mZTf.setTooltip(new Tooltip("Enter mz value. Accept only float number."));
 		// accept only double value
 		TextField toleranceTf = new TextField();
 		toleranceTf.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (!newValue.matches("\\d{0,7}([\\.]\\d{0,9})?")) {
+				if (!newValue.matches("\\d*([\\.]\\d*)?")) {
 					toleranceTf.setText(oldValue);
 				}
 			}
 		});
-		toleranceTf.setTooltip(new Tooltip("Please insert numeric value"));
+		toleranceTf.setTooltip(new Tooltip("Enter tolerance value. Accept only float number."));
 		TextField nameTf = new TextField();
+		nameTf.setTooltip(new Tooltip("Enter name value."));
 
 		/**
 		 * Style
+		 * 
 		 */
 
 		List<Label> list = new ArrayList<Label>();
-
-		list.add(mostIntensetLabel);
-		list.add(percentageTopLineLabel);
-		list.add(numberPeaksLabel);
 		list.add(emergenceLabel);
 		list.add(minUsefulLabel);
 		list.add(maxUsefulLabel);
@@ -247,10 +239,6 @@ public class FiltersPane extends Accordion {
 			label.setPrefWidth(140);
 		}
 		List<TextField> listTf = new ArrayList<TextField>();
-
-		listTf.add(mostIntensetTField);
-		listTf.add(percentageTopLineTFiled);
-		listTf.add(numberPeaksTField);
 		listTf.add(emergenceTField);
 		listTf.add(minUsefulTFiled);
 		listTf.add(maxUsefulTField);
@@ -264,27 +252,8 @@ public class FiltersPane extends Accordion {
 
 		/**
 		 * Layout
+		 * 
 		 */
-
-		// filter 1
-		// line 1
-		HBox fMostInetnseHbox = new HBox(5);
-		fMostInetnseHbox.getChildren().addAll(mostIntensetLabel, mostIntensetTField);
-
-		HBox fToplineHbox = new HBox(5);
-		fToplineHbox.getChildren().addAll(percentageTopLineLabel, percentageTopLineTFiled);
-
-		HBox fnumberPeaksHbox = new HBox(5);
-		fnumberPeaksHbox.getChildren().addAll(numberPeaksLabel, numberPeaksTField);
-
-		HBox fHighInHbox = new HBox(20);
-		fHighInHbox.getChildren().addAll(fMostInetnseHbox, fToplineHbox, fnumberPeaksHbox);
-		fHighInHbox.disableProperty().bind(this.fHighIntensityChbx.selectedProperty().not());
-		fHighInHbox.autosize();
-
-		VBox fHighInVbox = new VBox(20);
-		fHighInVbox.getChildren().addAll(fHighIntensityChbx, fHighInHbox);
-		fHighInVbox.autosize();
 
 		// line 2
 		HBox femergenceHbox = new HBox(5);
@@ -321,9 +290,9 @@ public class FiltersPane extends Accordion {
 		// end filter 1
 
 		// filter 2
-		// line 1
+		// Filter Wrong Charge
 		fWrongChargeChbx = new CheckBox("Filter Wrong Charge");
-		// line 2
+		// Filter Identifed Spectra
 		fIdentifiedSpectraChbx = new CheckBox("Filter Identifed Spectra");
 		ToggleGroup tg = new ToggleGroup();
 		RadioButton identifiedSpecRB = new RadioButton("Recover For Identified Spectra");
@@ -347,7 +316,7 @@ public class FiltersPane extends Accordion {
 		// Filter 3
 		fIonReporterChbx = new CheckBox("Filter Ion Reporter");
 
-		// first line
+		// Filter Ion Reporter
 		HBox fMzHbox = new HBox(5);
 		fMzHbox.getChildren().addAll(mZLabel, mZTf);
 
@@ -361,9 +330,8 @@ public class FiltersPane extends Accordion {
 		addBut.setPrefWidth(100);
 		HBox insertDataHbox = new HBox(20);
 		insertDataHbox.getChildren().addAll(fMzHbox, fToleranceHbox, fNameHbox, addBut);
-		// end first line
 
-		// second line
+		// table
 		ionReporterTable = new TableView<String>();
 		TableColumn mzCol = new TableColumn("Mz");
 		TableColumn tolCol = new TableColumn("Tolerance");
@@ -376,7 +344,7 @@ public class FiltersPane extends Accordion {
 		resetBut.setPrefWidth(100);
 		HBox showDataHbox = new HBox(20);
 		showDataHbox.getChildren().addAll(ionReporterTable, resetBut);
-		// end second line
+		// end table
 		VBox filterPanel3 = new VBox(50);
 		filterPanel3.getChildren().addAll(fIonReporterChbx, insertDataHbox, showDataHbox);
 		insertDataHbox.disableProperty().bind(this.fIonReporterChbx.selectedProperty().not());
