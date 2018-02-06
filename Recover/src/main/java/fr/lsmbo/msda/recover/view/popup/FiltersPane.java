@@ -314,8 +314,8 @@ public class FiltersPane extends Accordion {
 		fRemoveInHox.disableProperty().bind(this.fFragmentIntensityChbx.selectedProperty().not());
 		fRemoveInVbox.autosize();
 
-		VBox filterPane1 = new VBox(25);
-		filterPane1.getChildren().addAll(fHighInVbox, fLowInVbox, fRemoveInVbox);
+		VBox filterPane1 = new VBox(35);
+		filterPane1.getChildren().addAll(fLowInVbox, fRemoveInVbox);
 		filterPane1.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
 		filterPane1.autosize();
 		// end filter 1
@@ -384,10 +384,10 @@ public class FiltersPane extends Accordion {
 		// end filter 3
 
 		filterPanel3.setPrefSize(WindowSize.popupPrefWidth, WindowSize.popupPrefHeight);
-		TitledPane filetr1 = new TitledPane("Filter 1", filterPane1);
+		TitledPane filetr1 = new TitledPane("Intensity Filter", filterPane1);
 		filetr1.autosize();
-		this.getPanes().addAll(filetr1, new TitledPane("Filter 2", filterPanel3),
-				new TitledPane("Filter 3", filterPanel2));
+		this.getPanes().addAll(filetr1, new TitledPane("Ion Reporter Filter", filterPanel3),
+				new TitledPane("Other Filter", filterPanel2));
 		this.autosize();
 		this.setExpandedPane(filetr1);
 	}
