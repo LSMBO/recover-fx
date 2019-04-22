@@ -1,15 +1,153 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>fr.lsmbo.msda</groupId>
 	<artifactId>Recover</artifactId>
-	<description>Recover is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
 	<version>3.0.0-SNAPSHOT</version>
+	<description>Recover is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
 	<properties>
+		<project.build.date>2017-07-28</project.build.date>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.date>2017-08-29</project.build.date>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>META-INF/**</exclude>
+					<exclude>**/documentation/*.pdf</exclude>
+					<exclude>**/images/*.png</exclude>
+					<exclude>**/*.json</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>false</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<!-- Set a JDK compiler level -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<showDeprecation>true</showDeprecation>
+					<debug>true</debug>
+				</configuration>
+			</plugin>
+			<!-- Dependency plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/${project.name}-${project.version}/lib
+							</outputDirectory>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+							<excludeTransitive>false</excludeTransitive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Maven resources plugin -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+
+				<executions>
+					<!-- Copy resources to 'target/config' near jar -->
+					<execution>
+						<id>copy-config</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/config</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+									<excludes>
+										<exclude>META-INF/**</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<!-- Copy scripts to jar directory -->
+					<execution>
+						<id>copy-scripts</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>script</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+	<!-- Repositores -->
+	<repositories>
+		<repository>
+			<id>genesis-maven2-repository</id>
+			<name>Genesis maven2 repository</name>
+			<url>http://genesis.UGent.be/maven2</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -17,37 +155,7 @@
 			<artifactId>gral-core</artifactId>
 			<version>0.11</version>
 		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jcommon</artifactId>
-			<version>1.0.23</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-			<version>1.0.19</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jfreesvg</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>de.erichseifert.vectorgraphics2d</groupId>
-			<artifactId>VectorGraphics2D</artifactId>
-			<version>0.10</version>
-		</dependency>
-		<dependency>
-			<groupId>org.controlsfx</groupId>
-			<artifactId>controlsfx</artifactId>
-			<version>8.40.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.controlsfx</groupId>
-			<artifactId>fxsampler</artifactId>
-			<version>1.0.9</version>
-		</dependency>
-		<dependency>
+				<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>2.8.6</version>
@@ -55,7 +163,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.8.6</version>
+			<version>[2.8.11.3,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -67,9 +175,16 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
 			<version>2.8.2</version>
 		</dependency>
 		<dependency>
@@ -92,110 +207,21 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.compomics</groupId>
+			<artifactId>utilities</artifactId>
+			<version>4.12.6</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>*</artifactId>
+					<groupId>*</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.github.jhsheets</groupId>
+			<artifactId>javafx-filterable-table-columns</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 	</dependencies>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.fxml</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>false</downloadJavadocs>
-				</configuration>
-			</plugin>
-
-			<!-- Set a JDK compiler level -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.2</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-
-			<!-- Make this jar executable -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.0.2</version>
-				<configuration>
-					<includes>
-						<include>fr/**</include>
-						<include>*.conf</include>
-						<include>*.properties</include>
-                        <include>*.json</include>
-					</includes>
-				</configuration>
-			</plugin>
-
-			<!-- Maven resources plugin -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
-				<executions>
-					<!-- Copy scripts to jar directory -->
-					<execution>
-						<id>copy-scripts</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<encoding>UTF-8</encoding>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>script</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- Copy project dependency -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<!-- exclude junit, we need runtime dependency only -->
-							<includeScope>runtime</includeScope>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
-
-	</build>
-
 </project>
