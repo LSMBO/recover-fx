@@ -13,7 +13,7 @@ public class Main {
 		Config.initialize();
 		// Add usage method (use jcommander)
 		if (args.length == 0) {
-			logger.info("Start Recover-GUI");
+			logger.info("Start RecoverFx-GUI");
 			RecoverFx.run();
 		} else {
 			logger.info("Add CLI");
