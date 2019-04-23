@@ -258,7 +258,7 @@ public class MainView extends StackPane {
 		MenuItem addIonReporterAction = new MenuItem("Add Ion Reporter");
 		addIonReporterAction.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
 		addIonReporterAction.setOnAction((ActionEvent t) -> {
-			model.onAddIonReprter();
+			model.onAddIonReporter();
 		});
 		// Edit Parsing Rules
 		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");

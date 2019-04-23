@@ -215,7 +215,7 @@ public class RecoverViewModel {
 	 * 
 	 * @see IonReporters
 	 */
-	public void onAddIonReprter() {
+	public void onAddIonReporter() {
 		if (isValidatedSpectra()) {
 			FilterIonReporterDialog filterDialog = new FilterIonReporterDialog();
 			filterDialog.showAndWait().ifPresent(filter -> {

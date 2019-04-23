@@ -61,7 +61,7 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Apply low intentsity threshold filter for all spectrum.
+	 * Apply low intensity threshold filter for all spectrum.
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
