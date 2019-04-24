@@ -113,8 +113,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param selectedSpectrum
-	 *            the selected spectrum to set
+	 * @param selectedSpectrum the selected spectrum to set
 	 */
 	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
 		this.selectedSpectrum = selectedSpectrum;
@@ -128,8 +127,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param viewProperties
-	 *            the view properties to set
+	 * @param viewProperties the view properties to set
 	 */
 	public void setViewProperties(RecoverViewProperty viewProperties) {
 		this.viewProperty = viewProperties;
@@ -143,8 +141,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filterProperties
-	 *            the filter properties to set
+	 * @param filterProperties the filter properties to set
 	 */
 	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
 		this.filterLITProperty = filterProperties;
@@ -158,8 +155,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filteredTable
-	 *            the filtered table to set
+	 * @param filteredTable the filtered table to set
 	 */
 	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
 		this.filteredTable = filteredTable;
@@ -173,8 +169,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param model
-	 *            the view model to set
+	 * @param model the view model to set
 	 */
 	public void setModel(RecoverViewModel model) {
 		this.model = model;
@@ -188,8 +183,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param taskRunner
-	 *            the task runner to set
+	 * @param taskRunner the task runner to set
 	 */
 	public void setTaskRunner(TaskRunner taskRunner) {
 		this.taskRunner = taskRunner;
@@ -625,7 +619,10 @@ public class MainView extends StackPane {
 			row.setOnMouseClicked(event -> {
 				if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
 					Spectrum spectrum = row.getItem();
-					spectrum.setIsFlagged(true);
+					if (!spectrum.getIsFlagged())
+						spectrum.setIsFlagged(true);
+					else
+						spectrum.setIsFlagged(false);
 				}
 			});
 			return row;
@@ -692,8 +689,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Keep the original items and use a copy of items whenever a filter is
-	 * invoked
+	 * Keep the original items and use a copy of items whenever a filter is invoked
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
@@ -753,8 +749,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum id
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterIdColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -788,8 +783,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum moz
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterMzColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -823,8 +817,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum title
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterTitleColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -855,8 +848,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum intensity
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterIntensityColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -890,8 +882,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum charge
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterChargeColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -925,8 +916,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum retention time
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterRTColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -960,8 +950,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum number of fragments
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterNbrFrgsColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -995,8 +984,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter on Max fragment intensity.
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 * 
 	 */
 	private void filterFIntensityColumn(ObservableList<Spectrum> newData) {
@@ -1031,8 +1019,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter on useful peaks number to keep over the threshold.
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterUPNColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -1067,8 +1054,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum whether is recover
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterIonReporterColumn(ObservableList<Spectrum> newData) {
 		// Here's an example of how you could filter the ID column
@@ -1091,8 +1077,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum whether is recover
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterFlaggedColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -1114,8 +1099,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum whether is identified
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterIdentifiedColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -1137,8 +1121,7 @@ public class MainView extends StackPane {
 	/**
 	 * Filter column spectrum whether is a wrong charge
 	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
+	 * @param newData the list of spectrum to filter
 	 */
 	private void filterWrongChargeColumn(ObservableList<Spectrum> newData) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -1160,8 +1143,7 @@ public class MainView extends StackPane {
 	/**
 	 * Update the view on java-fx thread
 	 * 
-	 * @param r
-	 *            Runnable to submit
+	 * @param r Runnable to submit
 	 */
 	private void updateOnJfx(Runnable r) {
 		Platform.runLater(r);
