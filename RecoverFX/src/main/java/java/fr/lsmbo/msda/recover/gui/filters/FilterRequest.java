@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package fr.lsmbo.msda.recover.gui.filters;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
@@ -15,6 +13,7 @@ import fr.lsmbo.msda.recover.gui.lists.Spectra;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
+import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 
 /**
  * Compute and apply different filters to spectra. Recover filters used and scan
@@ -157,10 +156,107 @@ public class FilterRequest {
 	 */
 	public Boolean applyFilters() {
 		Boolean isFinished = false;
-		fr.lsmbo.msda.recover.gui.filters.ColumnFilters.getApplied().forEach((k, v) -> {
+		ColumnFilters.getApplied().forEach((k, v) -> {
 			switch (k) {
 			// Apply filter on flag column
 			case "Flag": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((BooleanOperator) filter).getType();
+					Boolean value = ((BooleanOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Id column
+			case "Id": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					Integer value = (Integer) ((NumberOperator) filter).getValue();
+					
+				}
+				break;
+			}
+			// Apply filter on Title column
+			case "Title": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((StringOperator) filter).getType();
+					String value = ((StringOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Mz column
+			case "Mz": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					float value = (Float) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Intensity column
+			case "Intensity": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					float value = (float) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Charge column
+			case "Charge": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					Integer value = (Integer) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Retention Time column
+			case "Retention Time": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					float value = (float) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Fragment number column
+			case "Fragment number": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					Integer value = (Integer) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Max fragment intensity column
+			case "Max fragment intensity": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					float value = (float) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on UPN column
+			case "UPN": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((NumberOperator) filter).getType();
+					Integer value = (Integer) ((NumberOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Identified column
+			case "Identified": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((BooleanOperator) filter).getType();
+					Boolean value = ((BooleanOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Wrong charge column
+			case "Ion Reporter": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((BooleanOperator) filter).getType();
+					Boolean value = ((BooleanOperator) filter).getValue();
+				}
+				break;
+			}
+			// Apply filter on Wrong charge column
+			case "Wrong charge": {
 				for (Object filter : v) {
 					IFilterOperator.Type type = ((BooleanOperator) filter).getType();
 					Boolean value = ((BooleanOperator) filter).getValue();
@@ -168,6 +264,7 @@ public class FilterRequest {
 				}
 				break;
 			}
+
 			default:
 				break;
 			}
