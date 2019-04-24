@@ -95,7 +95,8 @@ public class RecoverViewModel {
 	/**
 	 * Open file
 	 * 
-	 * @param file the file to open.
+	 * @param file
+	 *            the file to open.
 	 */
 	public void onOpenFile(File file) {
 		try {
@@ -134,7 +135,8 @@ public class RecoverViewModel {
 	/**
 	 * Load File. Load and read .mgf or .pkl file.
 	 * 
-	 * @param file the file to load.
+	 * @param file
+	 *            the file to load.
 	 */
 	private void loadFile(File file) {
 		long startTime = System.currentTimeMillis();
@@ -155,7 +157,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Export file. Set all the left spectra after applying the filters as recover.
+	 * Export file. Set all the left spectra after applying the filters as
+	 * recover.
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
@@ -201,6 +204,8 @@ public class RecoverViewModel {
 	 * Apply all filters and identified spectra
 	 */
 	public void onExportInBatch() {
+		FilterRequest req = new FilterRequest();
+		//req.applyFilters();
 		ExportInBatchDialog exportInBatchDialog = new ExportInBatchDialog();
 		exportInBatchDialog.showAndWait().ifPresent(mgfByIdentifiedTitleFiles -> {
 			mgfByIdentifiedTitleFiles.forEach((k, v) -> {
@@ -210,8 +215,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and display a dialog to add an ion reporter list. Apply ion reporter
-	 * filter.
+	 * Creates and display a dialog to add an ion reporter list. Apply ion
+	 * reporter filter.
 	 * 
 	 * @see IonReporters
 	 */
@@ -242,8 +247,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Apply low intensity threshold filter. The low intensity threshold filter use
-	 * the emergence and the mode entered by the user as parameters.
+	 * Apply low intensity threshold filter. The low intensity threshold filter
+	 * use the emergence and the mode entered by the user as parameters.
 	 * 
 	 * @see FilterRequest
 	 */
@@ -271,8 +276,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and displays parsing rules dialog. If a parsing rules is present. It
-	 * will update the current parsing rules.
+	 * Creates and displays parsing rules dialog. If a parsing rules is present.
+	 * It will update the current parsing rules.
 	 * 
 	 * @see ParsingRules
 	 */
@@ -336,7 +341,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Reset all flagged spectra . It helps the user to reset all flagged spectrums.
+	 * Reset all flagged spectra . It helps the user to reset all flagged
+	 * spectrums.
 	 * 
 	 */
 	public void onResetFlagSpectrum() {
@@ -366,7 +372,8 @@ public class RecoverViewModel {
 
 	/**
 	 * Reset RecoverFx; this action will restore the default values of filters,
-	 * parsing rules to retrieve the RT from titles and update the view properties.
+	 * parsing rules to retrieve the RT from titles and update the view
+	 * properties.
 	 * 
 	 */
 	public void onResetRecover() {
@@ -476,11 +483,15 @@ public class RecoverViewModel {
 	/**
 	 * Update and notify the view with the changes.
 	 * 
-	 * @param spectrum             the selected spectrum. On load file, it select
-	 *                             the first spectrum.
-	 * @param nbSpectra            the total number of spectrum in the file.
-	 * @param nbIdentified         the number of identified spectrum.
-	 * @param percentageIdentified the percentage of identified spectrum.
+	 * @param spectrum
+	 *            the selected spectrum. On load file, it select the first
+	 *            spectrum.
+	 * @param nbSpectra
+	 *            the total number of spectrum in the file.
+	 * @param nbIdentified
+	 *            the number of identified spectrum.
+	 * @param percentageIdentified
+	 *            the percentage of identified spectrum.
 	 */
 	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbIdentified, Float percentageIdentified) {
 		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbIdentified),
@@ -488,8 +499,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Determines whether the used spectra is not empty and there are a validated
-	 * file to use.
+	 * Determines whether the used spectra is not empty and there are a
+	 * validated file to use.
 	 * 
 	 * @return <code>true</code> if the spectra is not empty otherwise
 	 *         <code>false</code>.
@@ -515,7 +526,8 @@ public class RecoverViewModel {
 	/**
 	 * Update the view on Java-fx thread
 	 * 
-	 * @param r Runnable to submit
+	 * @param r
+	 *            Runnable to submit
 	 */
 	private void updateJfx(Runnable r) {
 		Platform.runLater(r);

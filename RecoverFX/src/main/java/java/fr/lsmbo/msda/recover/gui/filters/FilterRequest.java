@@ -3,6 +3,10 @@
  */
 package fr.lsmbo.msda.recover.gui.filters;
 
+import org.google.jhsheets.filtered.operators.BooleanOperator;
+import org.google.jhsheets.filtered.operators.IFilterOperator;
+import org.google.jhsheets.filtered.operators.NumberOperator;
+import org.google.jhsheets.filtered.operators.StringOperator;
 
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
@@ -147,7 +151,32 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Determines whether the spectrum is recovered 
+	 * Apply a list of filters for all spectrum.
+	 * 
+	 * @return <code>true</code> if all spectrum have been checked.
+	 */
+	public Boolean applyFilters() {
+		Boolean isFinished = false;
+		fr.lsmbo.msda.recover.gui.filters.ColumnFilters.getApplied().forEach((k, v) -> {
+			switch (k) {
+			// Apply filter on flag column
+			case "Flag": {
+				for (Object filter : v) {
+					IFilterOperator.Type type = ((BooleanOperator) filter).getType();
+					Boolean value = ((BooleanOperator) filter).getValue();
+					System.out.println(type + "/" + value);
+				}
+				break;
+			}
+			default:
+				break;
+			}
+		});
+		return isFinished;
+	}
+
+	/**
+	 * Determines whether the spectrum is recovered
 	 * 
 	 * @param spectrum
 	 *            the spectrum to check
@@ -188,7 +217,7 @@ public class FilterRequest {
 			sp.setIsRecoverIS(StatusFilterType.NOT_USED);
 			sp.setIsRecoverIR(StatusFilterType.NOT_USED);
 		}
-		
+
 	}
 
 }

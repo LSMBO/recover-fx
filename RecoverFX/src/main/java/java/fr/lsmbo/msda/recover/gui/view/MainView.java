@@ -273,7 +273,7 @@ public class MainView extends StackPane {
 			model.onGetIdentifiedSpectra();
 		});
 		// Flagged Spectrum
-		MenuItem flaggedSpecAction = new MenuItem(" Reset flagged Spectrum ");
+		MenuItem flaggedSpecAction = new MenuItem(" Reset Flagged Spectra ");
 		flaggedSpecAction.setGraphic(new ImageView(IconResource.getImage(ICON.FLAG)));
 		flaggedSpecAction.setOnAction((ActionEvent t) -> {
 			model.onResetFlagSpectrum();
@@ -367,20 +367,19 @@ public class MainView extends StackPane {
 		flaggedColumn.setCellValueFactory(cellData -> cellData.getValue().getIsFlaggedProperty());
 		flaggedColumn.setCellFactory(new Callback<TableColumn<Spectrum, Boolean>, TableCell<Spectrum, Boolean>>() {
 
+			@Override
+			public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
+				return new TableCell<Spectrum, Boolean>() {
 
-		    @Override
-		    public TableCell<Spectrum, Boolean> call(TableColumn<Spectrum, Boolean> param) {
-		        return new TableCell<Spectrum, Boolean>() {
+					private final ImageView image = new ImageView(IconResource.getImage(ICON.FLAG));
 
-		            private final ImageView image = new ImageView(IconResource.getImage(ICON.FLAG));
-
-		            @Override
-		            public void updateItem(Boolean item, boolean empty) {
-		                super.updateItem(item, empty);
-		                setGraphic(item == null || !item ? null : image);
-		            }
-		        };
-		    }
+					@Override
+					public void updateItem(Boolean item, boolean empty) {
+						super.updateItem(item, empty);
+						setGraphic(item == null || !item ? null : image);
+					}
+				};
+			}
 		});
 		filteredTable.getColumns().setAll(flaggedColumn, idColumn, titleColumn, mozColumn, intensityColumn,
 				chargeColumn, rtColumn, nbrFragmentsColumn, fragmentIntColumn, UPNColumn, identifiedColumn,
@@ -1159,7 +1158,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Update the view on jfx
+	 * Update the view on java-fx thread
 	 * 
 	 * @param r
 	 *            Runnable to submit
