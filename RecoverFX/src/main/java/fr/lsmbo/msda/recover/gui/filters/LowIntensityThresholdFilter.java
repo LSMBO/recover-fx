@@ -47,14 +47,6 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 		mode = _mode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * fr.lsmbo.msda.recover.filters.BasicFilter#isValid(fr.lsmbo.msda.recover.
-	 * model.Spectrum) test if the spectra is valid or not this method actually
-	 * does the main test
-	 */
 	/**
 	 * Determines wether the spectrum is valid.
 	 * 

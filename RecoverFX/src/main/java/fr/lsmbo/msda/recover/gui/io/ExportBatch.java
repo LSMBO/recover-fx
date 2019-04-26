@@ -1,20 +1,27 @@
-/*
- * 
- */
+
 package fr.lsmbo.msda.recover.gui.io;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.gui.util.FileUtils;
 
 /**
  * Export in batch.It contains 3 list for files to process, titles for
@@ -25,12 +32,13 @@ import javafx.scene.control.ButtonType;
  *
  */
 public class ExportBatch {
+	private static final Logger logger = LogManager.getLogger(ExportBatch.class);
 
 	private ObservableList<File> listFilesToProcess = FXCollections.observableArrayList();
 	private HashMap<File, ArrayList<String>> hashMapFileWithListTitles = new HashMap<File, ArrayList<String>>();
 	private ObservableList<String> listTitles = FXCollections.observableArrayList();
 	private ObservableList<File> listFilesProcessed = FXCollections.observableArrayList();
-
+	private FilterRequest filterRequest = new FilterRequest();
 	private String nameDirectoryFolder = "";
 	public static Boolean useBatchSpectra = false;
 
@@ -58,6 +66,35 @@ public class ExportBatch {
 	}
 
 	/**
+	 * Apply all stored filters to the list of peak list files.
+	 * 
+	 * @param identificationByMgfMap
+	 *            contains peak list files and identification files.
+	 */
+	public void run(Map<File, File> identificationByPeakListMap) {
+		// Boolean to specify we are in batch mode
+		useBatchSpectra = true;
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		Date date = new Date();
+		identificationByPeakListMap.forEach((peakListFile, identificationFile) -> {
+			try {
+				PeaklistReader.load(peakListFile);
+				filterRequest.applyFilters();
+				File newFile = new File(peakListFile.getParent() + File.separator + dateFormat.format(date) + "_"
+						+ peakListFile.getName());
+				if (newFile.createNewFile()) {
+					PeaklistWriter.setFileReader(newFile);
+					PeaklistWriter.save(newFile);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		useBatchSpectra = false;
+	}
+
+	/**
 	 * Routine to process several files. Each file are load, identify
 	 * (specifically or in common), filter and export.
 	 */
@@ -70,7 +107,6 @@ public class ExportBatch {
 		// in origin list
 		ObservableList<File> duplicateListFileToProcess = FXCollections.observableArrayList(listFilesToProcess);
 		if (!stopCompute()) {
-
 			for (File f : duplicateListFileToProcess) {
 				PeaklistReader.load(f);
 				// Look if the file have a specific excel file for
@@ -80,18 +116,12 @@ public class ExportBatch {
 				} else {
 					doSpecificIdentification(f);
 				}
-
-		
-
 				File newFile = new File(nameDirectoryFolder + File.separator + f.getName());
 
 				// Specify the file we need to read to export him
 				PeaklistWriter.setFileReader(f);
-
 				PeaklistWriter.save(newFile);
-
 				removeFileFromListFileToProcess();
-
 				listFilesProcessed.add(newFile);
 			}
 		}

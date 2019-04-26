@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Collections;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +13,7 @@ import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.io.ExportBatch;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
 import fr.lsmbo.msda.recover.gui.io.PeaklistWriter;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
@@ -109,16 +110,18 @@ public class RecoverViewModel {
 					return file;
 				}, (sucess) -> {
 					logger.info("The file : {} has been loaded successfully!", file.getAbsolutePath());
-					updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
-					refresh();
-					// Enable second Peak list
+					if (!RecoverFx.useSecondPeaklist) {
+						updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
+						refresh();
+					}
+					// Enable second Peaks list
 					RecoverFx.useSecondPeaklist = true;
 				}, (failure) -> {
 					logger.debug("Loading file has been failed!");
 					// Disable use second peak list
 					RecoverFx.useSecondPeaklist = false;
 				}, true, stage);
-				if (isValidatedSpectra() && PeaklistReader.retentionTimesNotFound()) {
+				if (isValidatedFirstSpectra() && PeaklistReader.retentionTimesNotFound()) {
 					new ConfirmDialog<Object>(ICON.WARNING, "Missing Retention times",
 							"Retention times could not be extracted from titles.\nDo you want to open the Parsing rules selection list?",
 							() -> {
@@ -203,14 +206,30 @@ public class RecoverViewModel {
 	/**
 	 * Apply all filters and identified spectra
 	 */
+
 	public void onExportInBatch() {
-		FilterRequest req = new FilterRequest();
-		//req.applyFilters();
 		ExportInBatchDialog exportInBatchDialog = new ExportInBatchDialog();
-		exportInBatchDialog.showAndWait().ifPresent(mgfByIdentifiedTitleFiles -> {
-			mgfByIdentifiedTitleFiles.forEach((k, v) -> {
-				System.out.println(k.getName() + "-" + v.getName());
-			});
+		exportInBatchDialog.showAndWait().ifPresent(identificationByPeakListMap -> {
+			if (!identificationByPeakListMap.keySet().isEmpty()) {
+				taskRunner.doAsyncWork("Exporting in batch", () -> {
+					long startTime = System.currentTimeMillis();
+					logger.debug("Start exporting in batch. The number of file to proceed : ",
+							identificationByPeakListMap.keySet().size());
+					System.out.println("INFO - Start exporting in batch. The number of file to proceed : "
+							+ identificationByPeakListMap.keySet().size());
+					ExportBatch exportOnBatch = new ExportBatch();
+					exportOnBatch.run(identificationByPeakListMap);
+					long endTime = System.currentTimeMillis();
+					long totalTime = endTime - startTime;
+					logger.debug("Exporting in batch has finished: {} ", (double) totalTime / 1000, " sec");
+					System.out.println("INFO - Exporting in batch has finished: " + (double) totalTime / 1000 + " sec");
+					return true;
+				}, (sucess) -> {
+					logger.debug("Exporting in batch has been finished successfully!");
+				}, (failure) -> {
+					logger.error("Exporting in batch has failed!", failure.getMessage());
+				}, true, stage);
+			}
 		});
 	}
 
@@ -221,7 +240,7 @@ public class RecoverViewModel {
 	 * @see IonReporters
 	 */
 	public void onAddIonReporter() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			FilterIonReporterDialog filterDialog = new FilterIonReporterDialog();
 			filterDialog.showAndWait().ifPresent(filter -> {
 				taskRunner.doAsyncWork("Applying ion reporter filter", () -> {
@@ -253,7 +272,7 @@ public class RecoverViewModel {
 	 * @see FilterRequest
 	 */
 	public void onApplyLowIntThresholdFilter() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			taskRunner.doAsyncWork("Applying low intensity threshold filter", () -> {
 				FilterRequest filterRequest = new FilterRequest();
 				Boolean isFinished = filterRequest.applyLIT();
@@ -282,7 +301,7 @@ public class RecoverViewModel {
 	 * @see ParsingRules
 	 */
 	public void onEditParsingRules() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			ParsingRulesDialog parsingRulesDialog = new ParsingRulesDialog();
 			parsingRulesDialog.showAndWait().ifPresent(selectedParsingRule -> {
 				taskRunner.doAsyncWork("Editing parsing rules", () -> {
@@ -313,7 +332,7 @@ public class RecoverViewModel {
 	 * @see IdentifiedSpectra
 	 */
 	public void onGetIdentifiedSpectra() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			IdentifiedSpectraDialog identifiedSpectraDialog = new IdentifiedSpectraDialog();
 			identifiedSpectraDialog.showAndWait().ifPresent(identifiedSpectra -> {
 				taskRunner.doAsyncWork("Getting identified Spectra", () -> {
@@ -346,7 +365,7 @@ public class RecoverViewModel {
 	 * 
 	 */
 	public void onResetFlagSpectrum() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			taskRunner.doAsyncWork("Reset flagged spectra", () -> {
 				Boolean isFinished = false;
 				ListOfSpectra.getFirstSpectra().getSpectraAsObservable().forEach(spectrum -> {
@@ -377,7 +396,7 @@ public class RecoverViewModel {
 	 * 
 	 */
 	public void onResetRecover() {
-		if (isValidatedSpectra()) {
+		if (isValidatedFirstSpectra()) {
 			taskRunner.doAsyncWork("Reset RecoverFx", () -> {
 				// Reset all filters to default values.
 				logger.debug("Reset all stored filters...");
@@ -505,7 +524,7 @@ public class RecoverViewModel {
 	 * @return <code>true</code> if the spectra is not empty otherwise
 	 *         <code>false</code>.
 	 */
-	private Boolean isValidatedSpectra() {
+	private Boolean isValidatedFirstSpectra() {
 		return (Session.CURRENT_FILE != null && Session.CURRENT_FILE.exists()
 				&& ListOfSpectra.getFirstSpectra().getSpectraAsObservable().size() > 0);
 	}

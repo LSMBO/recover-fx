@@ -20,6 +20,7 @@ import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
@@ -81,6 +82,7 @@ public class MainView extends StackPane {
 	private RecoverViewModel model = null;
 	private Spectrum selectedSpectrum = null;
 	private TaskRunner taskRunner = null;
+	private FilterRequest filterRequest = new FilterRequest();
 	private final SwingNode swingNodeForChart = new SwingNode();
 	private RecoverViewProperty viewProperty = new RecoverViewProperty();
 	private RecoverViewUPNProperty filterLITProperty = new RecoverViewUPNProperty();
@@ -113,7 +115,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param selectedSpectrum the selected spectrum to set
+	 * @param selectedSpectrum
+	 *            the selected spectrum to set
 	 */
 	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
 		this.selectedSpectrum = selectedSpectrum;
@@ -127,7 +130,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param viewProperties the view properties to set
+	 * @param viewProperties
+	 *            the view properties to set
 	 */
 	public void setViewProperties(RecoverViewProperty viewProperties) {
 		this.viewProperty = viewProperties;
@@ -141,7 +145,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filterProperties the filter properties to set
+	 * @param filterProperties
+	 *            the filter properties to set
 	 */
 	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
 		this.filterLITProperty = filterProperties;
@@ -155,7 +160,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filteredTable the filtered table to set
+	 * @param filteredTable
+	 *            the filtered table to set
 	 */
 	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
 		this.filteredTable = filteredTable;
@@ -169,7 +175,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param model the view model to set
+	 * @param model
+	 *            the view model to set
 	 */
 	public void setModel(RecoverViewModel model) {
 		this.model = model;
@@ -183,7 +190,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param taskRunner the task runner to set
+	 * @param taskRunner
+	 *            the task runner to set
 	 */
 	public void setTaskRunner(TaskRunner taskRunner) {
 		this.taskRunner = taskRunner;
@@ -689,7 +697,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Keep the original items and use a copy of items whenever a filter is invoked
+	 * Keep the original items and use a copy of items whenever a filter is
+	 * invoked
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
@@ -709,32 +718,32 @@ public class MainView extends StackPane {
 		ObservableList<Spectrum> newData = getItems();
 		System.out.println("INFO - Initial spectra number: " + newData.size());
 		// Filter on id
-		filterIdColumn(newData);
+		filterRequest.filterIdColumn(newData, idColumn.getFilters());
 		// Filter on M/z
-		filterMzColumn(newData);
+		filterRequest.filterMzColumn(newData, mozColumn.getFilters());
 		// Filter on title
-		filterTitleColumn(newData);
+		filterRequest.filterTitleColumn(newData, titleColumn.getFilters());
 		// Filter on spectrum intensity
-		filterIntensityColumn(newData);
+		filterRequest.filterIntensityColumn(newData, intensityColumn.getFilters());
 		// Filter on charge
-		filterChargeColumn(newData);
+		filterRequest.filterChargeColumn(newData, chargeColumn.getFilters());
 		// Filter on retention time
-		filterRTColumn(newData);
+		filterRequest.filterRTColumn(newData, rtColumn.getFilters());
 		// Filter on fragment intensity
-		filterFIntensityColumn(newData);
+		filterRequest.filterFIntensityColumn(newData, fragmentIntColumn.getFilters());
 		// Filter on UPN
-		filterUPNColumn(newData);
+		filterRequest.filterUPNColumn(newData, UPNColumn.getFilters());
 		// Filter on fragment number
-		filterNbrFrgsColumn(newData);
+		filterRequest.filterNbrFrgsColumn(newData, nbrFragmentsColumn.getFilters());
 		// Filter on identified spectrum
-		filterIdentifiedColumn(newData);
+		filterRequest.filterIdentifiedColumn(newData, identifiedColumn.getFilters());
 		// Filter on flagged spectrum
-		filterFlaggedColumn(newData);
+		filterRequest.filterFlaggedColumn(newData, flaggedColumn.getFilters());
 		// TODO it will be removed this column
 		// Filter on ion reporter spectrum
-		filterIonReporterColumn(newData);
+		filterRequest.filterIonReporterColumn(newData, ionReporterColumn.getFilters());
 		// Filter on wrong charge column
-		filterWrongChargeColumn(newData);
+		filterRequest.filterWrongChargeColumn(newData, wrongChargeColumn.getFilters());
 		System.out.println("INFO - " + newData.size() + " spectra left after applying the column filters");
 		filteredTable.getItems().setAll(newData);
 		filteredTable.refresh();
@@ -747,403 +756,10 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Filter column spectrum id
+	 * Update the table view on Java-Fx thread
 	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterIdColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Integer>> filters = idColumn.getFilters();
-		for (NumberOperator<Integer> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getId() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getId() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getId() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getId() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getId() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getId() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum moz
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterMzColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Float>> filters = mozColumn.getFilters();
-		for (NumberOperator<Float> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getMz() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getMz() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getMz() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getMz() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getMz() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getMz() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum title
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterTitleColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<StringOperator> filters = titleColumn.getFilters();
-		for (StringOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == StringOperator.Type.EQUALS) {
-					if (!item.getTitle().equals(filter.getValue()))
-						remove.add(item);
-				} else if (filter.getType() == StringOperator.Type.NOTEQUALS) {
-					if (item.getTitle().equals(filter.getValue()))
-						remove.add(item);
-				} else if (filter.getType() == StringOperator.Type.CONTAINS) {
-					if (!item.getTitle().contains(filter.getValue()))
-						remove.add(item);
-				} else if (filter.getType() == StringOperator.Type.STARTSWITH) {
-					if (!item.getTitle().startsWith(filter.getValue()))
-						remove.add(item);
-				} else if (filter.getType() == StringOperator.Type.ENDSWITH) {
-					if (!item.getTitle().endsWith(filter.getValue()))
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum intensity
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterIntensityColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Float>> filters = intensityColumn.getFilters();
-		for (NumberOperator<Float> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getIntensity() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getIntensity() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getIntensity() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getIntensity() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getIntensity() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getIntensity() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum charge
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterChargeColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Integer>> filters = chargeColumn.getFilters();
-		for (NumberOperator<Integer> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getCharge() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getCharge() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getCharge() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getCharge() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getCharge() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getCharge() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum retention time
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterRTColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Float>> filters = rtColumn.getFilters();
-		for (NumberOperator<Float> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getRetentionTime() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getRetentionTime() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getRetentionTime() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getRetentionTime() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getRetentionTime() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getRetentionTime() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum number of fragments
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterNbrFrgsColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Integer>> filters = nbrFragmentsColumn.getFilters();
-		for (NumberOperator<Integer> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getNbFragments() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getNbFragments() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getNbFragments() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getNbFragments() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getNbFragments() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getNbFragments() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter on Max fragment intensity.
-	 * 
-	 * @param newData the list of spectrum to filter
-	 * 
-	 */
-	private void filterFIntensityColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Integer>> filters = fragmentIntColumn.getFilters();
-		for (NumberOperator<Integer> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getFragmentMaxIntensity() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getFragmentMaxIntensity() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getFragmentMaxIntensity() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getFragmentMaxIntensity() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getFragmentMaxIntensity() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getFragmentMaxIntensity() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter on useful peaks number to keep over the threshold.
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterUPNColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<NumberOperator<Integer>> filters = UPNColumn.getFilters();
-		for (NumberOperator<Integer> filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == NumberOperator.Type.EQUALS) {
-					if (item.getUpn() != filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.NOTEQUALS) {
-					if (item.getUpn() == filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHAN) {
-					if (item.getUpn() <= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.GREATERTHANEQUALS) {
-					if (item.getUpn() < filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHAN) {
-					if (item.getUpn() >= filter.getValue())
-						remove.add(item);
-				} else if (filter.getType() == NumberOperator.Type.LESSTHANEQUALS) {
-					if (item.getUpn() > filter.getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	// TODO It will be removed
-	/**
-	 * Filter column spectrum whether is recover
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterIonReporterColumn(ObservableList<Spectrum> newData) {
-		// Here's an example of how you could filter the ID column
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<BooleanOperator> filters = ionReporterColumn.getFilters();
-		for (BooleanOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == BooleanOperator.Type.TRUE) {
-					if (!item.getIonReporter().getValue())
-						remove.add(item);
-				} else if (filter.getType() == BooleanOperator.Type.FALSE) {
-					if (item.getIonReporter().getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum whether is recover
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterFlaggedColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<BooleanOperator> filters = flaggedColumn.getFilters();
-		for (BooleanOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == BooleanOperator.Type.TRUE) {
-					if (!item.getIsFlaggedProperty().getValue())
-						remove.add(item);
-				} else if (filter.getType() == BooleanOperator.Type.FALSE) {
-					if (item.getIsFlaggedProperty().getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum whether is identified
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterIdentifiedColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<BooleanOperator> filters = identifiedColumn.getFilters();
-		for (BooleanOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == BooleanOperator.Type.TRUE) {
-					if (!item.getIsIdentified())
-						remove.add(item);
-				} else if (filter.getType() == BooleanOperator.Type.FALSE) {
-					if (item.getIsIdentified())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Filter column spectrum whether is a wrong charge
-	 * 
-	 * @param newData the list of spectrum to filter
-	 */
-	private void filterWrongChargeColumn(ObservableList<Spectrum> newData) {
-		final List<Spectrum> remove = new ArrayList<>();
-		final ObservableList<BooleanOperator> filters = wrongChargeColumn.getFilters();
-		for (BooleanOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == BooleanOperator.Type.TRUE) {
-					if (!item.getWrongCharge().getValue())
-						remove.add(item);
-				} else if (filter.getType() == BooleanOperator.Type.FALSE) {
-					if (item.getWrongCharge().getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
-	}
-
-	/**
-	 * Update the view on java-fx thread
-	 * 
-	 * @param r Runnable to submit
+	 * @param r
+	 *            Runnable to submit
 	 */
 	private void updateOnJfx(Runnable r) {
 		Platform.runLater(r);

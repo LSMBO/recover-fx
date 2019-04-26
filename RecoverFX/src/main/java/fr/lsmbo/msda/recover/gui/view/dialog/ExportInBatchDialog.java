@@ -3,6 +3,7 @@ package fr.lsmbo.msda.recover.gui.view.dialog;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -42,11 +43,11 @@ import javafx.stage.Stage;
  * @author Aromdhani
  *
  */
-public class ExportInBatchDialog extends Dialog<HashMap<File, File>> {
+public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 
 	File mgfDirectory = null;
 	File excelDirectory = null;
-	private HashMap<File, File> mgfByIdentifiedTitlesFile = new HashMap<>();
+	private Map<File, File> mgfByIdentifiedTitlesFile = new HashMap<>();
 	private ObservableList<File> mgfFiles = FXCollections.observableArrayList();
 	private ObservableList<File> excelFiles = FXCollections.observableArrayList();
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
