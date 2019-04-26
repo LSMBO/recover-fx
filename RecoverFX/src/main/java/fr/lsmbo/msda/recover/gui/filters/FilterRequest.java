@@ -633,10 +633,8 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
-	public Boolean applyFilters() {
-		ObservableList<Spectrum> newData = getSpectra().getSpectraAsObservable();
-		Boolean isFinished = false;
-		ColumnFilters.getApplied().forEach((k, v) -> {
+	public ObservableList<Spectrum> applyFilters(ObservableList<Spectrum> newData) {
+			ColumnFilters.getApplied().forEach((k, v) -> {
 			switch (k) {
 			// Apply filter on flag column
 			case "Flag": {
@@ -760,9 +758,7 @@ public class FilterRequest {
 				break;
 			}
 		});
-		// TODO to remove
-		System.out.println(newData.size());
-		return isFinished;
+		return newData;
 	}
 
 	/**
