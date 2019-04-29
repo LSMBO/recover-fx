@@ -54,6 +54,7 @@ public class IonReporterFilter implements BasicFilter {
 		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter."
 				+ "\n" + allIons;
 	}
+
 	@Override
 	public String getType() {
 		return this.getClass().getName();

@@ -4,13 +4,13 @@ import java.io.File;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Collections;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.RecoverFx;
 import fr.lsmbo.msda.recover.gui.Session;
-import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
-import org.google.jhsheets.filtered.operators.IFilterOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
 
@@ -18,7 +17,6 @@ import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 
 /**
  * Compute and apply different filters to spectra. Recover filters used and scan
@@ -180,30 +178,6 @@ public class FilterRequest {
 		final ObservableList<Spectrum> copiedItems = FXCollections
 				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		return copiedItems;
-	}
-
-	/**
-	 * Filter column spectrum whether is recover
-	 * 
-	 * @param newData
-	 *            the list of spectrum to filter
-	 * @param filters
-	 *            the ObservableList of filters to apply
-	 */
-	public void filterFlaggedColumn(ObservableList<Spectrum> newData, List<BooleanOperator> filters) {
-		final List<Spectrum> remove = new ArrayList<>();
-		for (BooleanOperator filter : filters) {
-			for (Spectrum item : newData) {
-				if (filter.getType() == BooleanOperator.Type.TRUE) {
-					if (!item.getIsFlaggedProperty().getValue())
-						remove.add(item);
-				} else if (filter.getType() == BooleanOperator.Type.FALSE) {
-					if (item.getIsFlaggedProperty().getValue())
-						remove.add(item);
-				}
-			}
-		}
-		newData.removeAll(remove);
 	}
 
 	/**
@@ -564,7 +538,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	private void filterFlaggedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
+	public void filterFlaggedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (BooleanOperator filter : filters) {
 			for (Spectrum item : newData) {
@@ -634,7 +608,7 @@ public class FilterRequest {
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 	public ObservableList<Spectrum> applyFilters(ObservableList<Spectrum> newData) {
-			ColumnFilters.getApplied().forEach((k, v) -> {
+		ColumnFilters.getApplied().forEach((k, v) -> {
 			switch (k) {
 			// Apply filter on flag column
 			case "Flag": {

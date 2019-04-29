@@ -2,7 +2,6 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
