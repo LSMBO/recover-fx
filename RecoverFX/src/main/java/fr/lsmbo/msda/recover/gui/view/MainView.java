@@ -527,25 +527,21 @@ public class MainView extends StackPane {
 		regexRt.textProperty().bind(viewProperty.getRegexProperty());
 
 		// Emergence value via slider
-
 		Label EmregenceLabel = new Label("Emergence: ");
-		EmregenceValueLabel = new Label("1.0");
+		EmregenceValueLabel = new Label("0.0");
 		Slider emergenceSlider = new Slider();
 		emergenceSlider.setMin(0);
-		emergenceSlider.setMax(1.0);
-		emergenceSlider.setValue(1.0);
+		emergenceSlider.setMax(15.0);
+		emergenceSlider.setValue(0.0);
 		emergenceSlider.setShowTickLabels(true);
-		emergenceSlider.setShowTickMarks(true);
-		emergenceSlider.setMajorTickUnit(0.5);
-		emergenceSlider.setMinorTickCount(5);
-		emergenceSlider.setBlockIncrement(0.2);
-		emergenceSlider.valueProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, //
-					Number oldValue, Number newValue) {
-				EmregenceValueLabel.setText(String.valueOf(newValue));
-			}
+		//emergenceSlider.setShowTickMarks(true);
+		emergenceSlider.setMajorTickUnit(1);
+		emergenceSlider.setBlockIncrement(1);
+		emergenceSlider.valueProperty().addListener((obs, oldval, newVal) -> {
+			emergenceSlider.setValue(newVal.intValue());
+			EmregenceValueLabel.setText(String.valueOf(newVal.intValue()));
 		});
+
 		Label baseLineLabel = new Label("Select a baseline: ");
 		modeBaselineCmBox = new ChoiceBox<String>();
 		modeBaselineCmBox
@@ -700,7 +696,7 @@ public class MainView extends StackPane {
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
-	private ObservableList<Spectrum> initialItems() {
+	private ObservableList<Spectrum> initializeItems() {
 		final ObservableList<Spectrum> initialItems = FXCollections
 				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		return initialItems;
@@ -713,7 +709,7 @@ public class MainView extends StackPane {
 		// Filter the list of spectrum ...
 		Integer nbRecover = 0;
 		Float percentageRecover = (float) 0;
-		ObservableList<Spectrum> newData = initialItems();
+		ObservableList<Spectrum> newData = initializeItems();
 		System.out.println("INFO - Initial spectra number: " + newData.size());
 		// Filter on id
 		filterRequest.filterIdColumn(newData, idColumn.getFilters());
@@ -744,9 +740,9 @@ public class MainView extends StackPane {
 		System.out.println("INFO - " + newData.size() + " spectra left after applying filters");
 		filteredTable.getItems().setAll(newData);
 		filteredTable.refresh();
-		if (newData.size() > 0 && initialItems().size() > 0) {
+		if (newData.size() > 0 && initializeItems().size() > 0) {
 			nbRecover = newData.size();
-			percentageRecover = (((float) nbRecover / (float) initialItems().size()) * 100);
+			percentageRecover = (((float) nbRecover / (float) initializeItems().size()) * 100);
 		}
 		viewProperty.setRecoveredNb(String.valueOf(nbRecover));
 		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));
@@ -761,4 +757,5 @@ public class MainView extends StackPane {
 	private void updateOnJfx(Runnable r) {
 		Platform.runLater(r);
 	}
+
 }
