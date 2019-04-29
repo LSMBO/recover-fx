@@ -699,9 +699,9 @@ public class MainView extends StackPane {
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
-	private ObservableList<Spectrum> getItems() {
-		final ObservableList<Spectrum> copiedItems = FXCollections.observableArrayList();
-		copiedItems.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+	private ObservableList<Spectrum> copyItems() {
+		final ObservableList<Spectrum> copiedItems = FXCollections
+				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		return copiedItems;
 	}
 
@@ -712,7 +712,7 @@ public class MainView extends StackPane {
 		// Filter the list of spectrum ...
 		Integer nbRecover = 0;
 		Float percentageRecover = (float) 0;
-		ObservableList<Spectrum> newData = getItems();
+		ObservableList<Spectrum> newData = copyItems();
 		System.out.println("INFO - Initial spectra number: " + newData.size());
 		// Filter on id
 		filterRequest.filterIdColumn(newData, idColumn.getFilters());
@@ -741,12 +741,12 @@ public class MainView extends StackPane {
 		filterRequest.filterIonReporterColumn(newData, ionReporterColumn.getFilters());
 		// Filter on wrong charge column
 		filterRequest.filterWrongChargeColumn(newData, wrongChargeColumn.getFilters());
-		System.out.println("INFO - " + newData.size() + " spectra left after applying the column filters");
+		System.out.println("INFO - " + newData.size() + " spectra left after applying filters");
 		filteredTable.getItems().setAll(newData);
 		filteredTable.refresh();
-		if (newData.size() > 0 && getItems().size() > 0) {
+		if (newData.size() > 0 && copyItems().size() > 0) {
 			nbRecover = newData.size();
-			percentageRecover = (((float) nbRecover / (float) getItems().size()) * 100);
+			percentageRecover = (((float) nbRecover / (float) copyItems().size()) * 100);
 		}
 		viewProperty.setRecoveredNb(String.valueOf(nbRecover));
 		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));

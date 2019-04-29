@@ -47,7 +47,8 @@ public class ExportBatch {
 	/**
 	 * Add file in hashMAp with value null
 	 * 
-	 * @param file file which contains peaklist
+	 * @param file
+	 *            file which contains peaklist
 	 * 
 	 */
 	public void addFileToProcessInHashMap(File file) {
@@ -57,8 +58,10 @@ public class ExportBatch {
 	/**
 	 * Add file in hashMap with its corresponding list of titles
 	 * 
-	 * @param file                       file which contains Peaklist
-	 * @param specificListIdentification ArrayList with titles specific for a file
+	 * @param file
+	 *            file which contains Peaklist
+	 * @param specificListIdentification
+	 *            ArrayList with titles specific for a file
 	 */
 	public void addListTitlesWithCorrespondingFile(File file, ArrayList<String> specificListIdentification) {
 		hashMapFileWithListTitles.put(file, specificListIdentification);
@@ -67,8 +70,8 @@ public class ExportBatch {
 	/**
 	 * Apply all stored filters to the list of peak list files.
 	 * 
-	 * @param identificationByMgfMap contains peak list files and identification
-	 *                               files.
+	 * @param identificationByMgfMap
+	 *            contains peak list files and identification files.
 	 */
 	public void run(Map<File, File> identificationByPeakListMap) {
 		// Boolean to specify we are in batch mode
@@ -79,7 +82,7 @@ public class ExportBatch {
 			try {
 				PeaklistReader.load(peakListFile);
 				ObservableList<Spectrum> newData = filterRequest
-						.applyFilters(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
+						.applyAllFilters(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
 				System.out.println(newData.size());
 				File newFile = new File(peakListFile.getParent() + File.separator + dateFormat.format(date) + "_"
 						+ peakListFile.getName());
@@ -96,8 +99,8 @@ public class ExportBatch {
 	}
 
 	/**
-	 * Routine to process several files. Each file are load, identify (specifically
-	 * or in common), filter and export.
+	 * Routine to process several files. Each file are load, identify
+	 * (specifically or in common), filter and export.
 	 */
 	public void Main() {
 
@@ -132,7 +135,8 @@ public class ExportBatch {
 	 * Add each file contained in a list of file to an observable list and to an
 	 * hashmap
 	 * 
-	 * @param file A list of files to be process
+	 * @param file
+	 *            A list of files to be process
 	 */
 	public void addFilesInObservableList(List<File> file) {
 		for (File f : file) {
@@ -150,12 +154,14 @@ public class ExportBatch {
 	}
 
 	/**
-	 * Check if file is already in the list. Two possibility to check if files are
-	 * equals : they have same pathway or the pathway isn't the same but they are
-	 * the same name. Ex : C:\Users\LOMBART.benjamin\Desktop\X004081MROLM.mgf
+	 * Check if file is already in the list. Two possibility to check if files
+	 * are equals : they have same pathway or the pathway isn't the same but
+	 * they are the same name. Ex :
+	 * C:\Users\LOMBART.benjamin\Desktop\X004081MROLM.mgf
 	 * C:\Users\LOMBART.benjamin\workspace\RecoverFX\bin\test\X004081MROLM.mgf
 	 * 
-	 * @param newFile file will be processed
+	 * @param newFile
+	 *            file will be processed
 	 * @return boolean if the file is present or not
 	 *
 	 */
@@ -203,7 +209,8 @@ public class ExportBatch {
 	/**
 	 * add titles for identification in observable list after doing verification
 	 * 
-	 * @param titles ArrayList of titles to make identification
+	 * @param titles
+	 *            ArrayList of titles to make identification
 	 */
 	public void addTitlesInObservableList(ArrayList<String> titles) {
 		for (String t : titles) {
@@ -265,7 +272,8 @@ public class ExportBatch {
 
 	/**
 	 * 
-	 * @param folder the folder to export files
+	 * @param folder
+	 *            the folder to export files
 	 */
 	public void setNameDirectoryFolder(String folder) {
 		nameDirectoryFolder = folder;
@@ -289,7 +297,8 @@ public class ExportBatch {
 	/**
 	 * Check if the file we want to export is already in the folder
 	 * 
-	 * @param f file to process
+	 * @param f
+	 *            file to process
 	 * @return boolean if the file is already in the folder or not
 	 */
 	private Boolean isPresentInDirectoryFolder(File f) {
@@ -308,8 +317,8 @@ public class ExportBatch {
 	}
 
 	/**
-	 * If files are already present in the folder, display an alert to prevent the
-	 * user
+	 * If files are already present in the folder, display an alert to prevent
+	 * the user
 	 * 
 	 * @return boolean to stop export or not according to the result of the user
 	 */

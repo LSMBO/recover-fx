@@ -8,6 +8,7 @@ import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
 
+import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -98,7 +99,6 @@ public class ColumnFilters {
 	 * 
 	 * @return the full description of the applied filters .
 	 */
-	@SuppressWarnings("rawtypes")
 	public static String getFullDescription() {
 		StringBuilder strBuilder = new StringBuilder();
 		ColumnFilters.forEach((k, v) -> {
@@ -123,10 +123,10 @@ public class ColumnFilters {
 							.append(((LowIntensityThresholdFilter) filter).getType()).append(" ; ").append("value: ")
 							.append(((LowIntensityThresholdFilter) filter).getFullDescription()).append("\n");
 				}
-				if (filter instanceof IdentifiedSpectraFilter) {
-					strBuilder.append(n++).append(") ").append("Type: ")
-							.append(((IdentifiedSpectraFilter) filter).getType()).append(" ; ").append("value: ")
-							.append(((IdentifiedSpectraFilter) filter).getFullDescription()).append("\n");
+				if (filter instanceof IdentifiedSpectra) {
+					strBuilder.append(n++).append(") ").append("Type: ").append(((IdentifiedSpectra) filter).getType())
+							.append(" ; ").append("value: ").append(((IdentifiedSpectra) filter).getFullDescription())
+							.append("\n");
 				}
 				if (filter instanceof IonReporterFilter) {
 					strBuilder.append(n++).append(") ").append("Type: ").append(((IonReporterFilter) filter).getType())

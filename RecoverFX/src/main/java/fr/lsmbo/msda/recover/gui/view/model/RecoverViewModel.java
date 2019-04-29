@@ -246,10 +246,10 @@ public class RecoverViewModel {
 				taskRunner.doAsyncWork("Applying ion reporter filter", () -> {
 					FilterRequest filterRequest = new FilterRequest();
 					Boolean isFinished = filterRequest.applyIR();
-					logger.info(ColumnFilters.getFullDescription());
-					System.out.println(ColumnFilters.getFullDescription());
 					return isFinished;
 				}, (sucess) -> {
+					logger.info(ColumnFilters.getFullDescription());
+					System.out.println(ColumnFilters.getFullDescription());
 					logger.info("Applying filter by ion reporter has finished successfully!");
 					refresh();
 				}, (failure) -> {
@@ -276,10 +276,10 @@ public class RecoverViewModel {
 			taskRunner.doAsyncWork("Applying low intensity threshold filter", () -> {
 				FilterRequest filterRequest = new FilterRequest();
 				Boolean isFinished = filterRequest.applyLIT();
-				System.out.println(ColumnFilters.getFullDescription());
-				logger.info(ColumnFilters.getFullDescription());
 				return isFinished;
 			}, (sucess) -> {
+				System.out.println(ColumnFilters.getFullDescription());
+				logger.info(ColumnFilters.getFullDescription());
 				logger.info("Applying filter lower intensity threshold has finished successfully!");
 				refresh();
 			}, (failure) -> {
@@ -343,12 +343,13 @@ public class RecoverViewModel {
 					isFinished = true;
 					return isFinished;
 				}, (sucess) -> {
+					logger.info(ColumnFilters.getFullDescription());
+					System.out.println(ColumnFilters.getFullDescription());
 					logger.info("Getting identified spectra has finished successfully!");
 					refresh();
 				}, (failure) -> {
 					logger.error("Getting identified spectra has failed!");
 				}, true, stage);
-
 			});
 		} else {
 			logger.debug(

@@ -9,10 +9,14 @@ import java.util.Arrays;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
+import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -107,9 +111,11 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		this.setTitle("Identified Spectra");
 		this.setDialogPane(dialogPane);
 		buttonOk.disableProperty().bind(warningLabel.visibleProperty().and(emptyTitlesLabel.visibleProperty()));
-
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
+				ObservableList<Object> listIS = FXCollections.observableArrayList();
+				listIS.add(identifiedSpectra);
+				ColumnFilters.add("IS", listIS);
 				// Reset Spectra identified
 				if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
 					ListOfSpectra.getFirstSpectra().resetIdentified();
