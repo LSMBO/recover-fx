@@ -1,9 +1,6 @@
 
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
@@ -12,6 +9,8 @@ import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -134,7 +133,7 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
 				// Filter by ion reporter
-				List<Object> listIR = new ArrayList<>();
+				ObservableList<Object> listIR = FXCollections.observableArrayList();
 				listIR.add(filterIR);
 				if (!IonReporters.getIonReporters().isEmpty()) {
 					ColumnFilters.add("IR", listIR);

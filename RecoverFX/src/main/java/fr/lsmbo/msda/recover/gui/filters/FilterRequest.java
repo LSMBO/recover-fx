@@ -121,6 +121,7 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
+
 	public Boolean applyIR() {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = new Spectra();
@@ -139,7 +140,6 @@ public class FilterRequest {
 					IonReporter ionReporter = IonReporters.getIonReporters().get(k);
 					// Initialize parameter for an ion(i)
 					filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
-
 					if (k >= 1)
 						spectrum.setIonReporter(recoverIfSeveralIons(spectrum, filterIR));
 					else
@@ -149,7 +149,6 @@ public class FilterRequest {
 			isFinished = true;
 		}
 		return isFinished;
-
 	}
 
 	/**

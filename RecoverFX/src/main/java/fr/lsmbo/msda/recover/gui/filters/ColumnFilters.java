@@ -8,6 +8,9 @@ import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 /***
  * Save column filters in HashMap. keep in memory all the column filters(until
  * reset). It initialize all the filters , add, remove a column filter.
@@ -17,7 +20,7 @@ import org.google.jhsheets.filtered.operators.StringOperator;
  */
 public class ColumnFilters {
 
-	private static HashMap<String, List<Object>> ColumnFilters = new HashMap<String, List<Object>>();
+	private static HashMap<String, ObservableList<Object>> ColumnFilters = new HashMap<String, ObservableList<Object>>();
 
 	@SuppressWarnings("unused")
 	private static ArrayList<Integer> arrayFilter = new ArrayList<Integer>();
@@ -28,7 +31,7 @@ public class ColumnFilters {
 	 * @return An empty HashMap.
 	 */
 	@SuppressWarnings({ "unused" })
-	private static HashMap<String, List<Object>> initialize() {
+	private static HashMap<String, ObservableList<Object>> initialize() {
 		ColumnFilters.clear();
 		return ColumnFilters;
 	}
@@ -38,7 +41,7 @@ public class ColumnFilters {
 	 * 
 	 * @return The HashMap of column filters
 	 */
-	public static HashMap<String, List<Object>> getApplied() {
+	public static HashMap<String, ObservableList<Object>> getApplied() {
 		return ColumnFilters;
 	}
 
@@ -51,7 +54,7 @@ public class ColumnFilters {
 	 * @param The
 	 *            list of filters to be associated with the specified column
 	 */
-	public static void add(String colmunName, List<Object> filter) {
+	public static void add(String colmunName, ObservableList<Object> filter) {
 		ColumnFilters.put(colmunName, filter);
 	}
 
@@ -74,7 +77,7 @@ public class ColumnFilters {
 	 */
 	public static boolean resetOne(String columnName) {
 		if (ColumnFilters.containsKey(columnName)) {
-			ColumnFilters.put(columnName, new ArrayList<>());
+			ColumnFilters.put(columnName, FXCollections.observableArrayList());
 			return true;
 		} else {
 			return false;

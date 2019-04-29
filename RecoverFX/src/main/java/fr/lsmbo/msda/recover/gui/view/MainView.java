@@ -560,7 +560,7 @@ public class MainView extends StackPane {
 			LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 			filterLIT.setParameters(filterLITProperty.getEmergence().get(), 0, 0,
 					ComputationTypes.getMode(modeBaselineCmBox));
-			List<Object> filterList = new ArrayList<>();
+			ObservableList<Object> filterList = FXCollections.observableArrayList();
 			filterList.add(filterLIT);
 			ColumnFilters.add("LIT", filterList);
 			model.onApplyLowIntThresholdFilter();
