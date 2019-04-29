@@ -424,13 +424,13 @@ public class Spectrum {
 	}
 
 	/**
-	 * Determines whether is a wrong chareg
+	 * Determines whether is a wrong charge
 	 * 
 	 * @return <code>false</code> if the m/z precursor is greater than the last
 	 *         fragment (max m/z).
 	 */
 	public Boolean computeWrongCharge() {
-		if ((this.getCharge() == 1) && (this.getMz() > this.getFragmentMaxMoz()))
+		if ((this.getMz() * this.getCharge() > this.getFragmentMaxMoz()))
 			return false;
 		else
 			return true;

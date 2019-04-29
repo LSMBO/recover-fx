@@ -538,7 +538,7 @@ public class MainView extends StackPane {
 		emergenceSlider.setShowTickMarks(true);
 		emergenceSlider.setMajorTickUnit(0.5);
 		emergenceSlider.setMinorTickCount(5);
-		emergenceSlider.setBlockIncrement(0.1);
+		emergenceSlider.setBlockIncrement(0.2);
 		emergenceSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, //
@@ -691,6 +691,7 @@ public class MainView extends StackPane {
 				});
 			}
 		});
+
 	}
 
 	/**
@@ -699,10 +700,10 @@ public class MainView extends StackPane {
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
-	private ObservableList<Spectrum> copyItems() {
-		final ObservableList<Spectrum> copiedItems = FXCollections
+	private ObservableList<Spectrum> initialItems() {
+		final ObservableList<Spectrum> initialItems = FXCollections
 				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-		return copiedItems;
+		return initialItems;
 	}
 
 	/**
@@ -712,7 +713,7 @@ public class MainView extends StackPane {
 		// Filter the list of spectrum ...
 		Integer nbRecover = 0;
 		Float percentageRecover = (float) 0;
-		ObservableList<Spectrum> newData = copyItems();
+		ObservableList<Spectrum> newData = initialItems();
 		System.out.println("INFO - Initial spectra number: " + newData.size());
 		// Filter on id
 		filterRequest.filterIdColumn(newData, idColumn.getFilters());
@@ -736,7 +737,6 @@ public class MainView extends StackPane {
 		filterRequest.filterIdentifiedColumn(newData, identifiedColumn.getFilters());
 		// Filter on flagged spectrum
 		filterRequest.filterFlaggedColumn(newData, flaggedColumn.getFilters());
-		// TODO it will be removed this column
 		// Filter on ion reporter spectrum
 		filterRequest.filterIonReporterColumn(newData, ionReporterColumn.getFilters());
 		// Filter on wrong charge column
@@ -744,9 +744,9 @@ public class MainView extends StackPane {
 		System.out.println("INFO - " + newData.size() + " spectra left after applying filters");
 		filteredTable.getItems().setAll(newData);
 		filteredTable.refresh();
-		if (newData.size() > 0 && copyItems().size() > 0) {
+		if (newData.size() > 0 && initialItems().size() > 0) {
 			nbRecover = newData.size();
-			percentageRecover = (((float) nbRecover / (float) copyItems().size()) * 100);
+			percentageRecover = (((float) nbRecover / (float) initialItems().size()) * 100);
 		}
 		viewProperty.setRecoveredNb(String.valueOf(nbRecover));
 		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));
