@@ -169,7 +169,7 @@ public class RecoverViewModel {
 		logger.debug("The filtered spectra number: {}", filteredItems.size());
 		if (filteredItems.size() > 0) {
 			FileUtils.exportPeakListAs(file -> {
-				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + "", () -> {
+				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + " file", () -> {
 					long startTime = System.currentTimeMillis();
 					ListOfSpectra.getFirstSpectra().getSpectraAsObservable().stream().parallel().forEach(spectrum -> {
 						if (filteredItems.contains(spectrum))
@@ -182,9 +182,8 @@ public class RecoverViewModel {
 					long totalTime = endTime - startTime;
 					logger.debug("The file: {} has been exported in {}", file.getAbsolutePath(),
 							(double) totalTime / 1000, " sec");
-					System.out.println("INFO - The filtered spectra number:" + filteredItems.size()
-							+ " have been set as recover. The file:" + file.getAbsolutePath()
-							+ " has been exported in: " + (double) totalTime / 1000 + "sec");
+					System.out.println("INFO - The filtered spectra number: " + filteredItems.size() + ". The file: "
+							+ file.getAbsolutePath() + " has been exported in: " + (double) totalTime / 1000 + " sec");
 					return file;
 				}, (sucess) -> {
 					logger.debug("Exporting file: {} has been exported successfully!", file.getAbsolutePath());

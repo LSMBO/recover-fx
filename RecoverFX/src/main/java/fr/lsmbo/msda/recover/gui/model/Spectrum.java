@@ -62,9 +62,8 @@ public class Spectrum {
 	private Integer nbMatch = 0;
 	// The number of peaks
 	private int nbPeaks;
-	// TODO To remove this property.
 	// Determines whether the spectrum is recovered
-	private final BooleanProperty recovered = new SimpleBooleanProperty(false);
+	private final BooleanProperty recovered = new SimpleBooleanProperty(true);
 	// Determines whether the spectrum is identified
 	private final BooleanProperty identified = new SimpleBooleanProperty(false);
 	// Determines whether the spectrum is flagged
