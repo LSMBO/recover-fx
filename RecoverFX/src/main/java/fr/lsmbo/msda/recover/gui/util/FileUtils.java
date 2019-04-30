@@ -89,32 +89,8 @@ public class FileUtils {
 				java.awt.Desktop.getDesktop().browse(new File(path).toURI());
 			} catch (IOException ex) {
 				logger.error("Error while trying to browse file!", ex);
-				ex.printStackTrace();
-			}
+				}
 		}
-	}
-
-	/**
-	 * Return the file name without extension
-	 * 
-	 * @param file
-	 *            the file to get its name without extension
-	 * @return the file name without extension
-	 */
-	public static String getFileNameWithoutExtension(File file) {
-		String fileName = "";
-
-		try {
-			if (file != null && file.exists()) {
-				String name = file.getName();
-				fileName = name.replaceFirst("[.][^.]+$", "");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			fileName = "";
-		}
-
-		return fileName;
 	}
 
 	/**
@@ -148,7 +124,7 @@ public class FileUtils {
 	public static void exportPeakListAs(Consumer<File> saveFile, Stage primaryStage) {
 		FileChooser fileChooser = new FileChooser();
 		// Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("peaklist files (*.mgf)", "*.mgf");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Peaklist files (*.mgf)", "*.mgf");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(primaryStage);
