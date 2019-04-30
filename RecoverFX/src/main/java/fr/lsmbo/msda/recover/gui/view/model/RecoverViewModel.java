@@ -229,25 +229,52 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Save applied filter parameters in a JSON file
+	 * Load filters parameters from a JSON file
 	 */
-	public void onSaveJsonFile() {
+	public void onLoadFiltersFrmJsonFile() {
 		FileUtils.saveFilterAs(file -> {
-			taskRunner.doAsyncWork("Saving filter parameters in JSON file", () -> {
+			taskRunner.doAsyncWork("Laoding filters parameters from a JSON file", () -> {
 				Boolean isSucceeded = false;
 				try {
 					FilterWriterJson.saveFilter(file);
 					isSucceeded = true;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					logger.error("Error while trying to save filter parameters in a JSON file ", e);
+					logger.error("Error while trying to Laod filters parameters from a JSON fil", e);
 				}
 				return isSucceeded;
 			}, (isSucceeded) -> {
 				if (isSucceeded)
-					logger.debug("Saving filter parameters in a JSON file has finished successfully!");
+					logger.debug("Laoding filters parameters from a JSON file has finished successfully!");
 			}, (failure) -> {
-				logger.error("Saving filter parameters in a JSON file has failed!", failure.getMessage());
+				logger.error("Laoding filters parameters from a JSON file has failed!", failure.getMessage());
+			}, true, stage);
+
+		}, stage);
+
+	}
+
+	/**
+	 * Save applied filters parameters in a JSON file
+	 * 
+	 */
+	public void onSaveFiltersToJsonFile() {
+		FileUtils.saveFilterAs(file -> {
+			taskRunner.doAsyncWork("Saving filters parameters in JSON file", () -> {
+				Boolean isSucceeded = false;
+				try {
+					FilterWriterJson.saveFilter(file);
+					isSucceeded = true;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					logger.error("Error while trying to save filters parameters in a JSON file ", e);
+				}
+				return isSucceeded;
+			}, (isSucceeded) -> {
+				if (isSucceeded)
+					logger.debug("Saving filters parameters in a JSON file has finished successfully!");
+			}, (failure) -> {
+				logger.error("Saving filters parameters in a JSON file has failed!", failure.getMessage());
 			}, true, stage);
 
 		}, stage);

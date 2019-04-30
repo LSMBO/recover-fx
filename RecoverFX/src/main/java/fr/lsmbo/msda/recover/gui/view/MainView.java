@@ -236,12 +236,19 @@ public class MainView extends StackPane {
 		exportInBatchFile.setOnAction((e) -> {
 			model.onExportInBatch();
 		});
-		// Export in batch
-		MenuItem saveJsonFile = new MenuItem(" Save filter parameters... ");
-		saveJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
-		saveJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
-		saveJsonFile.setOnAction((e) -> {
-			model.onSaveJsonFile();
+		// Save filter parameters
+		MenuItem loadFiltersFrmJsonFile = new MenuItem(" Load filters from JSON... ");
+		loadFiltersFrmJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+		loadFiltersFrmJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN));
+		loadFiltersFrmJsonFile.setOnAction((e) -> {
+			model.onLoadFiltersFrmJsonFile();
+		});
+		// Save filter parameters
+		MenuItem saveFiltersToJsonFile = new MenuItem(" Save filters to JSON... ");
+		saveFiltersToJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
+		saveFiltersToJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+		saveFiltersToJsonFile.setOnAction((e) -> {
+			model.onSaveFiltersToJsonFile();
 		});
 		// Exit Recover
 		MenuItem exitFile = new MenuItem(" Exit ");
@@ -250,7 +257,8 @@ public class MainView extends StackPane {
 		exitFile.setOnAction((e) -> {
 			model.onExit();
 		});
-		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, saveJsonFile, exitFile);
+		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, loadFiltersFrmJsonFile,
+				saveFiltersToJsonFile, exitFile);
 
 		/* Action menu items */
 		Menu actionsMenu = new Menu(" Actions ");
