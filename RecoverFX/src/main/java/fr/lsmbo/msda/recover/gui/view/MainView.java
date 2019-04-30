@@ -215,7 +215,7 @@ public class MainView extends StackPane {
 		/* File menu items */
 		Menu fileMenu = new Menu(" File ");
 		// Load file
-		MenuItem openFile = new MenuItem(" Open File  ... ");
+		MenuItem openFile = new MenuItem(" Open file  ... ");
 		openFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 		openFile.setOnAction((ActionEvent t) -> {
@@ -223,7 +223,7 @@ public class MainView extends StackPane {
 		});
 
 		// Export file
-		MenuItem exportFile = new MenuItem(" Export File  ... ");
+		MenuItem exportFile = new MenuItem(" Export file  ... ");
 		exportFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT)));
 		exportFile.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
 		exportFile.setOnAction((ActionEvent t) -> {
@@ -263,31 +263,31 @@ public class MainView extends StackPane {
 		/* Action menu items */
 		Menu actionsMenu = new Menu(" Actions ");
 		// Add ion reporter
-		MenuItem addIonReporterAction = new MenuItem("Add Ion Reporter");
+		MenuItem addIonReporterAction = new MenuItem(" Add ion reporter ");
 		addIonReporterAction.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
 		addIonReporterAction.setOnAction((ActionEvent t) -> {
 			model.onAddIonReporter();
 		});
 		// Edit Parsing Rules
-		MenuItem editPRulesAction = new MenuItem(" Edit Parsing Rules ");
+		MenuItem editPRulesAction = new MenuItem(" Edit parsing rules ");
 		editPRulesAction.setGraphic(new ImageView(IconResource.getImage(ICON.EDIT)));
 		editPRulesAction.setOnAction((ActionEvent t) -> {
 			model.onEditParsingRules();
 		});
 		// Get Identified Spectra
-		MenuItem getIdentifiedSpecAction = new MenuItem(" Get Identified Spectra ");
+		MenuItem getIdentifiedSpecAction = new MenuItem(" Get identified spectra ");
 		getIdentifiedSpecAction.setGraphic(new ImageView(IconResource.getImage(ICON.IDENTIFIEDSPECTRA)));
 		getIdentifiedSpecAction.setOnAction((ActionEvent t) -> {
 			model.onGetIdentifiedSpectra();
 		});
 		// Flagged Spectrum
-		MenuItem flaggedSpecAction = new MenuItem(" Reset Flagged Spectra ");
+		MenuItem flaggedSpecAction = new MenuItem(" Reset flagged spectra ");
 		flaggedSpecAction.setGraphic(new ImageView(IconResource.getImage(ICON.FLAG)));
 		flaggedSpecAction.setOnAction((ActionEvent t) -> {
 			model.onResetFlagSpectrum();
 		});
 		// Reset Recover
-		MenuItem resetRecoverAction = new MenuItem(" Reset Recover ");
+		MenuItem resetRecoverAction = new MenuItem(" Reset recover ");
 		resetRecoverAction.setGraphic(new ImageView(IconResource.getImage(ICON.RESET)));
 		resetRecoverAction.setOnAction((ActionEvent t) -> {
 			model.onResetRecover();
