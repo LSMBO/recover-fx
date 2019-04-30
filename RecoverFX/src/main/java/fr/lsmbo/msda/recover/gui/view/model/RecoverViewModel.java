@@ -14,6 +14,7 @@ import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
+import fr.lsmbo.msda.recover.gui.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
 import fr.lsmbo.msda.recover.gui.io.PeaklistWriter;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
@@ -160,18 +161,15 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Export file. Set all the left spectra after applying the filters as
-	 * recover.
+	 * Export peak list file. Set all the left spectra after applying the
+	 * filters as recover.
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
 		logger.debug("The filtered spectra number: {}", filteredItems.size());
 		if (filteredItems.size() > 0) {
-			final FileChooser fileChooser = new FileChooser();
-			FileUtils.configureFileChooser(fileChooser, "Select .mgf or .raw files");
-			final File file = fileChooser.showOpenDialog(stage);
-			if (file != null) {
-				taskRunner.doAsyncWork("Exporting file", () -> {
+			FileUtils.exportPeakListAs(file -> {
+				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + "", () -> {
 					long startTime = System.currentTimeMillis();
 					ListOfSpectra.getFirstSpectra().getSpectraAsObservable().stream().parallel().forEach(spectrum -> {
 						if (filteredItems.contains(spectrum))
@@ -179,14 +177,12 @@ public class RecoverViewModel {
 						else
 							spectrum.setIsRecovered(false);
 					});
-					logger.debug("The filtered spectra number: {}", filteredItems.size(), " have been set as recover");
-					RecoverFx.useSecondPeaklist = false;
 					PeaklistWriter.save(file);
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
 					logger.debug("The file: {} has been exported in {}", file.getAbsolutePath(),
 							(double) totalTime / 1000, " sec");
-					System.out.println("The filtered spectrum number:" + filteredItems.size()
+					System.out.println("INFO - The filtered spectra number:" + filteredItems.size()
 							+ " have been set as recover. The file:" + file.getAbsolutePath()
 							+ " has been exported in: " + (double) totalTime / 1000 + "sec");
 					return file;
@@ -195,7 +191,7 @@ public class RecoverViewModel {
 				}, (failure) -> {
 					logger.error("Exporting file: {} has failed!", file.getAbsolutePath());
 				}, true, stage);
-			}
+			}, stage);
 		} else {
 			logger.warn("Empty spectra. The filtred items are empty. No spectra will be recovered!");
 			new ShowPopupDialog("Empty Spectra",
@@ -231,6 +227,47 @@ public class RecoverViewModel {
 				}, true, stage);
 			}
 		});
+	}
+
+	/**
+	 * Save applied filter parameters in a JSON file
+	 */
+	public void onSaveJsonFile() {
+		FileUtils.saveFilterAs(file -> {
+			taskRunner.doAsyncWork("Saving filter parameters in JSON file", () -> {
+				Boolean isSucceeded = false;
+				try {
+					FilterWriterJson.saveFilter(file);
+					isSucceeded = true;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					logger.error("Error while trying to save filter parameters in a JSON file ", e);
+				}
+				return isSucceeded;
+			}, (isSucceeded) -> {
+				if (isSucceeded)
+					logger.debug("Saving filter parameters in a JSON file has finished successfully!");
+			}, (failure) -> {
+				logger.error("Saving filter parameters in a JSON file has failed!", failure.getMessage());
+			}, true, stage);
+
+		}, stage);
+
+	}
+
+	/**
+	 * Exit RecoverFx software. This action will reset all values and close the
+	 * window. Make sure to save before to exit the software.
+	 * 
+	 */
+	public void onExit() {
+		logger.warn("Exit Recover");
+		System.out.println("WARN - Exit Recover");
+		new ConfirmDialog<Object>(ICON.EXIT, "Exit Recover", "Are you sure you want to exit Recover ?", () -> {
+			Platform.exit();
+			System.exit(0);
+			return null;
+		}, stage);
 	}
 
 	/**
@@ -424,21 +461,6 @@ public class RecoverViewModel {
 					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!",
 					stage);
 		}
-	}
-
-	/**
-	 * Exit RecoverFx software. This action will reset all values and close the
-	 * window. Make sure to save before to exit the software.
-	 * 
-	 */
-	public void onExit() {
-		logger.warn("Exit Recover");
-		System.out.println("WARN - Exit Recover");
-		new ConfirmDialog<Object>(ICON.EXIT, "Exit Recover", "Are you sure you want to exit Recover ?", () -> {
-			Platform.exit();
-			System.exit(0);
-			return null;
-		}, stage);
 	}
 
 	/**

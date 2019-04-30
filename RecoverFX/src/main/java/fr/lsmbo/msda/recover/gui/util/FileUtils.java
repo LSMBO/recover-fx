@@ -6,13 +6,15 @@ package fr.lsmbo.msda.recover.gui.util;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.function.Consumer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.lsmbo.msda.recover.gui.Session;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * 
@@ -91,20 +93,68 @@ public class FileUtils {
 			}
 		}
 	}
-	 public static String getFileNameWithoutExtension(File file) {
-	        String fileName = "";
-	 
-	        try {
-	            if (file != null && file.exists()) {
-	                String name = file.getName();
-	                fileName = name.replaceFirst("[.][^.]+$", "");
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            fileName = "";
-	        }
-	 
-	        return fileName;
-	 
-	    }
+
+	/**
+	 * Return the file name without extension
+	 * 
+	 * @param file
+	 *            the file to get its name without extension
+	 * @return the file name without extension
+	 */
+	public static String getFileNameWithoutExtension(File file) {
+		String fileName = "";
+
+		try {
+			if (file != null && file.exists()) {
+				String name = file.getName();
+				fileName = name.replaceFirst("[.][^.]+$", "");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			fileName = "";
+		}
+
+		return fileName;
+	}
+
+	/**
+	 * @param saveFile
+	 *            consumer accept the JSON file to save .
+	 * 
+	 * @param primaryStage
+	 *            the parent stage of the file chooser
+	 * 
+	 */
+	public static void saveFilterAs(Consumer<File> saveFile, Stage primaryStage) {
+		FileChooser fileChooser = new FileChooser();
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+		fileChooser.getExtensionFilters().add(extFilter);
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(primaryStage);
+		if (file != null) {
+			saveFile.accept(file);
+		}
+	}
+
+	/**
+	 * @param saveFile
+	 *            consumer accept the MGFfile to save .
+	 * 
+	 * @param primaryStage
+	 *            the parent stage of the file chooser
+	 * 
+	 */
+	public static void exportPeakListAs(Consumer<File> saveFile, Stage primaryStage) {
+		FileChooser fileChooser = new FileChooser();
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("peaklist files (*.mgf)", "*.mgf");
+		fileChooser.getExtensionFilters().add(extFilter);
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(primaryStage);
+		if (file != null) {
+			saveFile.accept(file);
+		}
+	}
+
 }

@@ -40,8 +40,6 @@ public class FilterReaderJson {
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
 			JsonParser parser = factory.createJsonParser(loadFile);
-
-			
 			while (!parser.isClosed()) {
 				JsonToken token = parser.nextToken();
 

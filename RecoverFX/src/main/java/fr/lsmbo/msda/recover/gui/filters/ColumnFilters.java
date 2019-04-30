@@ -55,8 +55,8 @@ public class ColumnFilters {
 	 * @param The
 	 *            list of filters to be associated with the specified column
 	 */
-	public static void add(String colmunName, ObservableList<Object> filter) {
-		ColumnFilters.put(colmunName, filter);
+	public static void add(String colmunName, ObservableList<Object> filters) {
+		ColumnFilters.put(colmunName, filters);
 	}
 
 	/**
@@ -101,10 +101,10 @@ public class ColumnFilters {
 	 */
 	public static String getFullDescription() {
 		StringBuilder strBuilder = new StringBuilder();
-		ColumnFilters.forEach((k, v) -> {
+		ColumnFilters.forEach((name, filters) -> {
 			int n = 1;
-			strBuilder.append("\n").append("###Filters applied on column: ").append(k).append("\n");
-			for (Object filter : v) {
+			strBuilder.append("\n").append("###Filters applied on column: ").append(name).append("\n");
+			for (Object filter : filters) {
 				if (filter instanceof NumberOperator<?>) {
 					strBuilder.append(n++).append(") ").append("Type:").append(((NumberOperator<?>) filter).getType())
 							.append(" ; ").append("value: ").append(((NumberOperator<?>) filter).getValue())

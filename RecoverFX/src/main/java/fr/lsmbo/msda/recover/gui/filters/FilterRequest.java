@@ -640,8 +640,8 @@ public class FilterRequest {
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 	public ObservableList<Spectrum> applyAllFilters(ObservableList<Spectrum> newData) {
-		ColumnFilters.getApplied().forEach((k, appliedFilters) -> {
-			switch (k) {
+		ColumnFilters.getApplied().forEach((name, appliedFilters) -> {
+			switch (name) {
 			// Apply filter on flag column
 			case "Flag": {
 				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();

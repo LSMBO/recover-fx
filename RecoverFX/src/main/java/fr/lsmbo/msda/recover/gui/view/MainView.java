@@ -1,8 +1,5 @@
 package fr.lsmbo.msda.recover.gui.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -28,8 +25,6 @@ import fr.lsmbo.msda.recover.gui.view.model.RecoverViewModel;
 import fr.lsmbo.msda.recover.gui.view.model.RecoverViewProperty;
 import fr.lsmbo.msda.recover.gui.view.model.RecoverViewUPNProperty;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingNode;
@@ -241,6 +236,13 @@ public class MainView extends StackPane {
 		exportInBatchFile.setOnAction((e) -> {
 			model.onExportInBatch();
 		});
+		// Export in batch
+		MenuItem saveJsonFile = new MenuItem(" Save filter parameters... ");
+		saveJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
+		saveJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+		saveJsonFile.setOnAction((e) -> {
+			model.onSaveJsonFile();
+		});
 		// Exit Recover
 		MenuItem exitFile = new MenuItem(" Exit ");
 		exitFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXIT)));
@@ -248,11 +250,10 @@ public class MainView extends StackPane {
 		exitFile.setOnAction((e) -> {
 			model.onExit();
 		});
-		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
+		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, saveJsonFile, exitFile);
 
 		/* Action menu items */
 		Menu actionsMenu = new Menu(" Actions ");
-
 		// Add ion reporter
 		MenuItem addIonReporterAction = new MenuItem("Add Ion Reporter");
 		addIonReporterAction.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
@@ -534,7 +535,6 @@ public class MainView extends StackPane {
 		emergenceSlider.setMax(15.0);
 		emergenceSlider.setValue(0.0);
 		emergenceSlider.setShowTickLabels(true);
-		//emergenceSlider.setShowTickMarks(true);
 		emergenceSlider.setMajorTickUnit(1);
 		emergenceSlider.setBlockIncrement(1);
 		emergenceSlider.valueProperty().addListener((obs, oldval, newVal) -> {
@@ -584,7 +584,7 @@ public class MainView extends StackPane {
 		userSettingsTab.setContent(userSettingsPane);
 		userSettingsTab.setClosable(false);
 		tabPane.getTabs().addAll(genrealTab, spectrumTab, userSettingsTab);
-		tabPane.getSelectionModel().select(spectrumTab);
+		tabPane.getSelectionModel().select(genrealTab);
 
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
