@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
+import org.google.jhsheets.filtered.operators.NumberOperator;
+import org.google.jhsheets.filtered.operators.StringOperator;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -44,26 +46,132 @@ public class FilterReaderJson {
 			@SuppressWarnings("deprecation")
 			JsonParser parser = factory.createJsonParser(file);
 			while (!parser.isClosed()) {
+				// Boolean operator
 				JsonToken token = parser.nextToken();
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Flag") {
-					// get values in the object filterLIT
 					ObservableList<Object> filters = FXCollections.observableArrayList();
 					BooleanOperator filter = null;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
-							token = parser.nextToken();				
+							token = parser.nextToken();
 							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
 							token = parser.nextToken();
 							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
-						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter"){
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
 							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
 						}
 					}
 					filters.add((BooleanOperator) filter);
 					ColumnFilters.add("Flag", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Ion Reporter") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					BooleanOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
+						}
+					}
+					filters.add((BooleanOperator) filter);
+					ColumnFilters.add("Ion Reporter", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					BooleanOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
+						}
+					}
+					filters.add((BooleanOperator) filter);
+					ColumnFilters.add("Wrong charge", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Identified") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					BooleanOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
+						}
+					}
+					filters.add((BooleanOperator) filter);
+					ColumnFilters.add("Identified", filters);
+				}
+				// String operator
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Title") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					StringOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.EQUALS, parser.getValueAsString());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.NOTEQUALS, parser.getValueAsString());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Contains") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.CONTAINS, parser.getValueAsString());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Starts With") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.STARTSWITH, parser.getValueAsString());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Ends With") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.ENDSWITH, parser.getValueAsString());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new StringOperator(StringOperator.Type.NONE, null);
+						}
+					}
+					filters.add((StringOperator) filter);
+					ColumnFilters.add("Title", filters);
+				}
+				// Number operator
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					BooleanOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
+						}
+					}
+					filters.add((BooleanOperator) filter);
+					ColumnFilters.add("Wrong charge", filters);
 				}
 				// Check if filteFrLIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "LIT") {
@@ -75,9 +183,7 @@ public class FilterReaderJson {
 
 					// get values in the object filterLIT
 					while (!JsonToken.END_OBJECT.equals(token)) {
-
 						token = parser.nextToken();
-
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "emergence") {
 							token = parser.nextToken();
 							emergence = (float) parser.getValueAsDouble();
@@ -102,12 +208,9 @@ public class FilterReaderJson {
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
 					Boolean checkRecoverIdentified = null;
 					Boolean checkRecoverNonIdentified = null;
-
 					// get values in the object filterIS
 					while (!JsonToken.END_OBJECT.equals(token)) {
-
 						token = parser.nextToken();
-
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "checkRecoverIdentified") {
 							token = parser.nextToken();
 							checkRecoverIdentified = parser.getValueAsBoolean();
