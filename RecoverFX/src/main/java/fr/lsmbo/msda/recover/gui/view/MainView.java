@@ -275,7 +275,6 @@ public class MainView extends StackPane {
 		actionsMenu.getItems().addAll(addIonReporterAction, editPRulesAction, getIdentifiedSpecAction,
 				flaggedSpecAction, resetRecoverAction);
 		/* Settings menu items */
-		// User guide menu item
 		Menu settingsMenu = new Menu(" Settings ");
 		// Save filter parameters
 		MenuItem loadFiltersFrmJsonFile = new MenuItem(" Load filters ... ");

@@ -5,11 +5,9 @@ package fr.lsmbo.msda.recover.gui.io;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
-import org.google.jhsheets.filtered.operators.IFilterOperator;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -53,16 +51,15 @@ public class FilterReaderJson {
 					BooleanOperator filter = null;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
-						System.out.println(token);
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
-							System.out.println(parser.getCurrentName());
-							System.out.println(token);
-							System.out.println(JsonToken.FIELD_NAME);
-							System.out.println(parser.getValueAsBoolean());
-							
+							token = parser.nextToken();				
 							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
-						} else {
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							token = parser.nextToken();
 							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter"){
+							token = parser.nextToken();
+							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
 						}
 					}
 					filters.add((BooleanOperator) filter);
