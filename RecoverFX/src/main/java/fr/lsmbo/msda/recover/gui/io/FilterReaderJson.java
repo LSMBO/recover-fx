@@ -154,24 +154,270 @@ public class FilterReaderJson {
 					ColumnFilters.add("Title", filters);
 				}
 				// Number operator
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Id") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
-					BooleanOperator filter = null;
+					NumberOperator filter = null;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
 							token = parser.nextToken();
-							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
-						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "True") {
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
 							token = parser.nextToken();
-							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
-							filter = new BooleanOperator(BooleanOperator.Type.NONE, null);
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
 						}
 					}
-					filters.add((BooleanOperator) filter);
-					ColumnFilters.add("Wrong charge", filters);
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Id", filters);
+				}
+
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Mz") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Mz", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Intensity") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Intensity", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Charge") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Charge", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention Time") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Retention Time", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Fragment number") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Fragment number", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Max fragment intensity") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("Max fragment intensity", filters);
+				}
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "UPN") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					NumberOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Greater Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.GREATERTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "Equals/Less Than") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.LESSTHANEQUALS, parser.getValueAsInt());
+						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
+							token = parser.nextToken();
+							filter = new NumberOperator(NumberOperator.Type.NONE, null);
+						}
+					}
+					filters.add((NumberOperator) filter);
+					ColumnFilters.add("UPN", filters);
 				}
 				// Check if filteFrLIT is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "LIT") {
@@ -260,7 +506,6 @@ public class FilterReaderJson {
 								IonReporters.addIonReporter(new IonReporter(name, moz, tolerance));
 							}
 						}
-
 					}
 				}
 			}
