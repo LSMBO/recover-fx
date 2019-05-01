@@ -218,7 +218,7 @@ public class FilterWriterJson {
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				logger.error("Error while trying to write filter parameters!", e.getMessage());
+				logger.error("Error while trying to write filters parameters!", e);
 			}
 		});
 		generator.writeEndObject();

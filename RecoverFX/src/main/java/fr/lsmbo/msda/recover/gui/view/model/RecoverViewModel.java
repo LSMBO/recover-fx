@@ -14,6 +14,7 @@ import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
+import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.gui.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
 import fr.lsmbo.msda.recover.gui.io.PeaklistWriter;
@@ -232,11 +233,11 @@ public class RecoverViewModel {
 	 * Load filters parameters from a JSON file
 	 */
 	public void onLoadFiltersFrmJsonFile() {
-		FileUtils.saveFilterAs(file -> {
+		FileUtils.openFiltersFrmJSON(file -> {
 			taskRunner.doAsyncWork("Laoding filters parameters from a JSON file", () -> {
 				Boolean isSucceeded = false;
 				try {
-					FilterWriterJson.saveFilter(file);
+					FilterReaderJson.load(file);
 					isSucceeded = true;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

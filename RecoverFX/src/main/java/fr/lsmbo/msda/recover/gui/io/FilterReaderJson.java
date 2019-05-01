@@ -8,54 +8,75 @@ import java.io.FileNotFoundException;
 
 import java.io.IOException;
 
+import org.google.jhsheets.filtered.operators.BooleanOperator;
+import org.google.jhsheets.filtered.operators.IFilterOperator;
+
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
+import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class FilterReaderJson {
 
 	/**
 	 * Parse a file at format JSON to set and parameter filters
-	 * @param loadFile
-	 *		File at format JSON which contains parameters of filters
+	 * 
+	 * @param file File at format JSON which contains parameters of filters
 	 * @throws JsonParseException
 	 * @throws IOException
 	 */
-	public static void load(File loadFile) throws JsonParseException, IOException {
-		
-		// Reset filter before any treatment in case some filter are used.
-		//List of ions reporter are reset too
-		
-		IonReporters.getIonReporters().clear();
+	public static void load(File file) throws JsonParseException, IOException {
 
+		// Reset all filters before any treatment in case some filter are used.
+		// Reset ions reporter
+		ColumnFilters.resetAll();
+		IonReporters.getIonReporters().clear();
 		try {
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
-			JsonParser parser = factory.createJsonParser(loadFile);
+			JsonParser parser = factory.createJsonParser(file);
 			while (!parser.isClosed()) {
 				JsonToken token = parser.nextToken();
-
-				// FILTER HIT
-			
-
-				// FILTER LIT
-				//Check if filterLIT is present then initialize parameters for this filter
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterLIT") {
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Flag") {
+					// get values in the object filterLIT
+					ObservableList<Object> filters = FXCollections.observableArrayList();
+					BooleanOperator filter = null;
+					while (!JsonToken.END_OBJECT.equals(token)) {
+						token = parser.nextToken();
+						System.out.println(token);
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "False") {
+							System.out.println(parser.getCurrentName());
+							System.out.println(token);
+							System.out.println(JsonToken.FIELD_NAME);
+							System.out.println(parser.getValueAsBoolean());
+							
+							filter = new BooleanOperator(BooleanOperator.Type.FALSE, parser.getValueAsBoolean());
+						} else {
+							filter = new BooleanOperator(BooleanOperator.Type.TRUE, parser.getValueAsBoolean());
+						}
+					}
+					filters.add((BooleanOperator) filter);
+					ColumnFilters.add("Flag", filters);
+				}
+				// Check if filteFrLIT is present then initialize parameters for this filter
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "LIT") {
 					LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 					float emergence = 0;
 					int minUPN = 0;
 					int maxUPN = 0;
 					ComputationTypes mode = null;
 
-					//get values in the object filterLIT
+					// get values in the object filterLIT
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -75,18 +96,17 @@ public class FilterReaderJson {
 						}
 					}
 					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
-					
+
 				}
 
-				
 				// FILTER IS
-				//Check if filterIS is present then initialize parameters for this filter
+				// Check if filterIS is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
 					Boolean checkRecoverIdentified = null;
 					Boolean checkRecoverNonIdentified = null;
 
-					//get values in the object filterIS
+					// get values in the object filterIS
 					while (!JsonToken.END_OBJECT.equals(token)) {
 
 						token = parser.nextToken();
@@ -94,32 +114,34 @@ public class FilterReaderJson {
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "checkRecoverIdentified") {
 							token = parser.nextToken();
 							checkRecoverIdentified = parser.getValueAsBoolean();
-						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "checkRecoverNonIdentified") {
+						} else if (JsonToken.FIELD_NAME.equals(token)
+								&& parser.getCurrentName() == "checkRecoverNonIdentified") {
 							token = parser.nextToken();
 							checkRecoverNonIdentified = parser.getValueAsBoolean();
 						}
 					}
 					filterIS.setParameters(checkRecoverIdentified, checkRecoverNonIdentified);
-					
+
 				}
 
 				// FILTER IR
-				//Check if filterIR is present then initialize parameters for this filter
+				// Check if filterIR is present then initialize parameters for this filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
 					IonReporterFilter filterIR = new IonReporterFilter();
 					String name = "";
 					float moz = 0;
 					float tolerance = 0;
 
-					//Just after the token FIELD_NAME is the token START_OBJECT and after is again a token FIELD_NAME.
-					//need to go two step further to get the good token 
+					// Just after the token FIELD_NAME is the token START_OBJECT and after is again
+					// a token FIELD_NAME.
+					// need to go two step further to get the good token
 					token = parser.nextToken();
 					token = parser.nextToken();
 
-					
 					if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter") {
 
-						//loop until end of array. Format are always the same for an ion reporter name, moz, tolerance.
+						// loop until end of array. Format are always the same for an ion reporter name,
+						// moz, tolerance.
 						while (!JsonToken.END_ARRAY.equals(token)) {
 							token = parser.nextToken();
 
@@ -138,7 +160,7 @@ public class FilterReaderJson {
 								IonReporters.addIonReporter(new IonReporter(name, moz, tolerance));
 							}
 						}
-						
+
 					}
 				}
 			}

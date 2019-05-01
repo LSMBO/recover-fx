@@ -112,6 +112,25 @@ public class FileUtils {
 			saveFile.accept(file);
 		}
 	}
+	/**
+	 * @param openFile
+	 *            consumer accept the JSON file to save .
+	 * 
+	 * @param primaryStage
+	 *            the parent stage of the file chooser
+	 * 
+	 */
+	public static void openFiltersFrmJSON(Consumer<File> openFile, Stage primaryStage) {
+		FileChooser fileChooser = new FileChooser();
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+		fileChooser.getExtensionFilters().add(extFilter);
+		// Show save file dialog
+		File file = fileChooser.showOpenDialog(primaryStage);
+		if (file != null) {
+			openFile.accept(file);
+		}
+	}
 
 	/**
 	 * @param saveFile

@@ -107,8 +107,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param selectedSpectrum
-	 *            the selected spectrum to set
+	 * @param selectedSpectrum the selected spectrum to set
 	 */
 	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
 		this.selectedSpectrum = selectedSpectrum;
@@ -122,8 +121,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param viewProperties
-	 *            the view properties to set
+	 * @param viewProperties the view properties to set
 	 */
 	public void setViewProperties(RecoverViewProperty viewProperties) {
 		this.viewProperty = viewProperties;
@@ -137,8 +135,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filterProperties
-	 *            the filter properties to set
+	 * @param filterProperties the filter properties to set
 	 */
 	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
 		this.filterLITProperty = filterProperties;
@@ -152,8 +149,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filteredTable
-	 *            the filtered table to set
+	 * @param filteredTable the filtered table to set
 	 */
 	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
 		this.filteredTable = filteredTable;
@@ -167,8 +163,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param model
-	 *            the view model to set
+	 * @param model the view model to set
 	 */
 	public void setModel(RecoverViewModel model) {
 		this.model = model;
@@ -182,8 +177,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param taskRunner
-	 *            the task runner to set
+	 * @param taskRunner the task runner to set
 	 */
 	public void setTaskRunner(TaskRunner taskRunner) {
 		this.taskRunner = taskRunner;
@@ -236,20 +230,7 @@ public class MainView extends StackPane {
 		exportInBatchFile.setOnAction((e) -> {
 			model.onExportInBatch();
 		});
-		// Save filter parameters
-		MenuItem loadFiltersFrmJsonFile = new MenuItem(" Load filters from JSON... ");
-		loadFiltersFrmJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
-		loadFiltersFrmJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN));
-		loadFiltersFrmJsonFile.setOnAction((e) -> {
-			model.onLoadFiltersFrmJsonFile();
-		});
-		// Save filter parameters
-		MenuItem saveFiltersToJsonFile = new MenuItem(" Save filters to JSON... ");
-		saveFiltersToJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
-		saveFiltersToJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
-		saveFiltersToJsonFile.setOnAction((e) -> {
-			model.onSaveFiltersToJsonFile();
-		});
+
 		// Exit Recover
 		MenuItem exitFile = new MenuItem(" Exit ");
 		exitFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXIT)));
@@ -257,8 +238,7 @@ public class MainView extends StackPane {
 		exitFile.setOnAction((e) -> {
 			model.onExit();
 		});
-		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, loadFiltersFrmJsonFile,
-				saveFiltersToJsonFile, exitFile);
+		fileMenu.getItems().addAll(openFile, exportFile, exportInBatchFile, exitFile);
 
 		/* Action menu items */
 		Menu actionsMenu = new Menu(" Actions ");
@@ -294,6 +274,24 @@ public class MainView extends StackPane {
 		});
 		actionsMenu.getItems().addAll(addIonReporterAction, editPRulesAction, getIdentifiedSpecAction,
 				flaggedSpecAction, resetRecoverAction);
+		/* Settings menu items */
+		// User guide menu item
+		Menu settingsMenu = new Menu(" Settings ");
+		// Save filter parameters
+		MenuItem loadFiltersFrmJsonFile = new MenuItem(" Load filters ... ");
+		loadFiltersFrmJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+		loadFiltersFrmJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN));
+		loadFiltersFrmJsonFile.setOnAction((e) -> {
+			model.onLoadFiltersFrmJsonFile();
+		});
+		// Save filter parameters
+		MenuItem saveFiltersToJsonFile = new MenuItem(" Save filters ... ");
+		saveFiltersToJsonFile.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
+		saveFiltersToJsonFile.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+		saveFiltersToJsonFile.setOnAction((e) -> {
+			model.onSaveFiltersToJsonFile();
+		});
+		settingsMenu.getItems().addAll(loadFiltersFrmJsonFile, saveFiltersToJsonFile);
 		/* Help menu items */
 		// User guide menu item
 		Menu helpMenu = new Menu(" Help ");
@@ -311,7 +309,7 @@ public class MainView extends StackPane {
 			model.onAboutRecoverFx();
 		});
 		helpMenu.getItems().addAll(userGuide, aboutRecover);
-		menuBar.getMenus().addAll(fileMenu, actionsMenu, helpMenu);
+		menuBar.getMenus().addAll(fileMenu, actionsMenu, settingsMenu, helpMenu);
 		mainView.setTop(menuBar);
 
 		/***********************
@@ -699,8 +697,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Keep the original items and use a copy of items whenever a filter is
-	 * invoked
+	 * Keep the original items and use a copy of items whenever a filter is invoked
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
@@ -759,8 +756,7 @@ public class MainView extends StackPane {
 	/**
 	 * Update the table view on Java-Fx thread
 	 * 
-	 * @param r
-	 *            Runnable to submit
+	 * @param r Runnable to submit
 	 */
 	private void updateOnJfx(Runnable r) {
 		Platform.runLater(r);
