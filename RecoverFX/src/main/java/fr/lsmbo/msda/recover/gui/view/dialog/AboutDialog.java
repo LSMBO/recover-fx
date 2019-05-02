@@ -42,8 +42,8 @@ public class AboutDialog extends Dialog<String> {
 		softwareProperties.append("\n").append("##name: ").append(name).append("\n").append("##description: ")
 				.append(description).append("\n").append("##version: ").append(version);
 		StringBuilder aboutStr = new StringBuilder();
-		aboutStr.append("This software is developped by:").append("\n").append("- Alexandre BUREL").append("\n")
-				.append("- Aymen ROMDHANI").append("\n").append("- Benjamin LOMBART").append("\n")
+		aboutStr.append("This software is developped by:").append("\n").append("- Aymen ROMDHANI").append("\n")
+				.append("- Alexandre BUREL").append("\n").append("- Benjamin LOMBART").append("\n")
 				.append("Under the supervision of:").append("\n").append("- Christine CARAPITO").append("\n")
 				.append("At the laboratory:").append("\n").append("LSMBO (Strasbourg) :UMR 7178 (CNRS/UdS)");
 		Label label = new Label(softwareProperties.toString());
