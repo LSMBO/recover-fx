@@ -488,8 +488,8 @@ public class RecoverViewModel {
 	 * 
 	 */
 	private void updateItems() {
-		if (!items.isEmpty())
 			items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+		    view.getFilteredTable().refresh();
 	}
 
 	/**
