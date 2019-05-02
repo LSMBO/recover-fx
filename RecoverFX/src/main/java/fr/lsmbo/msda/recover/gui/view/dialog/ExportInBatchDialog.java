@@ -18,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -82,6 +83,9 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mgfFilesTable.autosize();
 		mgfFilesTable.setPadding(new Insets(5, 5, 5, 5));
 		mgfFilesTable.setMinHeight(200);
+		// Style
+		mgfFilesTable.setCursor(Cursor.CLOSED_HAND);
+
 		// Make mgf table sortable via drag and drop
 		mgfFilesTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
@@ -144,6 +148,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		excelFilesTable.autosize();
 		excelFilesTable.setPadding(new Insets(5, 5, 5, 5));
 		excelFilesTable.setMinHeight(200);
+		excelFilesTable.setCursor(Cursor.CLOSED_HAND);
 		// Make excel table sortable via drag and drop
 		excelFilesTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
