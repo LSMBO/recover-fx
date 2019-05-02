@@ -50,7 +50,7 @@ public class RecoverFx extends Application {
 		primaryStage.show();
 		// Load initial file
 		if (Session.CURRENT_FILE != null) {
-			model.onOpenFile(Session.CURRENT_FILE);
+			model.loadFile(Session.CURRENT_FILE);
 		}
 	}
 

@@ -219,7 +219,7 @@ public class MainView extends StackPane {
 		openFile.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		openFile.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
 		openFile.setOnAction((ActionEvent t) -> {
-			model.onChooseFile();
+			model.onOpenFile();
 		});
 
 		// Export file

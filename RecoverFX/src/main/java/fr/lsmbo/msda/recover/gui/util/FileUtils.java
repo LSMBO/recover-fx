@@ -67,6 +67,13 @@ public class FileUtils {
 		chooser.setInitialDirectory(initialDirectory);
 	}
 
+	/**
+	 * Open file to desktop
+	 * 
+	 * @param file
+	 *            the file to open
+	 * @throws Exception
+	 */
 	public static void open(File file) {
 		try {
 			if (Desktop.isDesktopSupported()) {
@@ -89,29 +96,29 @@ public class FileUtils {
 				java.awt.Desktop.getDesktop().browse(new File(path).toURI());
 			} catch (IOException ex) {
 				logger.error("Error while trying to browse file!", ex);
-				}
+			}
 		}
 	}
 
 	/**
-	 * @param saveFile
+	 * @param fileConsumer
 	 *            consumer accept the JSON file to save .
 	 * 
 	 * @param primaryStage
 	 *            the parent stage of the file chooser
 	 * 
 	 */
-	public static void saveFilterAs(Consumer<File> saveFile, Stage primaryStage) {
+	public static void saveFilterAs(Consumer<File> fileConsumer, Stage stage) {
 		FileChooser fileChooser = new FileChooser();
-		// Set extension filter
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extFilter);
-		// Show save file dialog
-		File file = fileChooser.showSaveDialog(primaryStage);
+		fileChooser.setTitle("Save as");
+		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
-			saveFile.accept(file);
+			fileConsumer.accept(file);
 		}
 	}
+
 	/**
 	 * @param openFile
 	 *            consumer accept the JSON file to save .
@@ -120,35 +127,70 @@ public class FileUtils {
 	 *            the parent stage of the file chooser
 	 * 
 	 */
-	public static void openFiltersFrmJSON(Consumer<File> openFile, Stage primaryStage) {
+	public static void openFiltersFrmJSON(Consumer<File> openFile, Stage stage) {
 		FileChooser fileChooser = new FileChooser();
 		// Set extension filter
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
-		File file = fileChooser.showOpenDialog(primaryStage);
+		File file = fileChooser.showOpenDialog(stage);
+		fileChooser.setTitle(" Open ");
 		if (file != null) {
 			openFile.accept(file);
 		}
 	}
 
 	/**
-	 * @param saveFile
-	 *            consumer accept the MGFfile to save .
+	 * Open peak list file.
 	 * 
-	 * @param primaryStage
-	 *            the parent stage of the file chooser
-	 * 
+	 * @param peakListConsumer
+	 *            a Consumer of peak list file when the file is loaded.
+	 * @param fileChooserTitle
+	 *            the parent stage of this file chooser.
 	 */
-	public static void exportPeakListAs(Consumer<File> saveFile, Stage primaryStage) {
+	public static void openPeakListFile(Consumer<File> peakListConsumer, Stage stage) {
+		// Default folder is 'Documents'
+		File initialDirectory = new File(
+				System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
+		// Otherwise it's home folder
+		if (!initialDirectory.exists())
+			initialDirectory = new File(System.getProperty("user.home"));
+		// if a file is already loaded then it's the same folder
+		if (Session.CURRENT_FILE != null)
+			initialDirectory = Session.CURRENT_FILE.getParentFile();
 		FileChooser fileChooser = new FileChooser();
 		// Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Peaklist files (*.mgf)", "*.mgf");
-		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialDirectory(initialDirectory);
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Mgf files (*.mgf)", "*.mgf"),
+				new FileChooser.ExtensionFilter("PeakList files (*.pkl)", "*.pkl"));
+		fileChooser.setTitle(" Open ");
+		// Show open file dialog
+		File file = fileChooser.showOpenDialog(stage);
+		if (file != null) {
+			peakListConsumer.accept(file);
+		}
+	}
+
+	/**
+	 * @param peakListConsumer
+	 *            consumer accept the peak list file to save .
+	 * 
+	 * @param primaryStage
+	 *            the parent stage of the file chooser.
+	 * 
+	 */
+
+	public static void savePeakListAs(Consumer<File> peakListConsumer, Stage primaryStage) {
+		FileChooser fileChooser = new FileChooser();
+		// Set extension filter
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Mgf files (*.mgf)", "*.mgf"),
+				new FileChooser.ExtensionFilter("PeakList files (*.pkl)", "*.pkl"));
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(primaryStage);
+		// Set Title
+		fileChooser.setTitle("Save as");
 		if (file != null) {
-			saveFile.accept(file);
+			peakListConsumer.accept(file);
 		}
 	}
 

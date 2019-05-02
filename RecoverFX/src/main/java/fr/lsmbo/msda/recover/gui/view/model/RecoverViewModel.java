@@ -14,7 +14,6 @@ import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
-import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.gui.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
 import fr.lsmbo.msda.recover.gui.io.PeaklistWriter;
@@ -38,7 +37,6 @@ import fr.lsmbo.msda.recover.gui.view.dialog.ShowPopupDialog;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -88,71 +86,51 @@ public class RecoverViewModel {
 		this.view = view;
 	}
 
-	/** Choose and open file */
-	public void onChooseFile() {
-		final FileChooser fileChooser = new FileChooser();
-		FileUtils.configureFileChooser(fileChooser, "Select .mgf or .raw files");
-		File file = fileChooser.showOpenDialog(stage);
-		onOpenFile(file);
+	/**
+	 * Open and extract spectra from Peaklist file.
+	 * 
+	 * @param file
+	 *            the Peaklist file to open.
+	 */
+	public void onOpenFile() {
+		FileUtils.openPeakListFile(file -> {
+			loadFile(file);
+		}, stage);
 	}
 
 	/**
-	 * Open file
+	 * Load and extract spectra from Peaklist file.
 	 * 
 	 * @param file
-	 *            the file to open.
+	 *            the Peaklist file to load.
 	 */
-	public void onOpenFile(File file) {
-		try {
-			if (file != null) {
-				taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
-					onInitialize();
-					RecoverFx.useSecondPeaklist = false;
-					Session.CURRENT_FILE = file;
-					loadFile(file);
-					return file;
-				}, (sucess) -> {
-					logger.info("Loading and extracting spectra from peaklist file: {} has finished successfully!",
-							file.getAbsolutePath());
-					if (!RecoverFx.useSecondPeaklist) {
-						updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
-						refresh();
-					}
-					// Enable second Peaks list
-					RecoverFx.useSecondPeaklist = true;
-				}, (failure) -> {
-					logger.debug("Loading and extracting spectra from peaklist file has failed!");
-					// Disable use second peak list
-					RecoverFx.useSecondPeaklist = false;
-				}, true, stage);
-				if (isValidatedFirstSpectra() && PeaklistReader.retentionTimesNotFound()) {
-					new ConfirmDialog<Object>(ICON.WARNING, "Missing Retention times",
-							"Retention times could not be extracted from titles.\nDo you want to open the Parsing rules selection list?",
-							() -> {
-								onEditParsingRules();
-								return true;
-							}, stage);
-				}
+	public void loadFile(File file) {
+		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
+			onInitialize();
+			RecoverFx.useSecondPeaklist = false;
+			Session.CURRENT_FILE = file;
+			long startTime = System.currentTimeMillis();
+			PeaklistReader.load(file);
+			long endTime = System.currentTimeMillis();
+			long totalTime = endTime - startTime;
+			System.out.println("INFO - loading time: " + (double) totalTime / 1000 + " sec");
+			System.out.println("INFO - " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra found.");
+			System.out.println("INFO - " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra found.");
+			return file;
+		}, (sucess) -> {
+			logger.info("Loading and extracting spectra from peaklist file: {} has finished successfully!",
+					file.getAbsolutePath());
+			if (!RecoverFx.useSecondPeaklist) {
+				updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
+				refresh();
 			}
-		} catch (Exception e) {
-			logger.error("Error while trying to laod peaklist file!", e);
-		}
-	}
-
-	/**
-	 * Load File. Load and read .mgf or .pkl file.
-	 * 
-	 * @param file
-	 *            the file to load.
-	 */
-	private void loadFile(File file) {
-		long startTime = System.currentTimeMillis();
-		PeaklistReader.load(file);
-		long endTime = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println("INFO - loading time: " + (double) totalTime / 1000 + " sec");
-		System.out.println("INFO - " + ListOfSpectra.getFirstSpectra().getNbSpectra() + " spectra found.");
-		System.out.println("INFO - " + ListOfSpectra.getSecondSpectra().getNbSpectra() + " spectra found.");
+			// Enable second Peakslist
+			RecoverFx.useSecondPeaklist = true;
+		}, (failure) -> {
+			logger.debug("Loading and extracting spectra from peaklist file has failed!");
+			// Disable use second peaklist
+			RecoverFx.useSecondPeaklist = false;
+		}, true, stage);
 	}
 
 	/**
@@ -171,7 +149,7 @@ public class RecoverViewModel {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
 		logger.debug("The filtered spectra number: {}", filteredItems.size());
 		if (filteredItems.size() > 0) {
-			FileUtils.exportPeakListAs(file -> {
+			FileUtils.savePeakListAs(file -> {
 				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + " file", () -> {
 					long startTime = System.currentTimeMillis();
 					ListOfSpectra.getFirstSpectra().getSpectraAsObservable().stream().parallel().forEach(spectrum -> {
