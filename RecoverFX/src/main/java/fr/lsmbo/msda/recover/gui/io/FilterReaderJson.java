@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
@@ -31,6 +33,7 @@ import javafx.collections.ObservableList;
  *
  */
 public class FilterReaderJson {
+	private static final Logger logger = LogManager.getLogger(FilterReaderJson.class);
 
 	/**
 	 * Parse and load filters parameters from JSON file.
@@ -522,8 +525,8 @@ public class FilterReaderJson {
 
 					ColumnFilters.add("UPN", filters);
 				}
-				// Check if filteFrLIT is present then initialize parameters for
-				// this filter
+
+				// Read low intensity threshold filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "LIT") {
 					LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 					float emergence = 0;
@@ -536,24 +539,15 @@ public class FilterReaderJson {
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "emergence") {
 							token = parser.nextToken();
 							emergence = (float) parser.getValueAsDouble();
-						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "minUPN") {
-							token = parser.nextToken();
-							minUPN = parser.getValueAsInt();
-						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "maxUPN") {
-							token = parser.nextToken();
-							maxUPN = parser.getValueAsInt();
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "mode") {
 							token = parser.nextToken();
 							mode = ComputationTypes.valueOf(parser.getValueAsString());
 						}
 					}
 					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
-
 				}
 
-				// FILTER IS
-				// Check if filterIS is present then initialize parameters for
-				// this filter
+				// Read is identified filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
 					Boolean checkRecoverIdentified = null;
@@ -574,24 +568,19 @@ public class FilterReaderJson {
 
 				}
 
-				// FILTER IR
-				// Check if filterIR is present then initialize parameters for
-				// this filter
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIR") {
+				// Read ion reporter filter
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IR") {
 					IonReporterFilter filterIR = new IonReporterFilter();
 					String name = "";
 					float moz = 0;
 					float tolerance = 0;
-
 					// Just after the token FIELD_NAME is the token START_OBJECT
 					// and after is again
 					// a token FIELD_NAME.
 					// need to go two step further to get the good token
 					token = parser.nextToken();
 					token = parser.nextToken();
-
 					if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "ionReporter") {
-
 						// loop until end of array. Format are always the same
 						// for an ion reporter name,
 						// moz, tolerance.
@@ -608,7 +597,6 @@ public class FilterReaderJson {
 								token = parser.nextToken();
 								tolerance = (float) parser.getValueAsDouble();
 							}
-
 							if (JsonToken.END_OBJECT.equals(token)) {
 								IonReporters.addIonReporter(new IonReporter(name, moz, tolerance));
 							}
@@ -617,7 +605,7 @@ public class FilterReaderJson {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			logger.error("Error while trying to load filters parameters!", e);
 		}
 	}
 
