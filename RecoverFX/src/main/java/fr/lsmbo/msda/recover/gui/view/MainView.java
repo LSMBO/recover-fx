@@ -273,13 +273,13 @@ public class MainView extends StackPane {
 			model.onResetFlagSpectrum();
 		});
 		// Reset Recover
-		MenuItem resetRecoverAction = new MenuItem(" Reset recover ");
-		resetRecoverAction.setGraphic(new ImageView(IconResource.getImage(ICON.RESET)));
-		resetRecoverAction.setOnAction((ActionEvent t) -> {
-			model.onResetRecover();
+		MenuItem resetFiltersAction = new MenuItem(" Reset all filters ");
+		resetFiltersAction.setGraphic(new ImageView(IconResource.getImage(ICON.RESET)));
+		resetFiltersAction.setOnAction((ActionEvent t) -> {
+			model.onResetFilters();
 		});
 		actionsMenu.getItems().addAll(addIonReporterAction, editPRulesAction, getIdentifiedSpecAction,
-				flaggedSpecAction, resetRecoverAction);
+				flaggedSpecAction, resetFiltersAction);
 		/* Settings menu items */
 		Menu settingsMenu = new Menu(" Settings ");
 		// Save filter parameters

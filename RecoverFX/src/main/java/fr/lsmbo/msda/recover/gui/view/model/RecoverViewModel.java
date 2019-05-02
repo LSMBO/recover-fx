@@ -2,8 +2,6 @@ package fr.lsmbo.msda.recover.gui.view.model;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +19,6 @@ import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ParsingRules;
-import fr.lsmbo.msda.recover.gui.lists.Spectra;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.TaskRunner;
@@ -89,8 +86,7 @@ public class RecoverViewModel {
 	/**
 	 * Open and extract spectra from Peaklist file.
 	 * 
-	 * @param file
-	 *            the Peaklist file to open.
+	 * @param file the Peaklist file to open.
 	 */
 	public void onOpenFile() {
 		FileUtils.openPeakListFile(file -> {
@@ -101,8 +97,7 @@ public class RecoverViewModel {
 	/**
 	 * Load and extract spectra from Peaklist file.
 	 * 
-	 * @param file
-	 *            the Peaklist file to load.
+	 * @param file the Peaklist file to load.
 	 */
 	public void loadFile(File file) {
 		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
@@ -142,8 +137,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Export peak list file. Set all the left spectra after applying the
-	 * filters as recover.
+	 * Export peak list file. Set all the left spectra after applying the filters as
+	 * recover.
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
@@ -273,8 +268,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and display a dialog to add an ion reporter list. Apply ion
-	 * reporter filter.
+	 * Creates and display a dialog to add an ion reporter list. Apply ion reporter
+	 * filter.
 	 * 
 	 * @see IonReporters
 	 */
@@ -305,8 +300,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Apply low intensity threshold filter. The low intensity threshold filter
-	 * use the emergence and the mode entered by the user as parameters.
+	 * Apply low intensity threshold filter. The low intensity threshold filter use
+	 * the emergence and the mode entered by the user as parameters.
 	 * 
 	 * @see FilterRequest
 	 */
@@ -334,8 +329,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and displays parsing rules dialog. If a parsing rules is present.
-	 * It will update the current parsing rules.
+	 * Creates and displays parsing rules dialog. If a parsing rules is present. It
+	 * will update the current parsing rules.
 	 * 
 	 * @see ParsingRules
 	 */
@@ -400,8 +395,7 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Reset all flagged spectra . It helps the user to reset all flagged
-	 * spectrums.
+	 * Reset all flagged spectra . It helps the user to reset all flagged spectrums.
 	 * 
 	 */
 	public void onResetFlagSpectrum() {
@@ -430,31 +424,24 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Reset RecoverFx; this action will restore the default values of filters,
-	 * parsing rules to retrieve the RT from titles and update the view
-	 * properties.
+	 * Reset filters; this action will restore the default values of filters,
+	 * parsing rules to retrieve the RT from titles and update the view properties.
 	 * 
 	 */
-	public void onResetRecover() {
+	public void onResetFilters() {
 		if (isValidatedFirstSpectra()) {
-			taskRunner.doAsyncWork("Reset RecoverFx", () -> {
+			taskRunner.doAsyncWork("Reset all filters", () -> {
 				// Reset all filters to default values.
-				logger.debug("Reset all stored filters...");
 				ColumnFilters.resetAll();
-				// TODO Reset Parsing Rules
-				logger.debug("Reset parameters of all spectra...");
-				List<Spectra> spectraList = Arrays.asList(ListOfSpectra.getFirstSpectra(),
-						ListOfSpectra.getSecondSpectra(), ListOfSpectra.getBatchSpectra());
-				spectraList.stream().forEach((Spectra spectra) -> {
-					spectra.initialize();
-				});
+				IonReporters.getIonReporters().clear();
+				FilterRequest filetrRequest = new FilterRequest();
+				filetrRequest.applyAllFilters(items);
 				// Restore default session parameters
-				resetSessionParams();
 				return true;
 			}, (sucess) -> {
 				updateItems();
 			}, (failure) -> {
-				logger.error("Reset Recover has been failed!");
+				logger.error("Reset all filters has failed!");
 			}, true, stage);
 		} else {
 			logger.warn(
@@ -527,15 +514,11 @@ public class RecoverViewModel {
 	/**
 	 * Update and notify the view with the changes.
 	 * 
-	 * @param spectrum
-	 *            the selected spectrum. On load file, it select the first
-	 *            spectrum.
-	 * @param nbSpectra
-	 *            the total number of spectrum in the file.
-	 * @param nbIdentified
-	 *            the number of identified spectrum.
-	 * @param percentageIdentified
-	 *            the percentage of identified spectrum.
+	 * @param spectrum             the selected spectrum. On load file, it select
+	 *                             the first spectrum.
+	 * @param nbSpectra            the total number of spectrum in the file.
+	 * @param nbIdentified         the number of identified spectrum.
+	 * @param percentageIdentified the percentage of identified spectrum.
 	 */
 	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbIdentified, Float percentageIdentified) {
 		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbIdentified),
@@ -543,8 +526,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Determines whether the used spectra is not empty and there are a
-	 * validated file to use.
+	 * Determines whether the used spectra is not empty and there are a validated
+	 * file to use.
 	 * 
 	 * @return <code>true</code> if the spectra is not empty otherwise
 	 *         <code>false</code>.
@@ -570,8 +553,7 @@ public class RecoverViewModel {
 	/**
 	 * Update the view on Java-fx thread
 	 * 
-	 * @param r
-	 *            Runnable to submit
+	 * @param r Runnable to submit
 	 */
 	private void updateJfx(Runnable r) {
 		Platform.runLater(r);
