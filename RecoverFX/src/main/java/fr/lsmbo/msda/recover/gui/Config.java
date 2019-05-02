@@ -153,7 +153,6 @@ public class Config {
 			Gson gson = new Gson();
 			JsonReader reader = new JsonReader(new FileReader(paramFile));
 			Session.parameters = gson.fromJson(reader, UserParams.class);
-			System.out.println("INFO - The user parameters: " + Session.parameters.toString());
 			logger.info("The user parameters: {} ", Session.parameters.toString());
 		} catch (Exception e) {
 			// a possible error case is when param files has been generated with
