@@ -31,6 +31,7 @@ import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterIonReporterDialog;
+import fr.lsmbo.msda.recover.gui.view.dialog.FilterViewerDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.IdentifiedSpectraDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ParsingRulesDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ShowPopupDialog;
@@ -104,14 +105,15 @@ public class RecoverViewModel {
 	public void onOpenFile(File file) {
 		try {
 			if (file != null) {
-				taskRunner.doAsyncWork("Loading file and extracting spectra", () -> {
+				taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
 					onInitialize();
 					RecoverFx.useSecondPeaklist = false;
 					Session.CURRENT_FILE = file;
 					loadFile(file);
 					return file;
 				}, (sucess) -> {
-					logger.info("The file : {} has been loaded successfully!", file.getAbsolutePath());
+					logger.info("Loading and extracting spectra from peaklist file: {} has finished successfully!",
+							file.getAbsolutePath());
 					if (!RecoverFx.useSecondPeaklist) {
 						updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
 						refresh();
@@ -119,7 +121,7 @@ public class RecoverViewModel {
 					// Enable second Peaks list
 					RecoverFx.useSecondPeaklist = true;
 				}, (failure) -> {
-					logger.debug("Loading file has been failed!");
+					logger.debug("Loading and extracting spectra from peaklist file has failed!");
 					// Disable use second peak list
 					RecoverFx.useSecondPeaklist = false;
 				}, true, stage);
@@ -132,8 +134,8 @@ public class RecoverViewModel {
 							}, stage);
 				}
 			}
-		} catch (Exception ex) {
-			logger.error("Error while trying to open file!", ex);
+		} catch (Exception e) {
+			logger.error("Error while trying to laod peaklist file!", e);
 		}
 	}
 
@@ -230,29 +232,24 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Load filters parameters from a JSON file
+	 * Load filters parameters from a JSON file, apply all filters on current
+	 * spectra.
 	 */
 	public void onLoadFiltersFrmJsonFile() {
-		FileUtils.openFiltersFrmJSON(file -> {
-			taskRunner.doAsyncWork("Laoding filters parameters from a JSON file", () -> {
+		FilterViewerDialog FilterLoaderDialog = new FilterViewerDialog();
+		FilterLoaderDialog.showAndWait().ifPresent(filter -> {
+			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
 				Boolean isSucceeded = false;
-				try {
-					FilterReaderJson.load(file);
-					isSucceeded = true;
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					logger.error("Error while trying to Laod filters parameters from a JSON fil", e);
-				}
+				FilterRequest filetrRequest = new FilterRequest();
+				filetrRequest.applyAllFilters(items);
 				return isSucceeded;
 			}, (isSucceeded) -> {
 				if (isSucceeded)
-					logger.debug("Laoding filters parameters from a JSON file has finished successfully!");
+					logger.debug("Loading filter's parameters from a JSON file has finished successfully!");
 			}, (failure) -> {
-				logger.error("Laoding filters parameters from a JSON file has failed!", failure.getMessage());
+				logger.error("Loading filter's parameters from a JSON file has failed!", failure.getMessage());
 			}, true, stage);
-
-		}, stage);
-
+		});
 	}
 
 	/**
