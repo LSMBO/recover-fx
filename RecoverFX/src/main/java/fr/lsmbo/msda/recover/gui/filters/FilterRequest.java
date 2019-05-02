@@ -635,7 +635,7 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Apply and inia list of stored filters to a spectra.
+	 * Apply list of stored filters to a spectra.
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */

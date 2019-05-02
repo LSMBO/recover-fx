@@ -80,10 +80,10 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		DialogPane dialogPane = new DialogPane();
 		dialogPane.setContent(mainPane);
 		dialogPane.setHeaderText("Load Filters");
-		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT)));
+		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		dialogPane.setPrefSize(600, 500);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.EXPORT)).getImage());
+		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.LOAD)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
 		this.setTitle("Load Filters");
@@ -163,15 +163,15 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 				}
 				if (filter instanceof IdentifiedSpectra) {
 					StringBuilder strBuilder = new StringBuilder();
-					strBuilder.append("Type: ").append(((IdentifiedSpectra) filter).getType())
-							.append(" ; ").append("value: ").append(((IdentifiedSpectra) filter).getFullDescription());
+					strBuilder.append("Type: ").append(((IdentifiedSpectra) filter).getType()).append(" ; ")
+							.append("value: ").append(((IdentifiedSpectra) filter).getFullDescription());
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}
 				if (filter instanceof IonReporterFilter) {
 					StringBuilder strBuilder = new StringBuilder();
-					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType())
-							.append(" ; ").append("value: ").append(((IonReporterFilter) filter).getFullDescription());
+					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType()).append(" ; ")
+							.append("value: ").append(((IonReporterFilter) filter).getFullDescription());
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}
