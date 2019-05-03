@@ -122,8 +122,8 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 		// Enable ok button when all selected filters are valid.
 		buttonOk.disableProperty().bind(emptyDataTableErrorLabel.visibleProperty());
 		// Initialize ion reporter filter
-		if (ColumnFilters.getApplied().containsKey("IR") && ColumnFilters.getApplied().get("IR").size() > 0) {
-			filterIR = (IonReporterFilter) ColumnFilters.getApplied().get("IR").get(0);
+		if (ColumnFilters.getAll().containsKey("IR") && ColumnFilters.getAll().get("IR").size() > 0) {
+			filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
 			if (ionReporterTable.getItems().isEmpty())
 				isEmptyTableProperty.set(true);
 			else

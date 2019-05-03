@@ -524,6 +524,7 @@ public class FilterReaderJson {
 
 				// Read low intensity threshold filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "LIT") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
 					LowIntensityThresholdFilter filterLIT = new LowIntensityThresholdFilter();
 					float emergence = 0;
 					int minUPN = 0;
@@ -541,6 +542,8 @@ public class FilterReaderJson {
 						}
 					}
 					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
+					filters.add(filterLIT);
+					filterListByNameMap.put("LIT", filters);
 				}
 
 				// Read is identified filter
@@ -566,6 +569,7 @@ public class FilterReaderJson {
 
 				// Read ion reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IR") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
 					IonReporterFilter filterIR = new IonReporterFilter();
 					String name = "";
 					float moz = 0;
@@ -582,7 +586,6 @@ public class FilterReaderJson {
 						// moz, tolerance.
 						while (!JsonToken.END_ARRAY.equals(token)) {
 							token = parser.nextToken();
-
 							if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "name") {
 								token = parser.nextToken();
 								name = parser.getValueAsString();
@@ -598,6 +601,8 @@ public class FilterReaderJson {
 							}
 						}
 					}
+					filters.add(filterIR);
+					filterListByNameMap.put("IR", filters);
 				}
 			}
 			return filterListByNameMap;

@@ -120,7 +120,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 				// Reset ions reporter
 				IonReporters.getIonReporters().clear();
 				ColumnFilters.addAll(filtersListByNameMap);
-				return ColumnFilters.getApplied();
+				return ColumnFilters.getAll();
 			} else {
 				return null;
 			}

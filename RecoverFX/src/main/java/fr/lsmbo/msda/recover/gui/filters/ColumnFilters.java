@@ -39,11 +39,11 @@ public class ColumnFilters {
 	}
 
 	/***
-	 * Get the applied column filters
+	 * Return the applied column filters
 	 * 
 	 * @return The HashMap of column filters
 	 */
-	public static HashMap<String, ObservableList<Object>> getApplied() {
+	public static HashMap<String, ObservableList<Object>> getAll() {
 		return filtersByNameMap;
 	}
 

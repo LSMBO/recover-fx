@@ -49,7 +49,7 @@ public class FilterWriterJson {
 		generator.writeStringField("User", userName);
 		// Get and write filters
 		generator.writeObjectFieldStart("Filters");
-		ColumnFilters.getApplied().forEach((name, appliedFilters) -> {
+		ColumnFilters.getAll().forEach((name, appliedFilters) -> {
 			try {
 				switch (name) {
 				// Apply filter on flag column

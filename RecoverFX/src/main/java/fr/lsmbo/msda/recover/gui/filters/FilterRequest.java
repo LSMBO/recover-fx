@@ -3,6 +3,7 @@ package fr.lsmbo.msda.recover.gui.filters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
@@ -131,8 +132,8 @@ public class FilterRequest {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		if (ColumnFilters.getApplied().containsKey("LIT")) {
-			this.filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getApplied().get("LIT").get(0);
+		if (ColumnFilters.getAll().containsKey("LIT")) {
+			this.filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getAll().get("LIT").get(0);
 			assert filterLIT != null : "The filter low intensity threshold is null";
 			// Scan all the spectrum
 			for (int i = 0; i < numberOfSpectrum; i++) {
@@ -153,11 +154,11 @@ public class FilterRequest {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		if (ColumnFilters.getApplied().containsKey("IS")) {
-			this.filterIS = (IdentifiedSpectraFilter) ColumnFilters.getApplied().get("IS").get(0);
+		if (ColumnFilters.getAll().containsKey("IS")) {
+			this.filterIS = (IdentifiedSpectraFilter) ColumnFilters.getAll().get("IS").get(0);
 			assert filterIS != null : "The filter is idenified spectra is null";
 			// Scan all the spectrum
-			if (ColumnFilters.getApplied().containsKey("IS")) {
+			if (ColumnFilters.getAll().containsKey("IS")) {
 				for (int i = 0; i < numberOfSpectrum; i++) {
 					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 					spectrum.setIsRecovered(filterIS.isValid(spectrum));
@@ -179,8 +180,8 @@ public class FilterRequest {
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		// Scan all the spectrum
-		if (ColumnFilters.getApplied().containsKey("IR")) {
-			this.filterIR = (IonReporterFilter) ColumnFilters.getApplied().get("IR").get(0);
+		if (ColumnFilters.getAll().containsKey("IR")) {
+			this.filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
 			assert filterIR != null : "The filter ion reporter spectra is null";
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
@@ -635,12 +636,19 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Apply list of stored filters to a spectra.
+	 * Apply all stored filters to a spectra. the filters will be sorted in
+	 * order to apply low intensity threshold filter(LIT) filter before useful
+	 * peaks number (UPN) filter. The filter name used as default comparator
+	 * 'String'
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 	public ObservableList<Spectrum> applyAllFilters(ObservableList<Spectrum> newData) {
-		ColumnFilters.getApplied().forEach((name, appliedFilters) -> {
+
+		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
+		filtersByNameTreeMap.clear();
+		filtersByNameTreeMap.putAll(ColumnFilters.getAll());
+		filtersByNameTreeMap.forEach((name, appliedFilters) -> {
 			switch (name) {
 			// Apply filter on flag column
 			case "Flag": {
