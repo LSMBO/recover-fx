@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
@@ -12,7 +13,11 @@ import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
+import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.gui.lists.IonReporters;
+import fr.lsmbo.msda.recover.gui.util.FileUtils;
+import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,6 +26,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
@@ -29,39 +36,43 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- * Creates and displays filters viewer dialog.
+ * Creates and displays filters loader dialog.
  * 
  * @author Aromdhani
  *
  */
-public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object>>> {
+public class FilterPreViewerDialog extends Dialog<Map<String, ObservableList<Object>>> {
 
 	/**
 	 * Default constructor
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public FilterViewerDialog() {
-
+	public FilterPreViewerDialog() {
+		// Create notifications label
+		Label emptyFileWarningLabel = new Label(
+				"Select filter parameters from a JSON file. Make sure that you have selected a valid file!");
+		emptyFileWarningLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
+		emptyFileWarningLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		// Create dialog components
-		Label fileLocationLabel = new Label("The current filters are :");
-		fileLocationLabel.setPrefWidth(580);
+		Label fileLocationLabel = new Label("Filters file location:");
+		TextField fileLocationTF = new TextField();
+		fileLocationTF.setPrefWidth(380);
+		fileLocationTF.setTooltip(new Tooltip("Select filters parameters from the JSON file!"));
+		Button loadFileButton = new Button("Load");
+		loadFileButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		StackPane root = new StackPane();
 		root.setPadding(new Insets(5));
-		// Set components control
-		TreeItem rootItem = new TreeItem("Filters");
-		rootItem.setExpanded(true);
-		rootItem.getChildren().addAll(getFilters());
-		TreeView treeView = new TreeView(rootItem);
-		root.getChildren().add(treeView);
 		// Layout
 		GridPane mainPane = new GridPane();
 		mainPane.setAlignment(Pos.TOP_LEFT);
 		mainPane.setPadding(new Insets(10));
 		mainPane.setHgap(15);
 		mainPane.setVgap(15);
-		mainPane.addRow(0, fileLocationLabel);
-		mainPane.add(root, 0, 1, 1, 6);
+
+		mainPane.add(emptyFileWarningLabel, 0, 0, 3, 1);
+		mainPane.addRow(2, fileLocationLabel, fileLocationTF, loadFileButton);
+		mainPane.add(root, 0, 3, 3, 6);
 
 		/********************
 		 * Main dialog pane *
@@ -70,19 +81,47 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		// Create and display the main dialog pane
 		DialogPane dialogPane = new DialogPane();
 		dialogPane.setContent(mainPane);
-		dialogPane.setHeaderText("View Filters");
-		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
+		dialogPane.setHeaderText("Load Filters");
+		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		dialogPane.setPrefSize(600, 500);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.APPLYFILTER)).getImage());
+		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.LOAD)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
-		this.setTitle("View Filters");
+		this.setTitle("Load Filters");
 		this.setDialogPane(dialogPane);
-
+		// Set components control
+		loadFileButton.setOnAction(evt -> {
+			FileUtils.loadFiltersFrmJSON(file -> {
+				try {
+					FilterReaderJson.load(file);
+					fileLocationTF.setText(file.getAbsolutePath());
+					// Create the Root TreeItem
+					TreeItem rootItem = new TreeItem("Filters");
+					rootItem.setExpanded(true);
+					rootItem.getChildren().addAll(getFilters());
+					TreeView treeView = new TreeView(rootItem);
+					root.getChildren().add(treeView);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}, stage);
+		});
+		// Enable Ok button.
+		emptyFileWarningLabel.visibleProperty().bind(fileLocationTF.textProperty().isEmpty());
+		buttonOk.disableProperty().bind(fileLocationTF.textProperty().isEmpty());
 		// On apply button
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
+
+				// Reset all filters before any treatment.
+				ColumnFilters.resetAll();
+				// Reset ions reporter
+				IonReporters.getIonReporters().clear();
+				// Add loaded filters
+				IonReporters.getIonReporters().addAll(FilterReaderJson.getLoadedIonReporterlist());
+				ColumnFilters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
 				return ColumnFilters.getAll();
 			} else {
 				return null;
@@ -100,7 +139,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 	private ArrayList<TreeItem> getFilters() {
 		ArrayList<TreeItem> filtersItems = new ArrayList<>();
 		ArrayList<TreeItem> items = new ArrayList<>();
-		ColumnFilters.getAll().forEach((name, filterList) -> {
+		FilterReaderJson.getLoadedFilterListByNameMap().forEach((name, filterList) -> {
 			TreeItem filterName = new TreeItem(name);
 			items.clear();
 			for (Object filter : filterList) {

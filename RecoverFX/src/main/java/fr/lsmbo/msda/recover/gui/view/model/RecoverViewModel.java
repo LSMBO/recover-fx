@@ -27,6 +27,7 @@ import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterIonReporterDialog;
+import fr.lsmbo.msda.recover.gui.view.dialog.FilterPreViewerDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterViewerDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.IdentifiedSpectraDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ParsingRulesDialog;
@@ -86,8 +87,7 @@ public class RecoverViewModel {
 	/**
 	 * Open and extract spectra from Peaklist file.
 	 * 
-	 * @param file
-	 *            the Peaklist file to open.
+	 * @param file the Peaklist file to open.
 	 */
 	public void onOpenFile() {
 		FileUtils.openPeakListFile(file -> {
@@ -98,8 +98,7 @@ public class RecoverViewModel {
 	/**
 	 * Load and extract spectra from Peaklist file.
 	 * 
-	 * @param file
-	 *            the Peaklist file to load.
+	 * @param file the Peaklist file to load.
 	 */
 	public void loadFile(File file) {
 		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
@@ -139,8 +138,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Export peak list file. Set all the left spectra after applying the
-	 * filters as recover.
+	 * Export peak list file. Set all the left spectra after applying the filters as
+	 * recover.
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
@@ -207,11 +206,21 @@ public class RecoverViewModel {
 	}
 
 	/**
+	 * Show filters parameters applied on current spectra.
+	 */
+	public void onViewCurrentFilters() {
+		FilterViewerDialog FilterLoaderDialog = new FilterViewerDialog();
+		FilterLoaderDialog.showAndWait().ifPresent(filtersByName -> {
+
+		});
+	}
+
+	/**
 	 * Load filters parameters from a JSON file, apply all filters on current
 	 * spectra.
 	 */
 	public void onLoadFiltersFrmJsonFile() {
-		FilterViewerDialog FilterLoaderDialog = new FilterViewerDialog();
+		FilterPreViewerDialog FilterLoaderDialog = new FilterPreViewerDialog();
 		FilterLoaderDialog.showAndWait().ifPresent(filter -> {
 			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
 				FilterRequest filetrRequest = new FilterRequest();
@@ -226,6 +235,7 @@ public class RecoverViewModel {
 				logger.error("Loading filter's parameters from a JSON file has failed!", failure.getMessage());
 			}, true, stage);
 		});
+
 	}
 
 	/**
@@ -271,8 +281,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and display a dialog to add an ion reporter list. Apply ion
-	 * reporter filter.
+	 * Creates and display a dialog to add an ion reporter list. Apply ion reporter
+	 * filter.
 	 * 
 	 * @see IonReporters
 	 */
@@ -303,8 +313,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Apply low intensity threshold filter. The low intensity threshold filter
-	 * use the emergence and the mode entered by the user as parameters.
+	 * Apply low intensity threshold filter. The low intensity threshold filter use
+	 * the emergence and the mode entered by the user as parameters.
 	 * 
 	 * @see FilterRequest
 	 */
@@ -332,8 +342,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and displays parsing rules dialog. If a parsing rules is present.
-	 * It will update the current parsing rules.
+	 * Creates and displays parsing rules dialog. If a parsing rules is present. It
+	 * will update the current parsing rules.
 	 * 
 	 * @see ParsingRules
 	 */
@@ -398,8 +408,7 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Reset all flagged spectra . It helps the user to reset all flagged
-	 * spectrums.
+	 * Reset all flagged spectra . It helps the user to reset all flagged spectrums.
 	 * 
 	 */
 	public void onResetFlagSpectrum() {
@@ -429,8 +438,7 @@ public class RecoverViewModel {
 
 	/**
 	 * Reset filters; this action will restore the default values of filters,
-	 * parsing rules to retrieve the RT from titles and update the view
-	 * properties.
+	 * parsing rules to retrieve the RT from titles and update the view properties.
 	 * 
 	 */
 	public void onResetFilters() {
@@ -520,15 +528,11 @@ public class RecoverViewModel {
 	/**
 	 * Update and notify the view with the changes.
 	 * 
-	 * @param spectrum
-	 *            the selected spectrum. On load file, it select the first
-	 *            spectrum.
-	 * @param nbSpectra
-	 *            the total number of spectrum in the file.
-	 * @param nbIdentified
-	 *            the number of identified spectrum.
-	 * @param percentageIdentified
-	 *            the percentage of identified spectrum.
+	 * @param spectrum             the selected spectrum. On load file, it select
+	 *                             the first spectrum.
+	 * @param nbSpectra            the total number of spectrum in the file.
+	 * @param nbIdentified         the number of identified spectrum.
+	 * @param percentageIdentified the percentage of identified spectrum.
 	 */
 	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbIdentified, Float percentageIdentified) {
 		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbIdentified),
@@ -536,8 +540,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Determines whether the used spectra is not empty and there are a
-	 * validated file to use.
+	 * Determines whether the used spectra is not empty and there are a validated
+	 * file to use.
 	 * 
 	 * @return <code>true</code> if the spectra is not empty otherwise
 	 *         <code>false</code>.
@@ -553,18 +557,20 @@ public class RecoverViewModel {
 	 */
 	private void refresh() {
 		updateJfx(() -> {
-			updateChanges(ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(0),
-					ListOfSpectra.getFirstSpectra().getNbSpectra(), ListOfSpectra.getFirstSpectra().getNbIdentified(),
-					ListOfSpectra.getFirstSpectra().getPercentageIdentified());
-			view.getFilteredTable().refresh();
+			if (!ListOfSpectra.getFirstSpectra().getSpectraAsObservable().isEmpty()) {
+				updateChanges(ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(0),
+						ListOfSpectra.getFirstSpectra().getNbSpectra(),
+						ListOfSpectra.getFirstSpectra().getNbIdentified(),
+						ListOfSpectra.getFirstSpectra().getPercentageIdentified());
+				view.getFilteredTable().refresh();
+			}
 		});
 	}
 
 	/**
 	 * Update the view on Java-fx thread
 	 * 
-	 * @param r
-	 *            Runnable to submit
+	 * @param r Runnable to submit
 	 */
 	private void updateJfx(Runnable r) {
 		Platform.runLater(r);
