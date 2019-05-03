@@ -3,6 +3,7 @@ package fr.lsmbo.msda.recover.gui.filters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
@@ -21,7 +22,7 @@ import javafx.collections.ObservableList;
  */
 public class ColumnFilters {
 
-	private static HashMap<String, ObservableList<Object>> ColumnFilters = new HashMap<String, ObservableList<Object>>();
+	private static HashMap<String, ObservableList<Object>> filtersByNameMap = new HashMap<String, ObservableList<Object>>();
 
 	@SuppressWarnings("unused")
 	private static ArrayList<Integer> arrayFilter = new ArrayList<Integer>();
@@ -33,8 +34,8 @@ public class ColumnFilters {
 	 */
 	@SuppressWarnings({ "unused" })
 	private static HashMap<String, ObservableList<Object>> initialize() {
-		ColumnFilters.clear();
-		return ColumnFilters;
+		filtersByNameMap.clear();
+		return filtersByNameMap;
 	}
 
 	/***
@@ -43,7 +44,7 @@ public class ColumnFilters {
 	 * @return The HashMap of column filters
 	 */
 	public static HashMap<String, ObservableList<Object>> getApplied() {
-		return ColumnFilters;
+		return filtersByNameMap;
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class ColumnFilters {
 	 *            list of filters to be associated with the specified column
 	 */
 	public static void add(String colmunName, ObservableList<Object> filters) {
-		ColumnFilters.put(colmunName, filters);
+		filtersByNameMap.put(colmunName, filters);
 	}
 
 	/**
@@ -66,9 +67,9 @@ public class ColumnFilters {
 	 *         empty
 	 */
 	public static boolean resetAll() {
-		if (!ColumnFilters.isEmpty())
-			ColumnFilters.clear();
-		return ColumnFilters.isEmpty();
+		if (!filtersByNameMap.isEmpty())
+			filtersByNameMap.clear();
+		return filtersByNameMap.isEmpty();
 	}
 
 	/**
@@ -77,8 +78,8 @@ public class ColumnFilters {
 	 * @return true if list that hold all filters is empty
 	 */
 	public static boolean resetOne(String columnName) {
-		if (ColumnFilters.containsKey(columnName)) {
-			ColumnFilters.put(columnName, FXCollections.observableArrayList());
+		if (filtersByNameMap.containsKey(columnName)) {
+			filtersByNameMap.put(columnName, FXCollections.observableArrayList());
 			return true;
 		} else {
 			return false;
@@ -91,7 +92,18 @@ public class ColumnFilters {
 	 * @return true if list that hold all filters is empty
 	 */
 	public static void remove(String columnName) {
-		ColumnFilters.remove(columnName);
+		filtersByNameMap.remove(columnName);
+	}
+
+	/***
+	 * Add a list of filters to applied filters
+	 * 
+	 * @param filtersListMap
+	 *            the map of filters to add
+	 * 
+	 */
+	public static void addAll(Map<String, ObservableList<Object>> filtersListMap) {
+		filtersByNameMap.putAll(filtersListMap);
 	}
 
 	/***
@@ -101,7 +113,7 @@ public class ColumnFilters {
 	 */
 	public static String getFullDescription() {
 		StringBuilder strBuilder = new StringBuilder();
-		ColumnFilters.forEach((name, filters) -> {
+		filtersByNameMap.forEach((name, filters) -> {
 			int n = 1;
 			strBuilder.append("\n").append("###Filters applied on column: ").append(name).append("\n");
 			for (Object filter : filters) {

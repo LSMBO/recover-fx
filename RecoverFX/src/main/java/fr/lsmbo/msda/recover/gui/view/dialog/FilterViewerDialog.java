@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
@@ -14,6 +15,7 @@ import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import javafx.collections.ObservableList;
@@ -31,7 +33,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +42,8 @@ import javafx.stage.Stage;
  *
  */
 public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object>>> {
+	private Map<String, ObservableList<Object>> filtersListByNameMap = new HashMap<>();
+
 	/**
 	 * Default constructor
 	 * 
@@ -92,7 +95,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		loadFileButton.setOnAction(evt -> {
 			FileUtils.loadFiltersFrmJSON(file -> {
 				try {
-					FilterReaderJson.load(file);
+					filtersListByNameMap = FilterReaderJson.load(file);
 					fileLocationTF.setText(file.getAbsolutePath());
 					// Create the Root TreeItem
 					TreeItem rootItem = new TreeItem("Filters");
@@ -112,11 +115,16 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		// On apply button
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
+				// Reset all filters before any treatment.
+				ColumnFilters.resetAll();
+				// Reset ions reporter
+				IonReporters.getIonReporters().clear();
+				ColumnFilters.addAll(filtersListByNameMap);
 				return ColumnFilters.getApplied();
 			} else {
-				ColumnFilters.resetAll();
+				return null;
 			}
-			return null;
+
 		});
 	}
 
@@ -129,10 +137,10 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 	private ArrayList<TreeItem> getFilters() {
 		ArrayList<TreeItem> filtersItems = new ArrayList<>();
 		ArrayList<TreeItem> items = new ArrayList<>();
-		ColumnFilters.getApplied().forEach((k, v) -> {
-			TreeItem filterName = new TreeItem(k);
+		filtersListByNameMap.forEach((name, filterList) -> {
+			TreeItem filterName = new TreeItem(name);
 			items.clear();
-			for (Object filter : v) {
+			for (Object filter : filterList) {
 				if (filter instanceof NumberOperator<?>) {
 					StringBuilder strBuilder = new StringBuilder();
 					strBuilder.append("Type:").append(((NumberOperator<?>) filter).getType()).append(" ; ")

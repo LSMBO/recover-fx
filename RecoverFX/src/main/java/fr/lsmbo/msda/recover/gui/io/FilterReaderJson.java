@@ -3,6 +3,7 @@ package fr.lsmbo.msda.recover.gui.io;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
@@ -36,19 +36,15 @@ public class FilterReaderJson {
 	private static final Logger logger = LogManager.getLogger(FilterReaderJson.class);
 
 	/**
-	 * Parse and load filters parameters from JSON file.
+	 * Parse and load filters parameters from a JSON file.
 	 * 
 	 * @param file
 	 *            File at format JSON which contains parameters of filters.
 	 * @throws JsonParseException
 	 * @throws IOException
 	 */
-	public static void load(File file) throws JsonParseException, IOException {
-
-		// Reset all filters before any treatment.
-		ColumnFilters.resetAll();
-		// Reset ions reporter
-		IonReporters.getIonReporters().clear();
+	public static HashMap<String, ObservableList<Object>> load(File file) throws JsonParseException, IOException {
+		HashMap<String, ObservableList<Object>> filterListByNameMap = new HashMap<>();
 		try {
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
@@ -76,7 +72,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					ColumnFilters.add("Flag", filters);
+					filterListByNameMap.put("Flag", filters);
 				}
 				// Read Ion Reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Ion Reporter") {
@@ -96,7 +92,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					ColumnFilters.add("Ion Reporter", filters);
+					filterListByNameMap.put("Ion Reporter", filters);
 				}
 				// Read Wrong charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
@@ -116,7 +112,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					ColumnFilters.add("Wrong charge", filters);
+					filterListByNameMap.put("Wrong charge", filters);
 				}
 				// Read identified filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Identified") {
@@ -136,7 +132,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					ColumnFilters.add("Identified", filters);
+					filterListByNameMap.put("Identified", filters);
 				}
 				/**
 				 * String operator
@@ -168,7 +164,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((StringOperator) filter);
-					ColumnFilters.add("Title", filters);
+					filterListByNameMap.put("Title", filters);
 				}
 				/**
 				 * Number operator
@@ -215,7 +211,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Id", filters);
+					filterListByNameMap.put("Id", filters);
 				}
 				// Read Mz filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Mz") {
@@ -259,7 +255,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Mz", filters);
+					filterListByNameMap.put("Mz", filters);
 				}
 				// Read Intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Intensity") {
@@ -303,7 +299,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Intensity", filters);
+					filterListByNameMap.put("Intensity", filters);
 				}
 				// Read Charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Charge") {
@@ -347,7 +343,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Charge", filters);
+					filterListByNameMap.put("Charge", filters);
 				}
 				// Read Retention time filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention Time") {
@@ -391,7 +387,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Retention Time", filters);
+					filterListByNameMap.put("Retention Time", filters);
 				}
 				// Read Fragment number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Fragment number") {
@@ -435,7 +431,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Fragment number", filters);
+					filterListByNameMap.put("Fragment number", filters);
 				}
 				// Read max fragment intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Max fragment intensity") {
@@ -479,7 +475,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("Max fragment intensity", filters);
+					filterListByNameMap.put("Max fragment intensity", filters);
 				}
 				// Read useful peaks number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "UPN") {
@@ -523,7 +519,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					ColumnFilters.add("UPN", filters);
+					filterListByNameMap.put("UPN", filters);
 				}
 
 				// Read low intensity threshold filter
@@ -604,9 +600,13 @@ public class FilterReaderJson {
 					}
 				}
 			}
+			return filterListByNameMap;
 		} catch (FileNotFoundException e) {
 			logger.error("Error while trying to load filters parameters!", e);
+			filterListByNameMap.clear();
+			return filterListByNameMap;
 		}
+
 	}
 
 }
