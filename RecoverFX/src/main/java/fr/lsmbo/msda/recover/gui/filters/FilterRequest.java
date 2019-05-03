@@ -134,7 +134,7 @@ public class FilterRequest {
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		if (ColumnFilters.getAll().containsKey("LIT")) {
 			this.filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getAll().get("LIT").get(0);
-			assert filterLIT != null : "The filter low intensity threshold is null";
+			assert filterLIT != null : "The filter low intensity threshold must not be null";
 			// Scan all the spectrum
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
@@ -156,7 +156,7 @@ public class FilterRequest {
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		if (ColumnFilters.getAll().containsKey("IS")) {
 			this.filterIS = (IdentifiedSpectraFilter) ColumnFilters.getAll().get("IS").get(0);
-			assert filterIS != null : "The filter is idenified spectra is null";
+			assert filterIS != null : "The filter is idenified spectra must not be null";
 			// Scan all the spectrum
 			if (ColumnFilters.getAll().containsKey("IS")) {
 				for (int i = 0; i < numberOfSpectrum; i++) {
@@ -182,7 +182,7 @@ public class FilterRequest {
 		// Scan all the spectrum
 		if (ColumnFilters.getAll().containsKey("IR")) {
 			this.filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
-			assert filterIR != null : "The filter ion reporter spectra is null";
+			assert filterIR != null : "The filter ion reporter spectra must not be null";
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 				Integer nbIon = IonReporters.getIonReporters().size();
@@ -199,18 +199,6 @@ public class FilterRequest {
 			isFinished = true;
 		}
 		return isFinished;
-	}
-
-	/**
-	 * Keep the original items and use a copy of items whenever a filter is
-	 * invoked
-	 * 
-	 * @return The original items (first spectra as observable)
-	 */
-	private ObservableList<Spectrum> copyItems() {
-		final ObservableList<Spectrum> copiedItems = FXCollections
-				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-		return copiedItems;
 	}
 
 	/**

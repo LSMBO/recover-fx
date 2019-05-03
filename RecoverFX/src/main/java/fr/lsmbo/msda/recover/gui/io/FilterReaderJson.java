@@ -43,9 +43,34 @@ public class FilterReaderJson {
 	 * @throws JsonParseException
 	 * @throws IOException
 	 */
-	public static HashMap<String, ObservableList<Object>> load(File file) throws JsonParseException, IOException {
-		HashMap<String, ObservableList<Object>> filterListByNameMap = new HashMap<>();
+	private static ObservableList<IonReporter> loadedIonReporterlist = FXCollections.observableArrayList();
+	private static HashMap<String, ObservableList<Object>> loadedFilterListByNameMap = new HashMap<>();
+
+	/**
+	 * Return the loaded ion reporters list without modifying the existing ion
+	 * reporters.
+	 * 
+	 * @return the loadedIonReporterlist
+	 */
+	public static final ObservableList<IonReporter> getLoadedIonReporterlist() {
+		return loadedIonReporterlist;
+	}
+
+	/**
+	 * Return the loaded filter by filter name map without modifying the
+	 * existing filters.
+	 * 
+	 * @return the loaded filter by filter name map
+	 */
+	public static final HashMap<String, ObservableList<Object>> getLoadedFilterListByNameMap() {
+		return loadedFilterListByNameMap;
+	}
+
+	public static void load(File file) throws JsonParseException, IOException {
 		try {
+			// Clear
+			loadedIonReporterlist.clear();
+			loadedFilterListByNameMap.clear();
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
 			JsonParser parser = factory.createJsonParser(file);
@@ -72,7 +97,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					filterListByNameMap.put("Flag", filters);
+					loadedFilterListByNameMap.put("Flag", filters);
 				}
 				// Read Ion Reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Ion Reporter") {
@@ -92,7 +117,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					filterListByNameMap.put("Ion Reporter", filters);
+					loadedFilterListByNameMap.put("Ion Reporter", filters);
 				}
 				// Read Wrong charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
@@ -112,7 +137,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					filterListByNameMap.put("Wrong charge", filters);
+					loadedFilterListByNameMap.put("Wrong charge", filters);
 				}
 				// Read identified filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Identified") {
@@ -132,7 +157,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					filterListByNameMap.put("Identified", filters);
+					loadedFilterListByNameMap.put("Identified", filters);
 				}
 				/**
 				 * String operator
@@ -164,7 +189,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((StringOperator) filter);
-					filterListByNameMap.put("Title", filters);
+					loadedFilterListByNameMap.put("Title", filters);
 				}
 				/**
 				 * Number operator
@@ -211,7 +236,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Id", filters);
+					loadedFilterListByNameMap.put("Id", filters);
 				}
 				// Read Mz filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Mz") {
@@ -255,7 +280,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Mz", filters);
+					loadedFilterListByNameMap.put("Mz", filters);
 				}
 				// Read Intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Intensity") {
@@ -299,7 +324,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Intensity", filters);
+					loadedFilterListByNameMap.put("Intensity", filters);
 				}
 				// Read Charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Charge") {
@@ -343,7 +368,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Charge", filters);
+					loadedFilterListByNameMap.put("Charge", filters);
 				}
 				// Read Retention time filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention Time") {
@@ -387,7 +412,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Retention Time", filters);
+					loadedFilterListByNameMap.put("Retention Time", filters);
 				}
 				// Read Fragment number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Fragment number") {
@@ -431,7 +456,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Fragment number", filters);
+					loadedFilterListByNameMap.put("Fragment number", filters);
 				}
 				// Read max fragment intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Max fragment intensity") {
@@ -475,7 +500,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("Max fragment intensity", filters);
+					loadedFilterListByNameMap.put("Max fragment intensity", filters);
 				}
 				// Read useful peaks number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "UPN") {
@@ -519,7 +544,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					filterListByNameMap.put("UPN", filters);
+					loadedFilterListByNameMap.put("UPN", filters);
 				}
 
 				// Read low intensity threshold filter
@@ -543,7 +568,7 @@ public class FilterReaderJson {
 					}
 					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
 					filters.add(filterLIT);
-					filterListByNameMap.put("LIT", filters);
+					loadedFilterListByNameMap.put("LIT", filters);
 				}
 
 				// Read is identified filter
@@ -597,19 +622,19 @@ public class FilterReaderJson {
 								tolerance = (float) parser.getValueAsDouble();
 							}
 							if (JsonToken.END_OBJECT.equals(token)) {
-								IonReporters.addIonReporter(new IonReporter(name, moz, tolerance));
+								IonReporter ionReporter = new IonReporter(name, moz, tolerance);
+								loadedIonReporterlist.add(ionReporter);
 							}
 						}
+
 					}
 					filters.add(filterIR);
-					filterListByNameMap.put("IR", filters);
+					loadedFilterListByNameMap.put("IR", filters);
 				}
 			}
-			return filterListByNameMap;
+
 		} catch (FileNotFoundException e) {
 			logger.error("Error while trying to load filters parameters!", e);
-			filterListByNameMap.clear();
-			return filterListByNameMap;
 		}
 
 	}

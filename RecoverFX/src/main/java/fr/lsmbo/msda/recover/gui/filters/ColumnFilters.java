@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
@@ -113,7 +114,10 @@ public class ColumnFilters {
 	 */
 	public static String getFullDescription() {
 		StringBuilder strBuilder = new StringBuilder();
-		filtersByNameMap.forEach((name, filters) -> {
+		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
+		filtersByNameTreeMap.clear();
+		filtersByNameTreeMap.putAll(ColumnFilters.getAll());
+		filtersByNameTreeMap.forEach((name, filters) -> {
 			int n = 1;
 			strBuilder.append("\n").append("###Filters applied on column: ").append(name).append("\n");
 			for (Object filter : filters) {

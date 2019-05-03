@@ -42,7 +42,6 @@ import javafx.stage.Stage;
  *
  */
 public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object>>> {
-	private Map<String, ObservableList<Object>> filtersListByNameMap = new HashMap<>();
 
 	/**
 	 * Default constructor
@@ -95,7 +94,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		loadFileButton.setOnAction(evt -> {
 			FileUtils.loadFiltersFrmJSON(file -> {
 				try {
-					filtersListByNameMap = FilterReaderJson.load(file);
+					FilterReaderJson.load(file);
 					fileLocationTF.setText(file.getAbsolutePath());
 					// Create the Root TreeItem
 					TreeItem rootItem = new TreeItem("Filters");
@@ -119,7 +118,8 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 				ColumnFilters.resetAll();
 				// Reset ions reporter
 				IonReporters.getIonReporters().clear();
-				ColumnFilters.addAll(filtersListByNameMap);
+				IonReporters.getIonReporters().addAll(FilterReaderJson.getLoadedIonReporterlist());
+				ColumnFilters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
 				return ColumnFilters.getAll();
 			} else {
 				return null;
@@ -137,7 +137,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 	private ArrayList<TreeItem> getFilters() {
 		ArrayList<TreeItem> filtersItems = new ArrayList<>();
 		ArrayList<TreeItem> items = new ArrayList<>();
-		filtersListByNameMap.forEach((name, filterList) -> {
+		FilterReaderJson.getLoadedFilterListByNameMap().forEach((name, filterList) -> {
 			TreeItem filterName = new TreeItem(name);
 			items.clear();
 			for (Object filter : filterList) {

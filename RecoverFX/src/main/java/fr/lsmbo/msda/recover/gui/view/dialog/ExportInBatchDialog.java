@@ -70,7 +70,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		// Create directory of MGF files components
 		Label dirMgfLabel = new Label("Peaklist files location:");
 		TextField dirMgfTF = new TextField();
-		dirMgfTF.setTooltip(new Tooltip("Choose a peaklist file directory"));
+		dirMgfTF.setTooltip(new Tooltip("Select a peaklist file directory"));
 		Button loadMgfButton = new Button("Load");
 		loadMgfButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		Label dirMgfTitleLabel = new Label("Peaklist files");
@@ -131,7 +131,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 			return row;
 		});
 		// Create directory of excel files components
-		Label dirExcelLabel = new Label("Excel files location:");
+		Label dirExcelLabel = new Label("Identification files location:");
 		TextField dirExcelTF = new TextField();
 		dirMgfTF.setTooltip(new Tooltip(
 				"Choose a excel files diorectory. The excel files must contains a valid titles to identify"));

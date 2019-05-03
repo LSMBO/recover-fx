@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
  * inside the list and to get the list.
  * 
  * @author BL
+ * @author Aromdhani
  *
  */
 public class IonReporters {
@@ -20,7 +21,7 @@ public class IonReporters {
 
 	/***
 	 * 
-	 * @return initilaize the ion reporters list
+	 * @return initialize the ion reporters list
 	 */
 	private static ObservableList<IonReporter> initializeListIon() {
 		ObservableList<IonReporter> list = FXCollections.observableArrayList();
@@ -29,7 +30,7 @@ public class IonReporters {
 
 	/**
 	 * 
-	 * @return the ion reportes as an observable list.
+	 * @return the ion reporters as an observable list.
 	 */
 	public static ObservableList<IonReporter> getIonReporters() {
 		return ionReporters;
@@ -38,11 +39,11 @@ public class IonReporters {
 	/**
 	 * Add an ion reporter to the ion reporter list.
 	 * 
-	 * @param ir
-	 *            the ion reporter to add
+	 * @param ionReporter
+	 *            the ion reporter to add.
 	 */
-	public static void addIonReporter(IonReporter ir) {
-		ionReporters.add(ir);
+	public static void addIonReporter(IonReporter ionReporter) {
+		ionReporters.add(ionReporter);
 	}
 
 }
