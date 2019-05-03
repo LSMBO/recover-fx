@@ -68,7 +68,8 @@ public class FilterReaderJson {
 
 	public static void load(File file) throws JsonParseException, IOException {
 		try {
-			// Clear
+			// Clear ion reporter list
+			// Clear the filter list
 			loadedIonReporterlist.clear();
 			loadedFilterListByNameMap.clear();
 			JsonFactory factory = new JsonFactory();

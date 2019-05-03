@@ -836,16 +836,22 @@ public class FilterRequest {
 
 	}
 
-	/** Restore default values: reset the value of recover and UPN */
-	public static void restoreDefaultValues() {
-		Spectra spectra = ListOfSpectra.getFirstSpectra();
+	/**
+	 * Restore default values.
+	 */
+	public void restoreDefaultValues() {
+		Spectra spectra = null;
+		if (!ExportBatch.useBatchSpectra) {
+			spectra = ListOfSpectra.getFirstSpectra();
+		} else {
+			spectra = ListOfSpectra.getBatchSpectra();
+		}
 		for (Spectrum sp : spectra.getSpectraAsObservable()) {
 			sp.setIsRecovered(false);
+			sp.setIsIdentified(false);
+			sp.setIonReporter(false);
 			sp.setUpn(-1);
-			sp.setIsRecoverHIT(StatusFilterType.NOT_USED);
 			sp.setIsRecoverLIT(StatusFilterType.NOT_USED);
-			sp.setIsRecoverFI(StatusFilterType.NOT_USED);
-			sp.setIsRecoverWC(StatusFilterType.NOT_USED);
 			sp.setIsRecoverIS(StatusFilterType.NOT_USED);
 			sp.setIsRecoverIR(StatusFilterType.NOT_USED);
 		}

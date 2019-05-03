@@ -437,9 +437,10 @@ public class RecoverViewModel {
 		if (isValidatedFirstSpectra()) {
 			taskRunner.doAsyncWork("Reset all filters", () -> {
 				// Reset all filters to default values.
-				ColumnFilters.resetAll();
-				IonReporters.getIonReporters().clear();
 				FilterRequest filetrRequest = new FilterRequest();
+				IonReporters.getIonReporters().clear();
+				ColumnFilters.resetAll();
+				filetrRequest.restoreDefaultValues();
 				filetrRequest.applyAllFilters(items);
 				// Restore default session parameters
 				return true;
