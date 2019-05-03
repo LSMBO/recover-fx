@@ -1,7 +1,6 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.google.jhsheets.filtered.operators.BooleanOperator;
@@ -36,22 +35,22 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
- * Creates and displays filters loader dialog.
+ * Creates and displays previewer filters loader dialog.
  * 
  * @author Aromdhani
  *
  */
-public class FilterPreViewerDialog extends Dialog<Map<String, ObservableList<Object>>> {
+public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object>>> {
 
 	/**
 	 * Default constructor
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public FilterPreViewerDialog() {
+	public FilterLoaderDialog() {
 		// Create notifications label
 		Label emptyFileWarningLabel = new Label(
-				"Select filter parameters from a JSON file. Make sure that you have selected a valid file!");
+				"Select a filter parameters file. Make sure that you have selected a valid JSON file!");
 		emptyFileWarningLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyFileWarningLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		// Create dialog components
@@ -126,7 +125,6 @@ public class FilterPreViewerDialog extends Dialog<Map<String, ObservableList<Obj
 			} else {
 				return null;
 			}
-
 		});
 	}
 

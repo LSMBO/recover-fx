@@ -280,7 +280,7 @@ public class MainView extends StackPane {
 		Menu settingsMenu = new Menu(" Settings ");
 		// Save filter parameters
 		MenuItem showCurrentFilters = new MenuItem(" View filters ... ");
-		showCurrentFilters.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
+		showCurrentFilters.setGraphic(new ImageView(IconResource.getImage(ICON.FILTER)));
 		showCurrentFilters.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
 		showCurrentFilters.setOnAction((e) -> {
 			model.onViewCurrentFilters();

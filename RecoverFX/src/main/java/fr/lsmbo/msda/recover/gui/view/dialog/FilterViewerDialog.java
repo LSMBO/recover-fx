@@ -71,10 +71,10 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		DialogPane dialogPane = new DialogPane();
 		dialogPane.setContent(mainPane);
 		dialogPane.setHeaderText("View Filters");
-		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.APPLYFILTER)));
+		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.FILTER)));
 		dialogPane.setPrefSize(600, 500);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.APPLYFILTER)).getImage());
+		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.FILTER)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
 		this.setTitle("View Filters");

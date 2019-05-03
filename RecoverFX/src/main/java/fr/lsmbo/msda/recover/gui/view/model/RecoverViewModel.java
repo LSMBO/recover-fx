@@ -27,7 +27,7 @@ import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterIonReporterDialog;
-import fr.lsmbo.msda.recover.gui.view.dialog.FilterPreViewerDialog;
+import fr.lsmbo.msda.recover.gui.view.dialog.FilterLoaderDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterViewerDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.IdentifiedSpectraDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ParsingRulesDialog;
@@ -220,7 +220,7 @@ public class RecoverViewModel {
 	 * spectra.
 	 */
 	public void onLoadFiltersFrmJsonFile() {
-		FilterPreViewerDialog FilterLoaderDialog = new FilterPreViewerDialog();
+		FilterLoaderDialog FilterLoaderDialog = new FilterLoaderDialog();
 		FilterLoaderDialog.showAndWait().ifPresent(filter -> {
 			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
 				FilterRequest filetrRequest = new FilterRequest();

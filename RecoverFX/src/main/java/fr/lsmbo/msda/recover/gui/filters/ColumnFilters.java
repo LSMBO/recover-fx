@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 
 /***
  * Save column filters in HashMap. keep in memory all the column filters(until
- * reset). It initialize all the filters , add, remove a column filter.
+ * reset). It initialize, put all the filters , add, remove a column filter.
  * 
  * @author Aromdhani
  *
@@ -42,7 +42,7 @@ public class ColumnFilters {
 	/***
 	 * Return the applied column filters
 	 * 
-	 * @return The HashMap of column filters
+	 * @return HashMap of column filters
 	 */
 	public static HashMap<String, ObservableList<Object>> getAll() {
 		return filtersByNameMap;
@@ -51,11 +51,9 @@ public class ColumnFilters {
 	/**
 	 * Add a column filter
 	 * 
-	 * @param The
-	 *            Column name with which the specified list of filters is to be
+	 * @param The Column name with which the specified list of filters is to be
 	 *            associated
-	 * @param The
-	 *            list of filters to be associated with the specified column
+	 * @param The list of filters to be associated with the specified column
 	 */
 	public static void add(String colmunName, ObservableList<Object> filters) {
 		filtersByNameMap.put(colmunName, filters);
@@ -64,8 +62,7 @@ public class ColumnFilters {
 	/**
 	 * Remove all applied filters for all columns
 	 * 
-	 * @return true if the hashMap that hold all columns and list filters is
-	 *         empty
+	 * @return true if the hashMap that hold all columns and list filters is empty
 	 */
 	public static boolean resetAll() {
 		if (!filtersByNameMap.isEmpty())
@@ -90,17 +87,18 @@ public class ColumnFilters {
 	/**
 	 * Remove a filter from the applied filters.
 	 * 
-	 * @return true if list that hold all filters is empty
+	 * @return true if the list that hold all filters is empty
 	 */
 	public static void remove(String columnName) {
 		filtersByNameMap.remove(columnName);
 	}
 
 	/***
-	 * Add a list of filters to applied filters
+	 * Copies all of the mappings from the specified map of filters to this map of
+	 * stored filters. These mappings will replace any mappings that this map had
+	 * for any of the keys currently in the specified map.
 	 * 
-	 * @param filtersListMap
-	 *            the map of filters to add
+	 * @param filtersListMap the map of filters to add
 	 * 
 	 */
 	public static void addAll(Map<String, ObservableList<Object>> filtersListMap) {

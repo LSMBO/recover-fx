@@ -12,12 +12,13 @@ import javafx.scene.image.Image;
 @SuppressWarnings("restriction")
 public class IconResource {
 	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
+
 	/**
-     * Enum type that indicates the name of the icon.
-     */
+	 * Enum type that indicates the name of the icon.
+	 */
 	public enum ICON {
-		APPLYFILTER, CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, SETTINGS, RECOVER,
-		IDENTIFIEDSPECTRA, TRASH, WARNING, RESET, FLAG, EXIT, RELOAD;
+		APPLYFILTER, CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER,
+		IDENTIFIEDSPECTRA, TRASH, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER;
 	}
 
 	/**
@@ -56,9 +57,6 @@ public class IconResource {
 			case SAVE:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/save.png")));
 				break;
-			case SETTINGS:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/settings.png")));
-				break;
 			case TRASH:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/trash.png")));
 				break;
@@ -90,6 +88,10 @@ public class IconResource {
 			case RELOAD:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/reload.png")));
 				break;
+			case FILTER:
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/funnel-icon.png")));
+				break;
+
 			default:
 				break;
 			}
