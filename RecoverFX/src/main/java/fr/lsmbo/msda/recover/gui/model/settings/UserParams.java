@@ -22,8 +22,7 @@ public class UserParams extends RecoverSetting {
 	private ParsingRulesSettings parsingRules;
 
 	public UserParams() {
-		this("", "", "", new QualityFiltersSettings(),  new ComparisonSettings(),
-				new ParsingRulesSettings());
+		this("", "", "", new QualityFiltersSettings(), new ComparisonSettings(), new ParsingRulesSettings());
 	}
 
 	public UserParams(QualityFiltersSettings qualityFilters, ComparisonSettings comparison,
@@ -32,13 +31,13 @@ public class UserParams extends RecoverSetting {
 	}
 
 	public UserParams(String userName, String timestamp, String recoverVersion, QualityFiltersSettings qualityFilters,
-			 ComparisonSettings comparison, ParsingRulesSettings parsingRules) {
+			ComparisonSettings comparison, ParsingRulesSettings parsingRules) {
 		super();
 		this.userName = userName;
 		this.timestamp = timestamp;
 		this.recoverVersion = recoverVersion;
 		this.qualityFilters = qualityFilters;
-		
+
 		this.comparison = comparison;
 		this.parsingRules = parsingRules;
 		this.initialize();
@@ -73,7 +72,6 @@ public class UserParams extends RecoverSetting {
 		this.recoverVersion = recoverVersion;
 	}
 
-	
 	public ComparisonSettings getComparison() {
 		return comparison;
 	}
@@ -93,9 +91,9 @@ public class UserParams extends RecoverSetting {
 	@Override
 	public String toString() {
 		StringBuilder userParamsStr = new StringBuilder();
-		userParamsStr.append("\n").append("##User: ").append(this.userName).append("\n").append("##Date: ").append(this.timestamp)
-				.append("\n").append("##Version: ").append(this.recoverVersion).append("\n")
-				.append("comparison: ").append(this.comparison.toString()).append("\n").append("##Parsing rules: ")
+		userParamsStr.append("\n").append("##User: ").append(this.userName).append("\n").append("##Date: ")
+				.append(this.timestamp).append("\n").append("##Version: ").append(this.recoverVersion).append("\n")
+				.append("##comparison: ").append(this.comparison.toString()).append("\n").append("##Parsing rules: ")
 				.append(this.parsingRules.toString()).append("\n");
 		return userParamsStr.toString();
 	}
