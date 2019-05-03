@@ -112,7 +112,7 @@ public class FileUtils {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setTitle("Save as");
+		fileChooser.setTitle("Save filters");
 		File file = fileChooser.showSaveDialog(stage);
 		if (file != null) {
 			fileConsumer.accept(file);
@@ -127,14 +127,14 @@ public class FileUtils {
 	 *            the parent stage of the file chooser
 	 * 
 	 */
-	public static void openFiltersFrmJSON(Consumer<File> openFile, Stage stage) {
+	public static void loadFiltersFrmJSON(Consumer<File> openFile, Stage stage) {
 		FileChooser fileChooser = new FileChooser();
 		// Set extension filter
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extFilter);
 		// Show save file dialog
 		File file = fileChooser.showOpenDialog(stage);
-		fileChooser.setTitle(" Open ");
+		fileChooser.setTitle("Load filters");
 		if (file != null) {
 			openFile.accept(file);
 		}
@@ -163,7 +163,7 @@ public class FileUtils {
 		fileChooser.setInitialDirectory(initialDirectory);
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Mgf files (*.mgf)", "*.mgf"),
 				new FileChooser.ExtensionFilter("PeakList files (*.pkl)", "*.pkl"));
-		fileChooser.setTitle(" Open ");
+		fileChooser.setTitle("Open file");
 		// Show open file dialog
 		File file = fileChooser.showOpenDialog(stage);
 		if (file != null) {
@@ -180,15 +180,15 @@ public class FileUtils {
 	 * 
 	 */
 
-	public static void savePeakListAs(Consumer<File> peakListConsumer, Stage primaryStage) {
+	public static void exportPeakListAs(Consumer<File> peakListConsumer, Stage primaryStage) {
 		FileChooser fileChooser = new FileChooser();
 		// Set extension filter
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Mgf files (*.mgf)", "*.mgf"),
 				new FileChooser.ExtensionFilter("PeakList files (*.pkl)", "*.pkl"));
+		// Set Title
+		fileChooser.setTitle("Export file");
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(primaryStage);
-		// Set Title
-		fileChooser.setTitle("Save as");
 		if (file != null) {
 			peakListConsumer.accept(file);
 		}

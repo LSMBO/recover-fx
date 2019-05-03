@@ -144,7 +144,7 @@ public class RecoverViewModel {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
 		logger.debug("The filtered spectra number: {}", filteredItems.size());
 		if (filteredItems.size() > 0) {
-			FileUtils.savePeakListAs(file -> {
+			FileUtils.exportPeakListAs(file -> {
 				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + " file", () -> {
 					long startTime = System.currentTimeMillis();
 					ListOfSpectra.getFirstSpectra().getSpectraAsObservable().stream().parallel().forEach(spectrum -> {

@@ -90,7 +90,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		this.setDialogPane(dialogPane);
 		// Set components control
 		loadFileButton.setOnAction(evt -> {
-			FileUtils.openFiltersFrmJSON(file -> {
+			FileUtils.loadFiltersFrmJSON(file -> {
 				try {
 					FilterReaderJson.load(file);
 					fileLocationTF.setText(file.getAbsolutePath());
