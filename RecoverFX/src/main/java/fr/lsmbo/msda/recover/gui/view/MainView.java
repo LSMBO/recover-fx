@@ -1,5 +1,7 @@
 package fr.lsmbo.msda.recover.gui.view;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -445,6 +447,15 @@ public class MainView extends StackPane {
 		percentIdentifiedLabel.setTooltip(new Tooltip("The percentage of identified spectrum"));
 		Label percentageIdentified = new Label("0");
 		percentageIdentified.textProperty().bind(viewProperty.getIdentifiedPercProperty());
+		// Style
+		ArrayList<Label> generalLabelList = new ArrayList<Label>();
+		generalLabelList.add(fileNameLabel);
+		generalLabelList.add(specNumberLabel);
+		generalLabelList.add(recoverNumberLabel);
+		generalLabelList.add(percentRecoveredLabel);
+		generalLabelList.add(identifiedNumberLabel);
+		generalLabelList.add(percentIdentifiedLabel);
+		generalLabelList.forEach(label -> label.setMinWidth(150));
 		// Create general pane
 		GridPane generalInfosPane = new GridPane();
 		generalInfosPane.setPadding(new Insets(10));
@@ -495,7 +506,18 @@ public class MainView extends StackPane {
 		Label medianFrgIntensitiesLabel = new Label("Median fragment intensity:");
 		medianFrgIntensitiesLabel.setTooltip(new Tooltip("Median fragment intensity"));
 		Label medianFrgIntensities = new Label(Float.toString(0));
-
+		// Style
+		ArrayList<Label> spectrumLabelList = new ArrayList<Label>();
+		spectrumLabelList.add(spectrumTitleLabel);
+		spectrumLabelList.add(spectrumTitleLabel);
+		spectrumLabelList.add(fragmentNumberLabel);
+		spectrumLabelList.add(fragmentMaxMozLabel);
+		spectrumLabelList.add(fragmentMaxMozLabel);
+		spectrumLabelList.add(fragmentMaxIntensityLabel);
+		spectrumLabelList.add(averageFrgIntensitiesLabel);
+		spectrumLabelList.add(medianFrgIntensitiesLabel);
+		spectrumLabelList.forEach(label -> label.setMinWidth(150));
+		// Layout
 		spectrumInfosPane.add(spectrumPropertiesLabel, 0, 0, 1, 1);
 		spectrumInfosPane.addRow(4, spectrumTitleLabel, spectrumTitle);
 		spectrumInfosPane.addRow(5, spectrumPrecursorLabel, spectrumPrecursor);
