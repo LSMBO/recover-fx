@@ -31,13 +31,13 @@ public class IconResource {
 		if (!images.containsKey(icon)) {
 			switch (icon) {
 			case APPLYFILTER:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/applyfilter.png")));
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/apply-filter.png")));
 				break;
 			case EXPORT:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/export.png")));
 				break;
 			case EDIT:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/editparsingrules.png")));
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/edit-parsing-rules.png")));
 				break;
 			case HELP:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/help.png")));
@@ -57,14 +57,11 @@ public class IconResource {
 			case SAVE:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/save.png")));
 				break;
-			case TRASH:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/trash.png")));
-				break;
 			case WARNING:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/warning.png")));
 				break;
 			case EXPORT_DATA:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/exportinbatch.png")));
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/export-batch.png")));
 				break;
 			case RESET:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/arrowcircle.png")));
@@ -72,9 +69,8 @@ public class IconResource {
 			case FLAG:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/flag.png")));
 				break;
-
 			case IDENTIFIEDSPECTRA:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/getspectrum.png")));
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/identified-spectra.png")));
 				break;
 			case RECOVER:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/recover.png")));
@@ -89,9 +85,8 @@ public class IconResource {
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/reload.png")));
 				break;
 			case FILTER:
-				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/funnel-icon.png")));
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/view-actual-filters.png")));
 				break;
-
 			default:
 				break;
 			}
