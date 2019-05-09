@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.google.jhsheets.filtered.FilteredTableView;
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
+import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
@@ -631,7 +633,7 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
-	public ObservableList<Spectrum> applyAllFilters(ObservableList<Spectrum> newData) {
+	public ObservableList<Spectrum> applyAllFilters(FilteredTableView tableView, ObservableList<Spectrum> newData) {
 
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
 		filtersByNameTreeMap.clear();
@@ -644,8 +646,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((BooleanOperator) filter);
 				}
-				ColumnFilters.add("Flag", appliedFilters);
-				filterFlaggedColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(0)).getFilters().addAll(filters);
+					filterFlaggedColumn(newData, filters);
+				} else {
+					filterFlaggedColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Id column
@@ -654,8 +660,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Integer>) filter);
 				}
-				ColumnFilters.add("Id", appliedFilters);
-				filterIdColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(1)).getFilters().addAll(filters);
+					filterIdColumn(newData, filters);
+				} else {
+					filterIdColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Title column
@@ -664,8 +674,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((StringOperator) filter);
 				}
-				ColumnFilters.add("Title", appliedFilters);
-				filterTitleColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(2)).getFilters().addAll(filters);
+					filterTitleColumn(newData, filters);
+				} else {
+					filterTitleColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Mz column
@@ -674,8 +688,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Float>) filter);
 				}
-				ColumnFilters.add("Mz", appliedFilters);
-				filterMzColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(3)).getFilters().addAll(filters);
+					filterMzColumn(newData, filters);
+				} else {
+					filterMzColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Intensity column
@@ -684,8 +702,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Float>) filter);
 				}
-				ColumnFilters.add("Intensity", appliedFilters);
-				filterIntensityColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(4)).getFilters().addAll(filters);
+					filterIntensityColumn(newData, filters);
+				} else {
+					filterIntensityColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Charge column
@@ -694,8 +716,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Integer>) filter);
 				}
-				ColumnFilters.add("Charge", appliedFilters);
-				filterChargeColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(5)).getFilters().addAll(filters);
+					filterChargeColumn(newData, filters);
+				} else {
+					filterChargeColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Retention Time column
@@ -704,8 +730,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Float>) filter);
 				}
-				ColumnFilters.add("Retention Time", appliedFilters);
-				filterRTColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(6)).getFilters().addAll(filters);
+					filterRTColumn(newData, filters);
+				} else {
+					filterRTColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Fragment number column
@@ -714,8 +744,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator) filter);
 				}
-				ColumnFilters.add("Fragment number", appliedFilters);
-				filterNbrFrgsColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(7)).getFilters().addAll(filters);
+					filterNbrFrgsColumn(newData, filters);
+				} else {
+					filterNbrFrgsColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Max fragment intensity column
@@ -724,8 +758,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator) filter);
 				}
-				ColumnFilters.add("Max fragment intensity", appliedFilters);
-				filterFIntensityColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(8)).getFilters().addAll(filters);
+					filterFIntensityColumn(newData, filters);
+				} else {
+					filterFIntensityColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on UPN column
@@ -734,8 +772,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((NumberOperator<Integer>) filter);
 				}
-				ColumnFilters.add("UPN", appliedFilters);
-				filterUPNColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(9)).getFilters().addAll(filters);
+					filterUPNColumn(newData, filters);
+				} else {
+					filterUPNColumn(newData, filters);
+				}
 				break;
 
 			}
@@ -745,8 +787,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((BooleanOperator) filter);
 				}
-				ColumnFilters.add("Identified", appliedFilters);
-				filterIdentifiedColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(10)).getFilters().addAll(filters);
+					filterIdentifiedColumn(newData, filters);
+				} else {
+					filterIdentifiedColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Wrong charge column
@@ -755,8 +801,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((BooleanOperator) filter);
 				}
-				ColumnFilters.add("Ion Reporter", appliedFilters);
-				filterIonReporterColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(11)).getFilters().addAll(filters);
+					filterIonReporterColumn(newData, filters);
+				} else {
+					filterIonReporterColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter on Wrong charge column
@@ -765,8 +815,12 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((BooleanOperator) filter);
 				}
-				ColumnFilters.add("Wrong charge", appliedFilters);
-				filterWrongChargeColumn(newData, filters);
+				if (!ExportBatch.useBatchSpectra) {
+					((IFilterableTableColumn) tableView.getColumns().get(12)).getFilters().addAll(filters);
+					filterWrongChargeColumn(newData, filters);
+				} else {
+					filterWrongChargeColumn(newData, filters);
+				}
 				break;
 			}
 			// Apply filter IdentifiedSpectraFilter
@@ -775,7 +829,6 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((IdentifiedSpectraFilter) filter);
 				}
-				ColumnFilters.add("IS", appliedFilters);
 				applyIS();
 				break;
 			}
@@ -785,7 +838,6 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((LowIntensityThresholdFilter) filter);
 				}
-				ColumnFilters.add("LIT", appliedFilters);
 				applyLIT();
 				break;
 			}
@@ -795,7 +847,6 @@ public class FilterRequest {
 				for (Object filter : appliedFilters) {
 					filters.add((IonReporterFilter) filter);
 				}
-				ColumnFilters.add("IR", appliedFilters);
 				applyIR();
 				break;
 			}

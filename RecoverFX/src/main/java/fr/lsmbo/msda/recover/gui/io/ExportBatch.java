@@ -81,9 +81,9 @@ public class ExportBatch {
 		identificationByPeakListMap.forEach((peakListFile, identificationFile) -> {
 			try {
 				PeaklistReader.load(peakListFile);
-				ObservableList<Spectrum> newData = filterRequest
-						.applyAllFilters(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
-				System.out.println(newData.size());
+//				ObservableList<Spectrum> newData = filterRequest
+//						.applyAllFilters(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
+//				System.out.println(newData.size());
 				File newFile = new File(peakListFile.getParent() + File.separator + dateFormat.format(date) + "_"
 						+ peakListFile.getName());
 				if (newFile.createNewFile()) {

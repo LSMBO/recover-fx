@@ -5,6 +5,7 @@ import java.net.URI;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.RecoverFx;
@@ -87,7 +88,8 @@ public class RecoverViewModel {
 	/**
 	 * Open and extract spectra from Peaklist file.
 	 * 
-	 * @param file the Peaklist file to open.
+	 * @param file
+	 *            the Peaklist file to open.
 	 */
 	public void onOpenFile() {
 		FileUtils.openPeakListFile(file -> {
@@ -98,7 +100,8 @@ public class RecoverViewModel {
 	/**
 	 * Load and extract spectra from Peaklist file.
 	 * 
-	 * @param file the Peaklist file to load.
+	 * @param file
+	 *            the Peaklist file to load.
 	 */
 	public void loadFile(File file) {
 		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
@@ -138,8 +141,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Export peak list file. Set all the left spectra after applying the filters as
-	 * recover.
+	 * Export peak list file. Set all the left spectra after applying the
+	 * filters as recover.
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
@@ -222,9 +225,12 @@ public class RecoverViewModel {
 	public void onLoadFiltersFrmJsonFile() {
 		FilterLoaderDialog FilterLoaderDialog = new FilterLoaderDialog();
 		FilterLoaderDialog.showAndWait().ifPresent(filter -> {
+			// Reset columns filters
+			resetColumnFilters();
+			initializeItems();
 			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
 				FilterRequest filetrRequest = new FilterRequest();
-				filetrRequest.applyAllFilters(items);
+				updateJfx(() -> filetrRequest.applyAllFilters(view.getFilteredTable(), items));
 				return true;
 			}, (isSucceeded) -> {
 				if (isSucceeded) {
@@ -281,8 +287,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and display a dialog to add an ion reporter list. Apply ion reporter
-	 * filter.
+	 * Creates and display a dialog to add an ion reporter list. Apply ion
+	 * reporter filter.
 	 * 
 	 * @see IonReporters
 	 */
@@ -313,8 +319,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Apply low intensity threshold filter. The low intensity threshold filter use
-	 * the emergence and the mode entered by the user as parameters.
+	 * Apply low intensity threshold filter. The low intensity threshold filter
+	 * use the emergence and the mode entered by the user as parameters.
 	 * 
 	 * @see FilterRequest
 	 */
@@ -342,8 +348,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Creates and displays parsing rules dialog. If a parsing rules is present. It
-	 * will update the current parsing rules.
+	 * Creates and displays parsing rules dialog. If a parsing rules is present.
+	 * It will update the current parsing rules.
 	 * 
 	 * @see ParsingRules
 	 */
@@ -408,7 +414,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Reset all flagged spectra . It helps the user to reset all flagged spectrums.
+	 * Reset all flagged spectra . It helps the user to reset all flagged
+	 * spectrums.
 	 * 
 	 */
 	public void onResetFlagSpectrum() {
@@ -438,22 +445,25 @@ public class RecoverViewModel {
 
 	/**
 	 * Reset filters; this action will restore the default values of filters,
-	 * parsing rules to retrieve the RT from titles and update the view properties.
+	 * parsing rules to retrieve the RT from titles and update the view
+	 * properties.
 	 * 
 	 */
 	public void onResetFilters() {
 		if (isValidatedFirstSpectra()) {
+			// Reset columns filters
+			resetColumnFilters();
 			taskRunner.doAsyncWork("Reset all filters", () -> {
 				// Reset all filters to default values.
 				FilterRequest filetrRequest = new FilterRequest();
 				IonReporters.getIonReporters().clear();
 				ColumnFilters.resetAll();
 				filetrRequest.restoreDefaultValues();
-				filetrRequest.applyAllFilters(items);
-				// Restore default session parameters
+
 				return true;
 			}, (sucess) -> {
-				updateItems();
+				initializeItems();
+				logger.error("Reset all filters has finished successfully!");
 			}, (failure) -> {
 				logger.error("Reset all filters has failed!");
 			}, true, stage);
@@ -501,8 +511,8 @@ public class RecoverViewModel {
 	 * Update the items in table view with the stored items.
 	 * 
 	 */
-	private void updateItems() {
-		items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+	public void initializeItems() {
+		this.items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		view.getFilteredTable().refresh();
 	}
 
@@ -528,11 +538,15 @@ public class RecoverViewModel {
 	/**
 	 * Update and notify the view with the changes.
 	 * 
-	 * @param spectrum             the selected spectrum. On load file, it select
-	 *                             the first spectrum.
-	 * @param nbSpectra            the total number of spectrum in the file.
-	 * @param nbIdentified         the number of identified spectrum.
-	 * @param percentageIdentified the percentage of identified spectrum.
+	 * @param spectrum
+	 *            the selected spectrum. On load file, it select the first
+	 *            spectrum.
+	 * @param nbSpectra
+	 *            the total number of spectrum in the file.
+	 * @param nbIdentified
+	 *            the number of identified spectrum.
+	 * @param percentageIdentified
+	 *            the percentage of identified spectrum.
 	 */
 	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbIdentified, Float percentageIdentified) {
 		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbIdentified),
@@ -540,8 +554,8 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Determines whether the used spectra is not empty and there are a validated
-	 * file to use.
+	 * Determines whether the used spectra is not empty and there are a
+	 * validated file to use.
 	 * 
 	 * @return <code>true</code> if the spectra is not empty otherwise
 	 *         <code>false</code>.
@@ -570,9 +584,20 @@ public class RecoverViewModel {
 	/**
 	 * Update the view on Java-fx thread
 	 * 
-	 * @param r Runnable to submit
+	 * @param r
+	 *            Runnable to submit
 	 */
 	private void updateJfx(Runnable r) {
 		Platform.runLater(r);
+	}
+
+	/***
+	 * Clear all columns
+	 */
+	public void resetColumnFilters() {
+		view.getFilteredTable().getColumns().forEach(column -> {
+			((IFilterableTableColumn) column).getFilters().clear();
+		});
+
 	}
 }

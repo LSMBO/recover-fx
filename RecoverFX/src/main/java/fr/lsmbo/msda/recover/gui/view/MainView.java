@@ -109,7 +109,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param selectedSpectrum the selected spectrum to set
+	 * @param selectedSpectrum
+	 *            the selected spectrum to set
 	 */
 	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
 		this.selectedSpectrum = selectedSpectrum;
@@ -123,7 +124,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param viewProperties the view properties to set
+	 * @param viewProperties
+	 *            the view properties to set
 	 */
 	public void setViewProperties(RecoverViewProperty viewProperties) {
 		this.viewProperty = viewProperties;
@@ -137,7 +139,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filterProperties the filter properties to set
+	 * @param filterProperties
+	 *            the filter properties to set
 	 */
 	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
 		this.filterLITProperty = filterProperties;
@@ -151,7 +154,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param filteredTable the filtered table to set
+	 * @param filteredTable
+	 *            the filtered table to set
 	 */
 	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
 		this.filteredTable = filteredTable;
@@ -165,7 +169,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param model the view model to set
+	 * @param model
+	 *            the view model to set
 	 */
 	public void setModel(RecoverViewModel model) {
 		this.model = model;
@@ -179,7 +184,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * @param taskRunner the task runner to set
+	 * @param taskRunner
+	 *            the task runner to set
 	 */
 	public void setTaskRunner(TaskRunner taskRunner) {
 		this.taskRunner = taskRunner;
@@ -725,7 +731,8 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Keep the original items and use a copy of items whenever a filter is invoked
+	 * Keep the original items and use a copy of items whenever a filter is
+	 * invoked
 	 * 
 	 * @return The original items (first spectra as observable)
 	 */
@@ -781,10 +788,13 @@ public class MainView extends StackPane {
 		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));
 	}
 
+	
+
 	/**
 	 * Update the table view on Java-Fx thread
 	 * 
-	 * @param r Runnable to submit
+	 * @param r
+	 *            Runnable to submit
 	 */
 	private void updateOnJfx(Runnable r) {
 		Platform.runLater(r);

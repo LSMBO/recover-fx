@@ -87,7 +87,7 @@ public class FilterWriterJson {
 					generator.writeObjectFieldStart("Mz");
 					for (Object filter : appliedFilters) {
 						String filedName = ((NumberOperator<?>) filter).getType().toString();
-						Integer value = ((NumberOperator<?>) filter).getValue().intValue();
+						Float value = ((NumberOperator<?>) filter).getValue().floatValue();
 						generator.writeNumberField(filedName, value);
 					}
 					generator.writeEndObject();
@@ -95,7 +95,6 @@ public class FilterWriterJson {
 				}
 				// Apply filter on Intensity column
 				case "Intensity": {
-
 					generator.writeObjectFieldStart("Intensity");
 					for (Object filter : appliedFilters) {
 						String filedName = ((NumberOperator<?>) filter).getType().toString();
