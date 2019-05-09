@@ -92,7 +92,7 @@ public class TaskRunner {
 
 			@Override
 			protected void failed() {
-				logger.error(caption + " - has failed: " + getException().getMessage());
+				logger.error(getException());
 				System.err.println("ERROR - " + caption + " - has failed: " + getException().getMessage());
 				mainView.getScene().setCursor(Cursor.DEFAULT);
 				error.accept(getException());

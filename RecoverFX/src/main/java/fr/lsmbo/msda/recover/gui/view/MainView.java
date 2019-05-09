@@ -788,8 +788,6 @@ public class MainView extends StackPane {
 		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));
 	}
 
-	
-
 	/**
 	 * Update the table view on Java-Fx thread
 	 * 

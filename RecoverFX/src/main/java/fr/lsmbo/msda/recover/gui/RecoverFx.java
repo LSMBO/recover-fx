@@ -29,10 +29,11 @@ public class RecoverFx extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Thread.currentThread().setUncaughtExceptionHandler((thread, exception) -> {
-			logger.error("Exception was thrown : {}", exception);
-			exception.printStackTrace();
-			new ShowPopupDialog("Exception", "Exception was thrown on Java-FX: " + exception.getMessage(),
+		Thread.currentThread().setUncaughtExceptionHandler((thread, ex) -> {
+			logger.error("Exception was thrown : {}", ex);
+			ex.printStackTrace();
+			logger.error(ex);
+			new ShowPopupDialog("Exception", "Exception was thrown on Java-FX thread: " + ex.getMessage(),
 					primaryStage);
 		});
 		RecoverViewModel model = new RecoverViewModel();
