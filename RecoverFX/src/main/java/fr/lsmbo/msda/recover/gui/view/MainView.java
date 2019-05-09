@@ -76,7 +76,6 @@ public class MainView extends StackPane {
 	private RecoverViewModel model = null;
 	private Spectrum selectedSpectrum = null;
 	private TaskRunner taskRunner = null;
-	private FilterRequest filterRequest = new FilterRequest();
 	private final SwingNode swingNodeForChart = new SwingNode();
 	private RecoverViewProperty viewProperty = new RecoverViewProperty();
 	private RecoverViewUPNProperty filterLITProperty = new RecoverViewUPNProperty();
@@ -752,31 +751,31 @@ public class MainView extends StackPane {
 		ObservableList<Spectrum> newData = initializeItems();
 		System.out.println("INFO - Initial spectra number: " + newData.size());
 		// Filter on id
-		filterRequest.filterIdColumn(newData, idColumn.getFilters());
+		FilterRequest.filterIdColumn(newData, idColumn.getFilters());
 		// Filter on M/z
-		filterRequest.filterMzColumn(newData, mozColumn.getFilters());
+		FilterRequest.filterMzColumn(newData, mozColumn.getFilters());
 		// Filter on title
-		filterRequest.filterTitleColumn(newData, titleColumn.getFilters());
+		FilterRequest.filterTitleColumn(newData, titleColumn.getFilters());
 		// Filter on spectrum intensity
-		filterRequest.filterIntensityColumn(newData, intensityColumn.getFilters());
+		FilterRequest.filterIntensityColumn(newData, intensityColumn.getFilters());
 		// Filter on charge
-		filterRequest.filterChargeColumn(newData, chargeColumn.getFilters());
+		FilterRequest.filterChargeColumn(newData, chargeColumn.getFilters());
 		// Filter on retention time
-		filterRequest.filterRTColumn(newData, rtColumn.getFilters());
+		FilterRequest.filterRTColumn(newData, rtColumn.getFilters());
 		// Filter on fragment intensity
-		filterRequest.filterFIntensityColumn(newData, fragmentIntColumn.getFilters());
+		FilterRequest.filterFIntensityColumn(newData, fragmentIntColumn.getFilters());
 		// Filter on UPN
-		filterRequest.filterUPNColumn(newData, UPNColumn.getFilters());
+		FilterRequest.filterUPNColumn(newData, UPNColumn.getFilters());
 		// Filter on fragment number
-		filterRequest.filterNbrFrgsColumn(newData, nbrFragmentsColumn.getFilters());
+		FilterRequest.filterNbrFrgsColumn(newData, nbrFragmentsColumn.getFilters());
 		// Filter on identified spectrum
-		filterRequest.filterIdentifiedColumn(newData, identifiedColumn.getFilters());
+		FilterRequest.filterIdentifiedColumn(newData, identifiedColumn.getFilters());
 		// Filter on flagged spectrum
-		filterRequest.filterFlaggedColumn(newData, flaggedColumn.getFilters());
+		FilterRequest.filterFlaggedColumn(newData, flaggedColumn.getFilters());
 		// Filter on ion reporter spectrum
-		filterRequest.filterIonReporterColumn(newData, ionReporterColumn.getFilters());
+		FilterRequest.filterIonReporterColumn(newData, ionReporterColumn.getFilters());
 		// Filter on wrong charge column
-		filterRequest.filterWrongChargeColumn(newData, wrongChargeColumn.getFilters());
+		FilterRequest.filterWrongChargeColumn(newData, wrongChargeColumn.getFilters());
 		System.out.println("INFO - " + newData.size() + " spectra left after applying filters");
 		filteredTable.getItems().setAll(newData);
 		filteredTable.refresh();

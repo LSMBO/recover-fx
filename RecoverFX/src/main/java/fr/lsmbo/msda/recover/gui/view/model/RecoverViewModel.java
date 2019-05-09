@@ -229,8 +229,7 @@ public class RecoverViewModel {
 			resetColumnFilters();
 			initializeItems();
 			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
-				FilterRequest filetrRequest = new FilterRequest();
-				updateJfx(() -> filetrRequest.applyAllFilters(view.getFilteredTable(), items));
+				updateJfx(() -> FilterRequest.applyAllFilters(view.getFilteredTable(), items));
 				return true;
 			}, (isSucceeded) -> {
 				if (isSucceeded) {
@@ -297,8 +296,7 @@ public class RecoverViewModel {
 			FilterIonReporterDialog filterDialog = new FilterIonReporterDialog();
 			filterDialog.showAndWait().ifPresent(filter -> {
 				taskRunner.doAsyncWork("Applying ion reporter filter", () -> {
-					FilterRequest filterRequest = new FilterRequest();
-					Boolean isFinished = filterRequest.applyIR();
+					Boolean isFinished = FilterRequest.applyIR();
 					return isFinished;
 				}, (sucess) -> {
 					logger.info(ColumnFilters.getFullDescription());
@@ -327,8 +325,7 @@ public class RecoverViewModel {
 	public void onApplyLowIntThresholdFilter() {
 		if (isValidatedFirstSpectra()) {
 			taskRunner.doAsyncWork("Applying low intensity threshold filter", () -> {
-				FilterRequest filterRequest = new FilterRequest();
-				Boolean isFinished = filterRequest.applyLIT();
+				Boolean isFinished = FilterRequest.applyLIT();
 				return isFinished;
 			}, (sucess) -> {
 				System.out.println(ColumnFilters.getFullDescription());
