@@ -20,6 +20,7 @@ import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn;
 
 /**
  * Compute and apply different filters to spectra. Recover filters used and scan
@@ -34,9 +35,9 @@ import javafx.collections.ObservableList;
  */
 public class FilterRequest {
 
-	private LowIntensityThresholdFilter filterLIT = null;
-	private IdentifiedSpectraFilter filterIS = null;
-	private IonReporterFilter filterIR = null;
+	private static LowIntensityThresholdFilter filterLIT = null;
+	private static IdentifiedSpectraFilter filterIS = null;
+	private static IonReporterFilter filterIR = null;
 
 	/**
 	 * @return the filterLIT
@@ -50,7 +51,7 @@ public class FilterRequest {
 	 *            the filterLIT to set
 	 */
 	public void setFilterLIT(LowIntensityThresholdFilter filterLIT) {
-		this.filterLIT = filterLIT;
+		FilterRequest.filterLIT = filterLIT;
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class FilterRequest {
 	 *            the filterIS to set
 	 */
 	public void setFilterIS(IdentifiedSpectraFilter filterIS) {
-		this.filterIS = filterIS;
+		FilterRequest.filterIS = filterIS;
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class FilterRequest {
 	 *            the filterIR to set
 	 */
 	public void setFilterIR(IonReporterFilter filterIR) {
-		this.filterIR = filterIR;
+		FilterRequest.filterIR = filterIR;
 	}
 
 	/**
@@ -115,7 +116,7 @@ public class FilterRequest {
 	 * 
 	 * @return the spectra to apply filters
 	 */
-	public Spectra getSpectraTofilter() {
+	public static Spectra getSpectraTofilter() {
 		Spectra spectraToFilter = new Spectra();
 		if (!ExportBatch.useBatchSpectra) {
 			spectraToFilter = ListOfSpectra.getFirstSpectra();
@@ -130,12 +131,12 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
-	public Boolean applyLIT() {
+	public static Boolean applyLIT() {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		if (ColumnFilters.getAll().containsKey("LIT")) {
-			this.filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getAll().get("LIT").get(0);
+			filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getAll().get("LIT").get(0);
 			assert filterLIT != null : "The filter low intensity threshold must not be null";
 			// Scan all the spectrum
 			for (int i = 0; i < numberOfSpectrum; i++) {
@@ -152,12 +153,12 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
-	public Boolean applyIS() {
+	public static Boolean applyIS() {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		if (ColumnFilters.getAll().containsKey("IS")) {
-			this.filterIS = (IdentifiedSpectraFilter) ColumnFilters.getAll().get("IS").get(0);
+			filterIS = (IdentifiedSpectraFilter) ColumnFilters.getAll().get("IS").get(0);
 			assert filterIS != null : "The filter is idenified spectra must not be null";
 			// Scan all the spectrum
 			if (ColumnFilters.getAll().containsKey("IS")) {
@@ -177,13 +178,13 @@ public class FilterRequest {
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 
-	public Boolean applyIR() {
+	public static Boolean applyIR() {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		// Scan all the spectrum
 		if (ColumnFilters.getAll().containsKey("IR")) {
-			this.filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
+			filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
 			assert filterIR != null : "The filter ion reporter spectra must not be null";
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
@@ -211,7 +212,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterIdColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Integer>> filters) {
+	public static void filterIdColumn(ObservableList<Spectrum> newData,
+			ObservableList<NumberOperator<Integer>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Integer> filter : filters) {
 			for (Spectrum item : newData) {
@@ -247,7 +249,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterMzColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
+	public static void filterMzColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Float> filter : filters) {
 			for (Spectrum item : newData) {
@@ -283,7 +285,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterTitleColumn(ObservableList<Spectrum> newData, ObservableList<StringOperator> filters) {
+	public static void filterTitleColumn(ObservableList<Spectrum> newData, ObservableList<StringOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (StringOperator filter : filters) {
 			for (Spectrum item : newData) {
@@ -316,7 +318,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterIntensityColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
+	public static void filterIntensityColumn(ObservableList<Spectrum> newData,
+			ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Float> filter : filters) {
 			for (Spectrum item : newData) {
@@ -352,7 +355,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterChargeColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Integer>> filters) {
+	public static void filterChargeColumn(ObservableList<Spectrum> newData,
+			ObservableList<NumberOperator<Integer>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Integer> filter : filters) {
 			for (Spectrum item : newData) {
@@ -388,7 +392,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterRTColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
+	public static void filterRTColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Float> filter : filters) {
 			for (Spectrum item : newData) {
@@ -424,7 +428,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterNbrFrgsColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Integer>> filters) {
+	public static void filterNbrFrgsColumn(ObservableList<Spectrum> newData,
+			ObservableList<NumberOperator<Integer>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Integer> filter : filters) {
 			for (Spectrum item : newData) {
@@ -461,7 +466,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterFIntensityColumn(ObservableList<Spectrum> newData,
+	public static void filterFIntensityColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Integer>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Integer> filter : filters) {
@@ -499,7 +504,8 @@ public class FilterRequest {
 	 *            the ObservableList of filters to apply
 	 * 
 	 */
-	public void filterUPNColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Integer>> filters) {
+	public static void filterUPNColumn(ObservableList<Spectrum> newData,
+			ObservableList<NumberOperator<Integer>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (NumberOperator<Integer> filter : filters) {
 			for (Spectrum item : newData) {
@@ -527,7 +533,6 @@ public class FilterRequest {
 		newData.removeAll(remove);
 	}
 
-	// TODO It will be removed
 	/**
 	 * Filter column spectrum whether is recover
 	 * 
@@ -536,7 +541,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterIonReporterColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
+	public static void filterIonReporterColumn(ObservableList<Spectrum> newData,
+			ObservableList<BooleanOperator> filters) {
 		// Here's an example of how you could filter the ID column
 		final List<Spectrum> remove = new ArrayList<>();
 		for (BooleanOperator filter : filters) {
@@ -561,7 +567,7 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterFlaggedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
+	public static void filterFlaggedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (BooleanOperator filter : filters) {
 			for (Spectrum item : newData) {
@@ -585,7 +591,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterIdentifiedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
+	public static void filterIdentifiedColumn(ObservableList<Spectrum> newData,
+			ObservableList<BooleanOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (BooleanOperator filter : filters) {
 			for (Spectrum item : newData) {
@@ -609,7 +616,8 @@ public class FilterRequest {
 	 * @param filters
 	 *            the ObservableList of filters to apply
 	 */
-	public void filterWrongChargeColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
+	public static void filterWrongChargeColumn(ObservableList<Spectrum> newData,
+			ObservableList<BooleanOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
 		for (BooleanOperator filter : filters) {
 			for (Spectrum item : newData) {
@@ -633,7 +641,8 @@ public class FilterRequest {
 	 * 
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
-	public ObservableList<Spectrum> applyAllFilters(FilteredTableView tableView, ObservableList<Spectrum> newData) {
+	public static ObservableList<Spectrum> applyAllFilters(FilteredTableView tableView,
+			ObservableList<Spectrum> newData) {
 
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
 		filtersByNameTreeMap.clear();
@@ -642,12 +651,14 @@ public class FilterRequest {
 			switch (name) {
 			// Apply filter on flag column
 			case "Flag": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Flag");
 				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((BooleanOperator) filter);
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(0)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterFlaggedColumn(newData, filters);
 				} else {
 					filterFlaggedColumn(newData, filters);
@@ -656,12 +667,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Id column
 			case "Id": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Id");
 				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Integer>) filter);
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(1)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterIdColumn(newData, filters);
 				} else {
 					filterIdColumn(newData, filters);
@@ -670,12 +683,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Title column
 			case "Title": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Title");
 				final ObservableList<StringOperator> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((StringOperator) filter);
+					if ((StringOperator) filter != null)
+						filters.add((StringOperator) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(2)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterTitleColumn(newData, filters);
 				} else {
 					filterTitleColumn(newData, filters);
@@ -684,12 +699,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Mz column
 			case "Mz": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Mz");
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Float>) filter);
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(3)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterMzColumn(newData, filters);
 				} else {
 					filterMzColumn(newData, filters);
@@ -698,12 +715,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Intensity column
 			case "Intensity": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Intensity");
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Float>) filter);
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(4)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterIntensityColumn(newData, filters);
 				} else {
 					filterIntensityColumn(newData, filters);
@@ -712,12 +731,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Charge column
 			case "Charge": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Charge");
 				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Integer>) filter);
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(5)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterChargeColumn(newData, filters);
 				} else {
 					filterChargeColumn(newData, filters);
@@ -726,12 +747,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Retention Time column
 			case "Retention Time": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Retention Time");
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Float>) filter);
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(6)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterRTColumn(newData, filters);
 				} else {
 					filterRTColumn(newData, filters);
@@ -740,12 +763,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Fragment number column
 			case "Fragment number": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Fragment number");
 				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator) filter);
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(7)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterNbrFrgsColumn(newData, filters);
 				} else {
 					filterNbrFrgsColumn(newData, filters);
@@ -754,12 +779,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Max fragment intensity column
 			case "Max fragment intensity": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Max fragment intensity");
 				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator) filter);
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(8)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterFIntensityColumn(newData, filters);
 				} else {
 					filterFIntensityColumn(newData, filters);
@@ -768,12 +795,14 @@ public class FilterRequest {
 			}
 			// Apply filter on UPN column
 			case "UPN": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "UPN");
 				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((NumberOperator<Integer>) filter);
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(9)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterUPNColumn(newData, filters);
 				} else {
 					filterUPNColumn(newData, filters);
@@ -783,12 +812,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Identified column
 			case "Identified": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Identified");
 				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((BooleanOperator) filter);
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(10)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterIdentifiedColumn(newData, filters);
 				} else {
 					filterIdentifiedColumn(newData, filters);
@@ -797,12 +828,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Wrong charge column
 			case "Ion Reporter": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Ion Reporter");
 				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((BooleanOperator) filter);
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(11)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterIonReporterColumn(newData, filters);
 				} else {
 					filterIonReporterColumn(newData, filters);
@@ -811,12 +844,14 @@ public class FilterRequest {
 			}
 			// Apply filter on Wrong charge column
 			case "Wrong charge": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Wrong charge");
 				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					filters.add((BooleanOperator) filter);
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
 				}
 				if (!ExportBatch.useBatchSpectra) {
-					((IFilterableTableColumn) tableView.getColumns().get(12)).getFilters().addAll(filters);
+					column.getFilters().setAll(filters);
 					filterWrongChargeColumn(newData, filters);
 				} else {
 					filterWrongChargeColumn(newData, filters);
@@ -879,7 +914,7 @@ public class FilterRequest {
 	 *         true or false in the different case.
 	 * 
 	 */
-	public Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter) {
+	public static Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter) {
 		if (spectrum.getIsRecovered())
 			return true;
 		else
@@ -888,7 +923,8 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Restore default values.
+	 * Restore default values of all spectra.
+	 * 
 	 */
 	public void restoreDefaultValues() {
 		Spectra spectra = null;
@@ -906,7 +942,21 @@ public class FilterRequest {
 			sp.setIsRecoverIS(StatusFilterType.NOT_USED);
 			sp.setIsRecoverIR(StatusFilterType.NOT_USED);
 		}
+	}
 
+	/**
+	 * 
+	 * @param tableView
+	 *            The table view to get the columns
+	 * @param name
+	 *            The column name to search
+	 * @return The table column
+	 */
+	private static <T> IFilterableTableColumn<?, ?> getTableColumnByName(FilteredTableView<T> tableView, String name) {
+		for (TableColumn<T, ?> col : tableView.getColumns())
+			if (col.getText().equals(name))
+				return (IFilterableTableColumn<?, ?>) col;
+		return null;
 	}
 
 }
