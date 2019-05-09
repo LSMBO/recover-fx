@@ -427,38 +427,38 @@ public class MainView extends StackPane {
 		fileNameLabel.setTooltip(new Tooltip("File name"));
 		Label fileName = new Label("empty");
 		fileName.textProperty().bind(viewProperty.getSessionFileNameProperty());
-		Label specNumberLabel = new Label("Spectrum number:");
-		specNumberLabel.setTooltip(new Tooltip("Spectrum number"));
+		Label specNumberLabel = new Label("Spectra number:");
+		specNumberLabel.setTooltip(new Tooltip("Spectra number"));
 		Label specNumber = new Label();
 		specNumber.textProperty().bind(viewProperty.getSpectrumNbProperty());
 		HBox specNumberPane = new HBox(2);
 		specNumberPane.getChildren().addAll(specNumberLabel, specNumber);
 		// Recover spectrum
-		Label recoverNumberLabel = new Label("Recover number:");
-		recoverNumberLabel.setTooltip(new Tooltip("The number of recovred spectrum"));
-		Label recoverNumber = new Label("100");
+		Label filteredNumberLabel = new Label("Filtered spectra:");
+		filteredNumberLabel.setTooltip(new Tooltip("The number of filtered spectra"));
+		Label recoverNumber = new Label();
 		recoverNumber.textProperty().bind(viewProperty.getRecoveredNbProperty());
 		// Percentage of
-		Label percentRecoveredLabel = new Label("Percentage of recovery:");
-		percentRecoveredLabel.setTooltip(new Tooltip("The percentage of recovred spectrum"));
-		Label percentageReocvered = new Label("0");
+		Label percentFilteringLabel = new Label("Percentage of filtering:");
+		percentFilteringLabel.setTooltip(new Tooltip("The percentage of filetred spectra"));
+		Label percentageReocvered = new Label();
 		percentageReocvered.textProperty().bind(viewProperty.getRecoveredPercProperty());
 		// Identified spectrum
 		Label identifiedNumberLabel = new Label("Identified number:");
-		identifiedNumberLabel.setTooltip(new Tooltip("The number of identified spectrum"));
+		identifiedNumberLabel.setTooltip(new Tooltip("The number of identified spectra"));
 		Label identifiedNumber = new Label("0");
 		identifiedNumber.textProperty().bind(viewProperty.getIdentifiedNbProperty());
 		// Percentage of identified
 		Label percentIdentifiedLabel = new Label("Percentage of identified:");
-		percentIdentifiedLabel.setTooltip(new Tooltip("The percentage of identified spectrum"));
+		percentIdentifiedLabel.setTooltip(new Tooltip("The percentage of identified spectra"));
 		Label percentageIdentified = new Label("0");
 		percentageIdentified.textProperty().bind(viewProperty.getIdentifiedPercProperty());
 		// Style
 		ArrayList<Label> generalLabelList = new ArrayList<Label>();
 		generalLabelList.add(fileNameLabel);
 		generalLabelList.add(specNumberLabel);
-		generalLabelList.add(recoverNumberLabel);
-		generalLabelList.add(percentRecoveredLabel);
+		generalLabelList.add(filteredNumberLabel);
+		generalLabelList.add(percentFilteringLabel);
 		generalLabelList.add(identifiedNumberLabel);
 		generalLabelList.add(percentIdentifiedLabel);
 		generalLabelList.forEach(label -> label.setMinWidth(150));
@@ -472,8 +472,8 @@ public class MainView extends StackPane {
 		// generalInfosPane.addRow(5, secondFileNameLabel, secondFileName);
 		generalInfosPane.addRow(5, specNumberLabel, specNumber);
 		// generalInfosPane.addRow(7, matchedNumberLabel, matchedNumber);
-		generalInfosPane.addRow(6, recoverNumberLabel, recoverNumber);
-		generalInfosPane.addRow(7, percentRecoveredLabel, percentageReocvered, new Label("%"));
+		generalInfosPane.addRow(6, filteredNumberLabel, recoverNumber);
+		generalInfosPane.addRow(7, percentFilteringLabel, percentageReocvered, new Label("%"));
 		generalInfosPane.addRow(8, identifiedNumberLabel, identifiedNumber);
 		generalInfosPane.addRow(9, percentIdentifiedLabel, percentageIdentified, new Label("%"));
 		generalInfosPane.autosize();

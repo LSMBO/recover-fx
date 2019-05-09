@@ -101,7 +101,7 @@ public class RecoverViewModel {
 	 * Load and extract spectra from Peaklist file.
 	 * 
 	 * @param file
-	 *            the Peaklist file to load.
+	 *            the peaklist file to load.
 	 */
 	public void loadFile(File file) {
 		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
