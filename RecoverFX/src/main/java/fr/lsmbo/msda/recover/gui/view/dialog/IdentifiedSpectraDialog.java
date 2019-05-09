@@ -108,7 +108,7 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.IDENTIFIEDSPECTRA)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
-		this.setTitle("Identified Spectra");
+		this.setTitle("Get Identified Spectra");
 		this.setDialogPane(dialogPane);
 		buttonOk.disableProperty().bind(warningLabel.visibleProperty().and(emptyTitlesLabel.visibleProperty()));
 		this.setResultConverter(buttonType -> {

@@ -53,7 +53,7 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 
 		/* Create filter ion reporter */
 		Label mzLabel = new Label("M/z");
-		Label toleranceLabel = new Label("Tolerance");
+		Label toleranceLabel = new Label("Tolerance ( Da )");
 		Label nameLabel = new Label("Name");
 		TextField mzTextField = new TextField();
 		TextField toleranceTextField = new TextField();
