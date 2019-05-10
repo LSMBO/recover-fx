@@ -9,12 +9,13 @@ import org.google.jhsheets.filtered.operators.StringOperator;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
+import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import javafx.collections.ObservableList;
@@ -115,15 +116,29 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 			if (buttonType == ButtonType.OK) {
 
 				// Reset all filters before any treatment.
-				ColumnFilters.resetAll();
+				Filters.resetAll();
 				// Add loaded filters
 				IonReporters.getIonReporters().setAll(FilterReaderJson.getLoadedIonReporterlist());
-				ColumnFilters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
-				return ColumnFilters.getAll();
+				Filters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
+				return Filters.getAll();
 			} else {
 				return null;
 			}
 		});
+	}
+
+	/**
+	 * Return ion reporters description to load from the JSON file
+	 * 
+	 * @return ion reporters description
+	 */
+	private String getIonReportesDesc() {
+		String allIons = "";
+		for (IonReporter ir : FilterReaderJson.getLoadedIonReporterlist()) {
+			allIons += "###" + ir.toString() + "\n";
+		}
+		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter."
+				+ "\n" + allIons;
 	}
 
 	/**
@@ -177,7 +192,7 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 				if (filter instanceof IonReporterFilter) {
 					StringBuilder strBuilder = new StringBuilder();
 					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType()).append(" ; ")
-							.append("value: ").append(((IonReporterFilter) filter).getFullDescription());
+							.append("value: ").append(getIonReportesDesc());
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}

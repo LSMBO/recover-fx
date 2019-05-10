@@ -3,7 +3,7 @@ package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
@@ -122,8 +122,8 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 		// Enable ok button when all selected filters are valid.
 		buttonOk.disableProperty().bind(emptyDataTableErrorLabel.visibleProperty());
 		// Initialize ion reporter filter
-		if (ColumnFilters.getAll().containsKey("IR") && ColumnFilters.getAll().get("IR").size() > 0) {
-			filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
+		if (Filters.getAll().containsKey("IR") && Filters.getAll().get("IR").size() > 0) {
+			filterIR = (IonReporterFilter) Filters.getAll().get("IR").get(0);
 			if (ionReporterTable.getItems().isEmpty())
 				isEmptyTableProperty.set(true);
 			else
@@ -136,7 +136,7 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 				ObservableList<Object> listIR = FXCollections.observableArrayList();
 				listIR.add(filterIR);
 				if (!IonReporters.getIonReporters().isEmpty()) {
-					ColumnFilters.add("IR", listIR);
+					Filters.add("IR", listIR);
 					return listIR;
 				} else {
 					return null;

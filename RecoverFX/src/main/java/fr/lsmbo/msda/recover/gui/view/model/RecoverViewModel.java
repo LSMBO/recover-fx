@@ -10,8 +10,8 @@ import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.RecoverFx;
 import fr.lsmbo.msda.recover.gui.Session;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.io.ExportBatch;
 import fr.lsmbo.msda.recover.gui.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
@@ -105,7 +105,11 @@ public class RecoverViewModel {
 	 */
 	public void loadFile(File file) {
 		taskRunner.doAsyncWork("Loading and extracting spectra from peaklist file", () -> {
-			onInitialize();
+			// Reset all column filters and customized filters
+			Filters.resetAll();
+			resetColumnFilters();
+			// Initialize first spectra
+			ListOfSpectra.getFirstSpectra().initialize();
 			RecoverFx.useSecondPeaklist = false;
 			Session.CURRENT_FILE = file;
 			long startTime = System.currentTimeMillis();
@@ -120,28 +124,28 @@ public class RecoverViewModel {
 			logger.info("Loading and extracting spectra from peaklist file: {} has finished successfully!",
 					file.getAbsolutePath());
 			if (!RecoverFx.useSecondPeaklist) {
-				updateJfx(() -> items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable()));
-				refresh();
+				updateJfx(() -> {
+					items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+					if (!items.isEmpty()) {
+						updateChanges(items.get(0), ListOfSpectra.getFirstSpectra().getNbSpectra(), 0,
+								Float.valueOf((items.size() / ListOfSpectra.getFirstSpectra().getNbSpectra()) * 100),
+								ListOfSpectra.getFirstSpectra().getNbIdentified(),
+								ListOfSpectra.getFirstSpectra().getPercentageIdentified());
+						view.getFilteredTable().refresh();
+					}
+				});
 			}
-			// Enable second Peakslist
+			// Enable second peaks list
 			RecoverFx.useSecondPeaklist = true;
 		}, (failure) -> {
 			logger.debug("Loading and extracting spectra from peaklist file has failed!");
-			// Disable use second peaklist
+			// Disable use second peaks list
 			RecoverFx.useSecondPeaklist = false;
 		}, true, stage);
 	}
 
 	/**
-	 * Initialize and reset RecoverFx parameters.
-	 */
-	private void onInitialize() {
-		logger.info("Initialize the first spectra...");
-		ListOfSpectra.getFirstSpectra().initialize();
-	}
-
-	/**
-	 * Export peak list file. Set all the left spectra after applying the
+	 * Export peaks list file. Set all the left spectra after applying the
 	 * filters as recover.
 	 */
 	public void onExportFile() {
@@ -180,6 +184,7 @@ public class RecoverViewModel {
 
 	/**
 	 * Apply all filters and identified spectra
+	 * 
 	 */
 
 	public void onExportInBatch() {
@@ -214,7 +219,8 @@ public class RecoverViewModel {
 	public void onViewCurrentFilters() {
 		FilterViewerDialog FilterLoaderDialog = new FilterViewerDialog();
 		FilterLoaderDialog.showAndWait().ifPresent(filtersByName -> {
-
+			System.out.println(Filters.getFullDescription());
+			logger.info(Filters.getFullDescription());
 		});
 	}
 
@@ -299,8 +305,8 @@ public class RecoverViewModel {
 					Boolean isFinished = FilterRequest.applyIR();
 					return isFinished;
 				}, (sucess) -> {
-					logger.info(ColumnFilters.getFullDescription());
-					System.out.println(ColumnFilters.getFullDescription());
+					logger.info(Filters.getFullDescription());
+					System.out.println(Filters.getFullDescription());
 					logger.info("Applying filter by ion reporter has finished successfully!");
 					refresh();
 				}, (failure) -> {
@@ -328,8 +334,8 @@ public class RecoverViewModel {
 				Boolean isFinished = FilterRequest.applyLIT();
 				return isFinished;
 			}, (sucess) -> {
-				System.out.println(ColumnFilters.getFullDescription());
-				logger.info(ColumnFilters.getFullDescription());
+				System.out.println(Filters.getFullDescription());
+				logger.info(Filters.getFullDescription());
 				logger.info("Applying filter lower intensity threshold has finished successfully!");
 				refresh();
 			}, (failure) -> {
@@ -393,8 +399,8 @@ public class RecoverViewModel {
 					isFinished = true;
 					return isFinished;
 				}, (sucess) -> {
-					logger.info(ColumnFilters.getFullDescription());
-					System.out.println(ColumnFilters.getFullDescription());
+					logger.info(Filters.getFullDescription());
+					System.out.println(Filters.getFullDescription());
 					logger.info("Getting identified spectra has finished successfully!");
 					refresh();
 				}, (failure) -> {
@@ -454,9 +460,8 @@ public class RecoverViewModel {
 				// Reset all filters to default values.
 				FilterRequest filetrRequest = new FilterRequest();
 				IonReporters.getIonReporters().clear();
-				ColumnFilters.resetAll();
+				Filters.resetAll();
 				filetrRequest.restoreDefaultValues();
-
 				return true;
 			}, (sucess) -> {
 				initializeItems();
@@ -509,7 +514,7 @@ public class RecoverViewModel {
 	 * 
 	 */
 	public void initializeItems() {
-		this.items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+		items.setAll(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
 		view.getFilteredTable().refresh();
 	}
 
@@ -545,8 +550,10 @@ public class RecoverViewModel {
 	 * @param percentageIdentified
 	 *            the percentage of identified spectrum.
 	 */
-	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbIdentified, Float percentageIdentified) {
-		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbIdentified),
+	private void updateChanges(Spectrum spectrum, Integer nbSpectra, Integer nbFiltered, Float percentageFiltered,
+			Integer nbIdentified, Float percentageIdentified) {
+		view.getViewProperties().notify(spectrum, String.valueOf(nbSpectra), String.valueOf(nbFiltered),
+				String.format("%.2f", percentageIdentified), String.valueOf(nbIdentified),
 				String.format("%.2f", percentageIdentified), Session.CURRENT_FILE.getName(), Session.CURRENT_REGEX_RT);
 	}
 
@@ -568,9 +575,9 @@ public class RecoverViewModel {
 	 */
 	private void refresh() {
 		updateJfx(() -> {
-			if (!ListOfSpectra.getFirstSpectra().getSpectraAsObservable().isEmpty()) {
-				updateChanges(ListOfSpectra.getFirstSpectra().getSpectraAsObservable().get(0),
-						ListOfSpectra.getFirstSpectra().getNbSpectra(),
+			if (!items.isEmpty()) {
+				updateChanges(items.get(0), ListOfSpectra.getFirstSpectra().getNbSpectra(), items.size(),
+						Float.valueOf((items.size() / ListOfSpectra.getFirstSpectra().getNbSpectra()) * 100),
 						ListOfSpectra.getFirstSpectra().getNbIdentified(),
 						ListOfSpectra.getFirstSpectra().getPercentageIdentified());
 				view.getFilteredTable().refresh();
@@ -578,8 +585,17 @@ public class RecoverViewModel {
 		});
 	}
 
+	/***
+	 * Clear table columns filters
+	 */
+	public void resetColumnFilters() {
+		view.getFilteredTable().getColumns().forEach(column -> {
+			((IFilterableTableColumn) column).getFilters().clear();
+		});
+	}
+
 	/**
-	 * Update the view on Java-fx thread
+	 * Update the view on Java-Fx thread
 	 * 
 	 * @param r
 	 *            Runnable to submit
@@ -588,13 +604,4 @@ public class RecoverViewModel {
 		Platform.runLater(r);
 	}
 
-	/***
-	 * Clear all columns
-	 */
-	public void resetColumnFilters() {
-		view.getFilteredTable().getColumns().forEach(column -> {
-			((IFilterableTableColumn) column).getFilters().clear();
-		});
-
-	}
 }

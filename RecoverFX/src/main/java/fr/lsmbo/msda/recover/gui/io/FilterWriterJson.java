@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
@@ -49,7 +49,7 @@ public class FilterWriterJson {
 		generator.writeStringField("User", userName);
 		// Get and write filters
 		generator.writeObjectFieldStart("Filters");
-		ColumnFilters.getAll().forEach((name, appliedFilters) -> {
+		Filters.getAll().forEach((name, appliedFilters) -> {
 			try {
 				switch (name) {
 				// Apply filter on flag column

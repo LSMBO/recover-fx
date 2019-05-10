@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
@@ -115,7 +115,7 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 			if (buttonType == ButtonType.OK) {
 				ObservableList<Object> listIS = FXCollections.observableArrayList();
 				listIS.add(identifiedSpectra);
-				ColumnFilters.add("IS", listIS);
+				Filters.add("IS", listIS);
 				// Reset Spectra identified
 				if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
 					ListOfSpectra.getFirstSpectra().resetIdentified();

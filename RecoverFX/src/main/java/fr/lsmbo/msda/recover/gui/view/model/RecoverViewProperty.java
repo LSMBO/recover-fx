@@ -17,12 +17,11 @@ public final class RecoverViewProperty {
 
 	// General properties
 	private ObjectProperty<Spectrum> spectrumProperty = new SimpleObjectProperty<Spectrum>();
-	private StringProperty spectrumNbProperty = new SimpleStringProperty();
-	private StringProperty recoveredNbProperty = new SimpleStringProperty();
-	private StringProperty matchedNbProperty = new SimpleStringProperty();
-	private StringProperty recoveredPercProperty = new SimpleStringProperty();
-	private StringProperty identifiedNbProperty = new SimpleStringProperty();
-	private StringProperty identifiedPercProperty = new SimpleStringProperty();
+	private StringProperty spectrumNbProperty = new SimpleStringProperty("0");
+	private StringProperty filteredNbProperty = new SimpleStringProperty("0");
+	private StringProperty filteredPercProperty = new SimpleStringProperty("0");
+	private StringProperty identifiedNbProperty = new SimpleStringProperty("0");
+	private StringProperty identifiedPercProperty = new SimpleStringProperty("0");
 	private StringProperty regexProperty = new SimpleStringProperty();
 
 	// Session Properties
@@ -97,93 +96,63 @@ public final class RecoverViewProperty {
 	}
 
 	/**
-	 * @return the recovered number property
+	 * @return the filtered number property
 	 */
-	public StringProperty getRecoveredNbProperty() {
-		return recoveredNbProperty;
+	public StringProperty getFilteredNbProperty() {
+		return filteredNbProperty;
 	}
 
 	/**
-	 * @return the recovered number
+	 * @return the filtered number
 	 */
-	public final String getRecoveredNb() {
-		return recoveredNbProperty.getValue();
+	public final String getFilteredNb() {
+		return filteredNbProperty.getValue();
 	}
 
 	/**
-	 * @param recoveredNbProperty
-	 *            the recovered number property to set
+	 * @param filteredNbProperty
+	 *            the filtered number property to set
 	 */
-	public final void setRecoveredNbProperty(StringProperty recoveredNbProperty) {
-		this.recoveredNbProperty = recoveredNbProperty;
+	public final void setFilteredNbProperty(StringProperty filteredNbProperty) {
+		this.filteredNbProperty = filteredNbProperty;
 	}
 
 	/**
-	 * @param recoveredNb
-	 *            the recovered number to set
+	 * @param filteredNb
+	 *            the filtered number to set
 	 */
-	public final void setRecoveredNb(String recoveredNb) {
-		this.recoveredNbProperty.setValue(recoveredNb);
+	public final void setFilteredNb(String filteredNb) {
+		this.filteredNbProperty.setValue(filteredNb);
 	}
 
 	/**
-	 * @return the matched number property
+	 * @return the filtered percentage property
 	 */
-	public StringProperty getMatchedNbProperty() {
-		return matchedNbProperty;
+	public StringProperty getFilteredPercProperty() {
+		return filteredPercProperty;
 	}
 
 	/**
-	 * @return the matched number as String
+	 * @return the filtered percentage
 	 */
-	public final String getMatchedNb() {
-		return matchedNbProperty.getValue();
+	public String getFilteredPerc() {
+		return filteredPercProperty.getValue();
 	}
 
 	/**
-	 * @param matchedNbProperty
-	 *            the matched number property to set
+	 * @param filteredPercProperty
+	 *            the filtered percentage property to set
 	 */
-	public final void setMatchedNbProperty(StringProperty matchedNbProperty) {
-		this.matchedNbProperty = matchedNbProperty;
+	public final void setFilteredPercProperty(StringProperty filteredPercProperty) {
+		this.filteredPercProperty = filteredPercProperty;
 	}
 
 	/**
-	 * @param matchedNb
-	 *            the matched number to set
+	 * @param filteredPerc
+	 *            the filtered percentage to set
 	 */
-	public final void setMatchedNb(String matchedNb) {
-		this.matchedNbProperty.setValue(matchedNb);
-	}
-
-	/**
-	 * @return the recovered percentage property
-	 */
-	public StringProperty getRecoveredPercProperty() {
-		return recoveredPercProperty;
-	}
-
-	/**
-	 * @return the recovered percentage
-	 */
-	public String getRecoveredPerc() {
-		return recoveredPercProperty.getValue();
-	}
-
-	/**
-	 * @param recoveredPercProperty
-	 *            the recovered percentage property to set
-	 */
-	public final void setRecoveredPercProperty(StringProperty recoveredPercProperty) {
-		this.recoveredPercProperty = recoveredPercProperty;
-	}
-
-	/**
-	 * @param recoveredPerc
-	 *            the recovered percentage to set
-	 */
-	public final void setRecoveredPerc(String recoveredPerc) {
-		this.recoveredPercProperty.setValue(recoveredPerc);
+	public final void setFilteredPerc(String filteredPerc) {
+		this.filteredPercProperty.setValue(filteredPerc);
 	}
 
 	/**
@@ -380,10 +349,13 @@ public final class RecoverViewProperty {
 	 * @param sessionFileName
 	 * @param regex
 	 */
-	public void notify(Spectrum Spectrum, String spectrumNb, String identifiedNb, String identifiedPerc,
-			String sessionFileName, String regex) {
+	public void notify(Spectrum Spectrum, String spectrumNb, String filteredNb, String filteredPerc,
+			String identifiedNb, String identifiedPerc, String sessionFileName, String regex) {
 		setSpectrum(Spectrum);
 		setSpectrumNb(spectrumNb);
+		setFilteredNb(filteredNb);
+		setFilteredPerc(filteredPerc);
+		setIdentifiedPerc(identifiedPerc);
 		setIdentifiedNb(identifiedNb);
 		setIdentifiedPerc(identifiedPerc);
 		setSessionFileName(sessionFileName);

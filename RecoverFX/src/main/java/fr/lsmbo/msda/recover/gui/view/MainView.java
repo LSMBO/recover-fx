@@ -15,7 +15,7 @@ import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.Session;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
@@ -437,12 +437,12 @@ public class MainView extends StackPane {
 		Label filteredNumberLabel = new Label("Filtered spectra:");
 		filteredNumberLabel.setTooltip(new Tooltip("The number of filtered spectra"));
 		Label recoverNumber = new Label();
-		recoverNumber.textProperty().bind(viewProperty.getRecoveredNbProperty());
+		recoverNumber.textProperty().bind(viewProperty.getFilteredNbProperty());
 		// Percentage of
 		Label percentFilteringLabel = new Label("Percentage of filtering:");
 		percentFilteringLabel.setTooltip(new Tooltip("The percentage of filetred spectra"));
 		Label percentageReocvered = new Label();
-		percentageReocvered.textProperty().bind(viewProperty.getRecoveredPercProperty());
+		percentageReocvered.textProperty().bind(viewProperty.getFilteredPercProperty());
 		// Identified spectrum
 		Label identifiedNumberLabel = new Label("Identified number:");
 		identifiedNumberLabel.setTooltip(new Tooltip("The number of identified spectra"));
@@ -597,7 +597,7 @@ public class MainView extends StackPane {
 					ComputationTypes.getMode(modeBaselineCmBox));
 			ObservableList<Object> filterList = FXCollections.observableArrayList();
 			filterList.add(filterLIT);
-			ColumnFilters.add("LIT", filterList);
+			Filters.add("LIT", filterList);
 			model.onApplyLowIntThresholdFilter();
 		});
 		userSettingsPane.add(userSettingsPopertiesTitle, 0, 0, 1, 1);
@@ -720,9 +720,9 @@ public class MainView extends StackPane {
 				// TODO
 				// Refresh the the filtered on JFX thread.
 				updateOnJfx(() -> {
-					ColumnFilters.add(t.sourceColumn().getText(), t.sourceColumn().getFilters());
+					Filters.add(t.sourceColumn().getText(), t.sourceColumn().getFilters());
 					applyColumnFilters();
-					System.out.println(ColumnFilters.getFullDescription());
+					System.out.println(Filters.getFullDescription());
 				});
 			}
 		});
@@ -783,8 +783,8 @@ public class MainView extends StackPane {
 			nbRecover = newData.size();
 			percentageRecover = (((float) nbRecover / (float) initializeItems().size()) * 100);
 		}
-		viewProperty.setRecoveredNb(String.valueOf(nbRecover));
-		viewProperty.setRecoveredPerc(String.format("%.2f", percentageRecover));
+		viewProperty.setFilteredNb(String.valueOf(nbRecover));
+		viewProperty.setFilteredPerc(String.format("%.2f", percentageRecover));
 	}
 
 	/**

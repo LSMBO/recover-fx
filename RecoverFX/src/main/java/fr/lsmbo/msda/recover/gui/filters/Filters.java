@@ -15,13 +15,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /***
- * Save column filters in HashMap. keep in memory all the column filters(until
- * reset). It initialize, put all the filters , add, remove a column filter.
+ * Save filters in HashMap. keep in memory all the column filters(until reset).
+ * It initialize, put all the filters , add, remove a column filter.
  * 
  * @author Aromdhani
  *
  */
-public class ColumnFilters {
+public class Filters {
 
 	private static HashMap<String, ObservableList<Object>> filtersByNameMap = new HashMap<String, ObservableList<Object>>();
 
@@ -51,9 +51,11 @@ public class ColumnFilters {
 	/**
 	 * Add a column filter
 	 * 
-	 * @param The Column name with which the specified list of filters is to be
+	 * @param The
+	 *            Column name with which the specified list of filters is to be
 	 *            associated
-	 * @param The list of filters to be associated with the specified column
+	 * @param The
+	 *            list of filters to be associated with the specified column
 	 */
 	public static void add(String colmunName, ObservableList<Object> filters) {
 		filtersByNameMap.put(colmunName, filters);
@@ -62,7 +64,8 @@ public class ColumnFilters {
 	/**
 	 * Remove all applied filters for all columns
 	 * 
-	 * @return true if the hashMap that hold all columns and list filters is empty
+	 * @return true if the hashMap that hold all columns and list filters is
+	 *         empty
 	 */
 	public static boolean resetAll() {
 		if (!filtersByNameMap.isEmpty())
@@ -94,11 +97,12 @@ public class ColumnFilters {
 	}
 
 	/***
-	 * Copies all of the mappings from the specified map of filters to this map of
-	 * stored filters. These mappings will replace any mappings that this map had
-	 * for any of the keys currently in the specified map.
+	 * Copies all of the mappings from the specified map of filters to this map
+	 * of stored filters. These mappings will replace any mappings that this map
+	 * had for any of the keys currently in the specified map.
 	 * 
-	 * @param filtersListMap the map of filters to add
+	 * @param filtersListMap
+	 *            the map of filters to add
 	 * 
 	 */
 	public static void addAll(Map<String, ObservableList<Object>> filtersListMap) {
@@ -114,7 +118,7 @@ public class ColumnFilters {
 		StringBuilder strBuilder = new StringBuilder();
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
 		filtersByNameTreeMap.clear();
-		filtersByNameTreeMap.putAll(ColumnFilters.getAll());
+		filtersByNameTreeMap.putAll(Filters.getAll());
 		filtersByNameTreeMap.forEach((name, filters) -> {
 			int n = 1;
 			strBuilder.append("\n").append("###Filters applied on column: ").append(name).append("\n");

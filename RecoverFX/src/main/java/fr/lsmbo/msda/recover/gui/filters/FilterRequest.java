@@ -30,7 +30,7 @@ import javafx.scene.control.TableColumn;
  * 
  * @see IonReporterFilter
  * @see LowIntensityThresholdFilter
- * @see ColumnFilters
+ * @see Filters
  *
  */
 public class FilterRequest {
@@ -135,8 +135,8 @@ public class FilterRequest {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		if (ColumnFilters.getAll().containsKey("LIT")) {
-			filterLIT = (LowIntensityThresholdFilter) ColumnFilters.getAll().get("LIT").get(0);
+		if (Filters.getAll().containsKey("LIT")) {
+			filterLIT = (LowIntensityThresholdFilter) Filters.getAll().get("LIT").get(0);
 			assert filterLIT != null : "The filter low intensity threshold must not be null";
 			// Scan all the spectrum
 			for (int i = 0; i < numberOfSpectrum; i++) {
@@ -157,11 +157,11 @@ public class FilterRequest {
 		Boolean isFinished = false;
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		if (ColumnFilters.getAll().containsKey("IS")) {
-			filterIS = (IdentifiedSpectraFilter) ColumnFilters.getAll().get("IS").get(0);
+		if (Filters.getAll().containsKey("IS")) {
+			filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
 			assert filterIS != null : "The filter is idenified spectra must not be null";
 			// Scan all the spectrum
-			if (ColumnFilters.getAll().containsKey("IS")) {
+			if (Filters.getAll().containsKey("IS")) {
 				for (int i = 0; i < numberOfSpectrum; i++) {
 					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 					spectrum.setIsRecovered(filterIS.isValid(spectrum));
@@ -183,8 +183,8 @@ public class FilterRequest {
 		Spectra spectraToFilter = getSpectraTofilter();
 		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
 		// Scan all the spectrum
-		if (ColumnFilters.getAll().containsKey("IR")) {
-			filterIR = (IonReporterFilter) ColumnFilters.getAll().get("IR").get(0);
+		if (Filters.getAll().containsKey("IR")) {
+			filterIR = (IonReporterFilter) Filters.getAll().get("IR").get(0);
 			assert filterIR != null : "The filter ion reporter spectra must not be null";
 			for (int i = 0; i < numberOfSpectrum; i++) {
 				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
@@ -646,7 +646,7 @@ public class FilterRequest {
 
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
 		filtersByNameTreeMap.clear();
-		filtersByNameTreeMap.putAll(ColumnFilters.getAll());
+		filtersByNameTreeMap.putAll(Filters.getAll());
 		filtersByNameTreeMap.forEach((name, appliedFilters) -> {
 			switch (name) {
 			// Apply filter on flag column

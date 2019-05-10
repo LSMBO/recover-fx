@@ -9,7 +9,7 @@ import org.google.jhsheets.filtered.operators.StringOperator;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
-import fr.lsmbo.msda.recover.gui.filters.ColumnFilters;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
@@ -83,11 +83,10 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 		// On apply button
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				return ColumnFilters.getAll();
+				return Filters.getAll();
 			} else {
 				return null;
 			}
-
 		});
 	}
 
@@ -100,7 +99,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 	private ArrayList<TreeItem> getFilters() {
 		ArrayList<TreeItem> filtersItems = new ArrayList<>();
 		ArrayList<TreeItem> items = new ArrayList<>();
-		ColumnFilters.getAll().forEach((name, filterList) -> {
+		Filters.getAll().forEach((name, filterList) -> {
 			TreeItem filterName = new TreeItem(name);
 			items.clear();
 			for (Object filter : filterList) {
@@ -140,6 +139,7 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 					items.add(desc);
 				}
 				if (filter instanceof IonReporterFilter) {
+					
 					StringBuilder strBuilder = new StringBuilder();
 					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType()).append(" ; ")
 							.append("value: ").append(((IonReporterFilter) filter).getFullDescription());
