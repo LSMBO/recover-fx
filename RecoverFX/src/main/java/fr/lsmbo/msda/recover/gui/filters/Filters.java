@@ -141,9 +141,9 @@ public class Filters {
 							.append(((LowIntensityThresholdFilter) filter).getType()).append(" ; ").append("value: ")
 							.append(((LowIntensityThresholdFilter) filter).getFullDescription()).append("\n");
 				}
-				if (filter instanceof IdentifiedSpectra) {
-					strBuilder.append(n++).append(") ").append("Type: ").append(((IdentifiedSpectra) filter).getType())
-							.append(" ; ").append("value: ").append(((IdentifiedSpectra) filter).getFullDescription())
+				if (filter instanceof IdentifiedSpectraFilter) {
+					strBuilder.append(n++).append(") ").append("Type: ").append(((IdentifiedSpectraFilter) filter).getType())
+							.append(" ; ").append("value: ").append(((IdentifiedSpectraFilter) filter).getFullDescription())
 							.append("\n");
 				}
 				if (filter instanceof IonReporterFilter) {

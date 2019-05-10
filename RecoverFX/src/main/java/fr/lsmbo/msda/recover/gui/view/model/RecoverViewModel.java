@@ -393,8 +393,8 @@ public class RecoverViewModel {
 			identifiedSpectraDialog.showAndWait().ifPresent(identifiedSpectra -> {
 				taskRunner.doAsyncWork("Getting identified Spectra", () -> {
 					Boolean isFinished = false;
-					for (String t : ((IdentifiedSpectra) identifiedSpectra).getArrayTitles()) {
-						((IdentifiedSpectra) identifiedSpectra).setIdentified(t);
+					for (String title : ((IdentifiedSpectra) identifiedSpectra).getArrayTitles()) {
+						((IdentifiedSpectra) identifiedSpectra).setIdentified(title);
 					}
 					isFinished = true;
 					return isFinished;

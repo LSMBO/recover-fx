@@ -280,7 +280,7 @@ public class MainView extends StackPane {
 			model.onResetFilters();
 		});
 		actionsMenu.getItems().addAll(addIonReporterAction, editPRulesAction, getIdentifiedSpecAction,
-				flaggedSpecAction, resetFiltersAction);
+				flaggedSpecAction);
 		/* Settings menu items */
 		Menu settingsMenu = new Menu(" Settings ");
 		// Save filter parameters

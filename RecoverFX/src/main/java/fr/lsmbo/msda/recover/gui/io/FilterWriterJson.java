@@ -178,10 +178,8 @@ public class FilterWriterJson {
 				}
 				// Apply filter IdentifiedSpectraFilter
 				case "IS": {
-
 					generator.writeObjectFieldStart("IS");
 					generator.writeEndObject();
-
 					break;
 				}
 				// Apply filter LowIntensityThresholdFilter

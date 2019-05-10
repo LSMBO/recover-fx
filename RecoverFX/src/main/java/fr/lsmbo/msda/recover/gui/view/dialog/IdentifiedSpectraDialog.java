@@ -43,6 +43,7 @@ import javafx.stage.Stage;
  */
 public class IdentifiedSpectraDialog extends Dialog<Object> {
 	private IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
+	private IdentifiedSpectraFilter identifiedSpectraFilter = new IdentifiedSpectraFilter();
 	private IdentifiedSpectraFromExcel identifiedSpectraFromExcel = null;
 	private static Boolean isExcelFileImported = false;
 	// Components
@@ -114,7 +115,7 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
 				ObservableList<Object> listIS = FXCollections.observableArrayList();
-				listIS.add(identifiedSpectra);
+				listIS.add(identifiedSpectraFilter);
 				Filters.add("IS", listIS);
 				// Reset Spectra identified
 				if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
