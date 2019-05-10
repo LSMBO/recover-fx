@@ -49,7 +49,7 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 		StringBuilder filterStr = new StringBuilder();
 		filterStr.append("###Parameters used for Identidfied Spectra Filter:").append("\n")
 				.append("###recover spectrum identified: ").append(getRecoverSpectrumIdentified()).append(" ; ")
-				.append("recover spectrum non identified: ").append(getRecoverSpectrumNonIdentified()).append("\n");
+				.append("###recover spectrum non identified: ").append(getRecoverSpectrumNonIdentified()).append("\n");
 		return filterStr.toString();
 	}
 

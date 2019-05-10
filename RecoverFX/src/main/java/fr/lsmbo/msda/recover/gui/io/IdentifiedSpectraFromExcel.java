@@ -45,7 +45,6 @@ public class IdentifiedSpectraFromExcel {
 	private String currentSheetName = "";
 	private ArrayList<String> titles = new ArrayList<>();
 
-
 	private IdentifiedSpectra identifiedSpectra;
 	private HashMap<String, Object> selectionProperties = new HashMap<String, Object>();
 
@@ -74,11 +73,10 @@ public class IdentifiedSpectraFromExcel {
 				String sheetName = sheet.getSheetName();
 				sheetList.add(sheetName);
 			}
-			// aymen
+
 			TitlesSelectorExcelDialog.setSheets(sheetList);
 			getTitlesSelection();
 
-			// aymen
 			// transform a string column ("A", "B" ...) in an index
 			int columnIndex = CellReference.convertColStringToIndex(column);
 
@@ -160,7 +158,6 @@ public class IdentifiedSpectraFromExcel {
 			e.printStackTrace();
 		}
 	}
-
 
 	public ObservableList<String> getListSheet() {
 		return sheetList;
