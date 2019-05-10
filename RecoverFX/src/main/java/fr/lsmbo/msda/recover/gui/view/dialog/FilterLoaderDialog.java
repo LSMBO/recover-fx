@@ -116,10 +116,8 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 
 				// Reset all filters before any treatment.
 				ColumnFilters.resetAll();
-				// Reset ions reporter
-				IonReporters.getIonReporters().clear();
 				// Add loaded filters
-				IonReporters.getIonReporters().addAll(FilterReaderJson.getLoadedIonReporterlist());
+				IonReporters.getIonReporters().setAll(FilterReaderJson.getLoadedIonReporterlist());
 				ColumnFilters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
 				return ColumnFilters.getAll();
 			} else {

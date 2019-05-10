@@ -329,7 +329,7 @@ public class MainView extends StackPane {
 		 * Filtered table view *
 		 ***********************/
 		filteredTable = new FilteredTableView<>(model.getItems());
-
+		filteredTable.setId("filtered-table");
 		// Id column
 		idColumn = new FilterableIntegerTableColumn<>("Id");
 		idColumn.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("id"));

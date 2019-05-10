@@ -1,3 +1,6 @@
 .underline {
  -fx-underline:true;
 }
+#filtered-table .table-column {
+  -fx-alignment: CENTER;
+}

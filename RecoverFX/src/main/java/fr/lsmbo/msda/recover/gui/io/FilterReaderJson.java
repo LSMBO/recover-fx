@@ -52,7 +52,7 @@ public class FilterReaderJson {
 	 * 
 	 * @return the loadedIonReporterlist
 	 */
-	public static final ObservableList<IonReporter> getLoadedIonReporterlist() {
+	public static ObservableList<IonReporter> getLoadedIonReporterlist() {
 		return loadedIonReporterlist;
 	}
 
@@ -62,7 +62,7 @@ public class FilterReaderJson {
 	 * 
 	 * @return the loaded filter by filter name map
 	 */
-	public static final HashMap<String, ObservableList<Object>> getLoadedFilterListByNameMap() {
+	public static HashMap<String, ObservableList<Object>> getLoadedFilterListByNameMap() {
 		return loadedFilterListByNameMap;
 	}
 
