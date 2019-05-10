@@ -132,10 +132,10 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 		// On apply button
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				// Filter by ion reporter
-				ObservableList<Object> listIR = FXCollections.observableArrayList();
-				listIR.add(filterIR);
 				if (!IonReporters.getIonReporters().isEmpty()) {
+					// Filter by ion reporter
+					ObservableList<Object> listIR = FXCollections.observableArrayList();
+					listIR.add(filterIR);
 					Filters.add("IR", listIR);
 					return listIR;
 				} else {

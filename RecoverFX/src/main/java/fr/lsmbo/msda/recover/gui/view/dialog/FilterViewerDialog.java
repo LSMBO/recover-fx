@@ -139,7 +139,6 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 					items.add(desc);
 				}
 				if (filter instanceof IonReporterFilter) {
-					
 					StringBuilder strBuilder = new StringBuilder();
 					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType()).append(" ; ")
 							.append("value: ").append(((IonReporterFilter) filter).getFullDescription());

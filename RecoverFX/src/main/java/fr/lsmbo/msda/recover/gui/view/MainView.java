@@ -469,9 +469,7 @@ public class MainView extends StackPane {
 		generalInfosPane.setVgap(5);
 		generalInfosPane.add(generalLabel, 0, 0, 1, 1);
 		generalInfosPane.addRow(4, fileNameLabel, fileName);
-		// generalInfosPane.addRow(5, secondFileNameLabel, secondFileName);
 		generalInfosPane.addRow(5, specNumberLabel, specNumber);
-		// generalInfosPane.addRow(7, matchedNumberLabel, matchedNumber);
 		generalInfosPane.addRow(6, filteredNumberLabel, recoverNumber);
 		generalInfosPane.addRow(7, percentFilteringLabel, percentageReocvered, new Label("%"));
 		generalInfosPane.addRow(8, identifiedNumberLabel, identifiedNumber);
@@ -717,8 +715,6 @@ public class MainView extends StackPane {
 		filteredTable.addEventHandler(ColumnFilterEvent.FILTER_CHANGED_EVENT, new EventHandler<ColumnFilterEvent>() {
 			@Override
 			public void handle(ColumnFilterEvent t) {
-				// TODO
-				// Refresh the the filtered on JFX thread.
 				updateOnJfx(() -> {
 					Filters.add(t.sourceColumn().getText(), t.sourceColumn().getFilters());
 					applyColumnFilters();

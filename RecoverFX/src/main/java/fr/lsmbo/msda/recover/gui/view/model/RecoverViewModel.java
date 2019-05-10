@@ -543,6 +543,10 @@ public class RecoverViewModel {
 	 * @param spectrum
 	 *            the selected spectrum. On load file, it select the first
 	 *            spectrum.
+	 * @param nbFiltered
+	 *            the number of remained spectra after applying the filters
+	 * @param percentageFiltered
+	 *            the percentage of remained spectra after applying the filters
 	 * @param nbSpectra
 	 *            the total number of spectrum in the file.
 	 * @param nbIdentified
