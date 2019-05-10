@@ -257,32 +257,14 @@ public class Spectra {
 		return nbMatched;
 	}
 
-	// TODO to remove this method
 	/**
 	 * Reset all filters
 	 */
 	public synchronized void resetFilters() {
 		getSpectraAsObservable().stream().forEach(spectrum -> {
-			spectrum.setIsRecoverHIT(StatusFilterType.NOT_USED);
 			spectrum.setIsRecoverLIT(StatusFilterType.NOT_USED);
-			spectrum.setIsRecoverFI(StatusFilterType.NOT_USED);
-			spectrum.setIsRecoverWC(StatusFilterType.NOT_USED);
 			spectrum.setIsRecoverIS(StatusFilterType.NOT_USED);
 			spectrum.setIsRecoverIR(StatusFilterType.NOT_USED);
 		});
-	}
-
-	// TODO to remove this method
-	/**
-	 * Check whether the filters are reset
-	 */
-	public synchronized boolean isFiltersReset() {
-		Predicate<Spectrum> prediacte = spectrum -> spectrum.getIsRecoverHIT().equals(StatusFilterType.NOT_USED)
-				&& spectrum.getIsRecoverLIT().equals(StatusFilterType.NOT_USED)
-				&& spectrum.getIsRecoverFI().equals(StatusFilterType.NOT_USED)
-				&& spectrum.getIsRecoverWC().equals(StatusFilterType.NOT_USED)
-				&& spectrum.getIsRecoverIS().equals(StatusFilterType.NOT_USED)
-				&& spectrum.getIsRecoverIR().equals(StatusFilterType.NOT_USED);
-		return (getSpectraAsObservable().stream().allMatch(prediacte));
 	}
 }

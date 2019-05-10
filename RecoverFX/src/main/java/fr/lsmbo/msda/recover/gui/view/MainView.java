@@ -632,7 +632,7 @@ public class MainView extends StackPane {
 		scrollPane.prefWidthProperty().bind(tabPane.widthProperty());
 		scrollPane.setPadding(new Insets(10));
 		scrollPane.setContent(tabPane);
-
+		scrollPane.setMinSize(410, 310);
 		tabPane.prefHeightProperty().bind(scrollPane.heightProperty());
 		tabPane.prefWidthProperty().bind(scrollPane.widthProperty());
 		scrollPane.autosize();
