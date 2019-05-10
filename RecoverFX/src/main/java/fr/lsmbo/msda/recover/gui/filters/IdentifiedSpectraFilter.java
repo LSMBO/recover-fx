@@ -15,6 +15,20 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 
 	private Boolean recoverSpectrumIdentified = false;
 	private Boolean recoverSpectrumNonIdentified = false;
+    private String titlesFile;
+	/**
+	 * @return the titlesFile
+	 */
+	public final String getTitlesFile() {
+		return titlesFile;
+	}
+
+	/**
+	 * @param titlesFile the titlesFile to set
+	 */
+	public final void setTitlesFile(String titlesFile) {
+		this.titlesFile = titlesFile;
+	}
 
 	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
 		recoverSpectrumIdentified = _recoverSpectrumIdentified;

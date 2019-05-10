@@ -115,6 +115,7 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
 				ObservableList<Object> listIS = FXCollections.observableArrayList();
+				identifiedSpectraFilter.setTitlesFile(filePathTF.getText());
 				listIS.add(identifiedSpectraFilter);
 				Filters.add("IS", listIS);
 				// Reset Spectra identified

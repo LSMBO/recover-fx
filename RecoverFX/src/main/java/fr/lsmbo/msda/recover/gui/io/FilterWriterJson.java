@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import fr.lsmbo.msda.recover.gui.filters.Filters;
+import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
@@ -179,6 +180,9 @@ public class FilterWriterJson {
 				// Apply filter IdentifiedSpectraFilter
 				case "IS": {
 					generator.writeObjectFieldStart("IS");
+					for (Object filter : appliedFilters) {
+						generator.writeStringField("titles file", ((IdentifiedSpectraFilter) filter).getTitlesFile());
+					}
 					generator.writeEndObject();
 					break;
 				}
