@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.JsonToken;
 import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
-import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import javafx.collections.FXCollections;
@@ -44,7 +43,7 @@ public class FilterReaderJson {
 	 * @throws IOException
 	 */
 	private static ObservableList<IonReporter> loadedIonReporterlist = FXCollections.observableArrayList();
-	private static HashMap<String, ObservableList<Object>> loadedFilterListByNameMap = new HashMap<>();
+	private static HashMap<String, ObservableList<Object>> filtersByNameMap = new HashMap<>();
 
 	/**
 	 * Return the loaded ion reporters list without modifying the existing ion
@@ -63,7 +62,7 @@ public class FilterReaderJson {
 	 * @return the loaded filter by filter name map
 	 */
 	public static HashMap<String, ObservableList<Object>> getLoadedFilterListByNameMap() {
-		return loadedFilterListByNameMap;
+		return filtersByNameMap;
 	}
 
 	public static void load(File file) throws JsonParseException, IOException {
@@ -71,7 +70,7 @@ public class FilterReaderJson {
 			// Clear ion reporter list
 			// Clear the filter list
 			loadedIonReporterlist.clear();
-			loadedFilterListByNameMap.clear();
+			filtersByNameMap.clear();
 			JsonFactory factory = new JsonFactory();
 			@SuppressWarnings("deprecation")
 			JsonParser parser = factory.createJsonParser(file);
@@ -98,7 +97,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					loadedFilterListByNameMap.put("Flag", filters);
+					filtersByNameMap.put("Flag", filters);
 				}
 				// Read Ion Reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Ion Reporter") {
@@ -118,7 +117,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					loadedFilterListByNameMap.put("Ion Reporter", filters);
+					filtersByNameMap.put("Ion Reporter", filters);
 				}
 				// Read Wrong charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Wrong charge") {
@@ -138,7 +137,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					loadedFilterListByNameMap.put("Wrong charge", filters);
+					filtersByNameMap.put("Wrong charge", filters);
 				}
 				// Read identified filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Identified") {
@@ -158,7 +157,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((BooleanOperator) filter);
-					loadedFilterListByNameMap.put("Identified", filters);
+					filtersByNameMap.put("Identified", filters);
 				}
 				/**
 				 * String operator
@@ -190,7 +189,7 @@ public class FilterReaderJson {
 						}
 					}
 					filters.add((StringOperator) filter);
-					loadedFilterListByNameMap.put("Title", filters);
+					filtersByNameMap.put("Title", filters);
 				}
 				/**
 				 * Number operator
@@ -237,7 +236,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Id", filters);
+					filtersByNameMap.put("Id", filters);
 				}
 				// Read Mz filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Mz") {
@@ -281,7 +280,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Mz", filters);
+					filtersByNameMap.put("Mz", filters);
 				}
 				// Read Intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Intensity") {
@@ -325,7 +324,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Intensity", filters);
+					filtersByNameMap.put("Intensity", filters);
 				}
 				// Read Charge filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Charge") {
@@ -369,7 +368,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Charge", filters);
+					filtersByNameMap.put("Charge", filters);
 				}
 				// Read Retention time filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention Time") {
@@ -413,7 +412,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Retention Time", filters);
+					filtersByNameMap.put("Retention Time", filters);
 				}
 				// Read Fragment number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Fragment number") {
@@ -457,7 +456,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Fragment number", filters);
+					filtersByNameMap.put("Fragment number", filters);
 				}
 				// Read max fragment intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Max fragment intensity") {
@@ -501,7 +500,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("Max fragment intensity", filters);
+					filtersByNameMap.put("Max fragment intensity", filters);
 				}
 				// Read useful peaks number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "UPN") {
@@ -545,7 +544,7 @@ public class FilterReaderJson {
 						}
 					}
 
-					loadedFilterListByNameMap.put("UPN", filters);
+					filtersByNameMap.put("UPN", filters);
 				}
 
 				// Read low intensity threshold filter
@@ -569,7 +568,7 @@ public class FilterReaderJson {
 					}
 					filterLIT.setParameters(emergence, minUPN, maxUPN, mode);
 					filters.add(filterLIT);
-					loadedFilterListByNameMap.put("LIT", filters);
+					filtersByNameMap.put("LIT", filters);
 				}
 
 				// Read is identified filter
@@ -630,7 +629,7 @@ public class FilterReaderJson {
 
 					}
 					filters.add(filterIR);
-					loadedFilterListByNameMap.put("IR", filters);
+					filtersByNameMap.put("IR", filters);
 				}
 			}
 
