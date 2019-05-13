@@ -181,7 +181,7 @@ public class FilterWriterJson {
 				case "IS": {
 					generator.writeObjectFieldStart("IS");
 					for (Object filter : appliedFilters) {
-						generator.writeStringField("titles file", ((IdentifiedSpectraFilter) filter).getTitlesFile());
+						generator.writeStringField("titles file", ((IdentifiedSpectraFilter) filter).getSpectrumTitleFile());
 					}
 					generator.writeEndObject();
 					break;

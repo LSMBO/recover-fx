@@ -586,7 +586,7 @@ public class FilterReaderJson {
 						}
 					}
 					if (spectrumTitlesFile != null && new File(spectrumTitlesFile).exists()) {
-						filterIS.setTitlesFile(spectrumTitlesFile);
+						filterIS.setSpectrumTitleFile(spectrumTitlesFile);
 						filters.add(filterIS);
 						filtersByNameMap.put("IS", filters);
 					}

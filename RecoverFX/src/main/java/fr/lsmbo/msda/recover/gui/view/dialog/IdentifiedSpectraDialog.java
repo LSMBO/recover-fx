@@ -150,7 +150,7 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 			if (identifiedSpectraFromExcel.getTitles().size() != 0) {
 				isExcelFileImported = true;
 				filePathTF.setText(excelFile.getName());
-				identifiedSpectraFilter.setTitlesFile(excelFile.getPath());
+				identifiedSpectraFilter.setSpectrumTitleFile(excelFile.getPath());
 			}
 		}
 	}

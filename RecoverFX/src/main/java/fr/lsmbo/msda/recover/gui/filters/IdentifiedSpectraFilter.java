@@ -15,21 +15,21 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 
 	private Boolean recoverSpectrumIdentified = false;
 	private Boolean recoverSpectrumNonIdentified = false;
-	private String titlesFile;
+	private String spectrumTitleFile;
 
 	/**
-	 * @return the titles file
+	 * @return the spectrum title file
 	 */
-	public final String getTitlesFile() {
-		return titlesFile;
+	public final String getSpectrumTitleFile() {
+		return spectrumTitleFile;
 	}
 
 	/**
 	 * @param titlesFile
-	 *            the titles file to set
+	 *            the spectrum title file to set
 	 */
-	public final void setTitlesFile(String titlesFile) {
-		this.titlesFile = titlesFile;
+	public final void setSpectrumTitleFile(String titlesFile) {
+		this.spectrumTitleFile = titlesFile;
 	}
 
 	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
@@ -62,11 +62,11 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 	 */
 	@Override
 	public String getFullDescription() {
-		return "###Identified spectra from file: " + titlesFile;
+		return "###Spectrum title file: " + spectrumTitleFile;
 	}
 
 	/**
-	 * Determeines whether the spectrum is identified
+	 * Determines whether the spectrum is identified
 	 * 
 	 * @return <code>true</code> if identified
 	 */
