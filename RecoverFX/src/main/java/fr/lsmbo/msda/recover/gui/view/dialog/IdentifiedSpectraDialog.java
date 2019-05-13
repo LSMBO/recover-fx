@@ -115,7 +115,6 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
 				ObservableList<Object> listIS = FXCollections.observableArrayList();
-				identifiedSpectraFilter.setTitlesFile(filePathTF.getText());
 				listIS.add(identifiedSpectraFilter);
 				Filters.add("IS", listIS);
 				// Reset Spectra identified
@@ -145,12 +144,13 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		File excelFile = filechooser.showOpenDialog(this.getDialogPane().getScene().getWindow());
 		if (excelFile != null) {
 			identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
-			// Use the same object identifiedSpectra to recover title
+			// Use the same object identifiedSpectra to tag title
 			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
 			identifiedSpectraFromExcel.load(excelFile);
 			if (identifiedSpectraFromExcel.getTitles().size() != 0) {
 				isExcelFileImported = true;
 				filePathTF.setText(excelFile.getName());
+				identifiedSpectraFilter.setTitlesFile(excelFile.getPath());
 			}
 		}
 	}

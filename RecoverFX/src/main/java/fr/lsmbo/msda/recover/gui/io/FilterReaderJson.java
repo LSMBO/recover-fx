@@ -571,25 +571,25 @@ public class FilterReaderJson {
 					filtersByNameMap.put("LIT", filters);
 				}
 
-				// Read is identified filter
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "filterIS") {
+				// Read identified spectra filter
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IS") {
+					ObservableList<Object> filters = FXCollections.observableArrayList();
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
-					Boolean checkRecoverIdentified = null;
-					Boolean checkRecoverNonIdentified = null;
+					String spectrumTitlesFile = null;
 					// get values in the object filterIS
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "checkRecoverIdentified") {
+
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "titles file") {
 							token = parser.nextToken();
-							checkRecoverIdentified = parser.getValueAsBoolean();
-						} else if (JsonToken.FIELD_NAME.equals(token)
-								&& parser.getCurrentName() == "checkRecoverNonIdentified") {
-							token = parser.nextToken();
-							checkRecoverNonIdentified = parser.getValueAsBoolean();
+							spectrumTitlesFile = parser.getValueAsString();
 						}
 					}
-					filterIS.setParameters(checkRecoverIdentified, checkRecoverNonIdentified);
-
+					if (spectrumTitlesFile != null && new File(spectrumTitlesFile).exists()) {
+						filterIS.setTitlesFile(spectrumTitlesFile);
+						filters.add(filterIS);
+						filtersByNameMap.put("IS", filters);
+					}
 				}
 
 				// Read ion reporter filter
