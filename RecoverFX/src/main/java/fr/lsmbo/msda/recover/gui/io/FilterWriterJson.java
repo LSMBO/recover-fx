@@ -181,7 +181,14 @@ public class FilterWriterJson {
 				case "IS": {
 					generator.writeObjectFieldStart("IS");
 					for (Object filter : appliedFilters) {
-						generator.writeStringField("titles file", ((IdentifiedSpectraFilter) filter).getSpectrumTitleFile());
+						generator.writeStringField("file",
+								((IdentifiedSpectraFilter) filter).getFileParams().getFilePath());
+						generator.writeStringField("sheet",
+								((IdentifiedSpectraFilter) filter).getFileParams().getCurrentSheetName());
+						generator.writeStringField("column",
+								((IdentifiedSpectraFilter) filter).getFileParams().getColumn());
+						generator.writeNumberField("row",
+								((IdentifiedSpectraFilter) filter).getFileParams().getRowNumber());
 					}
 					generator.writeEndObject();
 					break;

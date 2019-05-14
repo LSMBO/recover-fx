@@ -15,6 +15,8 @@ import fr.lsmbo.msda.recover.gui.Session;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * 
@@ -23,30 +25,6 @@ import javafx.stage.Stage;
  */
 public class FileUtils {
 	private static final Logger logger = LogManager.getLogger("FileUtils");
-
-	/**
-	 * Configure the initial directory of the file chooser .
-	 * 
-	 * @param fileChooser
-	 *            Create file chooser
-	 * @param fileChooserTitle
-	 *            The title of file chooser
-	 */
-	public static void configureFileChooser(final FileChooser fileChooser, String fileChooserTitle) {
-		// Default folder is 'Documents'
-		File initialDirectory = new File(
-				System.getProperty("user.home") + System.getProperty("file.separator") + "Documents");
-		// Otherwise it's home folder
-		if (!initialDirectory.exists())
-			initialDirectory = new File(System.getProperty("user.home"));
-		// if a file is already loaded then it's the same folder
-		if (Session.CURRENT_FILE != null)
-			initialDirectory = Session.CURRENT_FILE.getParentFile();
-		fileChooser.setTitle(fileChooserTitle);
-		fileChooser.setInitialDirectory(initialDirectory);
-		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".mgf files", "*.mgf"),
-				new FileChooser.ExtensionFilter(".pkl files", "*.pkl"));
-	}
 
 	/**
 	 * Configure the initial directory of the directory chooser .
@@ -191,6 +169,28 @@ public class FileUtils {
 		File file = fileChooser.showSaveDialog(primaryStage);
 		if (file != null) {
 			peakListConsumer.accept(file);
+		}
+	}
+
+	/**
+	 * @param excelConsumer
+	 *            consumer accept the excel file to load .
+	 * 
+	 * @param window
+	 *            the parent stage of the file chooser.
+	 * 
+	 */
+
+	public static void loadExcelFile(Consumer<File> excelConsumer, Window window) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Load spectrum titles file");
+		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
+		// Set Title
+		fileChooser.setTitle("Load spetrum titles file");
+		// Show and open dialog
+		File file = fileChooser.showOpenDialog(window);
+		if (file != null) {
+			excelConsumer.accept(file);
 		}
 	}
 

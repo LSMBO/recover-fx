@@ -21,6 +21,7 @@ import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
+import fr.lsmbo.msda.recover.gui.model.settings.FileSelectionParams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -575,18 +576,34 @@ public class FilterReaderJson {
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IS") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
 					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
-					String spectrumTitlesFile = null;
+					int rowNumber = 0;
+					String column = "";
+					String currentSheetName = "";
+					String filePath = "";
 					// get values in the object filterIS
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
-
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "titles file") {
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "file") {
 							token = parser.nextToken();
-							spectrumTitlesFile = parser.getValueAsString();
+							filePath = parser.getValueAsString();
+						}
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "sheet") {
+							token = parser.nextToken();
+							currentSheetName = parser.getValueAsString();
+						}
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "column") {
+							token = parser.nextToken();
+							column = parser.getValueAsString();
+						}
+						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "row") {
+							token = parser.nextToken();
+							rowNumber = parser.getValueAsInt();
 						}
 					}
-					if (spectrumTitlesFile != null && new File(spectrumTitlesFile).exists()) {
-						filterIS.setSpectrumTitleFile(spectrumTitlesFile);
+					if (filePath != null && new File(filePath).exists()) {
+						FileSelectionParams fileParams = new FileSelectionParams(filePath, currentSheetName, column,
+								rowNumber);
+						filterIS.setFileParams(fileParams);
 						filters.add(filterIS);
 						filtersByNameMap.put("IS", filters);
 					}

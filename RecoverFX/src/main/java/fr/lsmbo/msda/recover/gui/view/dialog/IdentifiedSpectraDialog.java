@@ -3,7 +3,6 @@
  */
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,6 +13,7 @@ import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,14 +31,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
  * Creates and displays identified spectra dialog.
  * 
- * @author aromdhani
+ * @author Aromdhani
  *
  */
 public class IdentifiedSpectraDialog extends Dialog<Object> {
@@ -136,23 +134,21 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		});
 	}
 
-	/** Load and read excel file */
+	/**
+	 * Load spectrum titles from an excel file.
+	 * 
+	 */
 	private void loadExcelFile() {
-		FileChooser filechooser = new FileChooser();
-		filechooser.setTitle("Import excel file");
-		filechooser.getExtensionFilters().addAll(new ExtensionFilter("File XLS", "*.xlsx"));
-		File excelFile = filechooser.showOpenDialog(this.getDialogPane().getScene().getWindow());
-		if (excelFile != null) {
+		FileUtils.loadExcelFile(file -> {
 			identifiedSpectraFromExcel = new IdentifiedSpectraFromExcel();
-			// Use the same object identifiedSpectra to tag title
 			identifiedSpectraFromExcel.setIdentifiedSpectra(identifiedSpectra);
-			identifiedSpectraFromExcel.load(excelFile);
+			identifiedSpectraFromExcel.load(file);
 			if (identifiedSpectraFromExcel.getTitles().size() != 0) {
 				isExcelFileImported = true;
-				filePathTF.setText(excelFile.getName());
-				identifiedSpectraFilter.setSpectrumTitleFile(excelFile.getPath());
+				filePathTF.setText(file.getPath());
+				identifiedSpectraFilter.setFileParams(identifiedSpectraFromExcel.getFileParams());
 			}
-		}
+		}, this.getDialogPane().getScene().getWindow());
 	}
 
 }

@@ -26,7 +26,6 @@ public class IdentifiedSpectra {
 			spectra = ListOfSpectra.getBatchSpectra();
 		}
 		Spectrum spectrum = spectra.getSpectrumWithTitle(title);
-
 		if (spectrum != null) {
 			spectrum.setIsIdentified(true);
 		}

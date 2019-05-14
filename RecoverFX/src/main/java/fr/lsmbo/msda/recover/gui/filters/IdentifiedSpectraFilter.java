@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.gui.filters;
 
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
+import fr.lsmbo.msda.recover.gui.model.settings.FileSelectionParams;
 
 /**
  * Filter to identify a spectrum with the title and to set the value of recover
@@ -15,21 +16,21 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 
 	private Boolean recoverSpectrumIdentified = false;
 	private Boolean recoverSpectrumNonIdentified = false;
-	private String spectrumTitleFile;
+	private FileSelectionParams fileParams = null;
 
 	/**
-	 * @return the spectrum title file
+	 * @return the file parameters
 	 */
-	public final String getSpectrumTitleFile() {
-		return spectrumTitleFile;
+	public final FileSelectionParams getFileParams() {
+		return fileParams;
 	}
 
 	/**
-	 * @param titlesFile
-	 *            the spectrum title file to set
+	 * @param fileParams
+	 *            the file parameters to set
 	 */
-	public final void setSpectrumTitleFile(String titlesFile) {
-		this.spectrumTitleFile = titlesFile;
+	public final void setFileParams(FileSelectionParams fileParams) {
+		this.fileParams = fileParams;
 	}
 
 	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
@@ -62,7 +63,11 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 	 */
 	@Override
 	public String getFullDescription() {
-		return "###Spectrum title file: " + spectrumTitleFile;
+		if (this.fileParams != null)
+			return "###Spectrum titles from: "+fileParams.toString();
+		else {
+			return "###Spectrum titles";
+		}
 	}
 
 	/**

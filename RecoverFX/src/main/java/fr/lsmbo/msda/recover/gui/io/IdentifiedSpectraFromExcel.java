@@ -17,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.gui.model.settings.FileSelectionParams;
 import fr.lsmbo.msda.recover.gui.view.dialog.TitlesSelectorExcelDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,17 +33,79 @@ import javafx.collections.ObservableList;
  *
  */
 public class IdentifiedSpectraFromExcel {
+
 	private static final Logger logger = LogManager.getLogger(IdentifiedSpectraFromExcel.class);
+
 	private static String title = "";
-
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
-	private int rowNumber = 0;
-	private String column = "";
-	private String currentSheetName = "";
+	private FileSelectionParams fileParams = new FileSelectionParams();
 	private ArrayList<String> titles = new ArrayList<>();
-
 	private IdentifiedSpectra identifiedSpectra;
-	private HashMap<String, Object> selectionProperties = new HashMap<String, Object>();
+	private HashMap<String, Object> selectedParamsByName = new HashMap<String, Object>();
+
+	/**
+	 * Return the the sheet list.
+	 * 
+	 * @return the sheet list
+	 */
+	public ObservableList<String> getListSheet() {
+		return sheetList;
+	}
+
+	/**
+	 * Set identified spectra object.
+	 * 
+	 * @param identifiedSpectra
+	 *            the identified spectra object to set
+	 */
+	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra) {
+		this.identifiedSpectra = identifiedSpectra;
+	}
+
+	/**
+	 * Return the identified titles.
+	 * 
+	 * @return the titles
+	 */
+	public ArrayList<String> getTitles() {
+		return titles;
+	}
+
+	/**
+	 * Return file title.
+	 */
+	public static String getTitle() {
+		return title;
+	}
+
+	/**
+	 * Initialize all values.
+	 */
+	public void initialize() {
+		if (sheetList != null) {
+			sheetList.clear();
+		}
+		if (titles.size() != 0) {
+			titles.clear();
+		}
+		title = "";
+		this.fileParams.initialize();
+	}
+
+	/**
+	 * @return the file parameters
+	 */
+	public final FileSelectionParams getFileParams() {
+		return fileParams;
+	}
+
+	/**
+	 * @param fileParams
+	 *            the file parameters to set
+	 */
+	public final void setFileParams(FileSelectionParams fileParams) {
+		this.fileParams = fileParams;
+	}
 
 	/**
 	 * 
@@ -51,8 +114,9 @@ public class IdentifiedSpectraFromExcel {
 	 */
 	public void load(File file) {
 		try {
-			initialization();
+			initialize();
 			title = file.getName();
+			fileParams.setFilePath(file.getPath());
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
@@ -69,9 +133,9 @@ public class IdentifiedSpectraFromExcel {
 			TitlesSelectorExcelDialog.setSheets(sheetList);
 			getSpectrumTitlesSelection();
 
-			// Transform a string column ("A", "B" ...) in an index
-			int columnIndex = CellReference.convertColStringToIndex(column);
-			XSSFSheet currentSheet = workbook.getSheet(currentSheetName);
+			// Transform a string column ("A", "B" ...) as an index
+			int columnIndex = CellReference.convertColStringToIndex(fileParams.getColumn());
+			XSSFSheet currentSheet = workbook.getSheet(fileParams.getCurrentSheetName());
 			Iterator<Row> rowIterator = currentSheet.iterator();
 
 			// Iterate through all row
@@ -83,7 +147,7 @@ public class IdentifiedSpectraFromExcel {
 					Cell cell = cellIterator.next();
 					// Add value contains in the cell only for the cells from
 					// specific row and in the good column
-					if (row.getRowNum() >= rowNumber) {
+					if (row.getRowNum() >= fileParams.getRowNumber()) {
 						if (cell.getColumnIndex() == columnIndex) {
 							titles.add(cell.getStringCellValue());
 						}
@@ -116,11 +180,12 @@ public class IdentifiedSpectraFromExcel {
 	 */
 	public void loadFromSelection(File file, String currentSheetName, String column, int rowNumber) {
 		try {
-			initialization();
+			initialize();
 			title = file.getName();
+			fileParams.setFilePath(file.getPath());
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
-			// Transform a string column ("A", "B" ...) in an index
+			// Transform a string column ("A", "B" ...) as an index
 			int columnIndex = CellReference.convertColStringToIndex(column);
 			XSSFSheet currentSheet = workbook.getSheet(currentSheetName);
 			Iterator<Row> rowIterator = currentSheet.iterator();
@@ -152,27 +217,6 @@ public class IdentifiedSpectraFromExcel {
 	}
 
 	/**
-	 * Initialize values
-	 */
-	public void initialization() {
-		if (sheetList != null) {
-			sheetList.clear();
-		}
-		if (titles.size() != 0) {
-			titles.clear();
-		}
-		title = "";
-		rowNumber = 0;
-		column = "";
-		currentSheetName = "";
-	}
-
-	/** Return a title */
-	public static String getTitle() {
-		return title;
-	}
-
-	/**
 	 * Return the spectrum titles selection from an excel file.
 	 */
 	@SuppressWarnings("unchecked")
@@ -180,44 +224,16 @@ public class IdentifiedSpectraFromExcel {
 		try {
 			TitlesSelectorExcelDialog excelSelectorDialog = new TitlesSelectorExcelDialog();
 			excelSelectorDialog.showAndWait().ifPresent(selectorProperties -> {
-				selectionProperties = (HashMap<String, Object>) selectorProperties.clone();
+				selectedParamsByName = (HashMap<String, Object>) selectorProperties.clone();
 			});
-			logger.info("Titles selection properties from excel file: {}", selectionProperties);
-			System.out.println("INFO - Titles selection properties from excel file: " + selectionProperties);
-			rowNumber = (int) selectionProperties.get("rowNumber") - 1;
-			column = (String) selectionProperties.get("column");
-			currentSheetName = (String) selectionProperties.get("currentSheetName");
+			logger.info("Spectrum titles loaded from excel file: {}", selectedParamsByName);
+			System.out.println("INFO - Spectrum titles loaded from excel file: " + selectedParamsByName);
+			fileParams.setRowNumber((int) selectedParamsByName.get("rowNumber") - 1);
+			fileParams.setColumn((String) selectedParamsByName.get("column"));
+			fileParams.setCurrentSheetName((String) selectedParamsByName.get("currentSheetName"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Return the the sheet list
-	 * 
-	 * @return the sheet list
-	 */
-	public ObservableList<String> getListSheet() {
-		return sheetList;
-	}
-
-	/**
-	 * Set identified spectra object.
-	 * 
-	 * @param identifiedSpectra
-	 *            the identified spectra object to set
-	 */
-	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra) {
-		this.identifiedSpectra = identifiedSpectra;
-	}
-
-	/**
-	 * Return the identified titles
-	 * 
-	 * @return the titles
-	 */
-	public ArrayList<String> getTitles() {
-		return titles;
 	}
 
 }
