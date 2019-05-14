@@ -100,7 +100,7 @@ public class TitlesSelectorExcelDialog extends Dialog<HashMap<String, Object>> {
 		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.IDENTIFIEDSPECTRA)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
-		this.setTitle("Identified Spectra");
+		this.setTitle("Get Identified Spectra");
 		this.setDialogPane(dialogPane);
 
 		// Show notification and control input values
@@ -124,8 +124,9 @@ public class TitlesSelectorExcelDialog extends Dialog<HashMap<String, Object>> {
 				selectionProperties.put("rowNumber", index);
 				selectionProperties.put("currentSheetName", sheetCmBox.getValue());
 				return selectionProperties;
+			} else {
+				return null;
 			}
-			return selectionProperties;
 		});
 	}
 

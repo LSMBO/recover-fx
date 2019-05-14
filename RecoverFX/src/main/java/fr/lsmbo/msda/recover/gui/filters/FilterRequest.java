@@ -161,13 +161,11 @@ public class FilterRequest {
 			filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
 			assert filterIS != null : "The filter is idenified spectra must not be null";
 			// Scan all the spectrum
-			if (Filters.getAll().containsKey("IS")) {
-				for (int i = 0; i < numberOfSpectrum; i++) {
-					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
-					spectrum.setIsRecovered(filterIS.isValid(spectrum));
-				}
-				isFinished = true;
+			for (int i = 0; i < numberOfSpectrum; i++) {
+				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
+				spectrum.setIsRecovered(filterIS.isValid(spectrum));
 			}
+			isFinished = true;
 		}
 		return isFinished;
 	}
