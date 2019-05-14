@@ -234,16 +234,16 @@ public class RecoverViewModel {
 			// Reset columns filters
 			resetColumnFilters();
 			initializeItems();
-			taskRunner.doAsyncWork("Loading filters parameters from a JSON file", () -> {
+			taskRunner.doAsyncWork("Loading filter's settings from a JSON file", () -> {
 				updateJfx(() -> FilterRequest.applyAllFilters(view.getFilteredTable(), items));
 				return true;
 			}, (isSucceeded) -> {
 				if (isSucceeded) {
-					logger.debug("Loading filter's parameters from a JSON file has finished successfully!");
+					logger.debug("Loading filter's settings from a JSON file has finished successfully!");
 					refresh();
 				}
 			}, (failure) -> {
-				logger.error("Loading filter's parameters from a JSON file has failed!", failure.getMessage());
+				logger.error("Loading filter's settings from a JSON file has failed!", failure.getMessage());
 			}, true, stage);
 		});
 	}

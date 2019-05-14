@@ -52,14 +52,14 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 	public FilterLoaderDialog() {
 		// Create notifications label
 		Label emptyFileWarningLabel = new Label(
-				"Select a filter parameters file. Make sure that you have selected a valid JSON file!");
+				"Select the filter settings from a JSON file. Make sure that you have selected a valid file!");
 		emptyFileWarningLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyFileWarningLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		// Create dialog components
 		Label fileLocationLabel = new Label("Filters file location:");
 		TextField fileLocationTF = new TextField();
 		fileLocationTF.setPrefWidth(380);
-		fileLocationTF.setTooltip(new Tooltip("Select filters parameters from the JSON file!"));
+		fileLocationTF.setTooltip(new Tooltip("Select the filter settings from a JSON file!"));
 		Button loadFileButton = new Button("Load");
 		loadFileButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		StackPane root = new StackPane();
