@@ -1,12 +1,12 @@
 package fr.lsmbo.msda.recover.gui.model.settings;
 
 /**
- * Excel file properties model , to hold spectrum titles selection.
+ * Spectrum titles range from an excel file.
  * 
  * @author Aromdhani
  *
  */
-public class FileSelectionParams {
+public class SpectrumTitleRange {
 
 	private int rowNumber = 0;
 	private String column = "";
@@ -16,7 +16,7 @@ public class FileSelectionParams {
 	/**
 	 * Default constructor
 	 */
-	public FileSelectionParams() {
+	public SpectrumTitleRange() {
 		super();
 	}
 
@@ -31,7 +31,7 @@ public class FileSelectionParams {
 	 * @param filePath
 	 *            the file path
 	 */
-	public FileSelectionParams(String filePath, String currentSheetName, String column, int rowNumber) {
+	public SpectrumTitleRange(String filePath, String currentSheetName, String column, int rowNumber) {
 		super();
 		this.rowNumber = rowNumber;
 		this.column = column;

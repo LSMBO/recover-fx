@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
-import fr.lsmbo.msda.recover.gui.model.settings.FileSelectionParams;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.view.dialog.TitlesSelectorExcelDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +38,7 @@ public class IdentifiedSpectraFromExcel {
 
 	private static String title = "";
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
-	private FileSelectionParams fileParams = new FileSelectionParams();
+	private SpectrumTitleRange fileParams = new SpectrumTitleRange();
 	private ArrayList<String> titles = new ArrayList<>();
 	private IdentifiedSpectra identifiedSpectra;
 	private HashMap<String, Object> selectedParamsByName = new HashMap<String, Object>();
@@ -95,7 +95,7 @@ public class IdentifiedSpectraFromExcel {
 	/**
 	 * @return the file parameters
 	 */
-	public final FileSelectionParams getFileParams() {
+	public final SpectrumTitleRange getFileParams() {
 		return fileParams;
 	}
 
@@ -103,7 +103,7 @@ public class IdentifiedSpectraFromExcel {
 	 * @param fileParams
 	 *            the file parameters to set
 	 */
-	public final void setFileParams(FileSelectionParams fileParams) {
+	public final void setFileParams(SpectrumTitleRange fileParams) {
 		this.fileParams = fileParams;
 	}
 

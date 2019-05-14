@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.google.jhsheets.filtered.FilteredTableView;
 import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
@@ -21,7 +23,7 @@ import fr.lsmbo.msda.recover.gui.lists.Spectra;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
-import fr.lsmbo.msda.recover.gui.model.settings.FileSelectionParams;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -38,6 +40,8 @@ import javafx.scene.control.TableColumn;
  *
  */
 public class FilterRequest {
+
+	private static final Logger logger = LogManager.getLogger(FilterRequest.class);
 
 	private static LowIntensityThresholdFilter filterLIT = null;
 	private static IdentifiedSpectraFilter filterIS = null;
@@ -105,7 +109,7 @@ public class FilterRequest {
 	 * 
 	 * @return the spectra to apply filters
 	 */
-	public static Spectra getSpectra() {
+	public static Spectra getSpectraTofilter() {
 		Spectra spectraToFilter = new Spectra();
 		if (!ExportBatch.useBatchSpectra) {
 			spectraToFilter = ListOfSpectra.getFirstSpectra();
@@ -121,20 +125,24 @@ public class FilterRequest {
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 	public static Boolean applyLIT() {
-		Boolean isFinished = false;
-		Spectra spectraToFilter = getSpectra();
-		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		if (Filters.getAll().containsKey("LIT")) {
-			filterLIT = (LowIntensityThresholdFilter) Filters.getAll().get("LIT").get(0);
-			assert filterLIT != null : "The filter low intensity threshold must not be null";
-			// Scan all the spectrum
-			for (int i = 0; i < numberOfSpectrum; i++) {
-				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
-				spectrum.setIsRecovered(filterLIT.isValid(spectrum));
+		try {
+			Spectra spectraToFilter = getSpectraTofilter();
+			Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
+			if (Filters.getAll().containsKey("LIT")) {
+				filterLIT = (LowIntensityThresholdFilter) Filters.getAll().get("LIT").get(0);
+				assert filterLIT != null : "The filter low intensity threshold must not be null";
+				// Scan all the spectrum
+				for (int i = 0; i < numberOfSpectrum; i++) {
+					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
+					spectrum.setIsRecovered(filterLIT.isValid(spectrum));
+				}
+
 			}
-			isFinished = true;
+			return true;
+		} catch (Exception e) {
+			logger.error("Error while trying to apply low intensity threshold filter!", e);
+			return false;
 		}
-		return isFinished;
 	}
 
 	/**
@@ -143,26 +151,29 @@ public class FilterRequest {
 	 * @return <code>true</code> if all spectrum have been checked.
 	 */
 	public static Boolean applyIS() {
-		Boolean isFinished = false;
-		Spectra spectraToFilter = getSpectra();
-		if (Filters.getAll().containsKey("IS")) {
-			filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
-			assert filterIS != null : "The filter is idenified spectra must not be null";
-			FileSelectionParams Fileparams = filterIS.getFileParams();
-			IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
-			IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
-			identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
-			File excelFile = new File(Fileparams.getFilePath());
-			if (excelFile != null && excelFile.exists()) {
-				identifiedSpectraExcel.loadFromSelection(excelFile, Fileparams.getCurrentSheetName(),
-						Fileparams.getColumn(), Fileparams.getRowNumber());
-				for (String title : identifiedSpectra.getArrayTitles()) {
-					identifiedSpectra.setIdentified(title);
+		try {
+			if (Filters.getAll().containsKey("IS")) {
+				filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
+				assert filterIS != null : "The filter is idenified spectra must not be null";
+				SpectrumTitleRange Fileparams = filterIS.getFileParams();
+				IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
+				IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
+				identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
+				File excelFile = new File(Fileparams.getFilePath());
+				if (excelFile != null && excelFile.exists()) {
+					identifiedSpectraExcel.loadFromSelection(excelFile, Fileparams.getCurrentSheetName(),
+							Fileparams.getColumn(), Fileparams.getRowNumber());
+					for (String title : identifiedSpectra.getArrayTitles()) {
+						identifiedSpectra.setIdentified(title);
+					}
 				}
 			}
-			isFinished = true;
+			return true;
+		} catch (Exception e) {
+			logger.error("Error while trying to apply is idenfied spectra filter!", e);
+			return false;
 		}
-		return isFinished;
+
 	}
 
 	/**
@@ -172,29 +183,32 @@ public class FilterRequest {
 	 */
 
 	public static Boolean applyIR() {
-		Boolean isFinished = false;
-		Spectra spectraToFilter = getSpectra();
-		Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
-		// Scan all the spectrum
-		if (Filters.getAll().containsKey("IR")) {
-			filterIR = (IonReporterFilter) Filters.getAll().get("IR").get(0);
-			assert filterIR != null : "The filter ion reporter spectra must not be null";
-			for (int i = 0; i < numberOfSpectrum; i++) {
-				Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
-				Integer nbIon = IonReporters.getIonReporters().size();
-				for (int k = 0; k < nbIon; k++) {
-					IonReporter ionReporter = IonReporters.getIonReporters().get(k);
-					// Initialize parameter for an ion(i)
-					filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
-					if (k >= 1)
-						spectrum.setIonReporter(recoverIfSeveralIons(spectrum, filterIR));
-					else
-						spectrum.setIonReporter(filterIR.isValid(spectrum));
+		try {
+			Spectra spectraToFilter = getSpectraTofilter();
+			Integer numberOfSpectrum = spectraToFilter.getSpectraAsObservable().size();
+			// Scan all the spectrum
+			if (Filters.getAll().containsKey("IR")) {
+				filterIR = (IonReporterFilter) Filters.getAll().get("IR").get(0);
+				assert filterIR != null : "The filter ion reporter spectra must not be null";
+				for (int i = 0; i < numberOfSpectrum; i++) {
+					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
+					Integer nbIon = IonReporters.getIonReporters().size();
+					for (int k = 0; k < nbIon; k++) {
+						IonReporter ionReporter = IonReporters.getIonReporters().get(k);
+						// Initialize parameter for an ion(i)
+						filterIR.setParameters(ionReporter.getName(), ionReporter.getMoz(), ionReporter.getTolerance());
+						if (k >= 1)
+							spectrum.setIonReporter(recoverIfSeveralIons(spectrum, filterIR));
+						else
+							spectrum.setIonReporter(filterIR.isValid(spectrum));
+					}
 				}
 			}
-			isFinished = true;
+			return true;
+		} catch (Exception e) {
+			logger.error("Error while trying to apply is ion reporter filter!", e);
+			return false;
 		}
-		return isFinished;
 	}
 
 	/**
@@ -801,7 +815,6 @@ public class FilterRequest {
 					filterUPNColumn(newData, filters);
 				}
 				break;
-
 			}
 			// Apply filter on Identified column
 			case "Identified": {
