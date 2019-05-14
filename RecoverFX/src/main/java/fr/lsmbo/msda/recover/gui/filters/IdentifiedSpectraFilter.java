@@ -64,7 +64,7 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 	@Override
 	public String getFullDescription() {
 		if (this.fileParams != null)
-			return "###Spectrum titles from: "+fileParams.toString();
+			return fileParams.toString();
 		else {
 			return "###Spectrum titles";
 		}

@@ -10,6 +10,7 @@ import org.google.jhsheets.filtered.operators.StringOperator;
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.filters.Filters;
+import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
@@ -182,10 +183,10 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}
-				if (filter instanceof IdentifiedSpectra) {
+				if (filter instanceof IdentifiedSpectraFilter) {
 					StringBuilder strBuilder = new StringBuilder();
-					strBuilder.append("Type: ").append(((IdentifiedSpectra) filter).getType()).append(" ; ")
-							.append("value: ").append(((IdentifiedSpectra) filter).getFullDescription());
+					strBuilder.append("Type: ").append(((IdentifiedSpectraFilter) filter).getType()).append(" ; ")
+							.append("value: ").append(((IdentifiedSpectraFilter) filter).getFullDescription());
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}

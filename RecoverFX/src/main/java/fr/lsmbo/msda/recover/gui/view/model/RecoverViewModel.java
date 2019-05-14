@@ -246,7 +246,6 @@ public class RecoverViewModel {
 				logger.error("Loading filter's parameters from a JSON file has failed!", failure.getMessage());
 			}, true, stage);
 		});
-
 	}
 
 	/**

@@ -155,14 +155,14 @@ public class FilterRequest {
 			if (Filters.getAll().containsKey("IS")) {
 				filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
 				assert filterIS != null : "The filter is idenified spectra must not be null";
-				SpectrumTitleRange Fileparams = filterIS.getFileParams();
+				SpectrumTitleRange spectrumTitlesParams = filterIS.getFileParams();
 				IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 				IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
 				identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
-				File excelFile = new File(Fileparams.getFilePath());
+				File excelFile = new File(spectrumTitlesParams.getFilePath());
 				if (excelFile != null && excelFile.exists()) {
-					identifiedSpectraExcel.loadFromSelection(excelFile, Fileparams.getCurrentSheetName(),
-							Fileparams.getColumn(), Fileparams.getRowNumber());
+					identifiedSpectraExcel.loadFromSelection(excelFile, spectrumTitlesParams.getCurrentSheetName(),
+							spectrumTitlesParams.getColumn(), spectrumTitlesParams.getRowNumber());
 					for (String title : identifiedSpectra.getArrayTitles()) {
 						identifiedSpectra.setIdentified(title);
 					}
@@ -206,7 +206,7 @@ public class FilterRequest {
 			}
 			return true;
 		} catch (Exception e) {
-			logger.error("Error while trying to apply is ion reporter filter!", e);
+			logger.error("Error while trying to apply ion reporter filter!", e);
 			return false;
 		}
 	}
