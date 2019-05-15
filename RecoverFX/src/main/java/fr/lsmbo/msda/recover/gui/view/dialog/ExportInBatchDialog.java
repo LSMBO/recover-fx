@@ -1,11 +1,12 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.google.jhsheets.filtered.FilteredTableView;
 import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
@@ -21,6 +22,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
@@ -47,34 +49,49 @@ import javafx.stage.Stage;
 public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 
 	File mgfDirectory = null;
-	File excelDirectory = null;
+	File identifiedSpectraDirectory = null;
+	private File outputDirectory = null;
 	private Map<File, File> mgfByIdentifiedTitlesFile = new HashMap<>();
 	private ObservableList<File> mgfFiles = FXCollections.observableArrayList();
 	private ObservableList<File> excelFiles = FXCollections.observableArrayList();
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 
+	/**
+	 * @return the output directory
+	 */
+	public final File getOutputDirectory() {
+		return outputDirectory;
+	}
+
+	/**
+	 * @param outputDirectory
+	 *            the output directory to set
+	 */
+	public final void setOutputDirectory(File outputDirectory) {
+		this.outputDirectory = outputDirectory;
+	}
+
 	public ExportInBatchDialog() {
 
 		// Create notifications pane
 		VBox warningPane = new VBox(2);
-		Label emptyMgfDirWarningLabel = new Label("Choose a directory of mgf files. The directory must not be empty!");
-		emptyMgfDirWarningLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
-		emptyMgfDirWarningLabel.setStyle(JavaFxUtils.RED_ITALIC);
+		Label emptyPeakListDirLabel = new Label(
+				"Choose a directory of peaklist files. The directory must not be empty!");
+		emptyPeakListDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
+		emptyPeakListDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
 
-		Label emptyExcelDirWarningLabel = new Label(
-				"Choose a directory of excel files that contains titles to identify. The directory must not be empty!");
-		emptyExcelDirWarningLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
-		emptyExcelDirWarningLabel.setStyle(JavaFxUtils.RED_ITALIC);
-		warningPane.getChildren().addAll(emptyMgfDirWarningLabel, emptyExcelDirWarningLabel);
+		Label emptyIdentifiedSpectraDir = new Label(
+				"Choose a directory of identified spectra files. The directory must not be empty!");
+		emptyIdentifiedSpectraDir.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
+		emptyIdentifiedSpectraDir.setStyle(JavaFxUtils.RED_ITALIC);
+		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyIdentifiedSpectraDir);
 
 		// Create directory of MGF files components
-		Label dirMgfLabel = new Label("Peaklist files location:");
-		TextField dirMgfTF = new TextField();
-		dirMgfTF.setTooltip(new Tooltip("Select a peaklist file directory"));
+		Label peakListDirLabel = new Label("Peaklist files:");
+		TextField peakListDirTF = new TextField();
+		peakListDirTF.setTooltip(new Tooltip("Select a peaklist directory"));
 		Button loadMgfButton = new Button("Load");
 		loadMgfButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
-		Label dirMgfTitleLabel = new Label("Peaklist files");
-		dirMgfTitleLabel.setStyle(JavaFxUtils.TITLE);
 		FilteredTableView<File> mgfFilesTable = new FilteredTableView<>(mgfFiles);
 		FilterableStringTableColumn<File, String> mgfNameCol = new FilterableStringTableColumn<>("Peaklist File");
 		mgfNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
@@ -83,10 +100,9 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mgfFilesTable.autosize();
 		mgfFilesTable.setPadding(new Insets(5, 5, 5, 5));
 		mgfFilesTable.setMinHeight(200);
-		// Style
 		mgfFilesTable.setCursor(Cursor.CLOSED_HAND);
 
-		// Make mgf table sortable via drag and drop
+		// Make peaklists table sortable via drag and drop
 		mgfFilesTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
 			row.setOnDragDetected(event -> {
@@ -114,9 +130,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				if (db.hasContent(SERIALIZED_MIME_TYPE)) {
 					int draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
 					File draggedPerson = mgfFilesTable.getItems().remove(draggedIndex);
-
 					int dropIndex;
-
 					if (row.isEmpty()) {
 						dropIndex = mgfFilesTable.getItems().size();
 					} else {
@@ -130,27 +144,25 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 			});
 			return row;
 		});
-		// Create directory of excel files components
-		Label dirExcelLabel = new Label("Identification files location:");
-		TextField dirExcelTF = new TextField();
-		dirMgfTF.setTooltip(new Tooltip(
-				"Choose a excel files diorectory. The excel files must contains a valid titles to identify"));
-		Button loadExcelButton = new Button("Load");
-		loadExcelButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
-		Label dirExcelTitleLabel = new Label("Identified title files");
-		dirExcelTitleLabel.setStyle(JavaFxUtils.TITLE);
-		FilteredTableView<File> excelFilesTable = new FilteredTableView<>(excelFiles);
+		// Create identified spectra files components
+		Label identifiedSpectraDirLabel = new Label("Identified spectra files:");
+		TextField identifiedSpectraDirTF = new TextField();
+		peakListDirTF.setTooltip(new Tooltip(
+				"Choose an excel files directory. The excel files must contains a valid titles to identify"));
+		Button loadIdentifiedSpectraButton = new Button("Load");
+		loadIdentifiedSpectraButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+		FilteredTableView<File> identifiedSpectraFilesTable = new FilteredTableView<>(excelFiles);
 		FilterableStringTableColumn<File, String> excelFileCol = new FilterableStringTableColumn<>(
-				"Identified Title File");
+				"Identified Spectra File");
 		excelFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
-		excelFilesTable.getColumns().setAll(excelFileCol);
-		excelFilesTable.setColumnResizePolicy(excelFilesTable.CONSTRAINED_RESIZE_POLICY);
-		excelFilesTable.autosize();
-		excelFilesTable.setPadding(new Insets(5, 5, 5, 5));
-		excelFilesTable.setMinHeight(200);
-		excelFilesTable.setCursor(Cursor.CLOSED_HAND);
-		// Make excel table sortable via drag and drop
-		excelFilesTable.setRowFactory(tv -> {
+		identifiedSpectraFilesTable.getColumns().setAll(excelFileCol);
+		identifiedSpectraFilesTable.setColumnResizePolicy(identifiedSpectraFilesTable.CONSTRAINED_RESIZE_POLICY);
+		identifiedSpectraFilesTable.autosize();
+		identifiedSpectraFilesTable.setPadding(new Insets(5, 5, 5, 5));
+		identifiedSpectraFilesTable.setMinHeight(200);
+		identifiedSpectraFilesTable.setCursor(Cursor.CLOSED_HAND);
+		// Make identified spectra table sortable via drag and drop
+		identifiedSpectraFilesTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
 			row.setOnDragDetected(event -> {
 				if (!row.isEmpty()) {
@@ -178,23 +190,54 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				Dragboard db = event.getDragboard();
 				if (db.hasContent(SERIALIZED_MIME_TYPE)) {
 					int draggedIndex = (Integer) db.getContent(SERIALIZED_MIME_TYPE);
-					File draggedPerson = excelFilesTable.getItems().remove(draggedIndex);
+					File draggedPerson = identifiedSpectraFilesTable.getItems().remove(draggedIndex);
 
 					int dropIndex;
 
 					if (row.isEmpty()) {
-						dropIndex = excelFilesTable.getItems().size();
+						dropIndex = identifiedSpectraFilesTable.getItems().size();
 					} else {
 						dropIndex = row.getIndex();
 					}
-					excelFilesTable.getItems().add(dropIndex, draggedPerson);
+					identifiedSpectraFilesTable.getItems().add(dropIndex, draggedPerson);
 					event.setDropCompleted(true);
-					excelFilesTable.getSelectionModel().select(dropIndex);
+					identifiedSpectraFilesTable.getSelectionModel().select(dropIndex);
 					event.consume();
 				}
 			});
 			return row;
 		});
+
+		// Create output directory
+		Label outputDirLabel = new Label("Output directory");
+		TextField outputDirTF = new TextField();
+		outputDirTF.setTooltip(new Tooltip("Choose an output directory"));
+		Button loadOutputButton = new Button("Load");
+		loadOutputButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+
+		// Create settings panel
+		CheckBox applyFiltersChbX = new CheckBox("Apply current filters");
+		applyFiltersChbX.setSelected(false);
+		applyFiltersChbX.setTooltip(new Tooltip("Apply current filters for all peaklists file"));
+		CheckBox loadFiltersChbX = new CheckBox("Load filters");
+		loadFiltersChbX.setTooltip(new Tooltip("Load filetrs from a JSON file"));
+		TextField filterTF = new TextField();
+		Button loadFiltersButton = new Button("Load");
+		loadFiltersButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+		// Style
+		ArrayList<Label> labelList = new ArrayList<Label>();
+		labelList.add(peakListDirLabel);
+		labelList.add(identifiedSpectraDirLabel);
+		labelList.add(outputDirLabel);
+		labelList.forEach(label -> label.setMinWidth(120));
+
+		ArrayList<TextField> textFieldList = new ArrayList<TextField>();
+		textFieldList.add(peakListDirTF);
+		textFieldList.add(identifiedSpectraDirTF);
+		textFieldList.add(outputDirTF);
+		textFieldList.add(filterTF);
+		textFieldList.forEach(label -> label.setMinWidth(180));
+
 		// Layout
 		GridPane mainPane = new GridPane();
 		mainPane.setAlignment(Pos.TOP_LEFT);
@@ -203,18 +246,25 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mainPane.setVgap(15);
 
 		mainPane.add(warningPane, 0, 0, 6, 1);
-		mainPane.add(dirMgfLabel, 1, 2, 1, 1);
-		mainPane.add(dirMgfTF, 2, 2, 1, 1);
-		mainPane.add(loadMgfButton, 3, 2, 1, 1);
 
-		mainPane.add(dirExcelLabel, 4, 2, 1, 1);
-		mainPane.add(dirExcelTF, 5, 2, 1, 1);
-		mainPane.add(loadExcelButton, 6, 2, 1, 1);
+		mainPane.add(peakListDirLabel, 0, 2, 1, 1);
+		mainPane.add(peakListDirTF, 1, 2, 1, 1);
+		mainPane.add(loadMgfButton, 2, 2, 1, 1);
 
-		mainPane.add(dirMgfTitleLabel, 1, 4, 3, 1);
-		mainPane.add(dirExcelTitleLabel, 4, 4, 3, 1);
-		mainPane.add(mgfFilesTable, 1, 5, 3, 4);
-		mainPane.add(excelFilesTable, 4, 5, 3, 4);
+		mainPane.add(identifiedSpectraDirLabel, 3, 2, 1, 1);
+		mainPane.add(identifiedSpectraDirTF, 4, 2, 1, 1);
+		mainPane.add(loadIdentifiedSpectraButton, 5, 2, 1, 1);
+
+		mainPane.add(outputDirLabel, 0, 4, 1, 1);
+		mainPane.add(outputDirTF, 1, 4, 1, 1);
+		mainPane.add(loadOutputButton, 2, 4, 1, 1);
+
+		mainPane.add(loadFiltersChbX, 0, 6, 1, 1);
+		mainPane.add(filterTF, 1, 6, 1, 1);
+		mainPane.add(loadFiltersButton, 2, 6, 1, 1);
+
+		mainPane.add(mgfFilesTable, 0, 8, 3, 4);
+		mainPane.add(identifiedSpectraFilesTable, 3, 8, 3, 4);
 
 		/********************
 		 * Main dialog pane *
@@ -225,7 +275,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		dialogPane.setContent(mainPane);
 		dialogPane.setHeaderText("Export In Batch");
 		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
-		dialogPane.setPrefHeight(600);
+		dialogPane.setPrefSize(780, 600);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -235,11 +285,11 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		// Set components control
 		loadMgfButton.setOnAction(evt -> {
 			final DirectoryChooser chooser = new DirectoryChooser();
-			FileUtils.configureDirChooser(chooser, "Choose a mgf directory");
+			FileUtils.configureDirChooser(chooser, "Peaklist directory");
 			mgfDirectory = chooser.showDialog(stage);
 			if (mgfDirectory != null && mgfDirectory.exists()) {
 				mgfFiles.clear();
-				dirMgfTF.setText(mgfDirectory.getAbsolutePath());
+				peakListDirTF.setText(mgfDirectory.getAbsolutePath());
 				getListFiles(mgfDirectory, mgfFiles, ".mgf");
 				// Sort files with their names
 				Collections.sort(mgfFiles, new Comparator<File>() {
@@ -251,14 +301,15 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				});
 			}
 		});
-		loadExcelButton.setOnAction(evt -> {
+
+		loadIdentifiedSpectraButton.setOnAction(evt -> {
 			final DirectoryChooser chooser = new DirectoryChooser();
-			FileUtils.configureDirChooser(chooser, "Choose an excel directory");
-			excelDirectory = chooser.showDialog(stage);
-			if (excelDirectory != null && excelDirectory.exists()) {
+			FileUtils.configureDirChooser(chooser, "Identified spectra directory");
+			identifiedSpectraDirectory = chooser.showDialog(stage);
+			if (identifiedSpectraDirectory != null && identifiedSpectraDirectory.exists()) {
 				excelFiles.clear();
-				dirExcelTF.setText(excelDirectory.getAbsolutePath());
-				getListFiles(excelDirectory, excelFiles, "xls", "xlsx");
+				identifiedSpectraDirTF.setText(identifiedSpectraDirectory.getAbsolutePath());
+				getListFiles(identifiedSpectraDirectory, excelFiles, "xls", "xlsx");
 				// Sort files with their names
 				Collections.sort(excelFiles, new Comparator<File>() {
 					@Override
@@ -269,11 +320,30 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				});
 			}
 		});
+		// Load output directory
+		loadOutputButton.setOnAction(evt -> {
+			final DirectoryChooser chooser = new DirectoryChooser();
+			FileUtils.configureDirChooser(chooser, "Choose an output directory");
+			outputDirectory = chooser.showDialog(stage);
+			if (outputDirectory != null && outputDirectory.exists()) {
+				outputDirTF.setText(outputDirectory.getAbsolutePath());
+			}
+		});
 
+		// Load peakList
+		loadFiltersButton.setOnAction(evt -> {
+			FileUtils.loadFiltersFrmJSON(file -> {
+				filterTF.setText(file.getPath());
+			}, stage);
+		});
+		// Control
+		filterTF.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
+		loadFiltersButton.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		// Enable Ok button.
-		emptyMgfDirWarningLabel.visibleProperty().bind(mgfFilesTable.selectionModelProperty().isNull());
-		emptyExcelDirWarningLabel.visibleProperty().bind(excelFilesTable.selectionModelProperty().isNull());
-		buttonOk.disableProperty().bind(mgfFilesTable.getSelectionModel().selectedItemProperty().isNull());
+		emptyPeakListDirLabel.visibleProperty().bind(peakListDirTF.textProperty().isEmpty());
+		emptyIdentifiedSpectraDir.visibleProperty().bind(identifiedSpectraDirTF.textProperty().isEmpty());
+		buttonOk.disableProperty()
+				.bind(outputDirTF.textProperty().isEmpty().or(peakListDirTF.textProperty().isEmpty()));
 		// On apply button
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {

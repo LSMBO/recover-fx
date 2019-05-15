@@ -78,7 +78,7 @@ public class ExportBatch {
 		useBatchSpectra = true;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
-		identificationByPeakListMap.forEach((peakListFile, identificationFile) -> {
+		identificationByPeakListMap.forEach((peakListFile, identifiedSpectraFile) -> {
 			try {
 				PeaklistReader.load(peakListFile);
 //				ObservableList<Spectrum> newData = filterRequest
@@ -95,6 +95,7 @@ public class ExportBatch {
 				e.printStackTrace();
 			}
 		});
+		
 		useBatchSpectra = false;
 	}
 
