@@ -45,7 +45,7 @@ public class ExportBatch {
 	public static Boolean useBatchSpectra = false;
 
 	/**
-	 * Add file in hashMAp with value null
+	 * Add file in hashMap with value null
 	 * 
 	 * @param file
 	 *            file which contains peaklist
