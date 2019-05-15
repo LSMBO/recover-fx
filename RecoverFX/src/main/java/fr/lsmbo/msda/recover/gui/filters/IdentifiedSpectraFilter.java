@@ -88,8 +88,11 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 		return recoverSpectrumNonIdentified;
 	}
 
+	/**
+	 * @return filter type . it's the class name.
+	 */
 	@Override
 	public String getType() {
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 }

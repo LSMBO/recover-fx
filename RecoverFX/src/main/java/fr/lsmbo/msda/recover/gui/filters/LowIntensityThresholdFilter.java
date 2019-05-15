@@ -124,15 +124,14 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 	public String getFullDescription() {
 		// TODO Auto-generated method stub
 		StringBuilder filterStr = new StringBuilder();
-		filterStr.append("###Parameters used for Low Intensity Threshold Filter:").append("\n").append("###Emergence: ")
-				.append(getEmergence()).append(" ; ").append("minimum UPN: ").append(getMinUPN()).append(" ; ")
-				.append("maximum UPN: ").append(getMaxUPN()).append(" ; ").append("Baseline calculate with: ")
-				.append(getMode()).append("\n");
+		filterStr.append("\n").append("###Emergence: ").append(getEmergence()).append(" ; ").append("minimum UPN: ")
+				.append(getMinUPN()).append(" ; ").append("maximum UPN: ").append(getMaxUPN()).append(" ; ")
+				.append("Baseline calculate with: ").append(getMode()).append("\n");
 		return filterStr.toString();
 	}
 
 	@Override
 	public String getType() {
-		return this.getClass().getName();
+		return this.getClass().getSimpleName();
 	}
 }

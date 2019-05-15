@@ -136,7 +136,6 @@ public class FilterRequest {
 					Spectrum spectrum = spectraToFilter.getSpectraAsObservable().get(i);
 					spectrum.setIsRecovered(filterLIT.isValid(spectrum));
 				}
-
 			}
 			return true;
 		} catch (Exception e) {

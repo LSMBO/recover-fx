@@ -109,9 +109,9 @@ public class SpectrumTitleRange {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append("\n").append("##spectrum titles file: ").append(filePath).append("\n").append("##sheet name: ")
-				.append(currentSheetName).append("\n").append("##column: ").append(column).append("\n")
-				.append("##row number: ").append(rowNumber).append("\n");
+		str.append("\n").append("###Spectrum titles file: ").append(filePath).append("\n").append("###Sheet name: ")
+				.append(currentSheetName).append(" ; ").append("column: ").append(column).append(" ; ")
+				.append("row number: ").append(rowNumber).append("\n");
 		return str.toString();
 	}
 
