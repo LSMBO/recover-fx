@@ -51,11 +51,28 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 	private File peakListDirectory = null;
 	private File identifiedSpectraDirectory = null;
 	private File outputDirectory = null;
-	private Boolean isAppliedFilters = false;
-	private Map<File, File> mgfByIdentifiedTitlesFile = new HashMap<>();
-	private ObservableList<File> mgfFiles = FXCollections.observableArrayList();
-	private ObservableList<File> excelFiles = FXCollections.observableArrayList();
+	private ObservableList<File> peakListFiles = FXCollections.observableArrayList();
+	private ObservableList<File> identifiedSpectraFiles = FXCollections.observableArrayList();
+	private Map<File, File> identifiedSpectraByPeakList = new HashMap<>();
+	private AppliedFilters appliedFilters = null;
+	private Map<AppliedFilters, File> valueByAppliedFilter = new HashMap<>();
+	private CheckBox applyFiltersChbX = null;
+	private CheckBox loadFiltersChbX = null;
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
+
+	public static enum AppliedFilters {
+		NONE("No Filter"), CURRENTFILTERS("Current Filters"), LOADEDFILTERS("Loaded filters");
+		private final String display;
+
+		AppliedFilters(String display) {
+			this.display = display;
+		}
+
+		@Override
+		public String toString() {
+			return display;
+		}
+	};
 
 	/**
 	 * @return the output directory
@@ -73,41 +90,38 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 	}
 
 	/**
-	 * Determines whether a filters from JSON file were loaded
-	 * 
-	 * @return the isAppliedFilters
+	 * @return the valueByAppliedFilterMap
 	 */
-	public final Boolean getApplyFilters() {
-		return isAppliedFilters;
+	public final Map<AppliedFilters, File> getValueByAppliedFilterMap() {
+		return valueByAppliedFilter;
 	}
 
 	/**
-	 * @param isAppliedFilters
-	 *            the value to set
+	 * @param valueByAppliedFilterMap
+	 *            the valueByAppliedFilterMap to set
 	 */
-	public final void setApplyFilters(Boolean isAppliedFilters) {
-		this.isAppliedFilters = isAppliedFilters;
+	public final void setValueByAppliedFilterMap(Map<AppliedFilters, File> valueByAppliedFilterMap) {
+		this.valueByAppliedFilter = valueByAppliedFilterMap;
 	}
 
 	public ExportInBatchDialog() {
 
 		// Create notifications pane
 		VBox warningPane = new VBox(2);
-		Label emptyPeakListDirLabel = new Label("Choose a peaklist files directory. The directory must not be empty!");
+		Label emptyPeakListDirLabel = new Label(
+				"Choose a peaklist files directory. Make sure that you have selected a valid directory!");
 		emptyPeakListDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyPeakListDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
 
-		// Label emptyIdentifiedSpectraDir = new Label(
-		// "Choose a directory of identified spectra files. The directory must
-		// not be empty!");
-		// emptyIdentifiedSpectraDir.setGraphic(new
-		// ImageView(IconResource.getImage(ICON.WARNING)));
-		// emptyIdentifiedSpectraDir.setStyle(JavaFxUtils.RED_ITALIC);
+		Label emptyJsonFileLabel = new Label("Choose a filters file. Make sure that you have selected a valid file!");
+		emptyJsonFileLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
+		emptyJsonFileLabel.setStyle(JavaFxUtils.RED_ITALIC);
 
-		Label emptyOutputDirLabel = new Label("Choose an output directory. The directory must not be empty!");
+		Label emptyOutputDirLabel = new Label(
+				"Choose an output directory.  Make sure that you have selected a valid directory!");
 		emptyOutputDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyOutputDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
-		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel);
+		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel, emptyJsonFileLabel);
 
 		// Create directory of MGF files components
 		Label peakListDirLabel = new Label("Peaklist files:");
@@ -115,7 +129,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		peakListDirTF.setTooltip(new Tooltip("Select a peaklist directory"));
 		Button loadMgfButton = new Button("Load");
 		loadMgfButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
-		FilteredTableView<File> peakListsTable = new FilteredTableView<>(mgfFiles);
+		FilteredTableView<File> peakListsTable = new FilteredTableView<>(peakListFiles);
 		FilterableStringTableColumn<File, String> peakListNameCol = new FilterableStringTableColumn<>("Peaklist File");
 		peakListNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
 		peakListsTable.getColumns().setAll(peakListNameCol);
@@ -125,7 +139,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		peakListsTable.setMinHeight(200);
 		peakListsTable.setCursor(Cursor.CLOSED_HAND);
 
-		// Make peaklists table sortable via drag and drop
+		// Make peaklist table sortable via drag and drop
 		peakListsTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
 			row.setOnDragDetected(event -> {
@@ -174,7 +188,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				"Choose an excel files directory. The excel files must contains a valid titles to identify"));
 		Button loadIdentifiedSpectraButton = new Button("Load");
 		loadIdentifiedSpectraButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
-		FilteredTableView<File> identifiedSpectraFilesTable = new FilteredTableView<>(excelFiles);
+		FilteredTableView<File> identifiedSpectraFilesTable = new FilteredTableView<>(identifiedSpectraFiles);
 		FilterableStringTableColumn<File, String> identifiedSpectraFileCol = new FilterableStringTableColumn<>(
 				"Identified Spectra File");
 		identifiedSpectraFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
@@ -238,12 +252,13 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		Button loadOutputButton = new Button("Load");
 		loadOutputButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		// Create settings
-		CheckBox applyFiltersChbX = new CheckBox("Apply current filters");
+		applyFiltersChbX = new CheckBox("Apply current filters");
 		applyFiltersChbX.setSelected(false);
 		applyFiltersChbX.setTooltip(new Tooltip("Apply current filters for all peaklists file"));
-		CheckBox loadFiltersChbX = new CheckBox("Load filters");
+		loadFiltersChbX = new CheckBox("Load filters");
+		loadFiltersChbX.setSelected(false);
 		loadFiltersChbX.setTooltip(new Tooltip("Load filetrs from a JSON file"));
-		TextField filterTF = new TextField();
+		TextField loadFilterTF = new TextField();
 		Button loadFiltersButton = new Button("Load");
 		loadFiltersButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
 		// Style
@@ -257,7 +272,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		textFieldList.add(peakListDirTF);
 		textFieldList.add(identifiedSpectraDirTF);
 		textFieldList.add(outputDirTF);
-		textFieldList.add(filterTF);
+		textFieldList.add(loadFilterTF);
 		textFieldList.forEach(label -> label.setMinWidth(180));
 
 		// Layout
@@ -282,7 +297,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mainPane.add(loadOutputButton, 2, 4, 1, 1);
 
 		mainPane.add(loadFiltersChbX, 0, 6, 1, 1);
-		mainPane.add(filterTF, 1, 6, 1, 1);
+		mainPane.add(loadFilterTF, 1, 6, 1, 1);
 		mainPane.add(loadFiltersButton, 2, 6, 1, 1);
 		mainPane.add(applyFiltersChbX, 3, 6, 1, 1);
 
@@ -311,11 +326,11 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 			FileUtils.configureDirChooser(chooser, "Peaklist directory");
 			peakListDirectory = chooser.showDialog(stage);
 			if (peakListDirectory != null && peakListDirectory.exists()) {
-				mgfFiles.clear();
+				peakListFiles.clear();
 				peakListDirTF.setText(peakListDirectory.getAbsolutePath());
-				getListFiles(peakListDirectory, mgfFiles, ".mgf");
+				getListFiles(peakListDirectory, peakListFiles, ".mgf");
 				// Sort files with their names
-				Collections.sort(mgfFiles, new Comparator<File>() {
+				Collections.sort(peakListFiles, new Comparator<File>() {
 					@Override
 					public int compare(File o1, File o2) {
 						// TODO Auto-generated method stub
@@ -330,11 +345,12 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 			FileUtils.configureDirChooser(chooser, "Identified spectra directory");
 			identifiedSpectraDirectory = chooser.showDialog(stage);
 			if (identifiedSpectraDirectory != null && identifiedSpectraDirectory.exists()) {
-				excelFiles.clear();
+				identifiedSpectraFiles.clear();
 				identifiedSpectraDirTF.setText(identifiedSpectraDirectory.getAbsolutePath());
-				getListFiles(identifiedSpectraDirectory, excelFiles, "xls", "xlsx");
+				getListFiles(identifiedSpectraDirectory, identifiedSpectraFiles, "xls", "xlsx");
 				// Sort files with their names
-				Collections.sort(excelFiles, new Comparator<File>() {
+				Collections.sort(identifiedSpectraFiles, new Comparator<File>() {
+
 					@Override
 					public int compare(File o1, File o2) {
 						// TODO Auto-generated method stub
@@ -345,6 +361,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		});
 		// Load output directory
 		loadOutputButton.setOnAction(evt -> {
+
 			final DirectoryChooser chooser = new DirectoryChooser();
 			FileUtils.configureDirChooser(chooser, "Choose an output directory");
 			outputDirectory = chooser.showDialog(stage);
@@ -352,35 +369,59 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				outputDirTF.setText(outputDirectory.getAbsolutePath());
 			}
 		});
-
 		// Load peakList
 		loadFiltersButton.setOnAction(evt -> {
 			FileUtils.loadFiltersFrmJSON(file -> {
-				filterTF.setText(file.getPath());
+				loadFilterTF.setText(file.getPath());
 			}, stage);
 		});
-		// CheckBox control
-		filterTF.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
+
+		loadFiltersChbX.setOnAction(e -> {
+			updateAppliedFilters();
+		});
+		applyFiltersChbX.setOnAction(e -> {
+			updateAppliedFilters();
+		});
+		loadFilterTF.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		loadFiltersButton.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
-		// Enable Ok button.
 		emptyPeakListDirLabel.visibleProperty().bind(peakListDirTF.textProperty().isEmpty());
 		emptyOutputDirLabel.visibleProperty().bind(outputDirTF.textProperty().isEmpty());
+		emptyJsonFileLabel.visibleProperty()
+				.bind(loadFiltersChbX.selectedProperty().and(loadFilterTF.textProperty().isEmpty()));
+		// Enable Ok button.
 		buttonOk.disableProperty()
 				.bind(outputDirTF.textProperty().isEmpty().or(peakListDirTF.textProperty().isEmpty()));
 		// On apply changes
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				Iterator<File> it1 = mgfFiles.iterator();
-				Iterator<File> it2 = excelFiles.iterator();
+				// Compute the filters to apply
+				switch (appliedFilters) {
+				case LOADEDFILTERS:
+					valueByAppliedFilter.put(AppliedFilters.LOADEDFILTERS, new File(loadFilterTF.getText()));
+					break;
+				case CURRENTFILTERS:
+					valueByAppliedFilter.put(AppliedFilters.CURRENTFILTERS, null);
+					break;
+				case NONE:
+					valueByAppliedFilter.put(AppliedFilters.NONE, null);
+					break;
+				default:
+					break;
+				}
+				// Return the peak lists file by identified spectra files=
+				Iterator<File> it1 = peakListFiles.iterator();
+				Iterator<File> it2 = identifiedSpectraFiles.iterator();
 				while (it1.hasNext()) {
 					if (it2.hasNext()) {
-						mgfByIdentifiedTitlesFile.put(it1.next(), it2.next());
+						identifiedSpectraByPeakList.put(it1.next(), it2.next());
 					} else {
-						mgfByIdentifiedTitlesFile.put(it1.next(), null);
+						identifiedSpectraByPeakList.put(it1.next(), null);
 					}
 				}
+				return identifiedSpectraByPeakList;
+			} else {
+				return null;
 			}
-			return mgfByIdentifiedTitlesFile;
 		});
 	}
 
@@ -392,7 +433,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 	 * @list the list to update
 	 * @extensions The list of extensions to search in directory
 	 */
-	public void getListFiles(File directory, ObservableList<File> list, String... extensions) {
+	private void getListFiles(File directory, ObservableList<File> list, String... extensions) {
 		for (String extension : extensions) {
 			for (File file : directory.listFiles()) {
 				if (file.isFile() && file.getName().endsWith(extension)) {
@@ -404,4 +445,15 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 			}
 		}
 	}
+
+	private void updateAppliedFilters() {
+		if (applyFiltersChbX.isSelected()) {
+			appliedFilters = AppliedFilters.CURRENTFILTERS;
+		} else if (loadFiltersChbX.isSelected()) {
+			appliedFilters = AppliedFilters.LOADEDFILTERS;
+		} else {
+			appliedFilters = AppliedFilters.NONE;
+		}
+	}
+
 }

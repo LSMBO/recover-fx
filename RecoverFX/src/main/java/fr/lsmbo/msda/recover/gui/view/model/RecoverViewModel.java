@@ -2,6 +2,9 @@ package fr.lsmbo.msda.recover.gui.view.model;
 
 import java.io.File;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +30,7 @@ import fr.lsmbo.msda.recover.gui.view.MainView;
 import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
+import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterIonReporterDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterLoaderDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterViewerDialog;
@@ -183,22 +187,31 @@ public class RecoverViewModel {
 	}
 
 	/**
-	 * Apply all filters and identified spectra
+	 * Export in batch all filters and identified spectra
 	 * 
 	 */
 
 	public void onExportInBatch() {
+		// Create dialog
 		ExportInBatchDialog exportInBatchDialog = new ExportInBatchDialog();
-		exportInBatchDialog.showAndWait().ifPresent(identificationByPeakListMap -> {
-			if (!identificationByPeakListMap.keySet().isEmpty()) {
+		exportInBatchDialog.showAndWait().ifPresent(identifidSpectraByPeakListMap -> {
+			File OutputDirectory = exportInBatchDialog.getOutputDirectory();
+			Map<AppliedFilters, File> valueByAppliedFilter = new HashMap<>(
+					exportInBatchDialog.getValueByAppliedFilterMap());
+			if (!identifidSpectraByPeakListMap.keySet().isEmpty()) {
 				taskRunner.doAsyncWork("Exporting in batch", () -> {
 					long startTime = System.currentTimeMillis();
-					logger.debug("Start exporting in batch. The number of file to proceed : ",
-							identificationByPeakListMap.keySet().size());
-					System.out.println("INFO - Start exporting in batch. The number of file to proceed : "
-							+ identificationByPeakListMap.keySet().size());
-					ExportBatch exportOnBatch = new ExportBatch();
-					exportOnBatch.run(identificationByPeakListMap);
+					valueByAppliedFilter.forEach((type, value) -> {
+						logger.info(
+								"Start exporting in batch. The number of file to proceed:{} .The output directory : {}. {}  will be applied.",
+								identifidSpectraByPeakListMap.keySet().size(), OutputDirectory.getPath(),
+								type.toString());
+						System.out.println("INFO - Start exporting in batch. The number of file to proceed : "
+								+ identifidSpectraByPeakListMap.keySet().size() + ".\n The output directory: "
+								+ OutputDirectory.getPath() + "\n" + type.toString() + " will be applied.");
+						// ExportBatch exportOnBatch = new ExportBatch();
+						// exportOnBatch.run(identificationByPeakListMap);
+					});
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
 					logger.debug("Exporting in batch has finished: {} ", (double) totalTime / 1000, " sec");
