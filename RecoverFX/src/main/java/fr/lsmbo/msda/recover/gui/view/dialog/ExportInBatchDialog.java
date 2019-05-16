@@ -284,6 +284,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mainPane.add(loadFiltersChbX, 0, 6, 1, 1);
 		mainPane.add(filterTF, 1, 6, 1, 1);
 		mainPane.add(loadFiltersButton, 2, 6, 1, 1);
+		mainPane.add(applyFiltersChbX, 3, 6, 1, 1);
 
 		mainPane.add(peakListsTable, 0, 8, 3, 4);
 		mainPane.add(identifiedSpectraFilesTable, 3, 8, 3, 4);
@@ -358,7 +359,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				filterTF.setText(file.getPath());
 			}, stage);
 		});
-		// Control
+		// CheckBox control
 		filterTF.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		loadFiltersButton.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		// Enable Ok button.
