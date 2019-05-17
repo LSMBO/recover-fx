@@ -573,41 +573,41 @@ public class FilterReaderJson {
 				}
 
 				// Read identified spectra filter
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IS") {
-					ObservableList<Object> filters = FXCollections.observableArrayList();
-					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
-					int rowNumber = 0;
-					String column = "";
-					String currentSheetName = "";
-					String filePath = "";
-					// get values in the object filterIS
-					while (!JsonToken.END_OBJECT.equals(token)) {
-						token = parser.nextToken();
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "file") {
-							token = parser.nextToken();
-							filePath = parser.getValueAsString();
-						}
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "sheet") {
-							token = parser.nextToken();
-							currentSheetName = parser.getValueAsString();
-						}
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "column") {
-							token = parser.nextToken();
-							column = parser.getValueAsString();
-						}
-						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "row") {
-							token = parser.nextToken();
-							rowNumber = parser.getValueAsInt();
-						}
-					}
-					if (filePath != null && new File(filePath).exists()) {
-						SpectrumTitleRange fileParams = new SpectrumTitleRange(filePath, currentSheetName, column,
-								rowNumber);
-						filterIS.setFileParams(fileParams);
-						filters.add(filterIS);
-						filtersByNameMap.put("IS", filters);
-					}
-				}
+//				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IS") {
+//					ObservableList<Object> filters = FXCollections.observableArrayList();
+//					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
+//					int rowNumber = 0;
+//					String column = "";
+//					String currentSheetName = "";
+//					String filePath = "";
+//					// get values in the object filterIS
+//					while (!JsonToken.END_OBJECT.equals(token)) {
+//						token = parser.nextToken();
+//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "file") {
+//							token = parser.nextToken();
+//							filePath = parser.getValueAsString();
+//						}
+//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "sheet") {
+//							token = parser.nextToken();
+//							currentSheetName = parser.getValueAsString();
+//						}
+//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "column") {
+//							token = parser.nextToken();
+//							column = parser.getValueAsString();
+//						}
+//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "row") {
+//							token = parser.nextToken();
+//							rowNumber = parser.getValueAsInt();
+//						}
+//					}
+//					if (filePath != null && new File(filePath).exists()) {
+//						SpectrumTitleRange fileParams = new SpectrumTitleRange(filePath, currentSheetName, column,
+//								rowNumber);
+//						filterIS.setFileParams(fileParams);
+//						filters.add(filterIS);
+//						filtersByNameMap.put("IS", filters);
+//					}
+//				}
 
 				// Read ion reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IR") {

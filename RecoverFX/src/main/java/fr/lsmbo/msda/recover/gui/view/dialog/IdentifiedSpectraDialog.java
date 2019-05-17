@@ -112,9 +112,9 @@ public class IdentifiedSpectraDialog extends Dialog<Object> {
 		buttonOk.disableProperty().bind(warningLabel.visibleProperty().and(emptyTitlesLabel.visibleProperty()));
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				ObservableList<Object> listIS = FXCollections.observableArrayList();
-				listIS.add(identifiedSpectraFilter);
-				Filters.add("IS", listIS);
+//				ObservableList<Object> listIS = FXCollections.observableArrayList();
+//				listIS.add(identifiedSpectraFilter);
+//				Filters.add("IS", listIS);
 				// Reset Spectra identified
 				if (ListOfSpectra.getFirstSpectra().getNbIdentified() != 0) {
 					ListOfSpectra.getFirstSpectra().resetIdentified();

@@ -178,21 +178,21 @@ public class FilterWriterJson {
 					break;
 				}
 				// Apply filter IdentifiedSpectraFilter
-				case "IS": {
-					generator.writeObjectFieldStart("IS");
-					for (Object filter : appliedFilters) {
-						generator.writeStringField("file",
-								((IdentifiedSpectraFilter) filter).getFileParams().getFilePath());
-						generator.writeStringField("sheet",
-								((IdentifiedSpectraFilter) filter).getFileParams().getCurrentSheetName());
-						generator.writeStringField("column",
-								((IdentifiedSpectraFilter) filter).getFileParams().getColumn());
-						generator.writeNumberField("row",
-								((IdentifiedSpectraFilter) filter).getFileParams().getRowNumber());
-					}
-					generator.writeEndObject();
-					break;
-				}
+//				case "IS": {
+//					generator.writeObjectFieldStart("IS");
+//					for (Object filter : appliedFilters) {
+//						generator.writeStringField("file",
+//								((IdentifiedSpectraFilter) filter).getFileParams().getFilePath());
+//						generator.writeStringField("sheet",
+//								((IdentifiedSpectraFilter) filter).getFileParams().getCurrentSheetName());
+//						generator.writeStringField("column",
+//								((IdentifiedSpectraFilter) filter).getFileParams().getColumn());
+//						generator.writeNumberField("row",
+//								((IdentifiedSpectraFilter) filter).getFileParams().getRowNumber());
+//					}
+//					generator.writeEndObject();
+//					break;
+//				}
 				// Apply filter LowIntensityThresholdFilter
 				case "LIT": {
 					generator.writeObjectFieldStart("LIT");

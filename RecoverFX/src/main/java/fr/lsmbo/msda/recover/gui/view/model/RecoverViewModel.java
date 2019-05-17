@@ -192,25 +192,30 @@ public class RecoverViewModel {
 	 */
 
 	public void onExportInBatch() {
-		// Create dialog
+		// Create export batch dialog
 		ExportInBatchDialog exportInBatchDialog = new ExportInBatchDialog();
-		exportInBatchDialog.showAndWait().ifPresent(identifidSpectraByPeakListMap -> {
-			File OutputDirectory = exportInBatchDialog.getOutputDirectory();
+		exportInBatchDialog.showAndWait().ifPresent(identifidSpectraByPeakList -> {
+			File outputDirectory = exportInBatchDialog.getOutputDirectory();
 			Map<AppliedFilters, File> valueByAppliedFilter = new HashMap<>(
 					exportInBatchDialog.getValueByAppliedFilterMap());
-			if (!identifidSpectraByPeakListMap.keySet().isEmpty()) {
+			if (!identifidSpectraByPeakList.keySet().isEmpty()) {
 				taskRunner.doAsyncWork("Exporting in batch", () -> {
 					long startTime = System.currentTimeMillis();
-					valueByAppliedFilter.forEach((type, value) -> {
+					valueByAppliedFilter.forEach((filterType, value) -> {
 						logger.info(
 								"Start exporting in batch. The number of file to proceed:{} .The output directory : {}. {}  will be applied.",
-								identifidSpectraByPeakListMap.keySet().size(), OutputDirectory.getPath(),
-								type.toString());
+								identifidSpectraByPeakList.keySet().size(), outputDirectory.getPath(),
+								filterType.toString());
 						System.out.println("INFO - Start exporting in batch. The number of file to proceed : "
-								+ identifidSpectraByPeakListMap.keySet().size() + ".\n The output directory: "
-								+ OutputDirectory.getPath() + "\n" + type.toString() + " will be applied.");
-						// ExportBatch exportOnBatch = new ExportBatch();
-						// exportOnBatch.run(identificationByPeakListMap);
+								+ identifidSpectraByPeakList.keySet().size() + ".\n The output directory: "
+								+ outputDirectory.getPath() + "\n" + filterType.toString() + " will be applied.");
+						ExportBatch exportBatch = new ExportBatch();
+						try {
+							exportBatch.run(identifidSpectraByPeakList, outputDirectory, filterType, value);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					});
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
@@ -248,11 +253,14 @@ public class RecoverViewModel {
 			resetColumnFilters();
 			initializeItems();
 			taskRunner.doAsyncWork("Loading filter's settings from a JSON file", () -> {
-				updateJfx(() -> FilterRequest.applyAllFilters(view.getFilteredTable(), items));
+				FilterRequest.applyAll(items);
 				return true;
 			}, (isSucceeded) -> {
 				if (isSucceeded) {
 					logger.debug("Loading filter's settings from a JSON file has finished successfully!");
+					updateJfx(() -> {
+						FilterRequest.updateColumnFilters(view.getFilteredTable());
+					});
 					refresh();
 				}
 			}, (failure) -> {

@@ -14,16 +14,15 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
+import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
-import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
-import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
-import fr.lsmbo.msda.recover.gui.model.Spectrum;
-import fr.lsmbo.msda.recover.gui.util.FileUtils;
 
 /**
  * Export in batch.It contains 3 list for files to process, titles for
@@ -68,34 +67,84 @@ public class ExportBatch {
 	}
 
 	/**
-	 * Apply all stored filters to the list of peak list files.
+	 * Apply filters on all peak list files and get identified spectra.
 	 * 
-	 * @param identificationByMgfMap
-	 *            contains peak list files and identification files.
+	 * @param identifiedSpectraByPeakList
+	 *            map of peak list files and identified spectra files.
+	 * @param outputDir
+	 *            the output directory where the output files will be exported.
+	 * @param type
+	 *            the type of applied filters.
+	 * @param jsonFile
+	 *            the JSON file to load. The loaded filters will be applied for
+	 *            all peak list files.
 	 */
-	public void run(Map<File, File> identificationByPeakListMap) {
-		// Boolean to specify we are in batch mode
+	public void run(Map<File, File> identifiedSpectraByPeakList, File outputDir, AppliedFilters type, File jsonFile) {
+		// Set batch mode to true
 		useBatchSpectra = true;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
-		identificationByPeakListMap.forEach((peakListFile, identifiedSpectraFile) -> {
+		// Load filters from a JSON file
+		if (type.equals(AppliedFilters.LOADEDFILTERS)) {
 			try {
-				PeaklistReader.load(peakListFile);
-//				ObservableList<Spectrum> newData = filterRequest
-//						.applyAllFilters(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
-//				System.out.println(newData.size());
-				File newFile = new File(peakListFile.getParent() + File.separator + dateFormat.format(date) + "_"
-						+ peakListFile.getName());
-				if (newFile.createNewFile()) {
-					PeaklistWriter.setFileReader(newFile);
-					PeaklistWriter.save(newFile);
+				FilterReaderJson.load(jsonFile);
+			} catch (Exception e) {
+				logger.error("Error while trying to load JSON file!", e);
+			}
+		}
+		identifiedSpectraByPeakList.forEach((peakListFile, identifiedSpectraFile) -> {
+			try {
+				// Step 1: load peak list file
+				if (peakListFile != null && peakListFile.exists()) {
+					System.out.println("Info - Loading peaklist file" + peakListFile.getPath() + "...");
+					logger.info("Loading peaklist file {}...", peakListFile.getPath());
+					PeaklistReader.load(peakListFile);
+					// Step 2: get identified spectra
+					if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
+						System.out.println(
+								"Info - Getting identified spectra from " + identifiedSpectraFile.getPath() + "...");
+						logger.info("Getting identified spectra from  {}...", identifiedSpectraFile.getPath());
+						// SpectrumTitleRange spectrumTitlesParams =
+						// filterIS.getFileParams();
+						// IdentifiedSpectra identifiedSpectra = new
+						// IdentifiedSpectra();
+						// IdentifiedSpectraFromExcel identifiedSpectraExcel =
+						// new
+						// IdentifiedSpectraFromExcel();
+						// identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
+						// File excelFile = new
+						// File(spectrumTitlesParams.getFilePath());
+						// if (excelFile != null && excelFile.exists()) {
+						// identifiedSpectraExcel.loadFromSelection(excelFile,
+						// spectrumTitlesParams.getCurrentSheetName(),
+						// spectrumTitlesParams.getColumn(),
+						// spectrumTitlesParams.getRowNumber());
+						// for (String title :
+						// identifiedSpectra.getArrayTitles()) {
+						// identifiedSpectra.setIdentified(title);
+						// }
+						// }
+
+					}
+					// Step 3: apply filters
+					if (!type.equals(AppliedFilters.NONE)) {
+						System.out.println("Info - applying filters...");
+						filterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
+					}
+					// Step 4: export file
+					File newFile = new File(
+							outputDir + File.separator + dateFormat.format(date) + "_" + peakListFile.getName());
+					if (newFile.createNewFile()) {
+						PeaklistWriter.setFileReader(newFile);
+						PeaklistWriter.save(newFile);
+					}
 				}
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
-		
 		useBatchSpectra = false;
 	}
 

@@ -640,18 +640,15 @@ public class FilterRequest {
 	}
 
 	/**
-	 * Apply all stored filters to a spectra. the filters will be sorted in
-	 * order to apply low intensity threshold filter(LIT) filter before useful
-	 * peaks number (UPN) filter. The filter name used as default comparator
-	 * 'String'
+	 * Update the table columns filters with current filters.
 	 * 
-	 * @return <code>true</code> if all spectrum have been checked.
+	 * @see Filters
+	 * 
+	 * @param tableView
+	 *            the table to update its columns filters
 	 */
-	public static ObservableList<Spectrum> applyAllFilters(FilteredTableView tableView,
-			ObservableList<Spectrum> newData) {
-
+	public static void updateColumnFilters(FilteredTableView tableView) {
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
-		filtersByNameTreeMap.clear();
 		filtersByNameTreeMap.putAll(Filters.getAll());
 		filtersByNameTreeMap.forEach((name, appliedFilters) -> {
 			switch (name) {
@@ -663,12 +660,7 @@ public class FilterRequest {
 					if (((BooleanOperator) filter) != null)
 						filters.add((BooleanOperator) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterFlaggedColumn(newData, filters);
-				} else {
-					filterFlaggedColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Id column
@@ -679,12 +671,7 @@ public class FilterRequest {
 					if ((NumberOperator<Integer>) filter != null)
 						filters.add((NumberOperator<Integer>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterIdColumn(newData, filters);
-				} else {
-					filterIdColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Title column
@@ -695,12 +682,7 @@ public class FilterRequest {
 					if ((StringOperator) filter != null)
 						filters.add((StringOperator) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterTitleColumn(newData, filters);
-				} else {
-					filterTitleColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Mz column
@@ -711,12 +693,7 @@ public class FilterRequest {
 					if ((NumberOperator<Float>) filter != null)
 						filters.add((NumberOperator<Float>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterMzColumn(newData, filters);
-				} else {
-					filterMzColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Intensity column
@@ -727,12 +704,7 @@ public class FilterRequest {
 					if ((NumberOperator<Float>) filter != null)
 						filters.add((NumberOperator<Float>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterIntensityColumn(newData, filters);
-				} else {
-					filterIntensityColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Charge column
@@ -743,12 +715,7 @@ public class FilterRequest {
 					if ((NumberOperator<Integer>) filter != null)
 						filters.add((NumberOperator<Integer>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterChargeColumn(newData, filters);
-				} else {
-					filterChargeColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Retention Time column
@@ -759,12 +726,7 @@ public class FilterRequest {
 					if ((NumberOperator<Float>) filter != null)
 						filters.add((NumberOperator<Float>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterRTColumn(newData, filters);
-				} else {
-					filterRTColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Fragment number column
@@ -775,12 +737,7 @@ public class FilterRequest {
 					if ((NumberOperator<Integer>) filter != null)
 						filters.add((NumberOperator<Integer>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterNbrFrgsColumn(newData, filters);
-				} else {
-					filterNbrFrgsColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Max fragment intensity column
@@ -791,12 +748,7 @@ public class FilterRequest {
 					if ((NumberOperator<Integer>) filter != null)
 						filters.add((NumberOperator<Integer>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterFIntensityColumn(newData, filters);
-				} else {
-					filterFIntensityColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on UPN column
@@ -807,12 +759,7 @@ public class FilterRequest {
 					if ((NumberOperator<Integer>) filter != null)
 						filters.add((NumberOperator<Integer>) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterUPNColumn(newData, filters);
-				} else {
-					filterUPNColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Identified column
@@ -823,12 +770,7 @@ public class FilterRequest {
 					if (((BooleanOperator) filter) != null)
 						filters.add((BooleanOperator) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterIdentifiedColumn(newData, filters);
-				} else {
-					filterIdentifiedColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Wrong charge column
@@ -839,12 +781,7 @@ public class FilterRequest {
 					if (((BooleanOperator) filter) != null)
 						filters.add((BooleanOperator) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterIonReporterColumn(newData, filters);
-				} else {
-					filterIonReporterColumn(newData, filters);
-				}
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply filter on Wrong charge column
@@ -855,24 +792,177 @@ public class FilterRequest {
 					if (((BooleanOperator) filter) != null)
 						filters.add((BooleanOperator) filter);
 				}
-				if (!ExportBatch.useBatchSpectra) {
-					column.getFilters().setAll(filters);
-					filterWrongChargeColumn(newData, filters);
-				} else {
-					filterWrongChargeColumn(newData, filters);
-				}
-				break;
-			}
-			// Apply filter identified spectra filter
-			case "IS": {
-				final ObservableList<IdentifiedSpectraFilter> filters = FXCollections.observableArrayList();
-				for (Object filter : appliedFilters) {
-					filters.add((IdentifiedSpectraFilter) filter);
-				}
-				applyIS();
+				column.getFilters().setAll(filters);
 				break;
 			}
 			// Apply low intensity threshold filter
+			case "LIT": {
+				final ObservableList<LowIntensityThresholdFilter> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					filters.add((LowIntensityThresholdFilter) filter);
+				}
+				applyLIT();
+				break;
+			}
+			// Apply ion reporter filter
+			case "IR": {
+				final ObservableList<IonReporterFilter> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					filters.add((IonReporterFilter) filter);
+				}
+				applyIR();
+				break;
+			}
+			// Default
+			default:
+				break;
+			}
+		});
+
+	}
+
+	/**
+	 * 
+	 * @param newData
+	 *            the data to filter out.
+	 * @return the new data after applying all filters.
+	 */
+	public static ObservableList<Spectrum> applyAll(ObservableList<Spectrum> newData) {
+		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
+		filtersByNameTreeMap.putAll(Filters.getAll());
+		filtersByNameTreeMap.forEach((name, appliedFilters) -> {
+			switch (name) {
+			// Apply filter on flag column
+			case "Flag": {
+				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
+				}
+				filterFlaggedColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Id column
+			case "Id": {
+				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
+				}
+				filterIdColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Title column
+			case "Title": {
+				final ObservableList<StringOperator> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((StringOperator) filter != null)
+						filters.add((StringOperator) filter);
+				}
+				filterTitleColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Mz column
+			case "Mz": {
+
+				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
+				}
+				filterMzColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Intensity column
+			case "Intensity": {
+				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
+				}
+				filterIntensityColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Charge column
+			case "Charge": {
+				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
+				}
+				filterChargeColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Retention Time column
+			case "Retention Time": {
+				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
+				}
+				filterRTColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Fragment number column
+			case "Fragment number": {
+				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
+				}
+				filterNbrFrgsColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Max fragment intensity column
+			case "Max fragment intensity": {
+				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
+				}
+				filterFIntensityColumn(newData, filters);
+				break;
+			}
+			// Apply filter on UPN column
+			case "UPN": {
+				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if ((NumberOperator<Integer>) filter != null)
+						filters.add((NumberOperator<Integer>) filter);
+				}
+				filterUPNColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Identified column
+			case "Identified": {
+				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
+				}
+				filterIdentifiedColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Wrong charge column
+			case "Ion Reporter": {
+				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
+				}
+				filterIonReporterColumn(newData, filters);
+				break;
+			}
+			// Apply filter on Wrong charge column
+			case "Wrong charge": {
+				final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
+				for (Object filter : appliedFilters) {
+					if (((BooleanOperator) filter) != null)
+						filters.add((BooleanOperator) filter);
+				}
+				filterWrongChargeColumn(newData, filters);
+				break;
+			}
 			case "LIT": {
 				final ObservableList<LowIntensityThresholdFilter> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {

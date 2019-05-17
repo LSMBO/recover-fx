@@ -75,7 +75,8 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 	};
 
 	/**
-	 * @return the output directory
+	 * @return the output directory.
+	 * 
 	 */
 	public final File getOutputDirectory() {
 		return outputDirectory;
@@ -83,7 +84,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 
 	/**
 	 * @param outputDirectory
-	 *            the output directory to set
+	 *            the output directory to set.
 	 */
 	public final void setOutputDirectory(File outputDirectory) {
 		this.outputDirectory = outputDirectory;

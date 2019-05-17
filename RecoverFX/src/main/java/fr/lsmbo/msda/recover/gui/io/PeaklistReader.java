@@ -139,18 +139,19 @@ public class PeaklistReader {
 
 		// Add spectra as a first spectra
 		if (RecoverFx.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
-			System.out.println("INFO - Add first Peaklist");
+			System.out.println("INFO - Add first peaklist");
 			logger.info("Add first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
 		// Add spectra as a second spectra
 		if (RecoverFx.useSecondPeaklist == true && !ExportBatch.useBatchSpectra) {
-			System.out.println("INFO - Add second Peaklist");
+			System.out.println("INFO - Add second peaklist");
 			logger.info("Add second Peaklist");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
-		//
+		// Add spectra as a batch spectra
 		if (ExportBatch.useBatchSpectra) {
+			System.out.println("INFO - Add batch peaklist");
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
 

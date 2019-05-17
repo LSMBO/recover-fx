@@ -132,13 +132,15 @@ public class FilterViewerDialog extends Dialog<Map<String, ObservableList<Object
 					TreeItem desc = new TreeItem(strBuilder.toString());
 					items.add(desc);
 				}
-				if (filter instanceof IdentifiedSpectraFilter) {
-					StringBuilder strBuilder = new StringBuilder();
-					strBuilder.append("Type: ").append(((IdentifiedSpectraFilter) filter).getType()).append(" ; ")
-							.append("value: ").append(((IdentifiedSpectraFilter) filter).getFullDescription());
-					TreeItem desc = new TreeItem(strBuilder.toString());
-					items.add(desc);
-				}
+				// if (filter instanceof IdentifiedSpectraFilter) {
+				// StringBuilder strBuilder = new StringBuilder();
+				// strBuilder.append("Type: ").append(((IdentifiedSpectraFilter)
+				// filter).getType()).append(" ; ")
+				// .append("value: ").append(((IdentifiedSpectraFilter)
+				// filter).getFullDescription());
+				// TreeItem desc = new TreeItem(strBuilder.toString());
+				// items.add(desc);
+				// }
 				if (filter instanceof IonReporterFilter) {
 					StringBuilder strBuilder = new StringBuilder();
 					strBuilder.append("Type: ").append(((IonReporterFilter) filter).getType()).append(" ; ")
