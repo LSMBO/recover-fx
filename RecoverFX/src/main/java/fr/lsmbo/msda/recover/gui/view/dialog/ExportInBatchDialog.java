@@ -13,8 +13,10 @@ import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
+import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -46,18 +48,22 @@ import javafx.stage.Stage;
  * @author Aromdhani
  *
  */
-public class ExportInBatchDialog extends Dialog<Map<File, File>> {
+public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 
-	private File peakListDirectory = null;
-	private File identifiedSpectraDirectory = null;
-	private File outputDirectory = null;
 	private ObservableList<File> peakListFiles = FXCollections.observableArrayList();
 	private ObservableList<File> identifiedSpectraFiles = FXCollections.observableArrayList();
 	private Map<File, File> identifiedSpectraByPeakList = new HashMap<>();
-	private AppliedFilters appliedFilters = null;
-	private Map<AppliedFilters, File> valueByAppliedFilter = new HashMap<>();
-	private CheckBox applyFiltersChbX = null;
-	private CheckBox loadFiltersChbX = null;
+	private File peakListDirectory;
+	private File identifiedSpectraDirectory;
+	private File outputDirectory;
+	private File jsonFile;
+	private CheckBox applyFiltersChbX;
+	private CheckBox loadFiltersChbX;
+	private CheckBox addTitleSelectionChbX;
+	private SpectrumTitleRange spectrumTitleRange;
+	private ExportInBatchProperty exportBatchProperty;
+	private AppliedFilters appliedFilters = AppliedFilters.NONE;
+
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 
 	public static enum AppliedFilters {
@@ -91,18 +97,18 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 	}
 
 	/**
-	 * @return the valueByAppliedFilterMap
+	 * @return the exportBatchProperty
 	 */
-	public final Map<AppliedFilters, File> getValueByAppliedFilterMap() {
-		return valueByAppliedFilter;
+	public final ExportInBatchProperty getExportBatchProperty() {
+		return exportBatchProperty;
 	}
 
 	/**
-	 * @param valueByAppliedFilterMap
-	 *            the valueByAppliedFilterMap to set
+	 * @param exportBatchProperty
+	 *            the exportBatchProperty to set
 	 */
-	public final void setValueByAppliedFilterMap(Map<AppliedFilters, File> valueByAppliedFilterMap) {
-		this.valueByAppliedFilter = valueByAppliedFilterMap;
+	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
+		this.exportBatchProperty = exportBatchProperty;
 	}
 
 	public ExportInBatchDialog() {
@@ -117,12 +123,15 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		Label emptyJsonFileLabel = new Label("Choose a filters file. Make sure that you have selected a valid file!");
 		emptyJsonFileLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyJsonFileLabel.setStyle(JavaFxUtils.RED_ITALIC);
-
 		Label emptyOutputDirLabel = new Label(
 				"Choose an output directory.  Make sure that you have selected a valid directory!");
 		emptyOutputDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyOutputDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
-		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel, emptyJsonFileLabel);
+		Label excelLabel = new Label(
+				"Enter a sheet name,a column name and a row number of titles to identify from excel file!");
+		excelLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
+		excelLabel.setStyle(JavaFxUtils.RED_ITALIC);
+		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel, emptyJsonFileLabel, excelLabel);
 
 		// Create directory of MGF files components
 		Label peakListDirLabel = new Label("Peaklist files:");
@@ -213,7 +222,6 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 					event.consume();
 				}
 			});
-
 			row.setOnDragOver(event -> {
 				Dragboard db = event.getDragboard();
 				if (db.hasContent(SERIALIZED_MIME_TYPE)) {
@@ -252,6 +260,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		outputDirTF.setTooltip(new Tooltip("Choose an output directory"));
 		Button loadOutputButton = new Button("Load");
 		loadOutputButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+
 		// Create settings
 		applyFiltersChbX = new CheckBox("Apply current filters");
 		applyFiltersChbX.setSelected(false);
@@ -262,11 +271,27 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		TextField loadFilterTF = new TextField();
 		Button loadFiltersButton = new Button("Load");
 		loadFiltersButton.setGraphic(new ImageView(IconResource.getImage(ICON.LOAD)));
+
+		// Create excel selection
+		addTitleSelectionChbX = new CheckBox("Add the template of titles selection from excel file.");
+		addTitleSelectionChbX.setSelected(false);
+		addTitleSelectionChbX
+				.setTooltip(new Tooltip("Add the template of titles selection to identify from excel file."));
+		Label sheetLabel = new Label("Sheet name: ");
+		TextField sheetTF = new TextField();
+		sheetTF.setTooltip(new Tooltip("Enter the sheet name"));
+		Label columnLabel = new Label("Column name: ");
+		TextField columnTF = new TextField();
+		columnTF.setPromptText("Example : A3");
+		columnTF.setTooltip(new Tooltip("Enter the column name to identify spectra titles. Exmaple: \"A3\""));
+
 		// Style
 		ArrayList<Label> labelList = new ArrayList<Label>();
 		labelList.add(peakListDirLabel);
 		labelList.add(identifiedSpectraDirLabel);
 		labelList.add(outputDirLabel);
+		labelList.add(sheetLabel);
+		labelList.add(columnLabel);
 		labelList.forEach(label -> label.setMinWidth(120));
 
 		ArrayList<TextField> textFieldList = new ArrayList<TextField>();
@@ -274,6 +299,8 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		textFieldList.add(identifiedSpectraDirTF);
 		textFieldList.add(outputDirTF);
 		textFieldList.add(loadFilterTF);
+		textFieldList.add(sheetTF);
+		textFieldList.add(columnTF);
 		textFieldList.forEach(label -> label.setMinWidth(180));
 
 		// Layout
@@ -302,8 +329,14 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		mainPane.add(loadFiltersButton, 2, 6, 1, 1);
 		mainPane.add(applyFiltersChbX, 3, 6, 1, 1);
 
-		mainPane.add(peakListsTable, 0, 8, 3, 4);
-		mainPane.add(identifiedSpectraFilesTable, 3, 8, 3, 4);
+		mainPane.add(addTitleSelectionChbX, 0, 7, 2, 1);
+		mainPane.add(sheetLabel, 3, 7, 1, 1);
+		mainPane.add(sheetTF, 4, 7, 1, 1);
+		mainPane.add(columnLabel, 3, 8, 1, 1);
+		mainPane.add(columnTF, 4, 8, 1, 1);
+
+		mainPane.add(peakListsTable, 0, 9, 3, 4);
+		mainPane.add(identifiedSpectraFilesTable, 3, 9, 3, 4);
 
 		/********************
 		 * Main dialog pane *
@@ -314,7 +347,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		dialogPane.setContent(mainPane);
 		dialogPane.setHeaderText("Export In Batch");
 		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
-		dialogPane.setPrefSize(780, 600);
+		dialogPane.setPrefSize(790, 720);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
 		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
@@ -370,7 +403,7 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 				outputDirTF.setText(outputDirectory.getAbsolutePath());
 			}
 		});
-		// Load peakList
+		// Load JSON file
 		loadFiltersButton.setOnAction(evt -> {
 			FileUtils.loadFiltersFrmJSON(file -> {
 				loadFilterTF.setText(file.getPath());
@@ -383,31 +416,48 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		applyFiltersChbX.setOnAction(e -> {
 			updateAppliedFilters();
 		});
+		addTitleSelectionChbX.setOnAction(e -> {
+
+		});
+		// Control
 		loadFilterTF.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		loadFiltersButton.disableProperty().bind(loadFiltersChbX.selectedProperty().not());
 		emptyPeakListDirLabel.visibleProperty().bind(peakListDirTF.textProperty().isEmpty());
 		emptyOutputDirLabel.visibleProperty().bind(outputDirTF.textProperty().isEmpty());
 		emptyJsonFileLabel.visibleProperty()
 				.bind(loadFiltersChbX.selectedProperty().and(loadFilterTF.textProperty().isEmpty()));
+
+		sheetLabel.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
+		columnLabel.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
+		sheetTF.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
+		columnTF.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
+		excelLabel.visibleProperty().bind(addTitleSelectionChbX.selectedProperty()
+				.and(columnTF.textProperty().isEmpty().or(sheetTF.textProperty().isEmpty())));
+
 		// Enable Ok button.
-		buttonOk.disableProperty()
-				.bind(outputDirTF.textProperty().isEmpty().or(peakListDirTF.textProperty().isEmpty()));
+		buttonOk.disableProperty().bind(outputDirTF.textProperty().isEmpty()
+				.or(peakListDirTF.textProperty().isEmpty().or(excelLabel.visibleProperty())));
 		// On apply changes
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
+				exportBatchProperty = new ExportInBatchProperty();
 				// Compute the filters to apply
-				switch (appliedFilters) {
-				case LOADEDFILTERS:
-					valueByAppliedFilter.put(AppliedFilters.LOADEDFILTERS, new File(loadFilterTF.getText()));
-					break;
-				case CURRENTFILTERS:
-					valueByAppliedFilter.put(AppliedFilters.CURRENTFILTERS, null);
-					break;
-				case NONE:
-					valueByAppliedFilter.put(AppliedFilters.NONE, null);
-					break;
-				default:
-					break;
+				exportBatchProperty.setAppliedFilters(appliedFilters);
+				if (appliedFilters.equals(AppliedFilters.LOADEDFILTERS)) {
+					if (new File(loadFilterTF.getText()).exists()) {
+						jsonFile = new File(loadFilterTF.getText());
+					}
+					exportBatchProperty.setJsonFile(jsonFile);
+				}
+				exportBatchProperty.setOutputDirectory(outputDirectory);
+				if (addTitleSelectionChbX.isSelected()) {
+					int index = Integer.parseInt(columnTF.getText().replaceAll("\\D+", ""));
+					String column = columnTF.getText().replaceAll("\\d+", "");
+					spectrumTitleRange = new SpectrumTitleRange();
+					spectrumTitleRange.setCurrentSheetName(sheetTF.getText());
+					spectrumTitleRange.setColumn(column);
+					spectrumTitleRange.setRowNumber(index);
+					exportBatchProperty.setSpectrumTitleRange(spectrumTitleRange);
 				}
 				// Return the peak lists file by identified spectra files=
 				Iterator<File> it1 = peakListFiles.iterator();
@@ -419,7 +469,8 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 						identifiedSpectraByPeakList.put(it1.next(), null);
 					}
 				}
-				return identifiedSpectraByPeakList;
+				exportBatchProperty.setIdentifiedSpectraByPeakList(identifiedSpectraByPeakList);
+				return exportBatchProperty;
 			} else {
 				return null;
 			}
@@ -447,6 +498,9 @@ public class ExportInBatchDialog extends Dialog<Map<File, File>> {
 		}
 	}
 
+	/**
+	 * Update the applied filters.
+	 */
 	private void updateAppliedFilters() {
 		if (applyFiltersChbX.isSelected()) {
 			appliedFilters = AppliedFilters.CURRENTFILTERS;

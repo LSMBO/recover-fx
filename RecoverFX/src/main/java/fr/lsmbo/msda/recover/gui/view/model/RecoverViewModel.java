@@ -194,33 +194,31 @@ public class RecoverViewModel {
 	public void onExportInBatch() {
 		// Create export batch dialog
 		ExportInBatchDialog exportInBatchDialog = new ExportInBatchDialog();
-		exportInBatchDialog.showAndWait().ifPresent(identifidSpectraByPeakList -> {
-			File outputDirectory = exportInBatchDialog.getOutputDirectory();
-			Map<AppliedFilters, File> valueByAppliedFilter = new HashMap<>(
-					exportInBatchDialog.getValueByAppliedFilterMap());
-			if (!identifidSpectraByPeakList.keySet().isEmpty()) {
+		exportInBatchDialog.showAndWait().ifPresent(exportInBatchProperty -> {
+			if (!exportInBatchProperty.getIdentifiedSpectraByPeakList().keySet().isEmpty()) {
 				taskRunner.doAsyncWork("Exporting in batch", () -> {
 					long startTime = System.currentTimeMillis();
-					valueByAppliedFilter.forEach((filterType, value) -> {
-						logger.info(
-								"Start exporting in batch. The number of file to proceed:{} .The output directory : {}. {}  will be applied.",
-								identifidSpectraByPeakList.keySet().size(), outputDirectory.getPath(),
-								filterType.toString());
-						System.out.println("INFO - Start exporting in batch. The number of file to proceed : "
-								+ identifidSpectraByPeakList.keySet().size() + ".\n The output directory: "
-								+ outputDirectory.getPath() + "\n" + filterType.toString() + " will be applied.");
-						ExportBatch exportBatch = new ExportBatch();
-						try {
-							exportBatch.run(identifidSpectraByPeakList, outputDirectory, filterType, value);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					});
+					logger.info(
+							"Start exporting peaklists in batch. The number of file to proceed:{} .The output directory : {}. {}  will be applied.",
+							exportInBatchProperty.getIdentifiedSpectraByPeakList().keySet().size(),
+							exportInBatchProperty.getOutputDirectory().getPath(),
+							exportInBatchProperty.getAppliedFilters().toString());
+					System.out.println("INFO - Start exporting peaklists in batch. The number of file to proceed : "
+							+ exportInBatchProperty.getIdentifiedSpectraByPeakList().keySet().size()
+							+ ".\n The output directory: " + exportInBatchProperty.getOutputDirectory().getPath() + "\n"
+							+ exportInBatchProperty.getAppliedFilters().toString() + " will be applied.");
+					ExportBatch exportBatch = new ExportBatch();
+					try {
+						exportBatch.run(exportInBatchProperty);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
-					logger.debug("Exporting in batch has finished: {} ", (double) totalTime / 1000, " sec");
-					System.out.println("INFO - Exporting in batch has finished: " + (double) totalTime / 1000 + " sec");
+					logger.debug("Exporting in batch has finished in: {} ", (double) totalTime / 1000, " sec");
+					System.out.println(
+							"INFO - Exporting in batch has finished in: " + (double) totalTime / 1000 + " sec");
 					return true;
 				}, (sucess) -> {
 					logger.debug("Exporting in batch has been finished successfully!");
@@ -293,7 +291,6 @@ public class RecoverViewModel {
 			}, true, stage);
 
 		}, stage);
-
 	}
 
 	/**

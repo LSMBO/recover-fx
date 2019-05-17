@@ -17,7 +17,9 @@ import org.apache.logging.log4j.Logger;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
+import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -79,61 +81,54 @@ public class ExportBatch {
 	 *            the JSON file to load. The loaded filters will be applied for
 	 *            all peak list files.
 	 */
-	public void run(Map<File, File> identifiedSpectraByPeakList, File outputDir, AppliedFilters type, File jsonFile) {
+	public void run(ExportInBatchProperty exportInBatchProperty) {
 		// Set batch mode to true
 		useBatchSpectra = true;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		// Load filters from a JSON file
-		if (type.equals(AppliedFilters.LOADEDFILTERS)) {
+		if (exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.LOADEDFILTERS)) {
 			try {
-				FilterReaderJson.load(jsonFile);
+				FilterReaderJson.load(exportInBatchProperty.getJsonFile());
 			} catch (Exception e) {
 				logger.error("Error while trying to load JSON file!", e);
 			}
 		}
-		identifiedSpectraByPeakList.forEach((peakListFile, identifiedSpectraFile) -> {
+		exportInBatchProperty.getIdentifiedSpectraByPeakList().forEach((peakListFile, identifiedSpectraFile) -> {
 			try {
 				// Step 1: load peak list file
 				if (peakListFile != null && peakListFile.exists()) {
-					System.out.println("Info - Loading peaklist file" + peakListFile.getPath() + "...");
-					logger.info("Loading peaklist file {}...", peakListFile.getPath());
+					System.out.println("Info - Loading peaklist file" + peakListFile.getPath() + " ...");
+					logger.info("Loading peaklist file {} ...", peakListFile.getPath());
 					PeaklistReader.load(peakListFile);
 					// Step 2: get identified spectra
 					if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
 						System.out.println(
-								"Info - Getting identified spectra from " + identifiedSpectraFile.getPath() + "...");
-						logger.info("Getting identified spectra from  {}...", identifiedSpectraFile.getPath());
-						// SpectrumTitleRange spectrumTitlesParams =
-						// filterIS.getFileParams();
-						// IdentifiedSpectra identifiedSpectra = new
-						// IdentifiedSpectra();
-						// IdentifiedSpectraFromExcel identifiedSpectraExcel =
-						// new
-						// IdentifiedSpectraFromExcel();
-						// identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
-						// File excelFile = new
-						// File(spectrumTitlesParams.getFilePath());
-						// if (excelFile != null && excelFile.exists()) {
-						// identifiedSpectraExcel.loadFromSelection(excelFile,
-						// spectrumTitlesParams.getCurrentSheetName(),
-						// spectrumTitlesParams.getColumn(),
-						// spectrumTitlesParams.getRowNumber());
-						// for (String title :
-						// identifiedSpectra.getArrayTitles()) {
-						// identifiedSpectra.setIdentified(title);
-						// }
-						// }
-
+								"Info - Getting identified spectra from " + identifiedSpectraFile.getPath() + " ...");
+						logger.info("Getting identified spectra from  {} ...", identifiedSpectraFile.getPath());
+						System.out.println(exportInBatchProperty.getSpectrumTitleRange().toString());
+						IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
+						IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
+						identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
+						if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
+							identifiedSpectraExcel.loadFromSelection(identifiedSpectraFile,
+									exportInBatchProperty.getSpectrumTitleRange().getCurrentSheetName(),
+									exportInBatchProperty.getSpectrumTitleRange().getColumn(),
+									exportInBatchProperty.getSpectrumTitleRange().getRowNumber());
+							System.out.println("3");
+							for (String title : identifiedSpectra.getArrayTitles()) {
+								identifiedSpectra.setIdentified(title);
+							}
+						}
 					}
 					// Step 3: apply filters
-					if (!type.equals(AppliedFilters.NONE)) {
+					if (!exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.NONE)) {
 						System.out.println("Info - applying filters...");
 						filterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
 					}
 					// Step 4: export file
-					File newFile = new File(
-							outputDir + File.separator + dateFormat.format(date) + "_" + peakListFile.getName());
+					File newFile = new File(exportInBatchProperty.getOutputDirectory() + File.separator
+							+ dateFormat.format(date) + "_" + peakListFile.getName());
 					if (newFile.createNewFile()) {
 						PeaklistWriter.setFileReader(newFile);
 						PeaklistWriter.save(newFile);
