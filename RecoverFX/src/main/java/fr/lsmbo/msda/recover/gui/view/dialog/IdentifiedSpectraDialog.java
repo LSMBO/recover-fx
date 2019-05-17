@@ -8,15 +8,12 @@ import java.util.Arrays;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
-import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

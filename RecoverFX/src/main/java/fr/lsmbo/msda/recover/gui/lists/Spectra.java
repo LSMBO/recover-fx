@@ -3,12 +3,10 @@
  */
 package fr.lsmbo.msda.recover.gui.lists;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.util.function.Predicate;
-
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Regroup all spectrum as an ObservableList and make specific treatment: Add

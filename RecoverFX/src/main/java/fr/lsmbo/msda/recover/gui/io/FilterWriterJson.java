@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
 import fr.lsmbo.msda.recover.gui.filters.Filters;
-import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;

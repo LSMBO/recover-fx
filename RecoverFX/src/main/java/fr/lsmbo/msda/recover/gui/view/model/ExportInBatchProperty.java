@@ -1,17 +1,10 @@
 package fr.lsmbo.msda.recover.gui.view.model;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 
-import fr.lsmbo.msda.recover.gui.Session;
-import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 /***
  * This class wraps export in batch properties view properties.
@@ -27,7 +20,7 @@ public final class ExportInBatchProperty {
 	private SpectrumTitleRange spectrumTitleRange = null;
 
 	/**
-	 * @return the appliedFilters
+	 * @return the applied filters
 	 */
 	public final AppliedFilters getAppliedFilters() {
 		return appliedFilters;
@@ -35,14 +28,14 @@ public final class ExportInBatchProperty {
 
 	/**
 	 * @param appliedFilters
-	 *            the appliedFilters to set
+	 *            the applied filters to set
 	 */
 	public final void setAppliedFilters(AppliedFilters appliedFilters) {
 		this.appliedFilters = appliedFilters;
 	}
 
 	/**
-	 * @return the outputDirectory
+	 * @return the output directory
 	 */
 	public final File getOutputDirectory() {
 		return outputDirectory;
@@ -50,14 +43,14 @@ public final class ExportInBatchProperty {
 
 	/**
 	 * @param outputDirectory
-	 *            the outputDirectory to set
+	 *            the output directory to set
 	 */
 	public final void setOutputDirectory(File outputDirectory) {
 		this.outputDirectory = outputDirectory;
 	}
 
 	/**
-	 * @return the identifiedSpectraByPeakList
+	 * @return the identified spectra by peakList
 	 */
 	public final Map<File, File> getIdentifiedSpectraByPeakList() {
 		return identifiedSpectraByPeakList;
@@ -65,14 +58,14 @@ public final class ExportInBatchProperty {
 
 	/**
 	 * @param identifiedSpectraByPeakList
-	 *            the identifiedSpectraByPeakList to set
+	 *            the identified spectra by peakList to set
 	 */
 	public final void setIdentifiedSpectraByPeakList(Map<File, File> identifiedSpectraByPeakList) {
 		this.identifiedSpectraByPeakList = identifiedSpectraByPeakList;
 	}
 
 	/**
-	 * @return the jsonFile
+	 * @return the json file
 	 */
 	public final File getJsonFile() {
 		return jsonFile;
@@ -87,7 +80,7 @@ public final class ExportInBatchProperty {
 	}
 
 	/**
-	 * @return the spectrumTitleRange
+	 * @return the spectrum title range
 	 */
 	public final SpectrumTitleRange getSpectrumTitleRange() {
 		return spectrumTitleRange;
@@ -95,7 +88,7 @@ public final class ExportInBatchProperty {
 
 	/**
 	 * @param spectrumTitleRange
-	 *            the spectrumTitleRange to set
+	 *            the spectrum title range to set
 	 */
 	public final void setSpectrumTitleRange(SpectrumTitleRange spectrumTitleRange) {
 		this.spectrumTitleRange = spectrumTitleRange;
@@ -115,9 +108,9 @@ public final class ExportInBatchProperty {
 	 * @param identifiedSpectraByPeakList
 	 *            the map identified Spectra by peakList
 	 * @param jsonFile
-	 *            the JSON file contains filters
+	 *            the JSON file contains a list of filters.
 	 * @param spectrumTitleRange
-	 *            the template of titles selection from excel file.
+	 *            the template of titles selection from an excel file.
 	 */
 	public ExportInBatchProperty(AppliedFilters appliedFilters, File outputDirectory,
 			Map<File, File> identifiedSpectraByPeakList, File jsonFile, SpectrumTitleRange spectrumTitleRange) {

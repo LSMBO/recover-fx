@@ -16,12 +16,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
-import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

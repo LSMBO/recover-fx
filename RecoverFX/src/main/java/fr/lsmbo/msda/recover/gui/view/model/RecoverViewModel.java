@@ -2,9 +2,6 @@ package fr.lsmbo.msda.recover.gui.view.model;
 
 import java.io.File;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +27,6 @@ import fr.lsmbo.msda.recover.gui.view.MainView;
 import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
-import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterIonReporterDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterLoaderDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.FilterViewerDialog;

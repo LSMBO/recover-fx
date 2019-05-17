@@ -14,7 +14,6 @@ import fr.lsmbo.msda.recover.gui.filters.IdentifiedSpectraFilter;
 import fr.lsmbo.msda.recover.gui.filters.IonReporterFilter;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.io.FilterReaderJson;
-import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;

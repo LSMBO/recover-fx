@@ -16,8 +16,6 @@ public class UserParams extends RecoverSetting {
 	private String timestamp;
 	private String recoverVersion;
 
-	private QualityFiltersSettings qualityFilters;
-
 	private ComparisonSettings comparison;
 	private ParsingRulesSettings parsingRules;
 
@@ -36,8 +34,6 @@ public class UserParams extends RecoverSetting {
 		this.userName = userName;
 		this.timestamp = timestamp;
 		this.recoverVersion = recoverVersion;
-		this.qualityFilters = qualityFilters;
-
 		this.comparison = comparison;
 		this.parsingRules = parsingRules;
 		this.initialize();

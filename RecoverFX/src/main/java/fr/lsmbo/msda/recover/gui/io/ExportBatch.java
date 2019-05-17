@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
 import javafx.collections.FXCollections;

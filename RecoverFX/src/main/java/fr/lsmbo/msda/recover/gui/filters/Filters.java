@@ -2,7 +2,6 @@ package fr.lsmbo.msda.recover.gui.filters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -10,7 +9,6 @@ import org.google.jhsheets.filtered.operators.BooleanOperator;
 import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
 
-import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
