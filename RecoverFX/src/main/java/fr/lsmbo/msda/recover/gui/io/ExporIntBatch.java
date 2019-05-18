@@ -128,7 +128,7 @@ public class ExporIntBatch {
 					File newFile = new File(exportInBatchProperty.getOutputDirectory() + File.separator
 							+ dateFormat.format(date) + "_" + peakListFile.getName());
 					if (newFile.createNewFile()) {
-						PeaklistWriter.setFileReader(newFile);
+						PeaklistWriter.setFileReader(peakListFile);
 						PeaklistWriter.save(newFile);
 					}
 				}
