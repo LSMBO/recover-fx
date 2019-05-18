@@ -62,10 +62,11 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	private CheckBox loadFiltersChbX;
 	private CheckBox addTitleSelectionChbX;
 	private SpectrumTitleRange spectrumTitleRange;
-	private ExportInBatchProperty exportBatchProperty;
+	private ExportInBatchProperty exportInBatchProperty;
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
 
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
+
 	/**
 	 * @return the output directory.
 	 * 
@@ -75,26 +76,24 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	}
 
 	/**
-	 * @param outputDirectory
-	 *            the output directory to set.
+	 * @param outputDirectory the output directory to set.
 	 */
 	public final void setOutputDirectory(File outputDirectory) {
 		this.outputDirectory = outputDirectory;
 	}
 
 	/**
-	 * @return the exportBatchProperty
+	 * @return the the properties of export in batch
 	 */
 	public final ExportInBatchProperty getExportBatchProperty() {
-		return exportBatchProperty;
+		return exportInBatchProperty;
 	}
 
 	/**
-	 * @param exportBatchProperty
-	 *            the exportBatchProperty to set
+	 * @param exportBatchProperty the properties of export in batch to set
 	 */
 	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
-		this.exportBatchProperty = exportBatchProperty;
+		this.exportInBatchProperty = exportBatchProperty;
 	}
 
 	public ExportInBatchDialog() {
@@ -421,21 +420,21 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				.and(columnTF.textProperty().isEmpty().or(sheetTF.textProperty().isEmpty())));
 
 		// Enable Ok button.
-		buttonOk.disableProperty().bind(outputDirTF.textProperty().isEmpty()
-				.or(peakListDirTF.textProperty().isEmpty().or(excelLabel.visibleProperty())));
+		buttonOk.disableProperty().bind(outputDirTF.textProperty().isEmpty().or(peakListDirTF.textProperty().isEmpty()
+				.or(excelLabel.visibleProperty().or(emptyJsonFileLabel.visibleProperty()))));
 		// On apply changes
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				exportBatchProperty = new ExportInBatchProperty();
+				exportInBatchProperty = new ExportInBatchProperty();
 				// Compute the filters to apply
-				exportBatchProperty.setAppliedFilters(appliedFilters);
+				exportInBatchProperty.setAppliedFilters(appliedFilters);
 				if (appliedFilters.equals(AppliedFilters.LOADEDFILTERS)) {
 					if (new File(loadFilterTF.getText()).exists()) {
 						jsonFile = new File(loadFilterTF.getText());
 					}
-					exportBatchProperty.setJsonFile(jsonFile);
+					exportInBatchProperty.setJsonFile(jsonFile);
 				}
-				exportBatchProperty.setOutputDirectory(outputDirectory);
+				exportInBatchProperty.setOutputDirectory(outputDirectory);
 				if (addTitleSelectionChbX.isSelected()) {
 					int index = Integer.parseInt(columnTF.getText().replaceAll("\\D+", ""));
 					String column = columnTF.getText().replaceAll("\\d+", "");
@@ -443,7 +442,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 					spectrumTitleRange.setCurrentSheetName(sheetTF.getText());
 					spectrumTitleRange.setColumn(column);
 					spectrumTitleRange.setRowNumber(index);
-					exportBatchProperty.setSpectrumTitleRange(spectrumTitleRange);
+					exportInBatchProperty.setSpectrumTitleRange(spectrumTitleRange);
 				}
 				// Return the peak lists file by identified spectra files=
 				Iterator<File> it1 = peakListFiles.iterator();
@@ -455,8 +454,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 						identifiedSpectraByPeakList.put(it1.next(), null);
 					}
 				}
-				exportBatchProperty.setIdentifiedSpectraByPeakList(identifiedSpectraByPeakList);
-				return exportBatchProperty;
+				exportInBatchProperty.setIdentifiedSpectraByPeakList(identifiedSpectraByPeakList);
+				return exportInBatchProperty;
 			} else {
 				return null;
 			}
@@ -466,8 +465,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	/**
 	 * Search and add the file in the list .
 	 * 
-	 * @param directory
-	 *            the directory of files
+	 * @param directory the directory of files
 	 * @list the list to update
 	 * @extensions The list of extensions to search in directory
 	 */
