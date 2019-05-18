@@ -138,19 +138,19 @@ public class PeaklistReader {
 		Session.FILE_HEADER = textBeforeFirstSpectrum;
 
 		// Add spectra as a first spectra
-		if (RecoverFx.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
+		if (RecoverFx.useSecondPeaklist == false && !ExporIntBatch.useBatchSpectra) {
 			System.out.println("INFO - Add first peaklist");
 			logger.info("Add first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
 		// Add spectra as a second spectra
-		if (RecoverFx.useSecondPeaklist == true && !ExportBatch.useBatchSpectra) {
+		if (RecoverFx.useSecondPeaklist == true && !ExporIntBatch.useBatchSpectra) {
 			System.out.println("INFO - Add second peaklist");
 			logger.info("Add second Peaklist");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
 		// Add spectra as a batch spectra
-		if (ExportBatch.useBatchSpectra) {
+		if (ExporIntBatch.useBatchSpectra) {
 			System.out.println("INFO - Add batch peaklist");
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
@@ -207,18 +207,18 @@ public class PeaklistReader {
 			lineNumber++;
 		}
 		// Add spectra as a first spectra
-		if (RecoverFx.useSecondPeaklist == false && !ExportBatch.useBatchSpectra) {
+		if (RecoverFx.useSecondPeaklist == false && !ExporIntBatch.useBatchSpectra) {
 			System.out.println("INFO - Add first Peaklist");
 			logger.info("Add first Peaklist");
 			ListOfSpectra.addFirstSpectra(spectra);
 		}
 		// Add spectra as a second spectra
-		if (RecoverFx.useSecondPeaklist == true && !ExportBatch.useBatchSpectra) {
+		if (RecoverFx.useSecondPeaklist == true && !ExporIntBatch.useBatchSpectra) {
 			System.out.println("INFO - Add second Peaklist");
 			logger.info("Add second Peaklist");
 			ListOfSpectra.addSecondSpectra(spectra);
 		}
-		if (ExportBatch.useBatchSpectra) {
+		if (ExporIntBatch.useBatchSpectra) {
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
 		retentionTimesAreMissing = false; // actually there's no rt but if true

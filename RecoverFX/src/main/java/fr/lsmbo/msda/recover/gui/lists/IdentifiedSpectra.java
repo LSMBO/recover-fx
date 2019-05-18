@@ -2,7 +2,7 @@ package fr.lsmbo.msda.recover.gui.lists;
 
 import java.util.ArrayList;
 
-import fr.lsmbo.msda.recover.gui.io.ExportBatch;
+import fr.lsmbo.msda.recover.gui.io.ExporIntBatch;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 
 /**
@@ -20,7 +20,7 @@ public class IdentifiedSpectra {
 	/** Find the spectrum with its title */
 	public void setIdentified(String title) {
 		// Get the wanted spectra
-		if (!ExportBatch.useBatchSpectra) {
+		if (!ExporIntBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 		} else {
 			spectra = ListOfSpectra.getBatchSpectra();

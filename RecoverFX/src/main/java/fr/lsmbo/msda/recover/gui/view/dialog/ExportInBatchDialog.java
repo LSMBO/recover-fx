@@ -13,6 +13,7 @@ import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
+import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
@@ -65,21 +66,6 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
 
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
-
-	public static enum AppliedFilters {
-		NONE("No Filter"), CURRENTFILTERS("Current Filters"), LOADEDFILTERS("Loaded filters");
-		private final String display;
-
-		AppliedFilters(String display) {
-			this.display = display;
-		}
-
-		@Override
-		public String toString() {
-			return display;
-		}
-	};
-
 	/**
 	 * @return the output directory.
 	 * 

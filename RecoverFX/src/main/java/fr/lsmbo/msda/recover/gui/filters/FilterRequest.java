@@ -14,7 +14,7 @@ import org.google.jhsheets.filtered.operators.NumberOperator;
 import org.google.jhsheets.filtered.operators.StringOperator;
 import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 
-import fr.lsmbo.msda.recover.gui.io.ExportBatch;
+import fr.lsmbo.msda.recover.gui.io.ExporIntBatch;
 import fr.lsmbo.msda.recover.gui.io.IdentifiedSpectraFromExcel;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.IonReporters;
@@ -111,7 +111,7 @@ public class FilterRequest {
 	 */
 	public static Spectra getSpectraTofilter() {
 		Spectra spectraToFilter = new Spectra();
-		if (!ExportBatch.useBatchSpectra) {
+		if (!ExporIntBatch.useBatchSpectra) {
 			spectraToFilter = ListOfSpectra.getFirstSpectra();
 		} else {
 			spectraToFilter = ListOfSpectra.getBatchSpectra();
@@ -1023,7 +1023,7 @@ public class FilterRequest {
 	 */
 	public void restoreDefaultValues() {
 		Spectra spectra = null;
-		if (!ExportBatch.useBatchSpectra) {
+		if (!ExporIntBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 		} else {
 			spectra = ListOfSpectra.getBatchSpectra();

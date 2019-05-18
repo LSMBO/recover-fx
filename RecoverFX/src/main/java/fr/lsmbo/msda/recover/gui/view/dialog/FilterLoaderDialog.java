@@ -119,7 +119,7 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 				Filters.resetAll();
 				// Add loaded filters
 				IonReporters.getIonReporters().setAll(FilterReaderJson.getLoadedIonReporterlist());
-				Filters.addAll(FilterReaderJson.getLoadedFilterListByNameMap());
+				Filters.addAll(FilterReaderJson.getFiltersByNameMap());
 				return Filters.getAll();
 			} else {
 				return null;
@@ -150,7 +150,7 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 	private ArrayList<TreeItem> getFilters() {
 		ArrayList<TreeItem> filtersItems = new ArrayList<>();
 		ArrayList<TreeItem> items = new ArrayList<>();
-		FilterReaderJson.getLoadedFilterListByNameMap().forEach((name, filterList) -> {
+		FilterReaderJson.getFiltersByNameMap().forEach((name, filterList) -> {
 			TreeItem filterName = new TreeItem(name);
 			items.clear();
 			for (Object filter : filterList) {

@@ -12,7 +12,7 @@ import fr.lsmbo.msda.recover.gui.RecoverFx;
 import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
 import fr.lsmbo.msda.recover.gui.filters.Filters;
-import fr.lsmbo.msda.recover.gui.io.ExportBatch;
+import fr.lsmbo.msda.recover.gui.io.ExporIntBatch;
 import fr.lsmbo.msda.recover.gui.io.FilterWriterJson;
 import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
 import fr.lsmbo.msda.recover.gui.io.PeaklistWriter;
@@ -202,8 +202,8 @@ public class RecoverViewModel {
 					System.out.println("INFO - Start exporting peaklists in batch. The number of file to proceed : "
 							+ exportInBatchProperty.getIdentifiedSpectraByPeakList().keySet().size()
 							+ ".\n The output directory: " + exportInBatchProperty.getOutputDirectory().getPath() + "\n"
-							+ exportInBatchProperty.getAppliedFilters().toString() + " will be applied.");
-					ExportBatch exportBatch = new ExportBatch();
+							+ exportInBatchProperty.getAppliedFilters().toString() + " will be applied from: "+exportInBatchProperty.getJsonFile());
+					ExporIntBatch exportBatch = new ExporIntBatch();
 					try {
 						exportBatch.run(exportInBatchProperty);
 					} catch (Exception e) {

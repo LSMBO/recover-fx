@@ -30,6 +30,7 @@ import javafx.collections.ObservableList;
  * @author Burel
  *
  */
+
 public class FilterReaderJson {
 	private static final Logger logger = LogManager.getLogger(FilterReaderJson.class);
 
@@ -60,7 +61,7 @@ public class FilterReaderJson {
 	 * 
 	 * @return the loaded filter by filter name map
 	 */
-	public static HashMap<String, ObservableList<Object>> getLoadedFilterListByNameMap() {
+	public static HashMap<String, ObservableList<Object>> getFiltersByNameMap() {
 		return filtersByNameMap;
 	}
 

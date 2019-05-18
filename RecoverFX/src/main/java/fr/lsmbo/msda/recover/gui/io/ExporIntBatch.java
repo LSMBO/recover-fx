@@ -14,9 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
-import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog.AppliedFilters;
+import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,22 +33,21 @@ import javafx.scene.control.ButtonType;
  * @author LOMBART.benjamin
  *
  */
-public class ExportBatch {
-	private static final Logger logger = LogManager.getLogger(ExportBatch.class);
+public class ExporIntBatch {
+	private static final Logger logger = LogManager.getLogger(ExporIntBatch.class);
 
 	private ObservableList<File> listFilesToProcess = FXCollections.observableArrayList();
 	private HashMap<File, ArrayList<String>> hashMapFileWithListTitles = new HashMap<File, ArrayList<String>>();
 	private ObservableList<String> listTitles = FXCollections.observableArrayList();
 	private ObservableList<File> listFilesProcessed = FXCollections.observableArrayList();
-	private FilterRequest filterRequest = new FilterRequest();
+	private FilterRequest filterRequest;
 	private String nameDirectoryFolder = "";
 	public static Boolean useBatchSpectra = false;
 
 	/**
 	 * Add file in hashMap with value null
 	 * 
-	 * @param file
-	 *            file which contains peaklist
+	 * @param file file which contains peaklist
 	 * 
 	 */
 	public void addFileToProcessInHashMap(File file) {
@@ -57,10 +57,8 @@ public class ExportBatch {
 	/**
 	 * Add file in hashMap with its corresponding list of titles
 	 * 
-	 * @param file
-	 *            file which contains Peaklist
-	 * @param specificListIdentification
-	 *            ArrayList with titles specific for a file
+	 * @param file                       file which contains Peaklist
+	 * @param specificListIdentification ArrayList with titles specific for a file
 	 */
 	public void addListTitlesWithCorrespondingFile(File file, ArrayList<String> specificListIdentification) {
 		hashMapFileWithListTitles.put(file, specificListIdentification);
@@ -69,15 +67,13 @@ public class ExportBatch {
 	/**
 	 * Apply filters on all peak list files and get identified spectra.
 	 * 
-	 * @param identifiedSpectraByPeakList
-	 *            map of peak list files and identified spectra files.
-	 * @param outputDir
-	 *            the output directory where the output files will be exported.
-	 * @param type
-	 *            the type of applied filters.
-	 * @param jsonFile
-	 *            the JSON file to load. The loaded filters will be applied for
-	 *            all peak list files.
+	 * @param identifiedSpectraByPeakList map of peak list files and identified
+	 *                                    spectra files.
+	 * @param outputDir                   the output directory where the output
+	 *                                    files will be exported.
+	 * @param type                        the type of applied filters.
+	 * @param jsonFile                    the JSON file to load. The loaded filters
+	 *                                    will be applied for all peak list files.
 	 */
 	public void run(ExportInBatchProperty exportInBatchProperty) {
 		// Set batch mode to true
@@ -88,6 +84,7 @@ public class ExportBatch {
 		if (exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.LOADEDFILTERS)) {
 			try {
 				FilterReaderJson.load(exportInBatchProperty.getJsonFile());
+				Filters.addAll(FilterReaderJson.getFiltersByNameMap());
 			} catch (Exception e) {
 				logger.error("Error while trying to load JSON file!", e);
 			}
@@ -96,14 +93,14 @@ public class ExportBatch {
 			try {
 				// Step 1: load peak list file
 				if (peakListFile != null && peakListFile.exists()) {
-					System.out.println("Info - Loading peaklist file" + peakListFile.getPath() + " ...");
-					logger.info("Loading peaklist file {} ...", peakListFile.getPath());
+					System.out.println("Info - Loading peaklist file: " + peakListFile.getPath() + " ...");
+					logger.info("Loading peaklist file: {} ...", peakListFile.getPath());
 					PeaklistReader.load(peakListFile);
 					// Step 2: get identified spectra
 					if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
 						System.out.println(
-								"Info - Getting identified spectra from " + identifiedSpectraFile.getPath() + " ...");
-						logger.info("Getting identified spectra from  {} ...", identifiedSpectraFile.getPath());
+								"Info - Getting identified spectra from: " + identifiedSpectraFile.getPath() + " ...");
+						logger.info("Getting identified spectra from: {} ...", identifiedSpectraFile.getPath());
 						System.out.println(exportInBatchProperty.getSpectrumTitleRange().toString());
 						IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 						IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
@@ -113,7 +110,6 @@ public class ExportBatch {
 									exportInBatchProperty.getSpectrumTitleRange().getCurrentSheetName(),
 									exportInBatchProperty.getSpectrumTitleRange().getColumn(),
 									exportInBatchProperty.getSpectrumTitleRange().getRowNumber());
-							System.out.println("3");
 							for (String title : identifiedSpectra.getArrayTitles()) {
 								identifiedSpectra.setIdentified(title);
 							}
@@ -121,8 +117,12 @@ public class ExportBatch {
 					}
 					// Step 3: apply filters
 					if (!exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.NONE)) {
-						System.out.println("Info - applying filters...");
-						filterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
+						System.out.println("Info - Applying filters ...");
+						FilterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
+						ListOfSpectra.getBatchSpectra().getSpectraAsObservable()
+								.forEach(spectrum -> spectrum.setIsRecovered(true));
+						System.out.println("Info - Spectra size after applying filters: "
+								+ ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size());
 					}
 					// Step 4: export file
 					File newFile = new File(exportInBatchProperty.getOutputDirectory() + File.separator
@@ -132,7 +132,6 @@ public class ExportBatch {
 						PeaklistWriter.save(newFile);
 					}
 				}
-
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -142,8 +141,8 @@ public class ExportBatch {
 	}
 
 	/**
-	 * Routine to process several files. Each file are load, identify
-	 * (specifically or in common), filter and export.
+	 * Routine to process several files. Each file are load, identify (specifically
+	 * or in common), filter and export.
 	 */
 	public void Main() {
 
@@ -178,8 +177,7 @@ public class ExportBatch {
 	 * Add each file contained in a list of file to an observable list and to an
 	 * hashmap
 	 * 
-	 * @param file
-	 *            A list of files to be process
+	 * @param file A list of files to be process
 	 */
 	public void addFilesInObservableList(List<File> file) {
 		for (File f : file) {
@@ -197,14 +195,12 @@ public class ExportBatch {
 	}
 
 	/**
-	 * Check if file is already in the list. Two possibility to check if files
-	 * are equals : they have same pathway or the pathway isn't the same but
-	 * they are the same name. Ex :
-	 * C:\Users\LOMBART.benjamin\Desktop\X004081MROLM.mgf
+	 * Check if file is already in the list. Two possibility to check if files are
+	 * equals : they have same pathway or the pathway isn't the same but they are
+	 * the same name. Ex : C:\Users\LOMBART.benjamin\Desktop\X004081MROLM.mgf
 	 * C:\Users\LOMBART.benjamin\workspace\RecoverFX\bin\test\X004081MROLM.mgf
 	 * 
-	 * @param newFile
-	 *            file will be processed
+	 * @param newFile file will be processed
 	 * @return boolean if the file is present or not
 	 *
 	 */
@@ -252,8 +248,7 @@ public class ExportBatch {
 	/**
 	 * add titles for identification in observable list after doing verification
 	 * 
-	 * @param titles
-	 *            ArrayList of titles to make identification
+	 * @param titles ArrayList of titles to make identification
 	 */
 	public void addTitlesInObservableList(ArrayList<String> titles) {
 		for (String t : titles) {
@@ -315,8 +310,7 @@ public class ExportBatch {
 
 	/**
 	 * 
-	 * @param folder
-	 *            the folder to export files
+	 * @param folder the folder to export files
 	 */
 	public void setNameDirectoryFolder(String folder) {
 		nameDirectoryFolder = folder;
@@ -331,7 +325,6 @@ public class ExportBatch {
 
 	private void doSpecificIdentification(File file) {
 		IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
-
 		for (String t : hashMapFileWithListTitles.get(file)) {
 			identifiedSpectra.setIdentified(t);
 		}
@@ -340,8 +333,7 @@ public class ExportBatch {
 	/**
 	 * Check if the file we want to export is already in the folder
 	 * 
-	 * @param f
-	 *            file to process
+	 * @param f file to process
 	 * @return boolean if the file is already in the folder or not
 	 */
 	private Boolean isPresentInDirectoryFolder(File f) {
@@ -360,8 +352,8 @@ public class ExportBatch {
 	}
 
 	/**
-	 * If files are already present in the folder, display an alert to prevent
-	 * the user
+	 * If files are already present in the folder, display an alert to prevent the
+	 * user
 	 * 
 	 * @return boolean to stop export or not according to the result of the user
 	 */

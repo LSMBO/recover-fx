@@ -41,7 +41,7 @@ public class PeaklistWriter {
 
 		// Recover the good spectra according to utilization (export or
 		// export_batch)
-		if (!ExportBatch.useBatchSpectra) {
+		if (!ExporIntBatch.useBatchSpectra) {
 			spectra = ListOfSpectra.getFirstSpectra();
 			fileReader = Session.CURRENT_FILE;
 		} else {
