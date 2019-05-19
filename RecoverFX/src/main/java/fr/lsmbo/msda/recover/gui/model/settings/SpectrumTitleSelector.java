@@ -1,22 +1,22 @@
 package fr.lsmbo.msda.recover.gui.model.settings;
 
 /**
- * Spectrum titles range from an excel file.
+ * Spectrum titles selection from an excel file.
  * 
  * @author Aromdhani
  *
  */
-public class SpectrumTitleRange {
+public class SpectrumTitleSelector {
 
 	private int rowNumber = 0;
 	private String column = "";
-	private String currentSheetName = "";
+	private String sheetName = "";
 	private String filePath = "";
 
 	/**
 	 * Default constructor
 	 */
-	public SpectrumTitleRange() {
+	public SpectrumTitleSelector() {
 		super();
 	}
 
@@ -31,11 +31,11 @@ public class SpectrumTitleRange {
 	 * @param filePath
 	 *            the file path
 	 */
-	public SpectrumTitleRange(String filePath, String currentSheetName, String column, int rowNumber) {
+	public SpectrumTitleSelector(String filePath, String sheetName, String column, int rowNumber) {
 		super();
 		this.rowNumber = rowNumber;
 		this.column = column;
-		this.currentSheetName = currentSheetName;
+		this.sheetName = sheetName;
 		this.filePath = filePath;
 	}
 
@@ -72,16 +72,16 @@ public class SpectrumTitleRange {
 	/**
 	 * @return the currentSheetName
 	 */
-	public final String getCurrentSheetName() {
-		return currentSheetName;
+	public final String getSheetName() {
+		return sheetName;
 	}
 
 	/**
 	 * @param currentSheetName
 	 *            the current sheet name to set
 	 */
-	public final void setCurrentSheetName(String currentSheetName) {
-		this.currentSheetName = currentSheetName;
+	public final void setSheetName(String sheetName) {
+		this.sheetName = sheetName;
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class SpectrumTitleRange {
 	public void initialize() {
 		rowNumber = 0;
 		column = "";
-		currentSheetName = "";
+		sheetName = "";
 		filePath = "";
 	}
 
@@ -110,7 +110,7 @@ public class SpectrumTitleRange {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("\n").append("###Spectrum titles file: ").append(filePath).append("\n").append("###Sheet name: ")
-				.append(currentSheetName).append(" ; ").append("column: ").append(column).append(" ; ")
+				.append(sheetName).append(" ; ").append("column: ").append(column).append(" ; ")
 				.append("row number: ").append(rowNumber).append("\n");
 		return str.toString();
 	}

@@ -23,7 +23,7 @@ import fr.lsmbo.msda.recover.gui.lists.Spectra;
 import fr.lsmbo.msda.recover.gui.model.IonReporter;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.model.StatusFilterType;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
@@ -154,14 +154,14 @@ public class FilterRequest {
 			if (Filters.getAll().containsKey("IS")) {
 				filterIS = (IdentifiedSpectraFilter) Filters.getAll().get("IS").get(0);
 				assert filterIS != null : "The filter is idenified spectra must not be null";
-				SpectrumTitleRange spectrumTitlesParams = filterIS.getFileParams();
+				SpectrumTitleSelector specTitleParams = filterIS.getFileParams();
 				IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 				IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
 				identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
-				File excelFile = new File(spectrumTitlesParams.getFilePath());
+				File excelFile = new File(specTitleParams.getFilePath());
 				if (excelFile != null && excelFile.exists()) {
-					identifiedSpectraExcel.loadFromSelection(excelFile, spectrumTitlesParams.getCurrentSheetName(),
-							spectrumTitlesParams.getColumn(), spectrumTitlesParams.getRowNumber());
+					identifiedSpectraExcel.loadFromSelection(excelFile, specTitleParams.getSheetName(),
+							specTitleParams.getColumn(), specTitleParams.getRowNumber());
 					for (String title : identifiedSpectra.getArrayTitles()) {
 						identifiedSpectra.setIdentified(title);
 					}

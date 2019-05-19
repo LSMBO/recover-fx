@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 import fr.lsmbo.msda.recover.gui.view.dialog.TitlesSelectorExcelDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +38,7 @@ public class IdentifiedSpectraFromExcel {
 
 	private static String title = "";
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
-	private SpectrumTitleRange fileParams = new SpectrumTitleRange();
+	private SpectrumTitleSelector fileParams = new SpectrumTitleSelector();
 	private ArrayList<String> titles = new ArrayList<>();
 	private IdentifiedSpectra identifiedSpectra;
 	private HashMap<String, Object> selectedParamsByName = new HashMap<String, Object>();
@@ -95,7 +95,7 @@ public class IdentifiedSpectraFromExcel {
 	/**
 	 * @return the file parameters
 	 */
-	public final SpectrumTitleRange getFileParams() {
+	public final SpectrumTitleSelector getFileParams() {
 		return fileParams;
 	}
 
@@ -103,7 +103,7 @@ public class IdentifiedSpectraFromExcel {
 	 * @param fileParams
 	 *            the file parameters to set
 	 */
-	public final void setFileParams(SpectrumTitleRange fileParams) {
+	public final void setFileParams(SpectrumTitleSelector fileParams) {
 		this.fileParams = fileParams;
 	}
 
@@ -135,7 +135,7 @@ public class IdentifiedSpectraFromExcel {
 
 			// Transform a string column ("A", "B" ...) as an index
 			int columnIndex = CellReference.convertColStringToIndex(fileParams.getColumn());
-			XSSFSheet currentSheet = workbook.getSheet(fileParams.getCurrentSheetName());
+			XSSFSheet currentSheet = workbook.getSheet(fileParams.getSheetName());
 			Iterator<Row> rowIterator = currentSheet.iterator();
 
 			// Iterate through all row
@@ -230,7 +230,7 @@ public class IdentifiedSpectraFromExcel {
 			System.out.println("INFO - Spectrum titles loaded from excel file: " + selectedParamsByName);
 			fileParams.setRowNumber((int) selectedParamsByName.get("rowNumber") - 1);
 			fileParams.setColumn((String) selectedParamsByName.get("column"));
-			fileParams.setCurrentSheetName((String) selectedParamsByName.get("currentSheetName"));
+			fileParams.setSheetName((String) selectedParamsByName.get("currentSheetName"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -107,7 +107,7 @@ public class ExporIntBatch {
 						identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
 						if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
 							identifiedSpectraExcel.loadFromSelection(identifiedSpectraFile,
-									exportInBatchProperty.getSpectrumTitleRange().getCurrentSheetName(),
+									exportInBatchProperty.getSpectrumTitleRange().getSheetName(),
 									exportInBatchProperty.getSpectrumTitleRange().getColumn(),
 									exportInBatchProperty.getSpectrumTitleRange().getRowNumber());
 							for (String title : identifiedSpectra.getArrayTitles()) {

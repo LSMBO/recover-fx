@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Map;
 
 import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 
 /***
  * This class wraps export in batch properties .
@@ -17,7 +17,7 @@ public final class ExportInBatchProperty {
 	private File outputDirectory;
 	private Map<File, File> identifiedSpectraByPeakList;
 	private File jsonFile;
-	private SpectrumTitleRange spectrumTitleRange;
+	private SpectrumTitleSelector spectrumTitleRange;
 
 	/**
 	 * @return the applied filters
@@ -78,14 +78,14 @@ public final class ExportInBatchProperty {
 	/**
 	 * @return the spectrum title range
 	 */
-	public final SpectrumTitleRange getSpectrumTitleRange() {
+	public final SpectrumTitleSelector getSpectrumTitleRange() {
 		return spectrumTitleRange;
 	}
 
 	/**
 	 * @param spectrumTitleRange the spectrum title range to set
 	 */
-	public final void setSpectrumTitleRange(SpectrumTitleRange spectrumTitleRange) {
+	public final void setSpectrumTitleRange(SpectrumTitleSelector spectrumTitleRange) {
 		this.spectrumTitleRange = spectrumTitleRange;
 	}
 
@@ -104,7 +104,7 @@ public final class ExportInBatchProperty {
 	 *                                    excel file.
 	 */
 	public ExportInBatchProperty(AppliedFilters appliedFilters, File outputDirectory,
-			Map<File, File> identifiedSpectraByPeakList, File jsonFile, SpectrumTitleRange spectrumTitleRange) {
+			Map<File, File> identifiedSpectraByPeakList, File jsonFile, SpectrumTitleSelector spectrumTitleRange) {
 		super();
 		this.appliedFilters = appliedFilters;
 		this.outputDirectory = outputDirectory;

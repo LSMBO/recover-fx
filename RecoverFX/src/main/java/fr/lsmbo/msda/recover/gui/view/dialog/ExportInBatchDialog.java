@@ -14,7 +14,7 @@ import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
-import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleRange;
+import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
 import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
@@ -61,7 +61,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	private CheckBox applyFiltersChbX;
 	private CheckBox loadFiltersChbX;
 	private CheckBox addTitleSelectionChbX;
-	private SpectrumTitleRange spectrumTitleRange;
+	private SpectrumTitleSelector spectrumTitleRange;
 	private ExportInBatchProperty exportInBatchProperty;
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
 
@@ -113,7 +113,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		emptyOutputDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyOutputDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		Label excelLabel = new Label(
-				"Enter a sheet name,a column name and a row number of titles to identify from excel file!");
+				"Enter a sheet name and a column name of titles to identify from excel file!");
 		excelLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		excelLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel, emptyJsonFileLabel, excelLabel);
@@ -438,8 +438,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				if (addTitleSelectionChbX.isSelected()) {
 					int index = Integer.parseInt(columnTF.getText().replaceAll("\\D+", ""));
 					String column = columnTF.getText().replaceAll("\\d+", "");
-					spectrumTitleRange = new SpectrumTitleRange();
-					spectrumTitleRange.setCurrentSheetName(sheetTF.getText());
+					spectrumTitleRange = new SpectrumTitleSelector();
+					spectrumTitleRange.setSheetName(sheetTF.getText());
 					spectrumTitleRange.setColumn(column);
 					spectrumTitleRange.setRowNumber(index);
 					exportInBatchProperty.setSpectrumTitleRange(spectrumTitleRange);
