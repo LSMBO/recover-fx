@@ -46,7 +46,7 @@ public class ExporIntBatch {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		// Load filters from a JSON file
-		if (exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.LOADEDFILTERS)) {
+		if (exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.LOADED)) {
 			try {
 				FilterReaderJson.load(exportInBatchProperty.getJsonFile());
 				Filters.addAll(FilterReaderJson.getFiltersByNameMap());

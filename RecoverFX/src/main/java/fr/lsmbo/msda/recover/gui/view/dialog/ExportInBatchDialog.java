@@ -428,7 +428,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				exportInBatchProperty = new ExportInBatchProperty();
 				// Compute the filters to apply
 				exportInBatchProperty.setAppliedFilters(appliedFilters);
-				if (appliedFilters.equals(AppliedFilters.LOADEDFILTERS)) {
+				if (appliedFilters.equals(AppliedFilters.LOADED)) {
 					if (new File(loadFilterTF.getText()).exists()) {
 						jsonFile = new File(loadFilterTF.getText());
 					}
@@ -487,9 +487,9 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	 */
 	private void updateAppliedFilters() {
 		if (applyFiltersChbX.isSelected()) {
-			appliedFilters = AppliedFilters.CURRENTFILTERS;
+			appliedFilters = AppliedFilters.CURRENT;
 		} else if (loadFiltersChbX.isSelected()) {
-			appliedFilters = AppliedFilters.LOADEDFILTERS;
+			appliedFilters = AppliedFilters.LOADED;
 		} else {
 			appliedFilters = AppliedFilters.NONE;
 		}

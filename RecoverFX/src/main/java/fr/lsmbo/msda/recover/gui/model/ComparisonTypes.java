@@ -1,6 +1,3 @@
-/*
- * 
- */
 package fr.lsmbo.msda.recover.gui.model;
 
 import javafx.scene.control.ChoiceBox;
