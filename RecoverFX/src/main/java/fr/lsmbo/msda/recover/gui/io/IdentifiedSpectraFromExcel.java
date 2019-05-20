@@ -178,7 +178,7 @@ public class IdentifiedSpectraFromExcel {
 	 * @param rowNumber
 	 *            the row number
 	 */
-	public void loadFromSelection(File file, String currentSheetName, String column, int rowNumber) {
+	public void loadSpecTitleSelection(File file, String currentSheetName, String column, int rowNumber) {
 		try {
 			initialize();
 			title = file.getName();

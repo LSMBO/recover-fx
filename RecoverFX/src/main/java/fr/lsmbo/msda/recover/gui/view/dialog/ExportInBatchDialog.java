@@ -76,7 +76,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	}
 
 	/**
-	 * @param outputDirectory the output directory to set.
+	 * @param outputDirectory
+	 *            the output directory to set.
 	 */
 	public final void setOutputDirectory(File outputDirectory) {
 		this.outputDirectory = outputDirectory;
@@ -90,7 +91,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	}
 
 	/**
-	 * @param exportBatchProperty the properties of export in batch to set
+	 * @param exportBatchProperty
+	 *            the properties of export in batch to set
 	 */
 	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
 		this.exportInBatchProperty = exportBatchProperty;
@@ -112,8 +114,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				"Choose an output directory.  Make sure that you have selected a valid directory!");
 		emptyOutputDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyOutputDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
-		Label excelLabel = new Label(
-				"Enter a sheet name and a column name of titles to identify from excel file!");
+		Label excelLabel = new Label("Enter a sheet name and a column name of titles to identify from excel file!");
 		excelLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		excelLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		warningPane.getChildren().addAll(emptyPeakListDirLabel, emptyOutputDirLabel, emptyJsonFileLabel, excelLabel);
@@ -176,6 +177,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 			});
 			return row;
 		});
+
 		// Create identified spectra files components
 		Label identifiedSpectraDirLabel = new Label("Identified spectra files:");
 		TextField identifiedSpectraDirTF = new TextField();
@@ -351,9 +353,9 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				// Sort files with their names
 				Collections.sort(peakListFiles, new Comparator<File>() {
 					@Override
-					public int compare(File o1, File o2) {
+					public int compare(File f1, File f2) {
 						// TODO Auto-generated method stub
-						return o1.getName().compareTo(o2.getName());
+						return f1.getName().compareTo(f2.getName());
 					}
 				});
 			}
@@ -411,7 +413,6 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		emptyOutputDirLabel.visibleProperty().bind(outputDirTF.textProperty().isEmpty());
 		emptyJsonFileLabel.visibleProperty()
 				.bind(loadFiltersChbX.selectedProperty().and(loadFilterTF.textProperty().isEmpty()));
-
 		sheetLabel.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
 		columnLabel.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
 		sheetTF.disableProperty().bind(addTitleSelectionChbX.selectedProperty().not());
@@ -465,7 +466,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	/**
 	 * Search and add the file in the list .
 	 * 
-	 * @param directory the directory of files
+	 * @param directory
+	 *            the directory of files
 	 * @list the list to update
 	 * @extensions The list of extensions to search in directory
 	 */

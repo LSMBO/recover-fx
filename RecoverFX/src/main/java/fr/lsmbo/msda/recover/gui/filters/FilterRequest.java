@@ -55,7 +55,8 @@ public class FilterRequest {
 	}
 
 	/**
-	 * @param filterLIT the low intensity threshold filter to set
+	 * @param filterLIT
+	 *            the low intensity threshold filter to set
 	 */
 	public void setFilterLIT(LowIntensityThresholdFilter filterLIT) {
 		FilterRequest.filterLIT = filterLIT;
@@ -69,7 +70,8 @@ public class FilterRequest {
 	}
 
 	/**
-	 * @param filterIS the is identified spectra filter to set
+	 * @param filterIS
+	 *            the is identified spectra filter to set
 	 */
 	public void setFilterIS(IdentifiedSpectraFilter filterIS) {
 		FilterRequest.filterIS = filterIS;
@@ -83,7 +85,8 @@ public class FilterRequest {
 	}
 
 	/**
-	 * @param filterIR the ion reporter filter to set
+	 * @param filterIR
+	 *            the ion reporter filter to set
 	 */
 	public void setFilterIR(IonReporterFilter filterIR) {
 		FilterRequest.filterIR = filterIR;
@@ -157,7 +160,7 @@ public class FilterRequest {
 				identifiedSpectraExcel.setIdentifiedSpectra(identifiedSpectra);
 				File excelFile = new File(specTitleParams.getFilePath());
 				if (excelFile != null && excelFile.exists()) {
-					identifiedSpectraExcel.loadFromSelection(excelFile, specTitleParams.getSheetName(),
+					identifiedSpectraExcel.loadSpecTitleSelection(excelFile, specTitleParams.getSheetName(),
 							specTitleParams.getColumn(), specTitleParams.getRowNumber());
 					for (String title : identifiedSpectra.getArrayTitles()) {
 						identifiedSpectra.setIdentified(title);
@@ -210,8 +213,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum id
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterIdColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Integer>> filters) {
@@ -245,8 +250,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum moz
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterMzColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -279,8 +286,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum title
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterTitleColumn(ObservableList<Spectrum> newData, ObservableList<StringOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -310,8 +319,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum intensity
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterIntensityColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Float>> filters) {
@@ -345,8 +356,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum charge
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterChargeColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Integer>> filters) {
@@ -380,8 +393,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum retention time
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterRTColumn(ObservableList<Spectrum> newData, ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -414,8 +429,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum number of fragments
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterNbrFrgsColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Integer>> filters) {
@@ -449,9 +466,11 @@ public class FilterRequest {
 	/**
 	 * Filter on Max fragment intensity.
 	 * 
-	 * @param newData the list of spectrum to filter
+	 * @param newData
+	 *            the list of spectrum to filter
 	 * 
-	 * @param filters the ObservableList of filters to apply
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterFIntensityColumn(ObservableList<Spectrum> newData,
 			ObservableList<NumberOperator<Integer>> filters) {
@@ -485,8 +504,10 @@ public class FilterRequest {
 	/**
 	 * Filter on useful peaks number to keep over the threshold.
 	 * 
-	 * @param newData the list of spectrum to filter.
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter.
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 * 
 	 */
 	public static void filterUPNColumn(ObservableList<Spectrum> newData,
@@ -521,8 +542,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum whether is recover
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterIonReporterColumn(ObservableList<Spectrum> newData,
 			ObservableList<BooleanOperator> filters) {
@@ -545,8 +568,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum whether is recover
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterFlaggedColumn(ObservableList<Spectrum> newData, ObservableList<BooleanOperator> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
@@ -567,8 +592,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum whether is identified
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterIdentifiedColumn(ObservableList<Spectrum> newData,
 			ObservableList<BooleanOperator> filters) {
@@ -590,8 +617,10 @@ public class FilterRequest {
 	/**
 	 * Filter column spectrum whether is a wrong charge
 	 * 
-	 * @param newData the list of spectrum to filter
-	 * @param filters the ObservableList of filters to apply
+	 * @param newData
+	 *            the list of spectrum to filter
+	 * @param filters
+	 *            the ObservableList of filters to apply
 	 */
 	public static void filterWrongChargeColumn(ObservableList<Spectrum> newData,
 			ObservableList<BooleanOperator> filters) {
@@ -615,7 +644,8 @@ public class FilterRequest {
 	 * 
 	 * @see Filters
 	 * 
-	 * @param tableView the table to update its columns filters
+	 * @param tableView
+	 *            the table to update its columns filters
 	 */
 	public static void updateColumnFilters(FilteredTableView tableView) {
 		TreeMap<String, ObservableList<Object>> filtersByNameTreeMap = new TreeMap<>();
@@ -792,8 +822,10 @@ public class FilterRequest {
 	}
 
 	/**
+	 * Apply entered filters
 	 * 
-	 * @param newData the data to filter out.
+	 * @param newData
+	 *            the data to filter out.
 	 * @return the new data after applying all filters.
 	 */
 	public static ObservableList<Spectrum> applyAll(ObservableList<Spectrum> newData) {
@@ -960,7 +992,8 @@ public class FilterRequest {
 	/**
 	 * Determines whether the spectrum is recovered
 	 * 
-	 * @param spectrum the spectrum to check
+	 * @param spectrum
+	 *            the spectrum to check
 	 * @return <code> true</code> if the spectrum is recovered
 	 */
 	public Boolean isRecover(Spectrum spectrum) {
@@ -969,11 +1002,12 @@ public class FilterRequest {
 
 	/**
 	 * 
-	 * @param spectrum a specific spectrum
+	 * @param spectrum
+	 *            a specific spectrum
 	 * @param filter
 	 * @return if the value of recover for a spectrum is true, return true else,
-	 *         check if an ion reporter is present for this spectrum and return true
-	 *         or false in the different case.
+	 *         check if an ion reporter is present for this spectrum and return
+	 *         true or false in the different case.
 	 * 
 	 */
 	public static Boolean recoverIfSeveralIons(Spectrum spectrum, BasicFilter filter) {
@@ -1008,8 +1042,10 @@ public class FilterRequest {
 
 	/**
 	 * 
-	 * @param tableView The table view to get the columns
-	 * @param name      The column name to search
+	 * @param tableView
+	 *            The table view to get the columns
+	 * @param name
+	 *            The column name to search
 	 * @return The table column
 	 */
 	private static <T> IFilterableTableColumn<?, ?> getTableColumnByName(FilteredTableView<T> tableView, String name) {
