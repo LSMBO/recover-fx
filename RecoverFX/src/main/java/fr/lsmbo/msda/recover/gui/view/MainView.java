@@ -15,8 +15,8 @@ import org.google.jhsheets.filtered.tablecolumn.FilterableStringTableColumn;
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.Session;
-import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;
+import fr.lsmbo.msda.recover.gui.filters.Filters;
 import fr.lsmbo.msda.recover.gui.filters.LowIntensityThresholdFilter;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.model.ComputationTypes;
@@ -784,7 +784,7 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Update the table view on Java-Fx thread
+	 * Update the table view on JavaFx thread
 	 * 
 	 * @param r
 	 *            Runnable to submit

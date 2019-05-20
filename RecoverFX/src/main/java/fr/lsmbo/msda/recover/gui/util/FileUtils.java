@@ -14,9 +14,9 @@ import org.apache.logging.log4j.Logger;
 import fr.lsmbo.msda.recover.gui.Session;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * 

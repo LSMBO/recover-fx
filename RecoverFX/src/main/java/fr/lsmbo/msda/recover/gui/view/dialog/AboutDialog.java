@@ -4,8 +4,8 @@
 package fr.lsmbo.msda.recover.gui.view.dialog;
 
 import fr.lsmbo.msda.recover.gui.IconResource;
-import fr.lsmbo.msda.recover.gui.Session;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
+import fr.lsmbo.msda.recover.gui.Session;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

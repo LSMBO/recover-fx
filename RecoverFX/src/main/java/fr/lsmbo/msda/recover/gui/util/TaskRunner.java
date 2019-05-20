@@ -4,18 +4,18 @@
 
 package fr.lsmbo.msda.recover.gui.util;
 
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.Cursor;
-import javafx.concurrent.Task;
-
-import fr.lsmbo.msda.recover.gui.view.dialog.ShowPopupDialog;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import fr.lsmbo.msda.recover.gui.view.dialog.ShowPopupDialog;
+import javafx.concurrent.Task;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /**
  * The Class TaskRunner.

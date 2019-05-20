@@ -1,6 +1,7 @@
 package fr.lsmbo.msda.recover.gui;
 
 import java.util.HashMap;
+
 import javafx.scene.image.Image;
 
 /**

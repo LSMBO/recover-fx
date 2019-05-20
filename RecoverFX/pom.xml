@@ -6,7 +6,7 @@
 	<groupId>fr.lsmbo.msda</groupId>
 	<artifactId>RecoverFx</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
-	<description>Recover is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
+	<description>RecoverFx is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
 	<properties>
 		<project.build.date>2017-07-28</project.build.date>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

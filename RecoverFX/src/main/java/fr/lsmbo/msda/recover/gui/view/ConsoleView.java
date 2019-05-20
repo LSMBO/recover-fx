@@ -8,11 +8,11 @@ import java.io.PrintStream;
 import fr.lsmbo.msda.recover.gui.IconResource;
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import javafx.geometry.Insets;
-import javafx.scene.layout.StackPane;
-import javafx.scene.web.WebView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebView;
 
 /**
  * 
