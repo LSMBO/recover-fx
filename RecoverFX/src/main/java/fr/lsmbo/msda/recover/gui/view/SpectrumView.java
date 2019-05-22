@@ -88,6 +88,8 @@ public class SpectrumView {
 		panel.setScientificYAxis(true);
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 20));
 		panel.showAnnotatedPeaksOnly(true); // Noise in light grey
+		panel.setToolTipText("Select 2 peaks to compute sequence and left click + ctrl to cancel."
+				+ " Select an area to zoom and right click to cancel zoom.");
 		if (withAnnotations) {
 			List<SpectrumAnnotation> annotations = new ArrayList<>();
 			DefaultSpectrumAnnotation precursorAnnotation = new DefaultSpectrumAnnotation(spectrum.getMz(), 0.0,

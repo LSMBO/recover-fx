@@ -135,7 +135,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		peakListsTable.setMinHeight(200);
 		peakListsTable.setCursor(Cursor.CLOSED_HAND);
 
-		// Make peaklist table sortable via drag and drop
+		// Sort peak list table via drag and drop
 		peakListsTable.setRowFactory(tv -> {
 			TableRow<File> row = new TableRow<>();
 			row.setOnDragDetected(event -> {
