@@ -17,33 +17,33 @@ public class IonReporter {
 		this.tolerance = tolerance;
 	}
 
-	@Override
-	public String toString() {
-		return "Ion reporter :" + getName() + "; m/z :" + getMoz() + "; tolerance :" + getTolerance();
+	public Float getMoz() {
+		return moz;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Float getMoz() {
-		return moz;
+	public Float getTolerance() {
+		return tolerance;
 	}
 
 	public void setMoz(Float moz) {
 		this.moz = moz;
 	}
 
-	public Float getTolerance() {
-		return tolerance;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setTolerance(Float tolerance) {
 		this.tolerance = tolerance;
+	}
+
+	@Override
+	public String toString() {
+		return "Ion reporter :" + getName() + "; m/z :" + getMoz() + "; tolerance :" + getTolerance();
 	}
 
 }

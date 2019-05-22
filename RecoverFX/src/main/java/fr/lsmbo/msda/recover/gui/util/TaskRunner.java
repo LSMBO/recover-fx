@@ -34,6 +34,13 @@ public class TaskRunner {
 	/* The status label. */
 	public static Label statusLabel;
 
+	/** Disable/enable the main view */
+	private static void showProgress(boolean progressEnabled) {
+		// mainView.setDisable(progressEnabled);
+		mainView.setDisable(false);
+		glassPane.setVisible(progressEnabled);
+	}
+
 	/**
 	 * Instantiates a new task runner.
 	 *
@@ -70,6 +77,19 @@ public class TaskRunner {
 			}
 
 			@Override
+			protected void failed() {
+				logger.error(getException());
+				System.err.println("ERROR - " + caption + " - has failed: " + getException().getMessage());
+				mainView.getScene().setCursor(Cursor.DEFAULT);
+				error.accept(getException());
+				showProgress(false);
+				// Show popup
+				if (showDialog) {
+					new ShowPopupDialog("Failure", caption + " - has failed: " + getException().getMessage(), stage);
+				}
+			}
+
+			@Override
 			protected void running() {
 				logger.info(caption + " - is running...");
 				System.out.println("INFO - " + caption + " - is running...");
@@ -89,30 +109,10 @@ public class TaskRunner {
 					new ShowPopupDialog("Success", caption + " - has finished successfully!", stage);
 				}
 			}
-
-			@Override
-			protected void failed() {
-				logger.error(getException());
-				System.err.println("ERROR - " + caption + " - has failed: " + getException().getMessage());
-				mainView.getScene().setCursor(Cursor.DEFAULT);
-				error.accept(getException());
-				showProgress(false);
-				// Show popup
-				if (showDialog) {
-					new ShowPopupDialog("Failure", caption + " - has failed: " + getException().getMessage(), stage);
-				}
-			}
 		};
 		// Set the task as daemon
 		Thread t = new Thread(task);
 		t.setDaemon(true);
 		t.start();
-	}
-
-	/** Disable/enable the main view */
-	private static void showProgress(boolean progressEnabled) {
-		// mainView.setDisable(progressEnabled);
-		mainView.setDisable(false);
-		glassPane.setVisible(progressEnabled);
 	}
 }

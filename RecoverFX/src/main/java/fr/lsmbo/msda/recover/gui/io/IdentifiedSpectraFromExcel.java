@@ -10,7 +10,6 @@ import java.util.Iterator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -37,11 +36,25 @@ public class IdentifiedSpectraFromExcel {
 	private static final Logger logger = LogManager.getLogger(IdentifiedSpectraFromExcel.class);
 
 	private static String title = "";
+	/**
+	 * Return file title.
+	 */
+	public static String getTitle() {
+		return title;
+	}
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
 	private SpectrumTitleSelector fileParams = new SpectrumTitleSelector();
 	private ArrayList<String> titles = new ArrayList<>();
 	private IdentifiedSpectra identifiedSpectra;
+
 	private HashMap<String, Object> selectedParamsByName = new HashMap<String, Object>();
+
+	/**
+	 * @return the file parameters
+	 */
+	public final SpectrumTitleSelector getFileParams() {
+		return fileParams;
+	}
 
 	/**
 	 * Return the the sheet list.
@@ -53,13 +66,23 @@ public class IdentifiedSpectraFromExcel {
 	}
 
 	/**
-	 * Set identified spectra object.
-	 * 
-	 * @param identifiedSpectra
-	 *            the identified spectra object to set
+	 * Return the spectrum titles selection from an excel file.
 	 */
-	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra) {
-		this.identifiedSpectra = identifiedSpectra;
+	@SuppressWarnings("unchecked")
+	private void getSpectrumTitlesSelection() {
+		try {
+			TitlesSelectorExcelDialog excelSelectorDialog = new TitlesSelectorExcelDialog();
+			excelSelectorDialog.showAndWait().ifPresent(selectorProperties -> {
+				selectedParamsByName = (HashMap<String, Object>) selectorProperties.clone();
+			});
+			logger.info("Spectrum titles loaded from excel file: {}", selectedParamsByName);
+			System.out.println("INFO - Spectrum titles loaded from excel file: " + selectedParamsByName);
+			fileParams.setRowNumber((int) selectedParamsByName.get("rowNumber") - 1);
+			fileParams.setColumn((String) selectedParamsByName.get("column"));
+			fileParams.setSheetName((String) selectedParamsByName.get("currentSheetName"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -69,13 +92,6 @@ public class IdentifiedSpectraFromExcel {
 	 */
 	public ArrayList<String> getTitles() {
 		return titles;
-	}
-
-	/**
-	 * Return file title.
-	 */
-	public static String getTitle() {
-		return title;
 	}
 
 	/**
@@ -90,21 +106,6 @@ public class IdentifiedSpectraFromExcel {
 		}
 		title = "";
 		this.fileParams.initialize();
-	}
-
-	/**
-	 * @return the file parameters
-	 */
-	public final SpectrumTitleSelector getFileParams() {
-		return fileParams;
-	}
-
-	/**
-	 * @param fileParams
-	 *            the file parameters to set
-	 */
-	public final void setFileParams(SpectrumTitleSelector fileParams) {
-		this.fileParams = fileParams;
 	}
 
 	/**
@@ -217,23 +218,21 @@ public class IdentifiedSpectraFromExcel {
 	}
 
 	/**
-	 * Return the spectrum titles selection from an excel file.
+	 * @param fileParams
+	 *            the file parameters to set
 	 */
-	@SuppressWarnings("unchecked")
-	private void getSpectrumTitlesSelection() {
-		try {
-			TitlesSelectorExcelDialog excelSelectorDialog = new TitlesSelectorExcelDialog();
-			excelSelectorDialog.showAndWait().ifPresent(selectorProperties -> {
-				selectedParamsByName = (HashMap<String, Object>) selectorProperties.clone();
-			});
-			logger.info("Spectrum titles loaded from excel file: {}", selectedParamsByName);
-			System.out.println("INFO - Spectrum titles loaded from excel file: " + selectedParamsByName);
-			fileParams.setRowNumber((int) selectedParamsByName.get("rowNumber") - 1);
-			fileParams.setColumn((String) selectedParamsByName.get("column"));
-			fileParams.setSheetName((String) selectedParamsByName.get("currentSheetName"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public final void setFileParams(SpectrumTitleSelector fileParams) {
+		this.fileParams = fileParams;
+	}
+
+	/**
+	 * Set identified spectra object.
+	 * 
+	 * @param identifiedSpectra
+	 *            the identified spectra object to set
+	 */
+	public void setIdentifiedSpectra(IdentifiedSpectra identifiedSpectra) {
+		this.identifiedSpectra = identifiedSpectra;
 	}
 
 }

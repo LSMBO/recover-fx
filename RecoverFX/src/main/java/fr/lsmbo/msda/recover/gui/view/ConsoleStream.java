@@ -52,6 +52,23 @@ public class ConsoleStream extends OutputStream {
 	}
 
 	/**
+	 * Determines whether is a new line.
+	 * 
+	 * @param text
+	 *            to test
+	 * @return <code>true</code> if the text matches
+	 */
+	public boolean isTextMatches(String text) {
+		boolean find = false;
+		String pattern = "(?s)(?i).*" + text + ".*";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(text);
+		if (m.find())
+			return find = true;
+		return find;
+	}
+
+	/**
 	 * Add the style to the text of output
 	 * 
 	 * @param text
@@ -72,29 +89,6 @@ public class ConsoleStream extends OutputStream {
 		return "<kbd style =\'color:" + color + "\'>" + text + "</kbd>";
 	}
 
-	/**
-	 * Determines whether is a new line.
-	 * 
-	 * @param text
-	 *            to test
-	 * @return <code>true</code> if the text matches
-	 */
-	public boolean isTextMatches(String text) {
-		boolean find = false;
-		String pattern = "(?s)(?i).*" + text + ".*";
-		Pattern r = Pattern.compile(pattern);
-		Matcher m = r.matcher(text);
-		if (m.find())
-			return find = true;
-		return find;
-	}
-
-	@Override
-	public void write(int b) throws IOException {
-		// TODO Auto-generated method stub
-		addText(String.valueOf((char) b));
-	}
-
 	@Override
 	public void write(byte b[]) throws IOException {
 		// TODO Auto-generated method stub
@@ -106,5 +100,11 @@ public class ConsoleStream extends OutputStream {
 	public void write(byte b[], int off, int len) throws IOException {
 		String str = new String(b, off, len);
 		addText(str);
+	}
+
+	@Override
+	public void write(int b) throws IOException {
+		// TODO Auto-generated method stub
+		addText(String.valueOf((char) b));
 	}
 }

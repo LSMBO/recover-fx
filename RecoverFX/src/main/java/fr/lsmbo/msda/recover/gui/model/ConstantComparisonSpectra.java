@@ -16,6 +16,26 @@ public class ConstantComparisonSpectra {
 	private static Integer thetaMin = 11;
 	private static Integer nbPeaks = 8;
 
+	public static Float getDeltaMoz() {
+		return deltaMoz;
+	}
+
+	public static Integer getDeltaRT() {
+		return deltaRT;
+	}
+
+	public static Integer getNbPeaks() {
+		return nbPeaks;
+	}
+
+	public static Integer getNbPeaksMin() {
+		return nbPeaksMin;
+	}
+
+	public static Integer getThetaMin() {
+		return thetaMin;
+	}
+
 	public static void initialValue() {
 		deltaMoz = 0.007F;
 		deltaRT = 90;
@@ -28,40 +48,20 @@ public class ConstantComparisonSpectra {
 		deltaMoz = _deltaMoz;
 	}
 
-	public static Float getDeltaMoz() {
-		return deltaMoz;
-	}
-
 	public static void setDeltaRT(Integer _deltaRT) {
 		deltaRT = _deltaRT;
-	}
-
-	public static Integer getDeltaRT() {
-		return deltaRT;
-	}
-
-	public static void setNbPeaksMin(Integer _nbPeaksMin) {
-		nbPeaksMin = _nbPeaksMin;
-	}
-
-	public static Integer getNbPeaksMin() {
-		return nbPeaksMin;
-	}
-
-	public static void setThetaMin(Integer _thetaMin) {
-		thetaMin = _thetaMin;
-	}
-
-	public static Integer getThetaMin() {
-		return thetaMin;
 	}
 
 	public static void setNbPeaks(Integer _nbPeaks) {
 		nbPeaks = _nbPeaks;
 	}
 
-	public static Integer getNbPeaks() {
-		return nbPeaks;
+	public static void setNbPeaksMin(Integer _nbPeaksMin) {
+		nbPeaksMin = _nbPeaksMin;
+	}
+
+	public static void setThetaMin(Integer _thetaMin) {
+		thetaMin = _thetaMin;
 	}
 
 }

@@ -40,6 +40,20 @@ public class SpectrumTitleSelector {
 	}
 
 	/**
+	 * @return the column
+	 */
+	public final String getColumn() {
+		return column;
+	}
+
+	/**
+	 * @return the file path
+	 */
+	public final String getFilePath() {
+		return filePath;
+	}
+
+	/**
 	 * @return the row number
 	 */
 	public final int getRowNumber() {
@@ -47,18 +61,17 @@ public class SpectrumTitleSelector {
 	}
 
 	/**
-	 * @param rowNumber
-	 *            the row number to set
+	 * @return the currentSheetName
 	 */
-	public final void setRowNumber(int rowNumber) {
-		this.rowNumber = rowNumber;
+	public final String getSheetName() {
+		return sheetName;
 	}
 
-	/**
-	 * @return the column
-	 */
-	public final String getColumn() {
-		return column;
+	public void initialize() {
+		rowNumber = 0;
+		column = "";
+		sheetName = "";
+		filePath = "";
 	}
 
 	/**
@@ -70,10 +83,19 @@ public class SpectrumTitleSelector {
 	}
 
 	/**
-	 * @return the currentSheetName
+	 * @param filePath
+	 *            the file path to set
 	 */
-	public final String getSheetName() {
-		return sheetName;
+	public final void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	/**
+	 * @param rowNumber
+	 *            the row number to set
+	 */
+	public final void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
 	}
 
 	/**
@@ -82,28 +104,6 @@ public class SpectrumTitleSelector {
 	 */
 	public final void setSheetName(String sheetName) {
 		this.sheetName = sheetName;
-	}
-
-	/**
-	 * @return the file path
-	 */
-	public final String getFilePath() {
-		return filePath;
-	}
-
-	/**
-	 * @param filePath
-	 *            the file path to set
-	 */
-	public final void setFilePath(String filePath) {
-		this.filePath = filePath;
-	}
-
-	public void initialize() {
-		rowNumber = 0;
-		column = "";
-		sheetName = "";
-		filePath = "";
 	}
 
 	@Override

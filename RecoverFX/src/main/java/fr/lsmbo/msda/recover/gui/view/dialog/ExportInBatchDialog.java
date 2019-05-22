@@ -52,6 +52,7 @@ import javafx.stage.Stage;
  */
 public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 
+	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	private ObservableList<File> peakListFiles = FXCollections.observableArrayList();
 	private ObservableList<File> identifiedSpectraFiles = FXCollections.observableArrayList();
 	private Map<File, File> identifiedSpectraByPeakList = new HashMap<>();
@@ -64,40 +65,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	private CheckBox addTitleSelectionChbX;
 	private SpectrumTitleSelector spectrumTitleRange;
 	private ExportInBatchProperty exportInBatchProperty;
+
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
-
-	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
-
-	/**
-	 * @return the output directory.
-	 * 
-	 */
-	public final File getOutputDirectory() {
-		return outputDirectory;
-	}
-
-	/**
-	 * @param outputDirectory
-	 *            the output directory to set.
-	 */
-	public final void setOutputDirectory(File outputDirectory) {
-		this.outputDirectory = outputDirectory;
-	}
-
-	/**
-	 * @return the the properties of export in batch
-	 */
-	public final ExportInBatchProperty getExportBatchProperty() {
-		return exportInBatchProperty;
-	}
-
-	/**
-	 * @param exportBatchProperty
-	 *            the properties of export in batch to set
-	 */
-	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
-		this.exportInBatchProperty = exportBatchProperty;
-	}
 
 	public ExportInBatchDialog() {
 
@@ -466,6 +435,13 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	}
 
 	/**
+	 * @return the the properties of export in batch
+	 */
+	public final ExportInBatchProperty getExportBatchProperty() {
+		return exportInBatchProperty;
+	}
+
+	/**
 	 * Search and add the file in the list .
 	 * 
 	 * @param directory
@@ -484,6 +460,30 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @return the output directory.
+	 * 
+	 */
+	public final File getOutputDirectory() {
+		return outputDirectory;
+	}
+
+	/**
+	 * @param exportBatchProperty
+	 *            the properties of export in batch to set
+	 */
+	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
+		this.exportInBatchProperty = exportBatchProperty;
+	}
+
+	/**
+	 * @param outputDirectory
+	 *            the output directory to set.
+	 */
+	public final void setOutputDirectory(File outputDirectory) {
+		this.outputDirectory = outputDirectory;
 	}
 
 	/**

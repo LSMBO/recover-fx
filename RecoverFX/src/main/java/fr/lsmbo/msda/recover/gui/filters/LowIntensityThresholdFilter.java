@@ -23,28 +23,46 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 	private ComputationTypes mode;
 
 	/**
-	 * 
-	 * @param _emergence
-	 *            value of the emergence (multiplier of baseline)
-	 * @param _minUPN
-	 *            minimum useful peak number - minimum number of peaks above the
-	 *            threshold
-	 * @param _maxUPN
-	 *            maximum useful peak number - maximum number of peaks above the
-	 *            threshold
-	 *            <p>
-	 *            if the number is equal to 0, filter consider only _minUPN
-	 *            </p>
-	 *
-	 * @param _mode
-	 *            value of the baseline : average or median of fragments
-	 *            intensities
+	 * @return the emergence value
 	 */
-	public void setParameters(float _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
-		emergence = _emergence;
-		minUPN = _minUPN;
-		maxUPN = _maxUPN;
-		mode = _mode;
+	public float getEmergence() {
+		return emergence;
+	}
+
+	@Override
+	public String getFullDescription() {
+		// TODO Auto-generated method stub
+		StringBuilder filterStr = new StringBuilder();
+		filterStr.append("\n").append("###Emergence: ").append(getEmergence()).append(" ; ").append("minimum UPN: ")
+				.append(getMinUPN()).append(" ; ").append("maximum UPN: ").append(getMaxUPN()).append(" ; ")
+				.append("Baseline calculate with: ").append(getMode()).append("\n");
+		return filterStr.toString();
+	}
+
+	/**
+	 * @return the max useful peaks number
+	 */
+	public int getMaxUPN() {
+		return maxUPN;
+	}
+
+	/**
+	 * @return the min useful peakns number
+	 */
+	public int getMinUPN() {
+		return minUPN;
+	}
+
+	/**
+	 * @return the computation type
+	 */
+	public ComputationTypes getMode() {
+		return mode;
+	}
+
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
 	}
 
 	/**
@@ -84,6 +102,31 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param _emergence
+	 *            value of the emergence (multiplier of baseline)
+	 * @param _minUPN
+	 *            minimum useful peak number - minimum number of peaks above the
+	 *            threshold
+	 * @param _maxUPN
+	 *            maximum useful peak number - maximum number of peaks above the
+	 *            threshold
+	 *            <p>
+	 *            if the number is equal to 0, filter consider only _minUPN
+	 *            </p>
+	 *
+	 * @param _mode
+	 *            value of the baseline : average or median of fragments
+	 *            intensities
+	 */
+	public void setParameters(float _emergence, int _minUPN, int _maxUPN, ComputationTypes _mode) {
+		emergence = _emergence;
+		minUPN = _minUPN;
+		maxUPN = _maxUPN;
+		mode = _mode;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder filterStr = new StringBuilder();
@@ -91,48 +134,5 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 				.append(getEmergence()).append(" ; ").append("minimum UPN: ").append(" ; ").append("maximum UPN: ")
 				.append(getMaxUPN()).append(" ; ").append("Baseline calculate with: ").append(getMode()).append("\n");
 		return filterStr.toString();
-	}
-
-	/**
-	 * @return the emergence value
-	 */
-	public float getEmergence() {
-		return emergence;
-	}
-
-	/**
-	 * @return the min useful peakns number
-	 */
-	public int getMinUPN() {
-		return minUPN;
-	}
-
-	/**
-	 * @return the max useful peaks number
-	 */
-	public int getMaxUPN() {
-		return maxUPN;
-	}
-
-	/**
-	 * @return the computation type
-	 */
-	public ComputationTypes getMode() {
-		return mode;
-	}
-
-	@Override
-	public String getFullDescription() {
-		// TODO Auto-generated method stub
-		StringBuilder filterStr = new StringBuilder();
-		filterStr.append("\n").append("###Emergence: ").append(getEmergence()).append(" ; ").append("minimum UPN: ")
-				.append(getMinUPN()).append(" ; ").append("maximum UPN: ").append(getMaxUPN()).append(" ; ")
-				.append("Baseline calculate with: ").append(getMode()).append("\n");
-		return filterStr.toString();
-	}
-
-	@Override
-	public String getType() {
-		return this.getClass().getSimpleName();
 	}
 }

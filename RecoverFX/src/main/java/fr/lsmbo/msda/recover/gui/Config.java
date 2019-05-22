@@ -40,6 +40,57 @@ public class Config {
 			Main.class.getClassLoader().getResource("defaultParams.json").getPath());
 	private static Properties properties = null;
 
+	/**
+	 * Return object value. Example: Config.get("max.file.size")
+	 * 
+	 * @param the
+	 *            specified key to retrieve the property value as an object.
+	 */
+	private static Object _get(String key) {
+		return properties.getProperty(key);
+	}
+
+	/**
+	 * Return a property value as String
+	 * 
+	 * @param key
+	 *            the specified key to get the property value
+	 */
+	public static String get(String key) {
+		Object value = _get(key);
+		if (value == null)
+			return null;
+		return value.toString();
+	}
+
+	/**
+	 * Return a property value as an Integer.
+	 * 
+	 * @param key
+	 *            the specified key to retrieve the property value.
+	 */
+	public static Integer getInteger(String key) {
+		Object value = _get(key);
+		if (value == null)
+			return null;
+		return new Integer(value.toString());
+	}
+
+	/**
+	 * Return an array list of properties values of matched keys with regex.
+	 * 
+	 * @param regex
+	 *            the regex used to matches with the keys.
+	 */
+	public static ArrayList<String> getPropertyKeys(String regex) {
+		ArrayList<String> keys = new ArrayList<String>();
+		for (String key : properties.stringPropertyNames()) {
+			if (key.matches(regex))
+				keys.add(key);
+		}
+		return keys;
+	}
+
 	/** Load and initialize user and Recover parameters */
 	public static void initialize() {
 		// Read recoverfx.properties file
@@ -79,65 +130,6 @@ public class Config {
 	}
 
 	/**
-	 * Return object value. Example: Config.get("max.file.size")
-	 * 
-	 * @param the
-	 *            specified key to retrieve the property value as an object.
-	 */
-	private static Object _get(String key) {
-		return properties.getProperty(key);
-	}
-
-	/**
-	 * Return a property value as an Integer.
-	 * 
-	 * @param key
-	 *            the specified key to retrieve the property value.
-	 */
-	public static Integer getInteger(String key) {
-		Object value = _get(key);
-		if (value == null)
-			return null;
-		return new Integer(value.toString());
-	}
-
-	/**
-	 * Return a property value as String
-	 * 
-	 * @param key
-	 *            the specified key to get the property value
-	 */
-	public static String get(String key) {
-		Object value = _get(key);
-		if (value == null)
-			return null;
-		return value.toString();
-	}
-
-	/**
-	 * Return an array list of properties values of matched keys with regex.
-	 * 
-	 * @param regex
-	 *            the regex used to matches with the keys.
-	 */
-	public static ArrayList<String> getPropertyKeys(String regex) {
-		ArrayList<String> keys = new ArrayList<String>();
-		for (String key : properties.stringPropertyNames()) {
-			if (key.matches(regex))
-				keys.add(key);
-		}
-		return keys;
-	}
-
-	/**
-	 * Reset user parameters. Load default parameters instead of user
-	 * parameters.
-	 */
-	public static void resetUserParams() {
-		loadUserParams(defaultParamsFile);
-	}
-
-	/**
 	 * Load user parameters. Read and parse parameters file.
 	 * 
 	 * @param paramFile
@@ -159,6 +151,14 @@ public class Config {
 			// an older version of Recover
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Reset user parameters. Load default parameters instead of user
+	 * parameters.
+	 */
+	public static void resetUserParams() {
+		loadUserParams(defaultParamsFile);
 	}
 
 	/** Save user parameters */

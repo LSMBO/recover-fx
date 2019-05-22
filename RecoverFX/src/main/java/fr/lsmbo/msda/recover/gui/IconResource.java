@@ -11,14 +11,14 @@ import javafx.scene.image.Image;
  *
  */
 public class IconResource {
-	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
-
 	/**
 	 * Enum type that indicates the name of the icon.
 	 */
 	public enum ICON {
 		APPLYFILTER, CONSOLE, EXPORT, EXPORTDATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER, IDENTIFIEDSPECTRA, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER;
 	}
+
+	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
 
 	/**
 	 * Return an image

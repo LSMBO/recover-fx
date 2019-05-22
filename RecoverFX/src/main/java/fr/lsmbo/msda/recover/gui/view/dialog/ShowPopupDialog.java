@@ -25,30 +25,6 @@ public class ShowPopupDialog extends Stage {
 	private String message;
 	private Stage parentStage;
 
-	public String getPopupTitle() {
-		return popupTitle;
-	}
-
-	public void setPopupTitle(String popupTitle) {
-		this.popupTitle = popupTitle;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public Stage getParentStage() {
-		return parentStage;
-	}
-
-	public void setParentStage(Stage parentStage) {
-		this.parentStage = parentStage;
-	}
-
 	public ShowPopupDialog(String popupTitle, String message, Stage parentStage) {
 		Stage popup = this;
 		popup.initOwner(parentStage);
@@ -71,5 +47,29 @@ public class ShowPopupDialog extends Stage {
 		popup.setHeight(180);
 		popup.setResizable(false);
 		popup.show();
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public Stage getParentStage() {
+		return parentStage;
+	}
+
+	public String getPopupTitle() {
+		return popupTitle;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setParentStage(Stage parentStage) {
+		this.parentStage = parentStage;
+	}
+
+	public void setPopupTitle(String popupTitle) {
+		this.popupTitle = popupTitle;
 	}
 }

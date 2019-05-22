@@ -17,35 +17,6 @@ public class ParsingRule {
 		this.index = index;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getRegex() {
-		return regex;
-	}
-
-	public void setRegex(String regex) {
-		this.regex = regex;
-	}
-
-	public String getPropertyKey() {
-		return propertyKey;
-	}
-
-	public void setPropertyKey(String key) {
-		this.propertyKey = key;
-	}
-
-	@Override
-	public String toString() {
-		return name;
-	}
-
 	public String getFullDescription() {
 		return "{" + propertyKey + "} " + name + ": " + regex;
 	}
@@ -54,7 +25,36 @@ public class ParsingRule {
 		return index;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String getPropertyKey() {
+		return propertyKey;
+	}
+
+	public String getRegex() {
+		return regex;
+	}
+
 	public void setIndex(Integer index) {
 		this.index = index;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPropertyKey(String key) {
+		this.propertyKey = key;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

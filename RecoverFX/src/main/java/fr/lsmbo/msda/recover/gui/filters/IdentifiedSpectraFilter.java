@@ -25,38 +25,6 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 		return fileParams;
 	}
 
-	/**
-	 * @param fileParams
-	 *            the file parameters to set
-	 */
-	public final void setFileParams(SpectrumTitleSelector fileParams) {
-		this.fileParams = fileParams;
-	}
-
-	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
-		recoverSpectrumIdentified = _recoverSpectrumIdentified;
-		recoverSpectrumNonIdentified = _recoverSpectrumNonIdentified;
-	}
-
-	/**
-	 * Determines whether the spectrum is valid.
-	 * 
-	 * @param spectrum
-	 *            the spectrum to check
-	 */
-	@Override
-	public Boolean isValid(Spectrum spectrum) {
-		if (spectrum.getIsIdentified() == true) {
-			if (recoverSpectrumIdentified)
-				return true;
-		}
-		if (spectrum.getIsIdentified() == false) {
-			if (recoverSpectrumNonIdentified)
-				return true;
-		}
-		return false;
-	}
-
 	/***
 	 * Return the description of the filter
 	 * 
@@ -95,5 +63,37 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 	@Override
 	public String getType() {
 		return this.getClass().getSimpleName();
+	}
+
+	/**
+	 * Determines whether the spectrum is valid.
+	 * 
+	 * @param spectrum
+	 *            the spectrum to check
+	 */
+	@Override
+	public Boolean isValid(Spectrum spectrum) {
+		if (spectrum.getIsIdentified() == true) {
+			if (recoverSpectrumIdentified)
+				return true;
+		}
+		if (spectrum.getIsIdentified() == false) {
+			if (recoverSpectrumNonIdentified)
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param fileParams
+	 *            the file parameters to set
+	 */
+	public final void setFileParams(SpectrumTitleSelector fileParams) {
+		this.fileParams = fileParams;
+	}
+
+	public void setParameters(Boolean _recoverSpectrumIdentified, Boolean _recoverSpectrumNonIdentified) {
+		recoverSpectrumIdentified = _recoverSpectrumIdentified;
+		recoverSpectrumNonIdentified = _recoverSpectrumNonIdentified;
 	}
 }

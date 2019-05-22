@@ -39,49 +39,49 @@ public class UserParams extends RecoverSetting {
 		this.initialize();
 	}
 
-	private void initialize() {
-		this.name = "Current user parameters";
-		this.description = ""; // TODO write a proper description
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public String getRecoverVersion() {
-		return recoverVersion;
-	}
-
-	public void setRecoverVersion(String recoverVersion) {
-		this.recoverVersion = recoverVersion;
-	}
-
 	public ComparisonSettings getComparison() {
 		return comparison;
-	}
-
-	public void setComparison(ComparisonSettings comparison) {
-		this.comparison = comparison;
 	}
 
 	public ParsingRulesSettings getParsingRules() {
 		return parsingRules;
 	}
 
+	public String getRecoverVersion() {
+		return recoverVersion;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	private void initialize() {
+		this.name = "Current user parameters";
+		this.description = ""; // TODO write a proper description
+	}
+
+	public void setComparison(ComparisonSettings comparison) {
+		this.comparison = comparison;
+	}
+
 	public void setParsingRules(ParsingRulesSettings parsingRules) {
 		this.parsingRules = parsingRules;
+	}
+
+	public void setRecoverVersion(String recoverVersion) {
+		this.recoverVersion = recoverVersion;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Override

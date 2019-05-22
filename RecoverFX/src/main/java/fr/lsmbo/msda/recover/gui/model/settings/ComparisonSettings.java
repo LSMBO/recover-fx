@@ -23,49 +23,49 @@ public class ComparisonSettings extends RecoverSetting {
 		this.initialize();
 	}
 
-	private void initialize() {
-		this.name = "Spectrum comparison settings";
-		this.description = ""; // TODO write a proper description
-	}
-
 	public Float getDeltaMoz() {
 		return deltaMoz;
-	}
-
-	public void setDeltaMoz(Float deltaMoz) {
-		this.deltaMoz = deltaMoz;
 	}
 
 	public Integer getDeltaRT() {
 		return deltaRT;
 	}
 
-	public void setDeltaRT(Integer deltaRT) {
-		this.deltaRT = deltaRT;
-	}
-
-	public Integer getNumberOfPeaksToCompare() {
-		return numberOfPeaksToCompare;
-	}
-
-	public void setNumberOfPeaksToCompare(Integer numberOfPeaksToCompare) {
-		this.numberOfPeaksToCompare = numberOfPeaksToCompare;
-	}
-
 	public Integer getMinimumNumberOfIdenticalPeaks() {
 		return minimumNumberOfIdenticalPeaks;
-	}
-
-	public void setMinimumNumberOfIdenticalPeaks(Integer minimumNumberOfIdenticalPeaks) {
-		this.minimumNumberOfIdenticalPeaks = minimumNumberOfIdenticalPeaks;
 	}
 
 	public Integer getMinimumThetaAngle() {
 		return minimumThetaAngle;
 	}
 
+	public Integer getNumberOfPeaksToCompare() {
+		return numberOfPeaksToCompare;
+	}
+
+	private void initialize() {
+		this.name = "Spectrum comparison settings";
+		this.description = ""; // TODO write a proper description
+	}
+
+	public void setDeltaMoz(Float deltaMoz) {
+		this.deltaMoz = deltaMoz;
+	}
+
+	public void setDeltaRT(Integer deltaRT) {
+		this.deltaRT = deltaRT;
+	}
+
+	public void setMinimumNumberOfIdenticalPeaks(Integer minimumNumberOfIdenticalPeaks) {
+		this.minimumNumberOfIdenticalPeaks = minimumNumberOfIdenticalPeaks;
+	}
+
 	public void setMinimumThetaAngle(Integer minimumThetaAngle) {
 		this.minimumThetaAngle = minimumThetaAngle;
+	}
+
+	public void setNumberOfPeaksToCompare(Integer numberOfPeaksToCompare) {
+		this.numberOfPeaksToCompare = numberOfPeaksToCompare;
 	}
 
 	@Override

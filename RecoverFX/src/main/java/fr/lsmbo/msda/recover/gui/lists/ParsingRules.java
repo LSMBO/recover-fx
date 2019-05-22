@@ -16,25 +16,9 @@ public class ParsingRules {
 	private static ArrayList<ParsingRule> parsingRules = new ArrayList<ParsingRule>();
 	private static Integer currentParsingRuleIndex = -1;
 
-	private static void initialize() {
-		if (parsingRules.isEmpty()) {
-			// lazy loading
-			Integer i = 0;
-			for (String key : Config.getPropertyKeys("title.regex.*")) {
-				try {
-					Pattern p = Pattern.compile("title.regex.(.*).rt");
-					Matcher m = p.matcher(key);
-					if (m.find()) {
-						parsingRules.add(new ParsingRule(m.group(1), Config.get(key), key, i));
-						if (key.equals(Session.CURRENT_REGEX_RT)) {
-							currentParsingRuleIndex = i;
-						}
-						i++;
-					}
-				} catch (Exception ex) {
-				}
-			}
-		}
+	/** Add a new parsing rule */
+	public static void add(ParsingRule rule) {
+		parsingRules.add(rule);
 	}
 
 	public static ArrayList<ParsingRule> get() {
@@ -56,16 +40,32 @@ public class ParsingRules {
 		return null;
 	}
 
-	/** Add a new parsing rule */
-	public static void add(ParsingRule rule) {
-		parsingRules.add(rule);
-	}
-
 	/** Return the current parsing rule */
 	public static ParsingRule getCurrentParsingRule() {
 		if (currentParsingRuleIndex != -1)
 			return parsingRules.get(currentParsingRuleIndex);
 		return null;
+	}
+
+	private static void initialize() {
+		if (parsingRules.isEmpty()) {
+			// lazy loading
+			Integer i = 0;
+			for (String key : Config.getPropertyKeys("title.regex.*")) {
+				try {
+					Pattern p = Pattern.compile("title.regex.(.*).rt");
+					Matcher m = p.matcher(key);
+					if (m.find()) {
+						parsingRules.add(new ParsingRule(m.group(1), Config.get(key), key, i));
+						if (key.equals(Session.CURRENT_REGEX_RT)) {
+							currentParsingRuleIndex = i;
+						}
+						i++;
+					}
+				} catch (Exception ex) {
+				}
+			}
+		}
 	}
 
 	/** Set a new current parsing rule */

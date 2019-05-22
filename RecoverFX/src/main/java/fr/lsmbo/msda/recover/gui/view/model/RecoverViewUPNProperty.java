@@ -48,11 +48,24 @@ public final class RecoverViewUPNProperty {
 	}
 
 	/**
-	 * @param emergence
-	 *            the emergence to set
+	 * @return the maxUPN
 	 */
-	public void setEmergenceProperty(FloatProperty emergence) {
-		this.emergence = emergence;
+	public final IntegerProperty getMaxUPN() {
+		return maxUPN;
+	}
+
+	/**
+	 * @return the minUPN
+	 */
+	public final IntegerProperty getMinUPN() {
+		return minUPN;
+	}
+
+	/**
+	 * @return the mode
+	 */
+	public final StringProperty getMode() {
+		return mode;
 	}
 
 	/**
@@ -64,41 +77,11 @@ public final class RecoverViewUPNProperty {
 	}
 
 	/**
-	 * @return the minUPN
+	 * @param emergence
+	 *            the emergence to set
 	 */
-	public final IntegerProperty getMinUPN() {
-		return minUPN;
-	}
-
-	/**
-	 * @param minUPN
-	 *            the minUPN to set
-	 */
-	public void setMinUPNProperty(IntegerProperty minUPN) {
-		this.minUPN = minUPN;
-	}
-
-	/**
-	 * @param minUPN
-	 *            the minUPN to set
-	 */
-	public void setMinUPN(Integer minUPN) {
-		this.minUPN.setValue(minUPN);
-	}
-
-	/**
-	 * @return the maxUPN
-	 */
-	public final IntegerProperty getMaxUPN() {
-		return maxUPN;
-	}
-
-	/**
-	 * @param maxUPN
-	 *            the maxUPN to set
-	 */
-	public void setMaxUPNProperty(IntegerProperty maxUPN) {
-		this.maxUPN = maxUPN;
+	public void setEmergenceProperty(FloatProperty emergence) {
+		this.emergence = emergence;
 	}
 
 	/**
@@ -110,18 +93,27 @@ public final class RecoverViewUPNProperty {
 	}
 
 	/**
-	 * @return the mode
+	 * @param maxUPN
+	 *            the maxUPN to set
 	 */
-	public final StringProperty getMode() {
-		return mode;
+	public void setMaxUPNProperty(IntegerProperty maxUPN) {
+		this.maxUPN = maxUPN;
 	}
 
 	/**
-	 * @param mode
-	 *            the mode to set
+	 * @param minUPN
+	 *            the minUPN to set
 	 */
-	public void setModeProperty(StringProperty mode) {
-		this.mode = mode;
+	public void setMinUPN(Integer minUPN) {
+		this.minUPN.setValue(minUPN);
+	}
+
+	/**
+	 * @param minUPN
+	 *            the minUPN to set
+	 */
+	public void setMinUPNProperty(IntegerProperty minUPN) {
+		this.minUPN = minUPN;
 	}
 
 	/**
@@ -130,6 +122,14 @@ public final class RecoverViewUPNProperty {
 	 */
 	public void setMode(String mode) {
 		this.mode.setValue(mode);
+	}
+
+	/**
+	 * @param mode
+	 *            the mode to set
+	 */
+	public void setModeProperty(StringProperty mode) {
+		this.mode = mode;
 	}
 
 	@Override

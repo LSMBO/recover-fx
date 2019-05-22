@@ -19,13 +19,14 @@ public class IonReporters {
 
 	private static ObservableList<IonReporter> ionReporters = initializeListIon();
 
-	/***
+	/**
+	 * Add an ion reporter to the ion reporter list.
 	 * 
-	 * @return initialize the ion reporters list
+	 * @param ionReporter
+	 *            the ion reporter to add.
 	 */
-	private static ObservableList<IonReporter> initializeListIon() {
-		ObservableList<IonReporter> list = FXCollections.observableArrayList();
-		return list;
+	public static void addIonReporter(IonReporter ionReporter) {
+		ionReporters.add(ionReporter);
 	}
 
 	/**
@@ -36,14 +37,13 @@ public class IonReporters {
 		return ionReporters;
 	}
 
-	/**
-	 * Add an ion reporter to the ion reporter list.
+	/***
 	 * 
-	 * @param ionReporter
-	 *            the ion reporter to add.
+	 * @return initialize the ion reporters list
 	 */
-	public static void addIonReporter(IonReporter ionReporter) {
-		ionReporters.add(ionReporter);
+	private static ObservableList<IonReporter> initializeListIon() {
+		ObservableList<IonReporter> list = FXCollections.observableArrayList();
+		return list;
 	}
 
 }

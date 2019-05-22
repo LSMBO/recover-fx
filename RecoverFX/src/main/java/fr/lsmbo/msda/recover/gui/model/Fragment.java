@@ -16,14 +16,6 @@ public class Fragment {
 	private float intensity = 0;
 	private Integer charge = 1;
 
-	@Override
-	public String toString() {
-		StringBuilder strBldr = new StringBuilder();
-		strBldr.append("###Fragment id:").append(id).append(" moz:").append(mz).append(" intensity:").append(intensity)
-				.append(" charge:").append(charge);
-		return strBldr.toString();
-	}
-
 	/**
 	 * Default constructor
 	 */
@@ -51,6 +43,14 @@ public class Fragment {
 	}
 
 	/**
+	 * 
+	 * @return the fragment charge
+	 */
+	public Integer getCharge() {
+		return charge;
+	}
+
+	/**
 	 * @return the fragement id
 	 */
 	public Integer getId() {
@@ -58,11 +58,11 @@ public class Fragment {
 	}
 
 	/**
-	 * @param id
-	 *            teh fragment id to set
+	 * 
+	 * @return the fragment intensity
 	 */
-	public void setId(Integer id) {
-		this.id = id;
+	public float getIntensity() {
+		return intensity;
 	}
 
 	/**
@@ -74,19 +74,19 @@ public class Fragment {
 
 	/**
 	 * 
-	 * @param mz
-	 *            thefragement mz to set
+	 * @param charge
+	 *            the fragment charge to set
 	 */
-	public void setMz(float mz) {
-		this.mz = mz;
+	public void setCharge(Integer charge) {
+		this.charge = charge;
 	}
 
 	/**
-	 * 
-	 * @return the fragment intensity
+	 * @param id
+	 *            teh fragment id to set
 	 */
-	public float getIntensity() {
-		return intensity;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/**
@@ -100,19 +100,19 @@ public class Fragment {
 
 	/**
 	 * 
-	 * @return the fragment charge
+	 * @param mz
+	 *            thefragement mz to set
 	 */
-	public Integer getCharge() {
-		return charge;
+	public void setMz(float mz) {
+		this.mz = mz;
 	}
 
-	/**
-	 * 
-	 * @param charge
-	 *            the fragment charge to set
-	 */
-	public void setCharge(Integer charge) {
-		this.charge = charge;
+	@Override
+	public String toString() {
+		StringBuilder strBldr = new StringBuilder();
+		strBldr.append("###Fragment id:").append(id).append(" moz:").append(mz).append(" intensity:").append(intensity)
+				.append(" charge:").append(charge);
+		return strBldr.toString();
 	}
 
 }

@@ -19,21 +19,21 @@ public class ParsingRulesSettings extends RecoverSetting {
 		this.initialize();
 	}
 
+	public String getParsingRuleName() {
+		return parsingRuleName;
+	}
+
+	public String getParsingRuleValue() {
+		return parsingRuleValue;
+	}
+
 	private void initialize() {
 		this.name = "Retention times parsing rules";
 		this.description = ""; // TODO write a proper description
 	}
 
-	public String getParsingRuleName() {
-		return parsingRuleName;
-	}
-
 	public void setParsingRuleName(String parsingRuleName) {
 		this.parsingRuleName = parsingRuleName;
-	}
-
-	public String getParsingRuleValue() {
-		return parsingRuleValue;
 	}
 
 	public void setParsingRuleValue(String parsingRuleValue) {

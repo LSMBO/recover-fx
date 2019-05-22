@@ -31,65 +31,65 @@ public class IdentificationFilterSettings extends RecoverSetting {
 		this.initialize();
 	}
 	
-	private void initialize() {
-		this.name = "Identification results";
-		this.description = ""; // TODO write a proper description
-	}
-
-	public Boolean getSelectedFilter() {
-		return selectedFilter;
-	}
-
-	public void setSelectedFilter(Boolean selectedFilter) {
-		this.selectedFilter = selectedFilter;
-	}
-
-	public Boolean getRecoverIdentified() {
-		return recoverIdentified;
-	}
-
-	public void setRecoverIdentified(Boolean recoverIdentified) {
-		this.recoverIdentified = recoverIdentified;
-	}
-
-	public Boolean getRecoverNonIdentified() {
-		return recoverNonIdentified;
-	}
-
-	public void setRecoverNonIdentified(Boolean recoverNonIdentified) {
-		this.recoverNonIdentified = recoverNonIdentified;
+	public String getExcelColumn() {
+		return excelColumn;
 	}
 
 	public String getExcelFilePath() {
 		return excelFilePath;
 	}
 
-	public void setExcelFilePath(String excelFilePath) {
-		this.excelFilePath = excelFilePath;
+	public Integer getExcelFirstRow() {
+		return excelFirstRow;
 	}
 
 	public String getExcelSheetName() {
 		return excelSheetName;
 	}
 
-	public void setExcelSheetName(String excelSheetName) {
-		this.excelSheetName = excelSheetName;
+	public Boolean getRecoverIdentified() {
+		return recoverIdentified;
 	}
 
-	public String getExcelColumn() {
-		return excelColumn;
+	public Boolean getRecoverNonIdentified() {
+		return recoverNonIdentified;
+	}
+
+	public Boolean getSelectedFilter() {
+		return selectedFilter;
+	}
+
+	private void initialize() {
+		this.name = "Identification results";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public void setExcelColumn(String excelColumn) {
 		this.excelColumn = excelColumn;
 	}
 
-	public Integer getExcelFirstRow() {
-		return excelFirstRow;
+	public void setExcelFilePath(String excelFilePath) {
+		this.excelFilePath = excelFilePath;
 	}
 
 	public void setExcelFirstRow(Integer excelFirstRow) {
 		this.excelFirstRow = excelFirstRow;
+	}
+
+	public void setExcelSheetName(String excelSheetName) {
+		this.excelSheetName = excelSheetName;
+	}
+
+	public void setRecoverIdentified(Boolean recoverIdentified) {
+		this.recoverIdentified = recoverIdentified;
+	}
+
+	public void setRecoverNonIdentified(Boolean recoverNonIdentified) {
+		this.recoverNonIdentified = recoverNonIdentified;
+	}
+
+	public void setSelectedFilter(Boolean selectedFilter) {
+		this.selectedFilter = selectedFilter;
 	}
 	
 	@Override

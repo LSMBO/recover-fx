@@ -20,26 +20,11 @@ public class ListOfSpectra {
 
 	/**
 	 * 
-	 * @return an array of spectra of the first(main) file.
+	 * @param spectra
+	 *            the spectra to add
 	 */
-	public static Spectra getFirstSpectra() {
-		return arraySpectra[0];
-	}
-
-	/**
-	 * 
-	 * @return an array of spectra of the second file.
-	 */
-	public static Spectra getSecondSpectra() {
-		return arraySpectra[1];
-	}
-
-	/**
-	 * 
-	 * @return an array of spectra of the file in batch.
-	 */
-	public static Spectra getBatchSpectra() {
-		return arraySpectra[2];
+	public static void addBatchSpectra(Spectra spectra) {
+		arraySpectra[2] = spectra;
 	}
 
 	/**
@@ -62,10 +47,25 @@ public class ListOfSpectra {
 
 	/**
 	 * 
-	 * @param spectra
-	 *            the spectra to add
+	 * @return an array of spectra of the file in batch.
 	 */
-	public static void addBatchSpectra(Spectra spectra) {
-		arraySpectra[2] = spectra;
+	public static Spectra getBatchSpectra() {
+		return arraySpectra[2];
+	}
+
+	/**
+	 * 
+	 * @return an array of spectra of the first(main) file.
+	 */
+	public static Spectra getFirstSpectra() {
+		return arraySpectra[0];
+	}
+
+	/**
+	 * 
+	 * @return an array of spectra of the second file.
+	 */
+	public static Spectra getSecondSpectra() {
+		return arraySpectra[1];
 	}
 }

@@ -26,49 +26,49 @@ public class LowIntensityThresholdFilterSettings extends RecoverSetting {
 		this.initialize();
 	}
 	
-	private void initialize() {
-		this.name = "Low intensity threshold";
-		this.description = ""; // TODO write a proper description
-	}
-
-	public Boolean getSelectedFilter() {
-		return selectedFilter;
-	}
-
-	public void setSelectedFilter(Boolean selectedFilter) {
-		this.selectedFilter = selectedFilter;
-	}
-
-	public String getMethod() {
-		return method;
-	}
-
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
 	public Float getEmergence() {
 		return emergence;
-	}
-
-	public void setEmergence(Float emergence) {
-		this.emergence = emergence;
-	}
-
-	public Integer getMinUPN() {
-		return minUPN;
-	}
-
-	public void setMinUPN(Integer minUPN) {
-		this.minUPN = minUPN;
 	}
 
 	public Integer getMaxUPN() {
 		return maxUPN;
 	}
 
+	public String getMethod() {
+		return method;
+	}
+
+	public Integer getMinUPN() {
+		return minUPN;
+	}
+
+	public Boolean getSelectedFilter() {
+		return selectedFilter;
+	}
+
+	private void initialize() {
+		this.name = "Low intensity threshold";
+		this.description = ""; // TODO write a proper description
+	}
+
+	public void setEmergence(Float emergence) {
+		this.emergence = emergence;
+	}
+
 	public void setMaxUPN(Integer maxUPN) {
 		this.maxUPN = maxUPN;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
+	public void setMinUPN(Integer minUPN) {
+		this.minUPN = minUPN;
+	}
+
+	public void setSelectedFilter(Boolean selectedFilter) {
+		this.selectedFilter = selectedFilter;
 	}
 	
 	@Override

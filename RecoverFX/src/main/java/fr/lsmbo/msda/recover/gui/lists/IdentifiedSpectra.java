@@ -17,37 +17,14 @@ public class IdentifiedSpectra {
 	private ArrayList<String> arrayTitles = new ArrayList<>();
 	private Spectra spectra;
 
-	/** Find the spectrum with its title */
-	public void setIdentified(String title) {
-		// Get the wanted spectra
-		if (!ExporIntBatch.useBatchSpectra) {
-			spectra = ListOfSpectra.getFirstSpectra();
-		} else {
-			spectra = ListOfSpectra.getBatchSpectra();
-		}
-		Spectrum spectrum = spectra.getSpectrumWithTitle(title);
-		if (spectrum != null) {
-			spectrum.setIsIdentified(true);
-		}
-	}
-
 	/**
-	 * Return titles
+	 * Add an array of titles
 	 * 
-	 * @return an array of titles
+	 * @param allTitles
+	 *            the titles to add
 	 */
-	public ArrayList<String> getArrayTitles() {
-		return arrayTitles;
-	}
-
-	/***
-	 * 
-	 * @param titles
-	 *            the tiles to set
-	 */
-
-	public void setArrayTitles(ArrayList<String> titles) {
-		this.arrayTitles = titles;
+	public void addAllTitles(ArrayList<String> allTitles) {
+		arrayTitles.addAll(allTitles);
 	}
 
 	/**
@@ -61,29 +38,12 @@ public class IdentifiedSpectra {
 	}
 
 	/**
-	 * Add an array of titles
+	 * Return titles
 	 * 
-	 * @param allTitles
-	 *            the titles to add
+	 * @return an array of titles
 	 */
-	public void addAllTitles(ArrayList<String> allTitles) {
-		arrayTitles.addAll(allTitles);
-	}
-
-	/**
-	 * Reset an array of titles
-	 */
-	public void resetArrayTitles() {
-		arrayTitles.clear();
-	}
-
-	/**
-	 * Return type
-	 * 
-	 * @return the className
-	 */
-	public String getType() {
-		return this.getClass().getName();
+	public ArrayList<String> getArrayTitles() {
+		return arrayTitles;
 	}
 
 	/**
@@ -96,6 +56,46 @@ public class IdentifiedSpectra {
 		filterStr.append("###Parameters used for Identidfied Spectra :").append("\n").append("###Titles number: ")
 				.append(arrayTitles.size() - 1).append(" ; ");
 		return filterStr.toString();
+	}
+
+	/**
+	 * Return type
+	 * 
+	 * @return the className
+	 */
+	public String getType() {
+		return this.getClass().getName();
+	}
+
+	/**
+	 * Reset an array of titles
+	 */
+	public void resetArrayTitles() {
+		arrayTitles.clear();
+	}
+
+	/***
+	 * 
+	 * @param titles
+	 *            the tiles to set
+	 */
+
+	public void setArrayTitles(ArrayList<String> titles) {
+		this.arrayTitles = titles;
+	}
+
+	/** Find the spectrum with its title */
+	public void setIdentified(String title) {
+		// Get the wanted spectra
+		if (!ExporIntBatch.useBatchSpectra) {
+			spectra = ListOfSpectra.getFirstSpectra();
+		} else {
+			spectra = ListOfSpectra.getBatchSpectra();
+		}
+		Spectrum spectrum = spectra.getSpectrumWithTitle(title);
+		if (spectrum != null) {
+			spectrum.setIsIdentified(true);
+		}
 	}
 
 }

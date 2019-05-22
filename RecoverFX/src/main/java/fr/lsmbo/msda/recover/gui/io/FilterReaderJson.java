@@ -46,16 +46,6 @@ public class FilterReaderJson {
 	private static HashMap<String, ObservableList<Object>> filtersByNameMap = new HashMap<>();
 
 	/**
-	 * Return the loaded ion reporters list without modifying the existing ion
-	 * reporters.
-	 * 
-	 * @return the loadedIonReporterlist
-	 */
-	public static ObservableList<IonReporter> getLoadedIonReporterlist() {
-		return loadedIonReporterlist;
-	}
-
-	/**
 	 * Return the loaded filter by filter name map without modifying the
 	 * existing filters.
 	 * 
@@ -63,6 +53,16 @@ public class FilterReaderJson {
 	 */
 	public static HashMap<String, ObservableList<Object>> getFiltersByNameMap() {
 		return filtersByNameMap;
+	}
+
+	/**
+	 * Return the loaded ion reporters list without modifying the existing ion
+	 * reporters.
+	 * 
+	 * @return the loadedIonReporterlist
+	 */
+	public static ObservableList<IonReporter> getLoadedIonReporterlist() {
+		return loadedIonReporterlist;
 	}
 
 	public static void load(File file) throws JsonParseException, IOException {

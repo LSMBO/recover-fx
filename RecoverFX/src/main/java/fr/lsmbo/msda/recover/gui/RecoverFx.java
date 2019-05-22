@@ -22,9 +22,12 @@ public class RecoverFx extends Application {
 	private static final Logger logger = LogManager.getLogger(RecoverFx.class);
 	public static Boolean useSecondPeaklist = false;
 
+	public static void run() {
+		launch();
+	}
+
 	@Override
 	public void init() throws Exception {
-		// TODO SQLITE.
 	}
 
 	@Override
@@ -59,9 +62,5 @@ public class RecoverFx extends Application {
 	public void stop() {
 		// TODO Make sure that all resources were closed
 
-	}
-
-	public static void run() {
-		launch();
 	}
 }

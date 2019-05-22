@@ -23,25 +23,25 @@ public class IonReporterFilterSettings extends RecoverSetting {
 		this.initialize();
 	}
 	
-	private void initialize() {
-		this.name = "Ions Reporter";
-		this.description = ""; // TODO write a proper description
+	public List<IonReporter> getIonList() {
+		return ionList;
 	}
 
 	public Boolean getSelectedFilter() {
 		return selectedFilter;
 	}
 
-	public void setSelectedFilter(Boolean selectedFilter) {
-		this.selectedFilter = selectedFilter;
-	}
-
-	public List<IonReporter> getIonList() {
-		return ionList;
+	private void initialize() {
+		this.name = "Ions Reporter";
+		this.description = ""; // TODO write a proper description
 	}
 
 	public void setIonList(List<IonReporter> ionList) {
 		this.ionList = ionList;
+	}
+
+	public void setSelectedFilter(Boolean selectedFilter) {
+		this.selectedFilter = selectedFilter;
 	}
 	
 	@Override

@@ -128,20 +128,6 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 	}
 
 	/**
-	 * Return ion reporters description to load from the JSON file
-	 * 
-	 * @return ion reporters description
-	 */
-	private String getIonReportesDesc() {
-		String allIons = "";
-		for (IonReporter ir : FilterReaderJson.getLoadedIonReporterlist()) {
-			allIons += "###" + ir.toString() + "\n";
-		}
-		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter."
-				+ "\n" + allIons;
-	}
-
-	/**
 	 * Return the filter TreeItem values
 	 * 
 	 * @return TreeItem<String>
@@ -201,5 +187,19 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 			filtersItems.add(filterName);
 		});
 		return filtersItems;
+	}
+
+	/**
+	 * Return ion reporters description to load from the JSON file
+	 * 
+	 * @return ion reporters description
+	 */
+	private String getIonReportesDesc() {
+		String allIons = "";
+		for (IonReporter ir : FilterReaderJson.getLoadedIonReporterlist()) {
+			allIons += "###" + ir.toString() + "\n";
+		}
+		return "###Ion Reporter Filter used with : " + IonReporters.getIonReporters().size() + " ion(s) reporter."
+				+ "\n" + allIons;
 	}
 }

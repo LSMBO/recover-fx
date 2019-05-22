@@ -34,6 +34,147 @@ public class Spectra {
 	}
 
 	/**
+	 * Add a spectrum
+	 * 
+	 * @param spectrum
+	 *            the spectrum to add
+	 */
+	public void addSpectrum(Spectrum spectrum) {
+
+		spectra.add(spectrum);
+		nbSpectra++;
+	}
+
+	/**
+	 * Compute the percentage of identified spectrum
+	 */
+	private void computePercentageIdentified() {
+		if (nbSpectra != 0) {
+			percentageIdentified = (((float) nbIdentified / (float) nbSpectra) * 100);
+		}
+
+	}
+
+	/**
+	 * Compute the percentage of recovered spectrum
+	 */
+	private void computePercentageRecover() {
+		if (nbSpectra != 0) {
+			percentageRecover = (((float) nbRecover / (float) nbSpectra) * 100);
+		}
+	}
+
+	/**
+	 * Count the number of matched spectrum
+	 */
+	private void countNbMatched() {
+		nbMatched = 0;
+		for (Spectrum sp : getSpectraAsObservable()) {
+			if (sp.getNbMatch() != 0) {
+				nbMatched++;
+			}
+		}
+	}
+
+	/**
+	 * Scan all the spectrum and increment the number of recover every time the
+	 * value of recover for this spectrum will be true
+	 */
+	public void countRecoveredAndIdentifiedSpectra() {
+		nbRecover = 0;
+		nbIdentified = 0;
+		Integer nb = getSpectraAsObservable().size();
+		for (int i = 0; i < nb; i++) {
+			Spectrum spectrum = getSpectraAsObservable().get(i);
+			if (spectrum.getIsRecovered())
+				nbRecover++;
+			if (spectrum.getIsIdentified())
+				nbIdentified++;
+		}
+	}
+
+	/**
+	 * Return the number of identified spectra.
+	 * 
+	 * @return nbIdentified
+	 */
+	public Integer getNbIdentified() {
+		countRecoveredAndIdentifiedSpectra();
+		return nbIdentified;
+	}
+
+	/**
+	 * Return the number of matched spectrum
+	 */
+	public Integer getNbMatched() {
+		countNbMatched();
+		return nbMatched;
+	}
+
+	/**
+	 * Return the number of recovered spectra.
+	 * 
+	 * @return nbRecover
+	 */
+	public Integer getNbRecover() {
+		countRecoveredAndIdentifiedSpectra();
+		return nbRecover;
+	}
+
+	/**
+	 * Return the number of spectra.
+	 * 
+	 * @return nbSpectra
+	 */
+	public Integer getNbSpectra() {
+		return nbSpectra;
+	}
+
+	/**
+	 * Return the percentage of identified spectrum
+	 */
+	public Float getPercentageIdentified() {
+		computePercentageIdentified();
+		return percentageIdentified;
+	}
+
+	/**
+	 * Return the percentage of recovered spectrum
+	 */
+	public Float getPercentageRecover() {
+		computePercentageRecover();
+		return percentageRecover;
+	}
+
+	/**
+	 * Return an observable list of spectra.
+	 * 
+	 * @return spectra
+	 */
+	public ObservableList<Spectrum> getSpectraAsObservable() {
+		return spectra;
+	}
+
+	/**
+	 * 
+	 * @param title
+	 *            title of spectrum that we need to find
+	 * @return specificSpectrum
+	 */
+	public Spectrum getSpectrumWithTitle(String title) {
+		Integer nb = getSpectraAsObservable().size();
+		Spectrum specificSpectrum = null;
+		for (int i = 0; i < nb; i++) {
+			Spectrum spectrum = getSpectraAsObservable().get(i);
+			if (spectrum.getTitle().equalsIgnoreCase(title)) {
+				specificSpectrum = spectrum;
+			}
+		}
+
+		return specificSpectrum;
+	}
+
+	/**
 	 * Initialize the list.
 	 * 
 	 * @return an empty observableArrayList
@@ -58,82 +199,6 @@ public class Spectra {
 	}
 
 	/**
-	 * Add a spectrum
-	 * 
-	 * @param spectrum
-	 *            the spectrum to add
-	 */
-	public void addSpectrum(Spectrum spectrum) {
-
-		spectra.add(spectrum);
-		nbSpectra++;
-	}
-
-	/**
-	 * Return an observable list of spectra.
-	 * 
-	 * @return spectra
-	 */
-	public ObservableList<Spectrum> getSpectraAsObservable() {
-		return spectra;
-	}
-
-	/**
-	 * Update the retention time from the titles.
-	 */
-	public synchronized void updateRetentionTimeFromTitle() {
-		for (Spectrum spectrum : spectra) {
-			spectrum.setRetentionTimeFromTitle();
-		}
-	}
-
-	/**
-	 * Scan all the spectrum and increment the number of recover every time the
-	 * value of recover for this spectrum will be true
-	 */
-	public void countRecoveredAndIdentifiedSpectra() {
-		nbRecover = 0;
-		nbIdentified = 0;
-		Integer nb = getSpectraAsObservable().size();
-		for (int i = 0; i < nb; i++) {
-			Spectrum spectrum = getSpectraAsObservable().get(i);
-			if (spectrum.getIsRecovered())
-				nbRecover++;
-			if (spectrum.getIsIdentified())
-				nbIdentified++;
-		}
-	}
-
-	/**
-	 * Return the number of spectra.
-	 * 
-	 * @return nbSpectra
-	 */
-	public Integer getNbSpectra() {
-		return nbSpectra;
-	}
-
-	/**
-	 * Return the number of recovered spectra.
-	 * 
-	 * @return nbRecover
-	 */
-	public Integer getNbRecover() {
-		countRecoveredAndIdentifiedSpectra();
-		return nbRecover;
-	}
-
-	/**
-	 * Return the number of identified spectra.
-	 * 
-	 * @return nbIdentified
-	 */
-	public Integer getNbIdentified() {
-		countRecoveredAndIdentifiedSpectra();
-		return nbIdentified;
-	}
-
-	/**
 	 * Remove the first spectra.
 	 */
 	public void removeOne() {
@@ -142,67 +207,23 @@ public class Spectra {
 	}
 
 	/**
-	 * 
-	 * @param title
-	 *            title of spectrum that we need to find
-	 * @return specificSpectrum
+	 * Reset the Cos theta
 	 */
-	public Spectrum getSpectrumWithTitle(String title) {
-		Integer nb = getSpectraAsObservable().size();
-		Spectrum specificSpectrum = null;
-		for (int i = 0; i < nb; i++) {
-			Spectrum spectrum = getSpectraAsObservable().get(i);
-			if (spectrum.getTitle().equalsIgnoreCase(title)) {
-				specificSpectrum = spectrum;
-			}
-		}
-
-		return specificSpectrum;
-	}
-
-	/**
-	 * Compute the percentage of recovered spectrum
-	 */
-	private void computePercentageRecover() {
-		if (nbSpectra != 0) {
-			percentageRecover = (((float) nbRecover / (float) nbSpectra) * 100);
-		}
-	}
-
-	/**
-	 * Compute the percentage of identified spectrum
-	 */
-	private void computePercentageIdentified() {
-		if (nbSpectra != 0) {
-			percentageIdentified = (((float) nbIdentified / (float) nbSpectra) * 100);
-		}
-
-	}
-
-	/**
-	 * Return the percentage of recovered spectrum
-	 */
-	public Float getPercentageRecover() {
-		computePercentageRecover();
-		return percentageRecover;
-	}
-
-	/**
-	 * Return the percentage of identified spectrum
-	 */
-	public Float getPercentageIdentified() {
-		computePercentageIdentified();
-		return percentageIdentified;
-	}
-
-	/**
-	 * Reset the recovered spectrum
-	 */
-	public synchronized void resetRecover() {
+	public synchronized void resetCosTheta() {
 		for (Spectrum sp : getSpectraAsObservable()) {
-			sp.setIsRecovered(false);
-			this.nbRecover = 0;
+			sp.setCosThetha(0);
 		}
+	}
+
+	/**
+	 * Reset all filters
+	 */
+	public synchronized void resetFilters() {
+		getSpectraAsObservable().stream().forEach(spectrum -> {
+			spectrum.setIsRecoverLIT(StatusFilterType.NOT_USED);
+			spectrum.setIsRecoverIS(StatusFilterType.NOT_USED);
+			spectrum.setIsRecoverIR(StatusFilterType.NOT_USED);
+		});
 	}
 
 	/**
@@ -216,11 +237,12 @@ public class Spectra {
 	}
 
 	/**
-	 * Reset the Cos theta
+	 * Reset the recovered spectrum
 	 */
-	public synchronized void resetCosTheta() {
+	public synchronized void resetRecover() {
 		for (Spectrum sp : getSpectraAsObservable()) {
-			sp.setCosThetha(0);
+			sp.setIsRecovered(false);
+			this.nbRecover = 0;
 		}
 	}
 
@@ -236,33 +258,11 @@ public class Spectra {
 	}
 
 	/**
-	 * Count the number of matched spectrum
+	 * Update the retention time from the titles.
 	 */
-	private void countNbMatched() {
-		nbMatched = 0;
-		for (Spectrum sp : getSpectraAsObservable()) {
-			if (sp.getNbMatch() != 0) {
-				nbMatched++;
-			}
+	public synchronized void updateRetentionTimeFromTitle() {
+		for (Spectrum spectrum : spectra) {
+			spectrum.setRetentionTimeFromTitle();
 		}
-	}
-
-	/**
-	 * Return the number of matched spectrum
-	 */
-	public Integer getNbMatched() {
-		countNbMatched();
-		return nbMatched;
-	}
-
-	/**
-	 * Reset all filters
-	 */
-	public synchronized void resetFilters() {
-		getSpectraAsObservable().stream().forEach(spectrum -> {
-			spectrum.setIsRecoverLIT(StatusFilterType.NOT_USED);
-			spectrum.setIsRecoverIS(StatusFilterType.NOT_USED);
-			spectrum.setIsRecoverIR(StatusFilterType.NOT_USED);
-		});
 	}
 }

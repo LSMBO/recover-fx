@@ -27,26 +27,6 @@ public class Filters {
 	private static ArrayList<Integer> arrayFilter = new ArrayList<Integer>();
 
 	/**
-	 * Initialize the HashMap. It remove all the applied filters.
-	 * 
-	 * @return An empty HashMap.
-	 */
-	@SuppressWarnings({ "unused" })
-	private static HashMap<String, ObservableList<Object>> initialize() {
-		filtersByNameMap.clear();
-		return filtersByNameMap;
-	}
-
-	/***
-	 * Return the applied column filters
-	 * 
-	 * @return HashMap of column filters
-	 */
-	public static HashMap<String, ObservableList<Object>> getAll() {
-		return filtersByNameMap;
-	}
-
-	/**
 	 * Add a column filter
 	 * 
 	 * @param The
@@ -57,41 +37,6 @@ public class Filters {
 	 */
 	public static void add(String colmunName, ObservableList<Object> filters) {
 		filtersByNameMap.put(colmunName, filters);
-	}
-
-	/**
-	 * Remove all applied filters for all columns
-	 * 
-	 * @return true if the hashMap that hold all columns and list filters is
-	 *         empty
-	 */
-	public static boolean resetAll() {
-		if (!filtersByNameMap.isEmpty())
-			filtersByNameMap.clear();
-		return filtersByNameMap.isEmpty();
-	}
-
-	/**
-	 * Remove all applied filters for one column
-	 * 
-	 * @return true if list that hold all filters is empty
-	 */
-	public static boolean resetOne(String columnName) {
-		if (filtersByNameMap.containsKey(columnName)) {
-			filtersByNameMap.put(columnName, FXCollections.observableArrayList());
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Remove a filter from the applied filters.
-	 * 
-	 * @return true if the list that hold all filters is empty
-	 */
-	public static void remove(String columnName) {
-		filtersByNameMap.remove(columnName);
 	}
 
 	/***
@@ -105,6 +50,15 @@ public class Filters {
 	 */
 	public static void addAll(Map<String, ObservableList<Object>> filtersListMap) {
 		filtersByNameMap.putAll(filtersListMap);
+	}
+
+	/***
+	 * Return the applied column filters
+	 * 
+	 * @return HashMap of column filters
+	 */
+	public static HashMap<String, ObservableList<Object>> getAll() {
+		return filtersByNameMap;
 	}
 
 	/***
@@ -152,6 +106,52 @@ public class Filters {
 			}
 		});
 		return strBuilder.toString();
+	}
+
+	/**
+	 * Initialize the HashMap. It remove all the applied filters.
+	 * 
+	 * @return An empty HashMap.
+	 */
+	@SuppressWarnings({ "unused" })
+	private static HashMap<String, ObservableList<Object>> initialize() {
+		filtersByNameMap.clear();
+		return filtersByNameMap;
+	}
+
+	/**
+	 * Remove a filter from the applied filters.
+	 * 
+	 * @return true if the list that hold all filters is empty
+	 */
+	public static void remove(String columnName) {
+		filtersByNameMap.remove(columnName);
+	}
+
+	/**
+	 * Remove all applied filters for all columns
+	 * 
+	 * @return true if the hashMap that hold all columns and list filters is
+	 *         empty
+	 */
+	public static boolean resetAll() {
+		if (!filtersByNameMap.isEmpty())
+			filtersByNameMap.clear();
+		return filtersByNameMap.isEmpty();
+	}
+
+	/**
+	 * Remove all applied filters for one column
+	 * 
+	 * @return true if list that hold all filters is empty
+	 */
+	public static boolean resetOne(String columnName) {
+		if (filtersByNameMap.containsKey(columnName)) {
+			filtersByNameMap.put(columnName, FXCollections.observableArrayList());
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

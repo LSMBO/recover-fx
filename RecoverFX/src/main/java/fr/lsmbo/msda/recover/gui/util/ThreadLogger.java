@@ -18,6 +18,13 @@ public class ThreadLogger implements Thread.UncaughtExceptionHandler {
 	/* Instance variables */
 	private final Logger m_logger;
 
+	/**
+	 * Create a new ThreadLogger with a default Logger.
+	 */
+	public ThreadLogger() {
+		this(LogManager.getLogger(ThreadLogger.class));
+	}
+
 	/* Constructors */
 	/**
 	 * Create a new ThreadLogger from a given Logger.
@@ -47,13 +54,6 @@ public class ThreadLogger implements Thread.UncaughtExceptionHandler {
 		}
 
 		m_logger = LogManager.getLogger(loggerName);
-	}
-
-	/**
-	 * Create a new ThreadLogger with a default Logger.
-	 */
-	public ThreadLogger() {
-		this(LogManager.getLogger(ThreadLogger.class));
 	}
 
 	/* Public methods */

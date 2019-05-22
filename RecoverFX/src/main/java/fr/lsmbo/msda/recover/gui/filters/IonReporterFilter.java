@@ -18,10 +18,18 @@ public class IonReporterFilter implements BasicFilter {
 	private Float moz;
 	private Float tolerance;
 
-	public void setParameters(String name, Float moz, Float tolerance) {
-		this.name = name;
-		this.moz = moz;
-		this.tolerance = tolerance;
+	@Override
+	public String getFullDescription() {
+		String allIons = "";
+		for (IonReporter ir : IonReporters.getIonReporters()) {
+			allIons += "###" + ir.toString() + "\n";
+		}
+		return "###" + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons;
+	}
+
+	@Override
+	public String getType() {
+		return this.getClass().getSimpleName();
 	}
 
 	@Override
@@ -44,18 +52,10 @@ public class IonReporterFilter implements BasicFilter {
 		return false;
 	}
 
-	@Override
-	public String getFullDescription() {
-		String allIons = "";
-		for (IonReporter ir : IonReporters.getIonReporters()) {
-			allIons += "###" + ir.toString() + "\n";
-		}
-		return "###" + IonReporters.getIonReporters().size() + " ion(s) reporter." + "\n" + allIons;
-	}
-
-	@Override
-	public String getType() {
-		return this.getClass().getSimpleName();
+	public void setParameters(String name, Float moz, Float tolerance) {
+		this.name = name;
+		this.moz = moz;
+		this.tolerance = tolerance;
 	}
 
 }

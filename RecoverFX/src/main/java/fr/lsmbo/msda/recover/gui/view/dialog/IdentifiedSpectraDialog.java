@@ -37,10 +37,10 @@ import javafx.stage.Stage;
  *
  */
 public class IdentifiedSpectraDialog extends Dialog<Object> {
+	private static Boolean isExcelFileImported = false;
 	private IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 	private IdentifiedSpectraFilter identifiedSpectraFilter = new IdentifiedSpectraFilter();
 	private IdentifiedSpectraFromExcel identifiedSpectraFromExcel = null;
-	private static Boolean isExcelFileImported = false;
 	// Components
 	TextField filePathTF = null;
 

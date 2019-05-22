@@ -99,105 +99,6 @@ public class MainView extends StackPane {
 	private Label EmregenceValueLabel;
 	private ChoiceBox<String> modeBaselineCmBox;
 
-	/**
-	 * Return the selected spectrum.
-	 * 
-	 * @return selectedSpectrum
-	 */
-	public Spectrum getSelectedSpectrum() {
-		return selectedSpectrum;
-	}
-
-	/**
-	 * @param selectedSpectrum
-	 *            the selected spectrum to set
-	 */
-	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
-		this.selectedSpectrum = selectedSpectrum;
-	}
-
-	/**
-	 * @return the view properties
-	 */
-	public RecoverViewProperty getViewProperties() {
-		return viewProperty;
-	}
-
-	/**
-	 * @param viewProperties
-	 *            the view properties to set
-	 */
-	public void setViewProperties(RecoverViewProperty viewProperties) {
-		this.viewProperty = viewProperties;
-	}
-
-	/**
-	 * @return the filter properties
-	 */
-	public RecoverViewUPNProperty getFilterProperties() {
-		return filterLITProperty;
-	}
-
-	/**
-	 * @param filterProperties
-	 *            the filter properties to set
-	 */
-	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
-		this.filterLITProperty = filterProperties;
-	}
-
-	/**
-	 * @return the filtered table
-	 */
-	public FilteredTableView<Spectrum> getFilteredTable() {
-		return filteredTable;
-	}
-
-	/**
-	 * @param filteredTable
-	 *            the filtered table to set
-	 */
-	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
-		this.filteredTable = filteredTable;
-	}
-
-	/**
-	 * @return the view model
-	 */
-	public RecoverViewModel getModel() {
-		return model;
-	}
-
-	/**
-	 * @param model
-	 *            the view model to set
-	 */
-	public void setModel(RecoverViewModel model) {
-		this.model = model;
-	}
-
-	/**
-	 * @return the task runner
-	 */
-	public TaskRunner getTaskRunner() {
-		return taskRunner;
-	}
-
-	/**
-	 * @param taskRunner
-	 *            the task runner to set
-	 */
-	public void setTaskRunner(TaskRunner taskRunner) {
-		this.taskRunner = taskRunner;
-	}
-
-	/**
-	 * @return the swing node for chart
-	 */
-	public SwingNode getSwingNodeForChart() {
-		return swingNodeForChart;
-	}
-
 	@SuppressWarnings(value = { "unchecked", "static-access", "rawtypes" })
 	public MainView(RecoverViewModel model) {
 		// Create the glassePane
@@ -727,18 +628,6 @@ public class MainView extends StackPane {
 	}
 
 	/**
-	 * Keep the original items and use a copy of items whenever a filter is
-	 * invoked
-	 * 
-	 * @return The original items (first spectra as observable)
-	 */
-	private ObservableList<Spectrum> initializeItems() {
-		final ObservableList<Spectrum> initialItems = FXCollections
-				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
-		return initialItems;
-	}
-
-	/**
 	 * Apply all column filters and refresh the table view.
 	 */
 	private void applyColumnFilters() {
@@ -782,6 +671,117 @@ public class MainView extends StackPane {
 		}
 		viewProperty.setFilteredNb(String.valueOf(nbRecover));
 		viewProperty.setFilteredPerc(String.format("%.2f", percentageRecover));
+	}
+
+	/**
+	 * @return the filtered table
+	 */
+	public FilteredTableView<Spectrum> getFilteredTable() {
+		return filteredTable;
+	}
+
+	/**
+	 * @return the filter properties
+	 */
+	public RecoverViewUPNProperty getFilterProperties() {
+		return filterLITProperty;
+	}
+
+	/**
+	 * @return the view model
+	 */
+	public RecoverViewModel getModel() {
+		return model;
+	}
+
+	/**
+	 * Return the selected spectrum.
+	 * 
+	 * @return selectedSpectrum
+	 */
+	public Spectrum getSelectedSpectrum() {
+		return selectedSpectrum;
+	}
+
+	/**
+	 * @return the swing node for chart
+	 */
+	public SwingNode getSwingNodeForChart() {
+		return swingNodeForChart;
+	}
+
+	/**
+	 * @return the task runner
+	 */
+	public TaskRunner getTaskRunner() {
+		return taskRunner;
+	}
+
+	/**
+	 * @return the view properties
+	 */
+	public RecoverViewProperty getViewProperties() {
+		return viewProperty;
+	}
+
+	/**
+	 * Keep the original items and use a copy of items whenever a filter is
+	 * invoked
+	 * 
+	 * @return The original items (first spectra as observable)
+	 */
+	private ObservableList<Spectrum> initializeItems() {
+		final ObservableList<Spectrum> initialItems = FXCollections
+				.observableArrayList(ListOfSpectra.getFirstSpectra().getSpectraAsObservable());
+		return initialItems;
+	}
+
+	/**
+	 * @param filteredTable
+	 *            the filtered table to set
+	 */
+	public void setFilteredTable(FilteredTableView<Spectrum> filteredTable) {
+		this.filteredTable = filteredTable;
+	}
+
+	/**
+	 * @param filterProperties
+	 *            the filter properties to set
+	 */
+	public void setFilterProperties(RecoverViewUPNProperty filterProperties) {
+		this.filterLITProperty = filterProperties;
+	}
+
+	/**
+	 * @param model
+	 *            the view model to set
+	 */
+	public void setModel(RecoverViewModel model) {
+		this.model = model;
+	}
+
+	/**
+	 * @param selectedSpectrum
+	 *            the selected spectrum to set
+	 */
+	public void setSelectedSpectrum(Spectrum selectedSpectrum) {
+		this.selectedSpectrum = selectedSpectrum;
+	}
+
+	/**
+	 * @param taskRunner
+	 *            the task runner to set
+	 */
+	public void setTaskRunner(TaskRunner taskRunner) {
+		this.taskRunner = taskRunner;
+	}
+
+	/**
+	 * @param viewProperties
+	 *            the view properties to set
+	 */
+	public void setViewProperties(RecoverViewProperty viewProperties) {
+		this.viewProperty = viewProperties;
 	}
 
 	/**

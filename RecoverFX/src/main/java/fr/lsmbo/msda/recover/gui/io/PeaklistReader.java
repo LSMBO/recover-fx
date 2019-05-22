@@ -33,10 +33,6 @@ public class PeaklistReader {
 	private static final Logger logger = LogManager.getLogger(PeaklistReader.class);
 	private static Boolean retentionTimesAreMissing = true;
 
-	public static Boolean retentionTimesNotFound() {
-		return retentionTimesAreMissing;
-	}
-
 	public static void load(File file) {
 
 		String filePath = file.getAbsolutePath();
@@ -226,5 +222,9 @@ public class PeaklistReader {
 											// it would trigger a dialogbox for
 											// parsing titles which would be
 											// useless
+	}
+
+	public static Boolean retentionTimesNotFound() {
+		return retentionTimesAreMissing;
 	}
 }
