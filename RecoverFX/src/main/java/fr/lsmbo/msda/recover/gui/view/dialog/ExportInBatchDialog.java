@@ -108,7 +108,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		emptyPeakListDirLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyPeakListDirLabel.setStyle(JavaFxUtils.RED_ITALIC);
 
-		Label emptyJsonFileLabel = new Label("Choose a filters file. Make sure that you have selected a valid file!");
+		Label emptyJsonFileLabel = new Label(
+				"Choose a filters file. The loaded filters will be added to the current session. Make sure that you have selected a valid file!");
 		emptyJsonFileLabel.setGraphic(new ImageView(IconResource.getImage(ICON.WARNING)));
 		emptyJsonFileLabel.setStyle(JavaFxUtils.RED_ITALIC);
 		Label emptyOutputDirLabel = new Label(
