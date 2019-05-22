@@ -8,12 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
 	private static final Logger logger = LogManager.getLogger(Main.class);
+
 	public static void main(String[] args) {
 		// Initialize configuration parameters.
 		Config.initialize();
-		// Add usage method (use jcommander)
 		if (args.length == 0) {
-			logger.info("Start RecoverFx-GUI");
+			logger.info("Start RecoverFx");
 			RecoverFx.run();
 		} else {
 			logger.info("Add CLI");
