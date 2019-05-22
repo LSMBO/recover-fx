@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 /**
  * Creates and displays about Recover software dialog.
  * 
- * @author aromdhani
+ * @author Aromdhani
  *
  */
 public class AboutDialog extends Dialog<String> {

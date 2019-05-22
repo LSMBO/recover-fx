@@ -53,6 +53,7 @@ public class LowIntensityThresholdFilter implements BasicFilter {
 	 * @param spectrum
 	 *            the spectrum to check.
 	 */
+	@Override
 	public Boolean isValid(Spectrum spectrum) {
 		// first get the raw baseline
 		float baseline = spectrum.getMedianFragmentsIntensities();

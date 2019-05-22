@@ -151,7 +151,8 @@ public class PeaklistReader {
 		}
 		// Add spectra as a batch spectra
 		if (ExporIntBatch.useBatchSpectra) {
-			System.out.println("INFO - Add batch peaklist");
+			System.out.println("INFO - Add peaklist in batch mode");
+			logger.info("Add peaklist in batch mode");
 			ListOfSpectra.addBatchSpectra(spectra);
 		}
 

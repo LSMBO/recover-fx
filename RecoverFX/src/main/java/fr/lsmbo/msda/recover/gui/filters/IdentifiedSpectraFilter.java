@@ -44,6 +44,7 @@ public class IdentifiedSpectraFilter implements BasicFilter {
 	 * @param spectrum
 	 *            the spectrum to check
 	 */
+	@Override
 	public Boolean isValid(Spectrum spectrum) {
 		if (spectrum.getIsIdentified() == true) {
 			if (recoverSpectrumIdentified)

@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 /**
  * Creates and displays dialog window
  * 
- * @author aromdhani
+ * @author Aromdhani
  *
  */
 public class ShowPopupDialog extends Stage {

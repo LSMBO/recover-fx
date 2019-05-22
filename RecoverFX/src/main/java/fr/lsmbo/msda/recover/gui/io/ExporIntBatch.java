@@ -8,9 +8,7 @@ import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.DataValidationConstraint.OperatorType;
 import org.google.jhsheets.filtered.operators.BooleanOperator;
-import org.google.jhsheets.filtered.operators.IFilterOperator;
 import org.google.jhsheets.filtered.operators.IFilterOperator.Type;
 
 import fr.lsmbo.msda.recover.gui.filters.FilterRequest;

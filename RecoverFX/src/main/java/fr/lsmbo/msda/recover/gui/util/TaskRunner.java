@@ -46,9 +46,9 @@ public class TaskRunner {
 	 */
 	public TaskRunner(Node mainView, Node glassPane, Label statusLabel) {
 		super();
-		this.mainView = mainView;
-		this.glassPane = glassPane;
-		this.statusLabel = statusLabel;
+		TaskRunner.mainView = mainView;
+		TaskRunner.glassPane = glassPane;
+		TaskRunner.statusLabel = statusLabel;
 	}
 
 	/**

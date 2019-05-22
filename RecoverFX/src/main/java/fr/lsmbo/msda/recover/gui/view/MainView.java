@@ -50,6 +50,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -232,7 +233,7 @@ public class MainView extends StackPane {
 		});
 		// Export in batch
 		MenuItem exportInBatchFile = new MenuItem(" Export in batch  ... ");
-		exportInBatchFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
+		exportInBatchFile.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORTDATA)));
 		exportInBatchFile.setAccelerator(new KeyCodeCombination(KeyCode.B, KeyCombination.CONTROL_DOWN));
 		exportInBatchFile.setOnAction((e) -> {
 			model.onExportInBatch();
@@ -405,7 +406,7 @@ public class MainView extends StackPane {
 				ionReporterColumn, wrongChargeColumn);
 
 		filteredTable.autosize();
-		filteredTable.setColumnResizePolicy(filteredTable.CONSTRAINED_RESIZE_POLICY);
+		filteredTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		filteredTable.setPadding(new Insets(5, 5, 5, 5));
 		filteredTable.setMinHeight(250);
 

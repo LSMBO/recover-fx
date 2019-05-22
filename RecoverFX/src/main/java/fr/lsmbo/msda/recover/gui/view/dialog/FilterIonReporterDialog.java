@@ -70,7 +70,7 @@ public class FilterIonReporterDialog extends Dialog<Object> {
 
 		ionReporterTable.getColumns().addAll(mzCol, toleranceCol, nameCol);
 		ionReporterTable.autosize();
-		ionReporterTable.setColumnResizePolicy(ionReporterTable.CONSTRAINED_RESIZE_POLICY);
+		ionReporterTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		// Layout
 		GridPane filter3Pane = new GridPane();

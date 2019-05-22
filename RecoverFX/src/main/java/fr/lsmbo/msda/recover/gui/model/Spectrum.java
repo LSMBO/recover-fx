@@ -325,6 +325,7 @@ public class Spectrum {
 	 * @param lineStart
 	 *            the line start in the file to set
 	 */
+	@Deprecated
 	public void setLineStart(Integer lineStart) {
 		this.lineStart = lineStart;
 	}
@@ -413,10 +414,10 @@ public class Spectrum {
 				this.averageFragmentsIntensities = sum / this.nbFragments;
 				Arrays.sort(intensities);
 				if (intensities.length % 2 == 0)
-					this.medianFragmentsIntensities = ((Float) intensities[intensities.length / 2]
-							+ (Float) intensities[intensities.length / 2 - 1]) / 2;
+					this.medianFragmentsIntensities = (intensities[intensities.length / 2]
+							+ intensities[intensities.length / 2 - 1]) / 2;
 				else
-					this.medianFragmentsIntensities = (Float) intensities[intensities.length / 2];
+					this.medianFragmentsIntensities = intensities[intensities.length / 2];
 				this.fragmentMaxMoz = fragments.get(this.nbFragments - 1).getMz();
 			}
 		}

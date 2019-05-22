@@ -41,6 +41,7 @@ public class ParsingRule {
 		this.propertyKey = key;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}

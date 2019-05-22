@@ -69,7 +69,7 @@ public class ParsingRulesDialog extends Dialog<ParsingRule> {
 		newRT.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 		table.getColumns().addAll(title, newRT);
 		table.autosize();
-		table.setColumnResizePolicy(table.CONSTRAINED_RESIZE_POLICY);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		selectedParsingCmBox.setOnAction((e) -> {
 			selectedParsingRule = ParsingRules.get(selectedParsingCmBox.getValue());

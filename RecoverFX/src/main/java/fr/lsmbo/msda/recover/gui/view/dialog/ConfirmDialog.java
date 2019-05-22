@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 /**
  * Creates and displays pop up dialog
  * 
- * @author aromdhani
+ * @author Aromdhani
  * @param <T>
  *
  */

@@ -67,6 +67,7 @@ public class ThreadLogger implements Thread.UncaughtExceptionHandler {
 	 * 
 	 * @see java.lang.Thread.UncaughtExceptionHandler#uncaughtException
 	 */
+	@Override
 	public void uncaughtException(final Thread t, final Throwable e) {
 		assert (m_logger != null) : "ThreadLogger.uncaughtException() m_logger is null";
 

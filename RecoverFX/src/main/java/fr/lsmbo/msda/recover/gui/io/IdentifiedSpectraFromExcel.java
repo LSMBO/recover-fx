@@ -134,7 +134,7 @@ public class IdentifiedSpectraFromExcel {
 			getSpectrumTitlesSelection();
 
 			// Transform a string column ("A", "B" ...) as an index
-			int columnIndex = CellReference.convertColStringToIndex(fileParams.getColumn());
+			int columnIndex = org.apache.poi.ss.util.CellReference.convertColStringToIndex(fileParams.getColumn());
 			XSSFSheet currentSheet = workbook.getSheet(fileParams.getSheetName());
 			Iterator<Row> rowIterator = currentSheet.iterator();
 
@@ -186,7 +186,7 @@ public class IdentifiedSpectraFromExcel {
 			FileInputStream fileExcel = new FileInputStream(new File(file.getAbsolutePath()));
 			XSSFWorkbook workbook = new XSSFWorkbook(fileExcel);
 			// Transform a string column ("A", "B" ...) as an index
-			int columnIndex = CellReference.convertColStringToIndex(column);
+			int columnIndex = org.apache.poi.ss.util.CellReference.convertColStringToIndex(column);
 			XSSFSheet currentSheet = workbook.getSheet(currentSheetName);
 			Iterator<Row> rowIterator = currentSheet.iterator();
 			// Iterate through all row

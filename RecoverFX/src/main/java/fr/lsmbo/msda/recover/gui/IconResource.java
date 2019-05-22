@@ -10,7 +10,6 @@ import javafx.scene.image.Image;
  * @author Aromdhani
  *
  */
-@SuppressWarnings("restriction")
 public class IconResource {
 	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
 
@@ -18,14 +17,14 @@ public class IconResource {
 	 * Enum type that indicates the name of the icon.
 	 */
 	public enum ICON {
-		APPLYFILTER, CONSOLE, EXPORT, EXPORT_DATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER,
-		IDENTIFIEDSPECTRA, TRASH, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER;
+		APPLYFILTER, CONSOLE, EXPORT, EXPORTDATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER, IDENTIFIEDSPECTRA, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER;
 	}
 
 	/**
 	 * Return an image
 	 * 
-	 * @param icon the icon to load.
+	 * @param icon
+	 *            the icon to load.
 	 * @return Image
 	 */
 	public static Image getImage(ICON icon) {
@@ -61,7 +60,7 @@ public class IconResource {
 			case WARNING:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/warning.png")));
 				break;
-			case EXPORT_DATA:
+			case EXPORTDATA:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/export-batch.png")));
 				break;
 			case RESET:

@@ -30,6 +30,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -129,7 +130,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		FilterableStringTableColumn<File, String> peakListNameCol = new FilterableStringTableColumn<>("Peaklist File");
 		peakListNameCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
 		peakListsTable.getColumns().setAll(peakListNameCol);
-		peakListsTable.setColumnResizePolicy(peakListsTable.CONSTRAINED_RESIZE_POLICY);
+		peakListsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		peakListsTable.autosize();
 		peakListsTable.setPadding(new Insets(5, 5, 5, 5));
 		peakListsTable.setMinHeight(200);
@@ -190,7 +191,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 				"Identified Spectra File");
 		identifiedSpectraFileCol.setCellValueFactory(new PropertyValueFactory<File, String>("name"));
 		identifiedSpectraFilesTable.getColumns().setAll(identifiedSpectraFileCol);
-		identifiedSpectraFilesTable.setColumnResizePolicy(identifiedSpectraFilesTable.CONSTRAINED_RESIZE_POLICY);
+		identifiedSpectraFilesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		identifiedSpectraFilesTable.autosize();
 		identifiedSpectraFilesTable.setPadding(new Insets(5, 5, 5, 5));
 		identifiedSpectraFilesTable.setMinHeight(200);
@@ -333,10 +334,10 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		DialogPane dialogPane = new DialogPane();
 		dialogPane.setContent(mainPane);
 		dialogPane.setHeaderText("Export In Batch");
-		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)));
+		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.EXPORTDATA)));
 		dialogPane.setPrefSize(790, 720);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();
-		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.EXPORT_DATA)).getImage());
+		stage.getIcons().add(new ImageView(IconResource.getImage(ICON.EXPORTDATA)).getImage());
 		dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 		Button buttonOk = (Button) dialogPane.lookupButton(ButtonType.OK);
 		this.setTitle("Export In Batch");
