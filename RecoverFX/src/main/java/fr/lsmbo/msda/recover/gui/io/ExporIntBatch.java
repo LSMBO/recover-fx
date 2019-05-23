@@ -110,10 +110,10 @@ public class ExporIntBatch {
 						FilterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
 						ListOfSpectra.getBatchSpectra().getSpectraAsObservable()
 								.forEach(spectrum -> spectrum.setIsRecovered(true));
-						System.out.println("Info - Spectra size after applying filters: "
-								+ ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size());
-						logger.info("Spectra size after applying filters: "
-								+ ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size());
+						System.out.println("Info - " + ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
+								+ " spectra left after applying filters.");
+						logger.info(ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
+								+ " spectra size after applying filters.");
 					}
 					// Step 4: export file
 					System.out.println("Info - Exporting peak list file...");
