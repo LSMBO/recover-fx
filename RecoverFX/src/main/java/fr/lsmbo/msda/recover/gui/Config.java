@@ -143,7 +143,6 @@ public class Config {
 			Gson gson = new Gson();
 			JsonReader reader = new JsonReader(new FileReader(paramFile));
 			Session.parameters = gson.fromJson(reader, UserParams.class);
-			logger.info("The user parameters: {} ", Session.parameters.toString());
 		} catch (Exception e) {
 			// a possible error case is when param files has been generated with
 			// an older version of Recover
@@ -175,8 +174,8 @@ public class Config {
 		Session.parameters.setUserName(System.getProperty("user.name"));
 		Session.parameters.setTimestamp("" + new Timestamp(System.currentTimeMillis()));
 		Session.parameters.setRecoverVersion(Session.RECOVER_RELEASE_VERSION);
-		System.out.println("INFO - The user parameters: " + Session.parameters.toString());
-		logger.info("The user parameters : {} ", Session.parameters.toString());
+		System.out.println("INFO - " + Session.parameters.toString());
+		logger.info(Session.parameters.toString());
 		// Convert parameters to JSON and write them to the file
 		try (Writer writer = new FileWriter(paramFile)) {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
