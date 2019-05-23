@@ -8,7 +8,7 @@
 	<version>3.0.0</version>
 	<description>RecoverFx is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
 	<properties>
-		<project.build.date>2017-07-28</project.build.date>
+		<project.build.date>2019-05-20</project.build.date>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
