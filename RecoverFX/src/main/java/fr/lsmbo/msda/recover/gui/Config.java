@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package fr.lsmbo.msda.recover.gui;
 
 import java.io.File;

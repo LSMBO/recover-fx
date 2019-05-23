@@ -319,7 +319,7 @@ public class MainView extends StackPane {
 		SplitPane spectrumPane = new SplitPane();
 		spectrumPane.setOrientation(Orientation.HORIZONTAL);
 		spectrumPane.setPrefHeight(320);
-		spectrumPane.setDividerPositions(0.35f, 0.65f);
+		spectrumPane.setDividerPositions(0.2f, 0.8f);
 		// Create scroll pane and tab pane
 		TabPane tabPane = new TabPane();
 		// Create general information pane
