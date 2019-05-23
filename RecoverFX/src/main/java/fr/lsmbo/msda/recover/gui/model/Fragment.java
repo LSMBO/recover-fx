@@ -101,7 +101,7 @@ public class Fragment {
 	/**
 	 * 
 	 * @param mz
-	 *            thefragement mz to set
+	 *            the fragment mz to set
 	 */
 	public void setMz(float mz) {
 		this.mz = mz;

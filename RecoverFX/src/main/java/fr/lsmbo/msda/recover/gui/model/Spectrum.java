@@ -1,6 +1,4 @@
-/*
- * 
- */
+
 package fr.lsmbo.msda.recover.gui.model;
 
 import java.util.ArrayList;

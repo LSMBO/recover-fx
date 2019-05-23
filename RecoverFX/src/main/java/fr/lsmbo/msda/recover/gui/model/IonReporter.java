@@ -1,9 +1,6 @@
-/*
- * 
- */
+
 package fr.lsmbo.msda.recover.gui.model;
 
-// TODO maybe change the name because it seems protected by Thermo (or add "tm" ?)
 public class IonReporter {
 
 	private String name;

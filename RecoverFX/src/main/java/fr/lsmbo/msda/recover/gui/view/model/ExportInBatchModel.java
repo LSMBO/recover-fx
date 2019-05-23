@@ -7,12 +7,12 @@ import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 
 /***
- * This class wraps export in batch properties .
+ * This class wraps export in batch dialog properties .
  * 
  * @author Aromdhani
  *
  */
-public final class ExportInBatchProperty {
+public final class ExportInBatchModel {
 	private AppliedFilters appliedFilters;
 	private File outputDirectory;
 	private Map<File, File> identifiedSpectraByPeakList;
@@ -22,7 +22,7 @@ public final class ExportInBatchProperty {
 	/**
 	 * Default
 	 */
-	public ExportInBatchProperty() {
+	public ExportInBatchModel() {
 	}
 
 	/**
@@ -37,7 +37,7 @@ public final class ExportInBatchProperty {
 	 * @param spectrumTitleRange
 	 *            the template of titles selection from an excel file.
 	 */
-	public ExportInBatchProperty(AppliedFilters appliedFilters, File outputDirectory,
+	public ExportInBatchModel(AppliedFilters appliedFilters, File outputDirectory,
 			Map<File, File> identifiedSpectraByPeakList, File jsonFile, SpectrumTitleSelector spectrumTitleRange) {
 		super();
 		this.appliedFilters = appliedFilters;

@@ -17,7 +17,7 @@ import fr.lsmbo.msda.recover.gui.lists.IdentifiedSpectra;
 import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
 import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
-import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
+import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -43,7 +43,7 @@ public class ExporIntBatch {
 	 *            spectrum title selection from an excel file .
 	 * 
 	 */
-	public void run(ExportInBatchProperty exportInBatchProperty) {
+	public void run(ExportInBatchModel exportInBatchProperty) {
 		// Set batch mode to true
 		useBatchSpectra = true;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");

@@ -17,7 +17,7 @@ import fr.lsmbo.msda.recover.gui.model.AppliedFilters;
 import fr.lsmbo.msda.recover.gui.model.settings.SpectrumTitleSelector;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.JavaFxUtils;
-import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchProperty;
+import fr.lsmbo.msda.recover.gui.view.model.ExportInBatchModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -50,7 +50,7 @@ import javafx.stage.Stage;
  * @author Aromdhani
  *
  */
-public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
+public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 
 	private static final DataFormat SERIALIZED_MIME_TYPE = new DataFormat("application/x-java-serialized-object");
 	private ObservableList<File> peakListFiles = FXCollections.observableArrayList();
@@ -64,7 +64,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	private CheckBox loadFiltersChbX;
 	private CheckBox addTitleSelectionChbX;
 	private SpectrumTitleSelector spectrumTitleRange;
-	private ExportInBatchProperty exportInBatchProperty;
+	private ExportInBatchModel exportInBatchProperty;
 
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
 
@@ -397,7 +397,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 		// On apply changes
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				exportInBatchProperty = new ExportInBatchProperty();
+				exportInBatchProperty = new ExportInBatchModel();
 				// Compute the filters to apply
 				exportInBatchProperty.setAppliedFilters(appliedFilters);
 				if (appliedFilters.equals(AppliedFilters.LOADED)) {
@@ -437,7 +437,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	/**
 	 * @return the the properties of export in batch
 	 */
-	public final ExportInBatchProperty getExportBatchProperty() {
+	public final ExportInBatchModel getExportBatchProperty() {
 		return exportInBatchProperty;
 	}
 
@@ -474,7 +474,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchProperty> {
 	 * @param exportBatchProperty
 	 *            the properties of export in batch to set
 	 */
-	public final void setExportBatchProperty(ExportInBatchProperty exportBatchProperty) {
+	public final void setExportBatchProperty(ExportInBatchModel exportBatchProperty) {
 		this.exportInBatchProperty = exportBatchProperty;
 	}
 
