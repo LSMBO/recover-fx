@@ -7,7 +7,7 @@ package fr.lsmbo.msda.recover.gui.model.settings;
  * Builds user parameters.
  * 
  * @author Alexandre Burel
- * @author aromdhani
+ * @author Aromdhani
  *
  */
 public class UserParams extends RecoverSetting {
@@ -20,16 +20,15 @@ public class UserParams extends RecoverSetting {
 	private ParsingRulesSettings parsingRules;
 
 	public UserParams() {
-		this("", "", "", new QualityFiltersSettings(), new ComparisonSettings(), new ParsingRulesSettings());
+		this("", "", "", new ComparisonSettings(), new ParsingRulesSettings());
 	}
 
-	public UserParams(QualityFiltersSettings qualityFilters, ComparisonSettings comparison,
+	public UserParams(ComparisonSettings comparison, ParsingRulesSettings parsingRules) {
+		this("", "", "", comparison, parsingRules);
+	}
+
+	public UserParams(String userName, String timestamp, String recoverVersion, ComparisonSettings comparison,
 			ParsingRulesSettings parsingRules) {
-		this("", "", "", qualityFilters, comparison, parsingRules);
-	}
-
-	public UserParams(String userName, String timestamp, String recoverVersion, QualityFiltersSettings qualityFilters,
-			ComparisonSettings comparison, ParsingRulesSettings parsingRules) {
 		super();
 		this.userName = userName;
 		this.timestamp = timestamp;
@@ -87,9 +86,8 @@ public class UserParams extends RecoverSetting {
 	@Override
 	public String toString() {
 		StringBuilder userParamsStr = new StringBuilder();
-		userParamsStr.append("\n").append("##User: ").append(this.userName).append("\n").append("##Date: ")
-				.append(this.timestamp).append("\n").append("##Version: ").append(this.recoverVersion).append("\n")
-				.append("##comparison: ").append(this.comparison.toString()).append("\n").append("##Parsing rules: ")
+		userParamsStr.append("\n").append("##Version: ").append(this.recoverVersion).append("\n")
+				.append("##Comparison: ").append(this.comparison.toString()).append("\n").append("##Parsing rules: ")
 				.append(this.parsingRules.toString()).append("\n");
 		return userParamsStr.toString();
 	}

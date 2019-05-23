@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonReader;
 import fr.lsmbo.msda.recover.gui.model.settings.UserParams;
 
 /**
- * Builds, initialize and save Recover and user configurations.
+ * Builds, initialize and save RecoverFx configurations.
  * 
  * @author Aromdhani
  * @author Alexandre Burel
@@ -179,7 +179,7 @@ public class Config {
 		Session.parameters.setRecoverVersion(Session.RECOVER_RELEASE_VERSION);
 		System.out.println("INFO - The user parameters: " + Session.parameters.toString());
 		logger.info("The user parameters : {} ", Session.parameters.toString());
-		// Convert parameters to json and write them to the file
+		// Convert parameters to JSON and write them to the file
 		try (Writer writer = new FileWriter(paramFile)) {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			gson.toJson(Session.parameters, writer);

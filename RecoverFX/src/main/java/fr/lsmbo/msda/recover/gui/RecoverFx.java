@@ -1,5 +1,7 @@
 package fr.lsmbo.msda.recover.gui;
 
+import javax.crypto.spec.GCMParameterSpec;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- * Creates and start RecoverFx application.
+ * Creates GUI and start RecoverFx application.
  * 
  * @author Aromdhani
  *
@@ -61,6 +63,5 @@ public class RecoverFx extends Application {
 	@Override
 	public void stop() {
 		// TODO Make sure that all resources were closed
-
 	}
 }
