@@ -48,12 +48,15 @@ public class RecoverViewModel {
 	private static final Logger logger = LogManager.getLogger(RecoverViewModel.class);
 
 	private static Stage stage;
+
 	public static Stage getStage() {
 		return stage;
 	}
+
 	public static void setStage(Stage stage) {
 		RecoverViewModel.stage = stage;
 	}
+
 	private MainView view;
 
 	private TaskRunner taskRunner;
@@ -135,7 +138,7 @@ public class RecoverViewModel {
 			// Enable second peaks list
 			RecoverFx.useSecondPeaklist = true;
 		}, (failure) -> {
-			logger.debug("Loading and extracting spectra from peaklist file has failed!");
+			logger.error("Loading and extracting spectra from peaklist file has failed!");
 			// Disable use second peaks list
 			RecoverFx.useSecondPeaklist = false;
 		}, true, stage);
@@ -149,8 +152,8 @@ public class RecoverViewModel {
 	public void onAboutRecoverFx() {
 		AboutDialog aboutDialog = new AboutDialog();
 		aboutDialog.showAndWait().ifPresent(RecoverFx -> {
-			logger.info("About Recover software {}", RecoverFx);
-			System.out.println("INFO - About Recover software: " + RecoverFx);
+			logger.info("About RecoverFx software {}", RecoverFx);
+			System.out.println("INFO - About RecoverFx software: " + RecoverFx);
 		});
 	}
 
@@ -265,7 +268,7 @@ public class RecoverViewModel {
 	 */
 	public void onExportFile() {
 		ObservableList<Spectrum> filteredItems = FXCollections.observableArrayList(view.getFilteredTable().getItems());
-		logger.debug("The filtered spectra number: {}", filteredItems.size());
+		logger.info("The filtered spectra number: {}", filteredItems.size());
 		if (filteredItems.size() > 0) {
 			FileUtils.exportPeakListAs(file -> {
 				taskRunner.doAsyncWork("Exporting spectra to " + file.getName() + " file", () -> {
@@ -279,21 +282,21 @@ public class RecoverViewModel {
 					PeaklistWriter.save(file);
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
-					logger.debug("The file: {} has been exported in {}", file.getAbsolutePath(),
+					logger.info("The file: {} has been exported in {}", file.getAbsolutePath(),
 							(double) totalTime / 1000, " sec");
 					System.out.println("INFO - The filtered spectra number: " + filteredItems.size() + ". The file: "
 							+ file.getAbsolutePath() + " has been exported in: " + (double) totalTime / 1000 + " sec");
 					return file;
 				}, (sucess) -> {
-					logger.debug("Exporting file: {} has been exported successfully!", file.getAbsolutePath());
+					logger.info("Exporting file: {} has been exported successfully!", file.getAbsolutePath());
 				}, (failure) -> {
 					logger.error("Exporting file: {} has failed!", file.getAbsolutePath());
 				}, true, stage);
 			}, stage);
 		} else {
-			logger.warn("Empty spectra. The filtred items are empty. No spectra will be recovered!");
+			logger.warn("Empty spectra. The filtred spectra are empty. The exported file will be empty!");
 			new ShowPopupDialog("Empty Spectra",
-					"Empty spectra. The filtred items are empty. No spectra will be recovered!", stage);
+					"Empty spectra. The filtred spectra are empty.  The exported file will be empty!", stage);
 		}
 	}
 
@@ -317,7 +320,8 @@ public class RecoverViewModel {
 					System.out.println("INFO - Start exporting peaklists in batch. The number of file to proceed : "
 							+ exportInBatchProperty.getIdentifiedSpectraByPeakList().keySet().size()
 							+ ".\n The output directory: " + exportInBatchProperty.getOutputDirectory().getPath() + "\n"
-							+ exportInBatchProperty.getAppliedFilters().toString() + " will be applied from: "+exportInBatchProperty.getJsonFile());
+							+ exportInBatchProperty.getAppliedFilters().toString() + " will be applied from: "
+							+ exportInBatchProperty.getJsonFile());
 					ExporIntBatch exportBatch = new ExporIntBatch();
 					try {
 						exportBatch.run(exportInBatchProperty);
@@ -327,12 +331,12 @@ public class RecoverViewModel {
 					}
 					long endTime = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
-					logger.debug("Exporting in batch has finished in: {} ", (double) totalTime / 1000, " sec");
+					logger.info("Exporting in batch has finished in: {} ", (double) totalTime / 1000, " sec");
 					System.out.println(
 							"INFO - Exporting in batch has finished in: " + (double) totalTime / 1000 + " sec");
 					return true;
 				}, (sucess) -> {
-					logger.debug("Exporting in batch has been finished successfully!");
+					logger.info("Exporting in batch has been finished successfully!");
 				}, (failure) -> {
 					logger.error("Exporting in batch has failed!", failure.getMessage());
 				}, true, stage);
@@ -367,10 +371,10 @@ public class RecoverViewModel {
 				}, true, stage);
 			});
 		} else {
-			logger.debug(
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!");
+			logger.info(
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!");
 			new ShowPopupDialog("Spectra not found",
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!",
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!",
 					stage);
 		}
 	}
@@ -390,7 +394,7 @@ public class RecoverViewModel {
 				return true;
 			}, (isSucceeded) -> {
 				if (isSucceeded) {
-					logger.debug("Loading filter's settings from a JSON file has finished successfully!");
+					logger.info("Loading filter's settings from a JSON file has finished successfully!");
 					updateJfx(() -> {
 						FilterRequest.updateColumnFilters(view.getFilteredTable());
 					});
@@ -457,9 +461,9 @@ public class RecoverViewModel {
 			}, true, stage);
 		} else {
 			logger.warn(
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!");
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!");
 			new ShowPopupDialog("Spectra not found",
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!",
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!",
 					stage);
 		}
 	}
@@ -486,10 +490,10 @@ public class RecoverViewModel {
 				logger.error("Reset flagged spectra has failed!");
 			}, true, stage);
 		} else {
-			logger.debug(
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!");
+			logger.info(
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!");
 			new ShowPopupDialog("Spectra not found",
-					"Spectra not found. Make sure that the file is not empty or a file were imported.\nPlease load a new file!",
+					"Spectra not found. Make sure that the file is not empty or a peak list file were imported.\nPlease load a new peak list file!",
 					stage);
 		}
 	}
@@ -512,7 +516,7 @@ public class RecoverViewModel {
 				return isSucceeded;
 			}, (isSucceeded) -> {
 				if (isSucceeded)
-					logger.debug("Saving filters parameters in a JSON file has finished successfully!");
+					logger.info("Saving filters parameters in a JSON file has finished successfully!");
 			}, (failure) -> {
 				logger.error("Saving filters parameters in a JSON file has failed!", failure.getMessage());
 			}, true, stage);
@@ -554,25 +558,6 @@ public class RecoverViewModel {
 		view.getFilteredTable().getColumns().forEach(column -> {
 			((IFilterableTableColumn) column).getFilters().clear();
 		});
-	}
-
-	/**
-	 * Reset Session parameters to the default values.
-	 * 
-	 */
-	private void resetSessionParams() {
-		Session.FILE_HEADER = "";
-		// TODO public static Boolean DATABASE_LOADED = false;
-		Session.CURRENT_FILE = null;
-		Session.SECOND_FILE = null;
-		Session.CURRENT_REGEX_RT = "title.regex.data-analysis.rt";
-		Session.USE_FIXED_AXIS = false;
-		Session.HIGHEST_FRAGMENT_MZ = 0F;
-		Session.HIGHEST_FRAGMENT_INTENSITY = 0F;
-		Session.CALCULATED_NOISE_VALUE = 150F;
-		Session.LOW_INTENSITY_THRESHOLD = 450F;
-		Session.HIGH_INTENSITY_THRESHOLD = 2000F;
-		Session.TOP_LINE = 2500F;
 	}
 
 	public void setItems(ObservableList<Spectrum> items) {

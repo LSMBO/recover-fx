@@ -1,7 +1,5 @@
 package fr.lsmbo.msda.recover.gui;
 
-import javax.crypto.spec.GCMParameterSpec;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
