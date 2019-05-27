@@ -90,7 +90,7 @@ public class MainView extends StackPane {
 	private FilterableIntegerTableColumn<Spectrum, Integer> chargeColumn;
 	private FilterableFloatTableColumn<Spectrum, Float> rtColumn;
 	private FilterableIntegerTableColumn<Spectrum, Integer> nbrFragmentsColumn;
-	private FilterableIntegerTableColumn<Spectrum, Integer> fragmentIntColumn;
+	private FilterableFloatTableColumn<Spectrum, Float> fragmentIntColumn;
 	private FilterableIntegerTableColumn<Spectrum, Integer> UPNColumn;
 	private FilterableBooleanTableColumn<Spectrum, Boolean> identifiedColumn;
 	private FilterableBooleanTableColumn<Spectrum, Boolean> ionReporterColumn;
@@ -258,7 +258,7 @@ public class MainView extends StackPane {
 		wrongChargeColumn.setCellFactory(CheckBoxTableCell.forTableColumn(wrongChargeColumn));
 
 		// RT Column
-		rtColumn = new FilterableFloatTableColumn<>("Retention Time");
+		rtColumn = new FilterableFloatTableColumn<>("Retention time");
 		rtColumn.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("retentionTime"));
 
 		// Fragment number
@@ -266,8 +266,8 @@ public class MainView extends StackPane {
 		nbrFragmentsColumn.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("nbFragments"));
 
 		// Fragment intensity
-		fragmentIntColumn = new FilterableIntegerTableColumn<>("Max fragment intensity");
-		fragmentIntColumn.setCellValueFactory(new PropertyValueFactory<Spectrum, Integer>("fragmentMaxIntensity"));
+		fragmentIntColumn = new FilterableFloatTableColumn<>("Max fragment intensity");
+		fragmentIntColumn.setCellValueFactory(new PropertyValueFactory<Spectrum, Float>("fragmentMaxIntensity"));
 
 		// UPN Column
 		UPNColumn = new FilterableIntegerTableColumn<>("UPN");

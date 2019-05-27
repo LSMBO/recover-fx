@@ -65,6 +65,14 @@ public class FilterReaderJson {
 		return loadedIonReporterlist;
 	}
 
+	/**
+	 * Load filters from a JSON file.
+	 * 
+	 * @param file
+	 *            the JSON file to load
+	 * @throws JsonParseException
+	 * @throws IOException
+	 */
 	public static void load(File file) throws JsonParseException, IOException {
 		try {
 			// Clear ion reporter list
@@ -241,41 +249,50 @@ public class FilterReaderJson {
 				// Read Mz filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Mz") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
-					NumberOperator<Integer> filter = null;
+					NumberOperator<Float> filter = null;
+					double valueAsDouble = 0d;
+					float valueAsFloat = 0f;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.EQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.NOTEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHAN,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHANEQUALS,
-									parser.getValueAsInt());
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NONE, null);
+							filter = new NumberOperator<Float>(NumberOperator.Type.NONE, null);
 							filters.add(filter);
 						}
 					}
@@ -285,41 +302,52 @@ public class FilterReaderJson {
 				// Read Intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Intensity") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
-					NumberOperator<Integer> filter = null;
+					NumberOperator<Float> filter = null;
+					double valueAsDouble = 0d;
+					float valueAsFloat = 0f;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.EQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.NOTEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHAN,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NONE, null);
+							filter = new NumberOperator<Float>(NumberOperator.Type.NONE, null);
 							filters.add(filter);
 						}
 					}
@@ -371,48 +399,59 @@ public class FilterReaderJson {
 					filtersByNameMap.put("Charge", filters);
 				}
 				// Read Retention time filter
-				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention Time") {
+				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Retention time") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
-					NumberOperator<Integer> filter = null;
+					NumberOperator<Float> filter = null;
+					double valueAsDouble = 0d;
+					float valueAsFloat = 0f;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.EQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.NOTEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHAN,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NONE, null);
+							filter = new NumberOperator<Float>(NumberOperator.Type.NONE, null);
 							filters.add(filter);
 						}
 					}
 
-					filtersByNameMap.put("Retention Time", filters);
+					filtersByNameMap.put("Retention time", filters);
 				}
 				// Read Fragment number filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Fragment number") {
@@ -461,41 +500,52 @@ public class FilterReaderJson {
 				// Read max fragment intensity filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Max fragment intensity") {
 					ObservableList<Object> filters = FXCollections.observableArrayList();
-					NumberOperator<Integer> filter = null;
+					NumberOperator<Float> filter = null;
+					double valueAsDouble = 0d;
+					float valueAsFloat = 0f;
 					while (!JsonToken.END_OBJECT.equals(token)) {
 						token = parser.nextToken();
 						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.EQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.EQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Not Equals") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NOTEQUALS, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.NOTEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHAN,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Greater Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.GREATERTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.GREATERTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHAN, parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHAN, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token)
 								&& parser.getCurrentName() == "Equals/Less Than") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.LESSTHANEQUALS,
-									parser.getValueAsInt());
+							valueAsDouble = parser.getValueAsDouble();
+							valueAsFloat = (float) valueAsDouble;
+							filter = new NumberOperator<Float>(NumberOperator.Type.LESSTHANEQUALS, valueAsFloat);
 							filters.add(filter);
 						} else if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "No Filter") {
 							token = parser.nextToken();
-							filter = new NumberOperator<Integer>(NumberOperator.Type.NONE, null);
+							filter = new NumberOperator<Float>(NumberOperator.Type.NONE, null);
 							filters.add(filter);
 						}
 					}
@@ -572,41 +622,49 @@ public class FilterReaderJson {
 				}
 
 				// Read identified spectra filter
-//				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IS") {
-//					ObservableList<Object> filters = FXCollections.observableArrayList();
-//					IdentifiedSpectraFilter filterIS = new IdentifiedSpectraFilter();
-//					int rowNumber = 0;
-//					String column = "";
-//					String currentSheetName = "";
-//					String filePath = "";
-//					// get values in the object filterIS
-//					while (!JsonToken.END_OBJECT.equals(token)) {
-//						token = parser.nextToken();
-//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "file") {
-//							token = parser.nextToken();
-//							filePath = parser.getValueAsString();
-//						}
-//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "sheet") {
-//							token = parser.nextToken();
-//							currentSheetName = parser.getValueAsString();
-//						}
-//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "column") {
-//							token = parser.nextToken();
-//							column = parser.getValueAsString();
-//						}
-//						if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "row") {
-//							token = parser.nextToken();
-//							rowNumber = parser.getValueAsInt();
-//						}
-//					}
-//					if (filePath != null && new File(filePath).exists()) {
-//						SpectrumTitleRange fileParams = new SpectrumTitleRange(filePath, currentSheetName, column,
-//								rowNumber);
-//						filterIS.setFileParams(fileParams);
-//						filters.add(filterIS);
-//						filtersByNameMap.put("IS", filters);
-//					}
-//				}
+				// if (JsonToken.FIELD_NAME.equals(token) &&
+				// parser.getCurrentName() == "IS") {
+				// ObservableList<Object> filters =
+				// FXCollections.observableArrayList();
+				// IdentifiedSpectraFilter filterIS = new
+				// IdentifiedSpectraFilter();
+				// int rowNumber = 0;
+				// String column = "";
+				// String currentSheetName = "";
+				// String filePath = "";
+				// // get values in the object filterIS
+				// while (!JsonToken.END_OBJECT.equals(token)) {
+				// token = parser.nextToken();
+				// if (JsonToken.FIELD_NAME.equals(token) &&
+				// parser.getCurrentName() == "file") {
+				// token = parser.nextToken();
+				// filePath = parser.getValueAsString();
+				// }
+				// if (JsonToken.FIELD_NAME.equals(token) &&
+				// parser.getCurrentName() == "sheet") {
+				// token = parser.nextToken();
+				// currentSheetName = parser.getValueAsString();
+				// }
+				// if (JsonToken.FIELD_NAME.equals(token) &&
+				// parser.getCurrentName() == "column") {
+				// token = parser.nextToken();
+				// column = parser.getValueAsString();
+				// }
+				// if (JsonToken.FIELD_NAME.equals(token) &&
+				// parser.getCurrentName() == "row") {
+				// token = parser.nextToken();
+				// rowNumber = parser.getValueAsInt();
+				// }
+				// }
+				// if (filePath != null && new File(filePath).exists()) {
+				// SpectrumTitleRange fileParams = new
+				// SpectrumTitleRange(filePath, currentSheetName, column,
+				// rowNumber);
+				// filterIS.setFileParams(fileParams);
+				// filters.add(filterIS);
+				// filtersByNameMap.put("IS", filters);
+				// }
+				// }
 
 				// Read ion reporter filter
 				if (JsonToken.FIELD_NAME.equals(token) && parser.getCurrentName() == "IR") {
@@ -642,7 +700,6 @@ public class FilterReaderJson {
 								loadedIonReporterlist.add(ionReporter);
 							}
 						}
-
 					}
 					filters.add(filterIR);
 					filtersByNameMap.put("IR", filters);

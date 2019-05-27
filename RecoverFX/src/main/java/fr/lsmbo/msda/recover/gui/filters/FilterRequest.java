@@ -91,7 +91,6 @@ public class FilterRequest {
 			}
 			// Apply filter on Mz column
 			case "Mz": {
-
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
 					if ((NumberOperator<Float>) filter != null)
@@ -121,7 +120,7 @@ public class FilterRequest {
 				break;
 			}
 			// Apply filter on Retention Time column
-			case "Retention Time": {
+			case "Retention time": {
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
 					if ((NumberOperator<Float>) filter != null)
@@ -142,10 +141,10 @@ public class FilterRequest {
 			}
 			// Apply filter on Max fragment intensity column
 			case "Max fragment intensity": {
-				final ObservableList<NumberOperator<Integer>> filters = FXCollections.observableArrayList();
+				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
-					if ((NumberOperator<Integer>) filter != null)
-						filters.add((NumberOperator<Integer>) filter);
+					if ((NumberOperator<Float>) filter != null)
+						filters.add((NumberOperator<Float>) filter);
 				}
 				filterFIntensityColumn(newData, filters);
 				break;
@@ -353,9 +352,9 @@ public class FilterRequest {
 	 *            the ObservableList of filters to apply
 	 */
 	public static void filterFIntensityColumn(ObservableList<Spectrum> newData,
-			ObservableList<NumberOperator<Integer>> filters) {
+			ObservableList<NumberOperator<Float>> filters) {
 		final List<Spectrum> remove = new ArrayList<>();
-		for (NumberOperator<Integer> filter : filters) {
+		for (NumberOperator<Float> filter : filters) {
 			for (Spectrum item : newData) {
 				if (filter.getType() == NumberOperator.Type.EQUALS) {
 					if (item.getFragmentMaxIntensity() != filter.getValue())
@@ -863,8 +862,8 @@ public class FilterRequest {
 				break;
 			}
 			// Apply filter on Retention Time column
-			case "Retention Time": {
-				final IFilterableTableColumn column = getTableColumnByName(tableView, "Retention Time");
+			case "Retention time": {
+				final IFilterableTableColumn column = getTableColumnByName(tableView, "Retention time");
 				final ObservableList<NumberOperator<Float>> filters = FXCollections.observableArrayList();
 				for (Object filter : appliedFilters) {
 					if ((NumberOperator<Float>) filter != null)

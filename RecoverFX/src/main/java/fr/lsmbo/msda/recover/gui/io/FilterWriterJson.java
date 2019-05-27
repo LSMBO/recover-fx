@@ -56,8 +56,10 @@ public class FilterWriterJson {
 				case "Flag": {
 					generator.writeObjectFieldStart("Flag");
 					for (Object filter : appliedFilters) {
-						generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
-								((BooleanOperator) filter).getValue());
+						if (filter != null) {
+							generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
+									((BooleanOperator) filter).getValue().booleanValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -66,8 +68,10 @@ public class FilterWriterJson {
 				case "Id": {
 					generator.writeObjectFieldStart("Id");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
-								((NumberOperator<Integer>) filter).getValue());
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
+									((NumberOperator<Integer>) filter).getValue().intValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -76,8 +80,10 @@ public class FilterWriterJson {
 				case "Title": {
 					generator.writeObjectFieldStart("Title");
 					for (Object filter : appliedFilters) {
-						generator.writeStringField(((StringOperator) filter).getType().toString(),
-								((StringOperator) filter).getValue());
+						if (filter != null) {
+							generator.writeStringField(((StringOperator) filter).getType().toString(),
+									((StringOperator) filter).getValue().toString());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -86,30 +92,47 @@ public class FilterWriterJson {
 				case "Mz": {
 					generator.writeObjectFieldStart("Mz");
 					for (Object filter : appliedFilters) {
-						String filedName = ((NumberOperator<?>) filter).getType().toString();
-						Float value = ((NumberOperator<?>) filter).getValue().floatValue();
-						generator.writeNumberField(filedName, value);
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<?>) filter).getType().toString(),
+									((NumberOperator<?>) filter).getValue().floatValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
 				}
-				// Apply filter on Intensity column
+				// Apply filter on intensity column
 				case "Intensity": {
 					generator.writeObjectFieldStart("Intensity");
 					for (Object filter : appliedFilters) {
-						String filedName = ((NumberOperator<?>) filter).getType().toString();
-						Integer value = ((NumberOperator<?>) filter).getValue().intValue();
-						generator.writeNumberField(filedName, value);
+						if (filter != null) {
+							String filedName = ((NumberOperator<?>) filter).getType().toString();
+							float value = ((NumberOperator<?>) filter).getValue().floatValue();
+							generator.writeNumberField(filedName, value);
+						}
 					}
 					generator.writeEndObject();
 					break;
 				}
-				// Apply filter on Charge column
+				// Apply filter on charge column
 				case "Charge": {
 					generator.writeObjectFieldStart("Charge");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
-								((NumberOperator<Integer>) filter).getValue());
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
+									((NumberOperator<Integer>) filter).getValue().intValue());
+						}
+					}
+					generator.writeEndObject();
+					break;
+				}
+				// Apply filter on Retention time column
+				case "Retention time": {
+					generator.writeObjectFieldStart("Retention time");
+					for (Object filter : appliedFilters) {
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<?>) filter).getType().toString(),
+									((NumberOperator<?>) filter).getValue().floatValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -119,19 +142,22 @@ public class FilterWriterJson {
 
 					generator.writeObjectFieldStart("Fragment number");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
-								((NumberOperator<Integer>) filter).getValue());
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
+									((NumberOperator<Integer>) filter).getValue().intValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
 				}
 				// Apply filter on Max fragment intensity column
 				case "Max fragment intensity": {
-
 					generator.writeObjectFieldStart("Max fragment intensity");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
-								((NumberOperator<Integer>) filter).getValue());
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<?>) filter).getType().toString(),
+									((NumberOperator<?>) filter).getValue().floatValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -140,8 +166,10 @@ public class FilterWriterJson {
 				case "UPN": {
 					generator.writeObjectFieldStart("UPN");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
-								((NumberOperator<Integer>) filter).getValue());
+						if (filter != null) {
+							generator.writeNumberField(((NumberOperator<Integer>) filter).getType().toString(),
+									((NumberOperator<Integer>) filter).getValue().intValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -151,7 +179,7 @@ public class FilterWriterJson {
 					generator.writeObjectFieldStart("Identified");
 					for (Object filter : appliedFilters) {
 						generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
-								((BooleanOperator) filter).getValue());
+								((BooleanOperator) filter).getValue().booleanValue());
 					}
 					generator.writeEndObject();
 					break;
@@ -160,8 +188,10 @@ public class FilterWriterJson {
 				case "Ion Reporter": {
 					generator.writeObjectFieldStart("Ion Reporter");
 					for (Object filter : appliedFilters) {
-						generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
-								((BooleanOperator) filter).getValue());
+						if (filter != null) {
+							generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
+									((BooleanOperator) filter).getValue().booleanValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
@@ -170,34 +200,43 @@ public class FilterWriterJson {
 				case "Wrong charge": {
 					generator.writeObjectFieldStart("Wrong charge");
 					for (Object filter : appliedFilters) {
-						generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
-								((BooleanOperator) filter).getValue());
+						if (filter != null) {
+							generator.writeBooleanField(((BooleanOperator) filter).getType().toString(),
+									((BooleanOperator) filter).getValue().booleanValue());
+						}
 					}
 					generator.writeEndObject();
 					break;
 				}
 				// Apply filter IdentifiedSpectraFilter
-//				case "IS": {
-//					generator.writeObjectFieldStart("IS");
-//					for (Object filter : appliedFilters) {
-//						generator.writeStringField("file",
-//								((IdentifiedSpectraFilter) filter).getFileParams().getFilePath());
-//						generator.writeStringField("sheet",
-//								((IdentifiedSpectraFilter) filter).getFileParams().getCurrentSheetName());
-//						generator.writeStringField("column",
-//								((IdentifiedSpectraFilter) filter).getFileParams().getColumn());
-//						generator.writeNumberField("row",
-//								((IdentifiedSpectraFilter) filter).getFileParams().getRowNumber());
-//					}
-//					generator.writeEndObject();
-//					break;
-//				}
+				// case "IS": {
+				// generator.writeObjectFieldStart("IS");
+				// for (Object filter : appliedFilters) {
+				// generator.writeStringField("file",
+				// ((IdentifiedSpectraFilter)
+				// filter).getFileParams().getFilePath());
+				// generator.writeStringField("sheet",
+				// ((IdentifiedSpectraFilter)
+				// filter).getFileParams().getCurrentSheetName());
+				// generator.writeStringField("column",
+				// ((IdentifiedSpectraFilter)
+				// filter).getFileParams().getColumn());
+				// generator.writeNumberField("row",
+				// ((IdentifiedSpectraFilter)
+				// filter).getFileParams().getRowNumber());
+				// }
+				// generator.writeEndObject();
+				// break;
+				// }
 				// Apply filter LowIntensityThresholdFilter
 				case "LIT": {
 					generator.writeObjectFieldStart("LIT");
 					for (Object filter : appliedFilters) {
-						generator.writeNumberField("emergence", ((LowIntensityThresholdFilter) filter).getEmergence());
-						generator.writeStringField("mode", ((LowIntensityThresholdFilter) filter).getMode().name());
+						if (filter != null) {
+							generator.writeNumberField("emergence",
+									((LowIntensityThresholdFilter) filter).getEmergence());
+							generator.writeStringField("mode", ((LowIntensityThresholdFilter) filter).getMode().name());
+						}
 					}
 					generator.writeEndObject();
 					break;
