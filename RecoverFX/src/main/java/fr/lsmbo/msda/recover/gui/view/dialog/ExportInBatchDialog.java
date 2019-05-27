@@ -63,8 +63,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 	private CheckBox applyFiltersChbX;
 	private CheckBox loadFiltersChbX;
 	private CheckBox addTitleSelectionChbX;
-	private SpectrumTitleSelector spectrumTitleRange;
-	private ExportInBatchModel exportInBatchProperty;
+	private SpectrumTitleSelector spectrumTitleSelector;
+	private ExportInBatchModel exportInBatchModel;
 
 	private AppliedFilters appliedFilters = AppliedFilters.NONE;
 
@@ -397,24 +397,24 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 		// On apply changes
 		this.setResultConverter(buttonType -> {
 			if (buttonType == ButtonType.OK) {
-				exportInBatchProperty = new ExportInBatchModel();
+				exportInBatchModel = new ExportInBatchModel();
 				// Compute the filters to apply
-				exportInBatchProperty.setAppliedFilters(appliedFilters);
+				exportInBatchModel.setAppliedFilters(appliedFilters);
 				if (appliedFilters.equals(AppliedFilters.LOADED)) {
 					if (new File(loadFilterTF.getText()).exists()) {
 						jsonFile = new File(loadFilterTF.getText());
 					}
-					exportInBatchProperty.setJsonFile(jsonFile);
+					exportInBatchModel.setJsonFile(jsonFile);
 				}
-				exportInBatchProperty.setOutputDirectory(outputDirectory);
+				exportInBatchModel.setOutputDirectory(outputDirectory);
 				if (addTitleSelectionChbX.isSelected()) {
 					int index = Integer.parseInt(columnTF.getText().replaceAll("\\D+", ""));
 					String column = columnTF.getText().replaceAll("\\d+", "");
-					spectrumTitleRange = new SpectrumTitleSelector();
-					spectrumTitleRange.setSheetName(sheetTF.getText());
-					spectrumTitleRange.setColumn(column);
-					spectrumTitleRange.setRowNumber(index);
-					exportInBatchProperty.setSpectrumTitleRange(spectrumTitleRange);
+					spectrumTitleSelector = new SpectrumTitleSelector();
+					spectrumTitleSelector.setSheetName(sheetTF.getText());
+					spectrumTitleSelector.setColumn(column);
+					spectrumTitleSelector.setRowNumber(index);
+					exportInBatchModel.setSpectrumTitleRange(spectrumTitleSelector);
 				}
 				// Return the peak lists file by identified spectra files=
 				Iterator<File> it1 = peakListFiles.iterator();
@@ -426,8 +426,8 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 						identifiedSpectraByPeakList.put(it1.next(), null);
 					}
 				}
-				exportInBatchProperty.setIdentifiedSpectraByPeakList(identifiedSpectraByPeakList);
-				return exportInBatchProperty;
+				exportInBatchModel.setIdentifiedSpectraByPeakList(identifiedSpectraByPeakList);
+				return exportInBatchModel;
 			} else {
 				return null;
 			}
@@ -435,10 +435,10 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 	}
 
 	/**
-	 * @return the the properties of export in batch
+	 * @return the properties of export in batch dialog
 	 */
 	public final ExportInBatchModel getExportBatchProperty() {
-		return exportInBatchProperty;
+		return exportInBatchModel;
 	}
 
 	/**
@@ -475,7 +475,7 @@ public class ExportInBatchDialog extends Dialog<ExportInBatchModel> {
 	 *            the properties of export in batch to set
 	 */
 	public final void setExportBatchProperty(ExportInBatchModel exportBatchProperty) {
-		this.exportInBatchProperty = exportBatchProperty;
+		this.exportInBatchModel = exportBatchProperty;
 	}
 
 	/**
