@@ -15,7 +15,7 @@ public class IconResource {
 	 * Enum type that indicates the name of the icon.
 	 */
 	public enum ICON {
-		APPLYFILTER, CONSOLE, EXPORT, EXPORTDATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER, IDENTIFIEDSPECTRA, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER;
+		APPLYFILTER, CONSOLE, EXPORT, EXPORTDATA, EDIT, HELP, INFORMATION, LOAD, CROSS, TICK, SAVE, RECOVER, IDENTIFIEDSPECTRA, WARNING, RESET, FLAG, EXIT, RELOAD, FILTER,FUNNEL;
 	}
 
 	private static HashMap<ICON, Image> images = new HashMap<ICON, Image>();
@@ -86,6 +86,9 @@ public class IconResource {
 				break;
 			case FILTER:
 				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/view-actual-filters.png")));
+				break;
+			case FUNNEL:
+				images.put(icon, new Image(IconResource.class.getResourceAsStream("/images/funnel-icon.png")));
 				break;
 			default:
 				break;

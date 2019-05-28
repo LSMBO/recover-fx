@@ -184,6 +184,7 @@ public class FilterLoaderDialog extends Dialog<Map<String, ObservableList<Object
 				}
 			}
 			filterName.getChildren().addAll(items);
+			filterName.setGraphic(new ImageView(IconResource.getImage(ICON.FUNNEL)));
 			filtersItems.add(filterName);
 		});
 		return filtersItems;
