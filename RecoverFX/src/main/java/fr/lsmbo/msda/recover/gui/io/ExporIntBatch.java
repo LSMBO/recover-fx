@@ -22,8 +22,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Export in batch. It will apply the filters from a json file or to filter out
- * the identified spectra within titles selection template from an excel file.
+ * Export in batch. It let the user to choose to apply filters or not from a
+ * JSON file or from current filters on all peaklists. Besides it helps the user
+ * to filter out the identified spectra within titles selection template from
+ * excel files.
  * 
  * @author Aromdhani
  * @author LOMBART.benjamin
@@ -34,43 +36,44 @@ public class ExporIntBatch {
 	public static Boolean useBatchSpectra = false;
 
 	/**
-	 * Apply filters on all peak list files and filter out the identified
-	 * spectra within titles selection template from an excel file..
+	 * Run the export in batch task. It will apply/or not the filters on all
+	 * peaklists and filter out the identified spectra within titles selection
+	 * template from excel files.
 	 * 
-	 * @param exportInBatchProperty
-	 *            The properties of export in batch : output directory , map of
-	 *            peak list files and identified spectra and the template of
+	 * @param exportInBatchModel
+	 *            The properties of export in batch model: output directory ,
+	 *            map of peak list files, identified spectra and the template of
 	 *            spectrum title selection from an excel file .
 	 * 
 	 */
-	public void run(ExportInBatchModel exportInBatchProperty) {
+	public void run(ExportInBatchModel exportInBatchModel) {
 		// Set batch mode to true
 		useBatchSpectra = true;
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		Date date = new Date();
 		// Load filters from a JSON file
-		if (exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.LOADED)) {
+		if (exportInBatchModel.getAppliedFilters().equals(AppliedFilters.LOADED)) {
 			try {
-				FilterReaderJson.load(exportInBatchProperty.getJsonFile());
+				FilterReaderJson.load(exportInBatchModel.getJsonFile());
 				Filters.addAll(FilterReaderJson.getFiltersByNameMap());
 			} catch (Exception e) {
 				logger.error("Error while trying to load JSON file!", e);
 			}
 		}
-		exportInBatchProperty.getIdentifiedSpectraByPeakList().forEach((peakListFile, identifiedSpectraFile) -> {
+		exportInBatchModel.getIdentifiedSpectraByPeakList().forEach((peakListFile, identifiedSpectraFile) -> {
 			try {
-				// Step 1: load peak list file
+				// Step 1: load peaklist file
 				if (peakListFile != null && peakListFile.exists()) {
-					System.out.println("Info - Loading peaklist file: " + peakListFile.getPath() + " ...");
+					System.out.println("INFO - Loading peaklist file: " + peakListFile.getPath() + " ...");
 					logger.info("Loading peaklist file: {} ...", peakListFile.getPath());
 					PeaklistReader.load(peakListFile);
 					// Step 2: get identified spectra
 					if (identifiedSpectraFile != null && identifiedSpectraFile.exists()) {
 						System.out.println(
-								"Info - Getting identified spectra from: " + identifiedSpectraFile.getPath() + " ...");
+								"INFO - Getting identified spectra from: " + identifiedSpectraFile.getPath() + " ...");
 						logger.info("Getting identified spectra from: {} ...", identifiedSpectraFile.getPath());
-						System.out.println(exportInBatchProperty.getSpectrumTitleSelection().toString());
-						SpectrumTitleSelector spectrumTitleSelector = exportInBatchProperty.getSpectrumTitleSelection();
+						System.out.println(exportInBatchModel.getSpectrumTitleSelection().toString());
+						SpectrumTitleSelector spectrumTitleSelector = exportInBatchModel.getSpectrumTitleSelection();
 						assert spectrumTitleSelector != null : "Spectrum title selection must not be null nor empty!";
 						IdentifiedSpectra identifiedSpectra = new IdentifiedSpectra();
 						IdentifiedSpectraFromExcel identifiedSpectraExcel = new IdentifiedSpectraFromExcel();
@@ -89,7 +92,7 @@ public class ExporIntBatch {
 								identifiedSpectra.setIdentified(title);
 							}
 							// Filter out the identified spectra
-							System.out.println("Info - Filter out identified spectra ...");
+							System.out.println("INFO - Filter out identified spectra ...");
 							logger.info("Filter out identified spectra ...");
 							final ObservableList<BooleanOperator> filters = FXCollections.observableArrayList();
 							BooleanOperator booleanOperator = new BooleanOperator(Type.FALSE, false);
@@ -97,31 +100,31 @@ public class ExporIntBatch {
 							FilterRequest.filterIdentifiedColumn(
 									ListOfSpectra.getBatchSpectra().getSpectraAsObservable(), filters);
 							System.out
-									.println("Info - " + ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
+									.println("INFO - " + ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
 											+ " spectra left after filtering out identified spectra.");
 							logger.info(ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
 									+ " spectra left after filtering out identified spectra.");
 						}
 					}
 					// Step 3: apply current filters or loaded filters.
-					if (!exportInBatchProperty.getAppliedFilters().equals(AppliedFilters.NONE)) {
-						System.out.println("Info - Applying filters ...");
+					if (!exportInBatchModel.getAppliedFilters().equals(AppliedFilters.NONE)) {
+						System.out.println("INFO - Applying filters ...");
 						logger.info("Applying filters ...");
 						FilterRequest.applyAll(ListOfSpectra.getBatchSpectra().getSpectraAsObservable());
 						ListOfSpectra.getBatchSpectra().getSpectraAsObservable()
 								.forEach(spectrum -> spectrum.setIsRecovered(true));
-						System.out.println("Info - " + ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
+						System.out.println("INFO - " + ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
 								+ " spectra left after applying filters.");
 						logger.info(ListOfSpectra.getBatchSpectra().getSpectraAsObservable().size()
-								+ " spectra size after applying filters.");
+								+ " spectra left after applying filters.");
 					}
 					// Step 4: export file
-					System.out.println("Info - Exporting peak list file...");
-					logger.info("Exporting peak list file...");
-					File newFile = new File(exportInBatchProperty.getOutputDirectory() + File.separator
+					File newFile = new File(exportInBatchModel.getOutputDirectory() + File.separator
 							+ dateFormat.format(date) + "_" + peakListFile.getName());
 					if (newFile.createNewFile()) {
 						PeaklistWriter.setFileReader(peakListFile);
+						System.out.println("INFO - Exporting peaklist file " + newFile.getCanonicalPath() + " ...");
+						logger.info("Exporting peaklist file {} ...", newFile.getCanonicalPath());
 						PeaklistWriter.save(newFile);
 					}
 				}
