@@ -1,6 +1,8 @@
 package fr.lsmbo.msda.recover.gui.model;
+
 /**
  * Enumeration type of applied filters
+ * 
  * @author Aromdhani
  *
  */

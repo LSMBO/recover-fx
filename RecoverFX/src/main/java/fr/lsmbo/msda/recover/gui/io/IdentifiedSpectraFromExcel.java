@@ -36,12 +36,14 @@ public class IdentifiedSpectraFromExcel {
 	private static final Logger logger = LogManager.getLogger(IdentifiedSpectraFromExcel.class);
 
 	private static String title = "";
+
 	/**
 	 * Return file title.
 	 */
 	public static String getTitle() {
 		return title;
 	}
+
 	private ObservableList<String> sheetList = FXCollections.observableArrayList();
 	private SpectrumTitleSelector fileParams = new SpectrumTitleSelector();
 	private ArrayList<String> titles = new ArrayList<>();

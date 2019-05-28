@@ -3,9 +3,6 @@ package fr.lsmbo.msda.recover.gui.util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-
-
 /**
  * Utility class to log <em>uncaught</em> Exception terminating a running
  * thread.

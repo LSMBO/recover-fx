@@ -94,9 +94,9 @@ public class Filters {
 							.append(((LowIntensityThresholdFilter) filter).getFullDescription()).append("\n");
 				}
 				if (filter instanceof IdentifiedSpectraFilter) {
-					strBuilder.append(n++).append(") ").append("Type: ").append(((IdentifiedSpectraFilter) filter).getType())
-							.append(" ; ").append("value: ").append(((IdentifiedSpectraFilter) filter).getFullDescription())
-							.append("\n");
+					strBuilder.append(n++).append(") ").append("Type: ")
+							.append(((IdentifiedSpectraFilter) filter).getType()).append(" ; ").append("value: ")
+							.append(((IdentifiedSpectraFilter) filter).getFullDescription()).append("\n");
 				}
 				if (filter instanceof IonReporterFilter) {
 					strBuilder.append(n++).append(") ").append("Type: ").append(((IonReporterFilter) filter).getType())

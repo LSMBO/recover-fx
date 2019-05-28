@@ -42,8 +42,7 @@ public class ParsingRulesSettings extends RecoverSetting {
 
 	@Override
 	public String toString() {
-		return "Parsing Rule Name:"+ parsingRuleName + " ; " + "parsingRuleValue: " + parsingRuleValue
-				+ "\n";
+		return "Parsing Rule Name:" + parsingRuleName + " ; " + "parsingRuleValue: " + parsingRuleValue + "\n";
 	}
 
 }

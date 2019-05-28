@@ -110,8 +110,8 @@ public class SpectrumTitleSelector {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("\n").append("###Spectrum titles file: ").append(filePath).append("\n").append("###Sheet name: ")
-				.append(sheetName).append(" ; ").append("column: ").append(column).append(" ; ")
-				.append("row number: ").append(rowNumber).append("\n");
+				.append(sheetName).append(" ; ").append("column: ").append(column).append(" ; ").append("row number: ")
+				.append(rowNumber).append("\n");
 		return str.toString();
 	}
 

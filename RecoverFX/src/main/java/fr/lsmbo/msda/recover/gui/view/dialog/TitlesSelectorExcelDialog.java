@@ -36,9 +36,11 @@ import javafx.stage.Stage;
 public class TitlesSelectorExcelDialog extends Dialog<HashMap<String, Object>> {
 
 	private static ObservableList<String> sheets = FXCollections.observableArrayList();
+
 	public static void setSheets(ObservableList<String> list) {
 		sheets = list;
 	}
+
 	private int index = 0;
 	private String column = "";
 

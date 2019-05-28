@@ -87,8 +87,10 @@ public class UserParams extends RecoverSetting {
 	public String toString() {
 		StringBuilder userParamsStr = new StringBuilder();
 		userParamsStr.append("\n").append("##Version: ").append(this.recoverVersion);
-//				.append("##Comparison: ").append(this.comparison.toString()).append("\n").append("##Parsing rules: ")
-//				.append(this.parsingRules.toString()).append("\n");
+		// .append("##Comparison:
+		// ").append(this.comparison.toString()).append("\n").append("##Parsing
+		// rules: ")
+		// .append(this.parsingRules.toString()).append("\n");
 		return userParamsStr.toString();
 	}
 }

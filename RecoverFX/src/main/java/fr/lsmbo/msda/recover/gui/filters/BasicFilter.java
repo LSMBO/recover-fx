@@ -5,16 +5,19 @@ import fr.lsmbo.msda.recover.gui.model.Spectrum;
 public interface BasicFilter {
 
 	/**
-	 *Return the full description of the filter
+	 * Return the full description of the filter
+	 * 
 	 * @return String
 	 */
 	String getFullDescription();
 
 	/**
 	 * Return filter type
+	 * 
 	 * @return String
 	 */
 	public String getType();
+
 	/**
 	 * Determines whether a spectrum is valid.
 	 * 
