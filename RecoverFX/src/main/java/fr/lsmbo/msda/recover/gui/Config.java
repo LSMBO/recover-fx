@@ -95,8 +95,8 @@ public class Config {
 		try (InputStream input = Main.class.getClassLoader().getResourceAsStream(recoverPropertiesFileName)) {
 			if (input == null) {
 				System.err.println(
-						"Error - Recover properties file: '" + recoverPropertiesFileName + "' does not exist!");
-				logger.error("Recover properties file: '" + recoverPropertiesFileName + "' does not exist!");
+						"Error - RecoverFx properties file: '" + recoverPropertiesFileName + "' does not exist!");
+				logger.error("RecoverFx properties file: '" + recoverPropertiesFileName + "' does not exist!");
 			} else {
 				Properties recoverProperties = new Properties();
 				recoverProperties.load(input);
