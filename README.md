@@ -1,6 +1,6 @@
 # RecoverFX
 
-RecoverFX is the future version of Recover, the MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files.
+RecoverFX is the future version of Recover,it is the MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files.
 
 Recover has been developed to filter out high quality spectra from peaklists based on the following user-adjustable variables:
 
@@ -18,7 +18,7 @@ Once these filters adjusted, they can be applied in batch mode to multiple files
 * Database searches with multiple PTMs
 * Database searches in refined databases
 
-Recover allows reducing resource and time losses during data processing caused by the high number of low quality spectra commonly remaining in peak lists. It also allows more refined searches on selected spectra with potential high informative value.
+RecoverFx allows reducing resource and time losses during data processing caused by the high number of low quality spectra commonly remaining in peak lists. It also allows more refined searches on selected spectra with potential high informative value.
 
 Recover and RecoverFX have been developped by Alexandre Walter, Alexandre Burel, Aymen Romdhani and Benjamin Lombart at LSMBO, IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site: https://msda.unistra.fr/
 
