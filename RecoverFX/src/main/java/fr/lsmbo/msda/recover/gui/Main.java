@@ -13,7 +13,7 @@ public class Main {
 		// Initialize configuration parameters.
 		Config.initialize();
 		if (args.length == 0) {
-			logger.info("Start RecoverFx");
+			logger.info("Start recover-fx");
 			RecoverFx.run();
 		} else {
 			logger.info("Add CLI");

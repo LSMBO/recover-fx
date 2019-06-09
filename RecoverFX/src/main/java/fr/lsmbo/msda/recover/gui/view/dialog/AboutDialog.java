@@ -66,7 +66,7 @@ public class AboutDialog extends Dialog<String> {
 		// Create and display the main dialog pane
 		DialogPane dialogPane = new DialogPane();
 		dialogPane.setContent(aboutRecoverPane);
-		dialogPane.setHeaderText("Recover software");
+		dialogPane.setHeaderText("Recover-fx software");
 		dialogPane.setGraphic(new ImageView(IconResource.getImage(ICON.RECOVER)));
 		dialogPane.setPrefSize(600, 400);
 		Stage stage = (Stage) this.getDialogPane().getScene().getWindow();

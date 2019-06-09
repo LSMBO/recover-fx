@@ -253,9 +253,9 @@ public class RecoverViewModel {
 	 * 
 	 */
 	public void onExit() {
-		logger.warn("Exit RecoverFx");
-		System.out.println("WARN - Exit RecoverFx");
-		new ConfirmDialog<Object>(ICON.EXIT, "Exit RecoverFx", "Are you sure you want to exit RecoverFx ?", () -> {
+		logger.warn("Exit recover-fx");
+		System.out.println("WARN - Exit recover-fx");
+		new ConfirmDialog<Object>(ICON.EXIT, "Exit recover-fx", "Are you sure you want to exit recover-fx ?", () -> {
 			Platform.exit();
 			System.exit(0);
 			return null;
