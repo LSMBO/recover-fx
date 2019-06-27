@@ -1,8 +1,8 @@
 # Recover-fx
 
-Recover-fx is the future version of Recover, it is the MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files.
+In MS/MS searches, we notice there are a huge number of unassigned spectra. These unassigned MS/MS spectra are they bad quality and non-interpretable?  Recover-Fx has been designed to extract relevant spectra based on user preferences, in order to run other searches focusing on these high quality spectra. 
 
-Recover-fx has been developed to filter out high quality spectra from peaklists based on the following user-adjustable variables:
+Recover-Fx is an MS/MS spectra viewer and extractor designed to extract “high quality” spectra from peaklist files. It is used to filter out high quality spectra based on user-adjustable variable as well:
 
 **Spectrum quality filters:**
 * The Emergence (E) is a multiplication factor applied to the noise level (computed with an appropriate algorithm for each spectrum) allowing to define "Useful Peaks" with intensities higher than E x noise level.
