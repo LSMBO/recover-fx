@@ -22,3 +22,7 @@ Recover-fx allows reducing resource and time losses during data processing cause
 
 Recover and Recover-fx have been developped by Alexandre Walter, Alexandre Burel, Aymen Romdhani and Benjamin Lombart at LSMBO, IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site: https://msda.unistra.fr/
 
+<h3>Screenshot</h3>
+
+![alt text](https://github.com/LSMBO/recover-fx/blob/master/RecoverFX/src/main/resources/images/recover-fx.png)
+
