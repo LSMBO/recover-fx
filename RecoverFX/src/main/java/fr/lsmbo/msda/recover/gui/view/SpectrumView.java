@@ -5,12 +5,19 @@ package fr.lsmbo.msda.recover.gui.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
+import com.compomics.util.Export;
+import com.compomics.util.enumeration.ImageType;
 import com.compomics.util.general.IsotopicDistributionSpectrum;
 import com.compomics.util.gui.interfaces.SpectrumAnnotation;
 import com.compomics.util.gui.spectrum.DefaultSpectrumAnnotation;
@@ -18,6 +25,7 @@ import com.compomics.util.gui.spectrum.GraphicsPanel;
 import com.compomics.util.gui.spectrum.ReferenceArea;
 import com.compomics.util.gui.spectrum.SpectrumPanel;
 import com.compomics.util.interfaces.SpectrumFile;
+import com.compomics.util.io.filefilters.PdfFileFilter;
 
 import fr.lsmbo.msda.recover.gui.model.Fragment;
 import fr.lsmbo.msda.recover.gui.model.Spectrum;
@@ -127,6 +135,8 @@ public class SpectrumView {
 		}
 	}
 
+	
+
 	public SpectrumPanel getSpectrumPanel() {
 		return panel;
 	}
@@ -144,4 +154,5 @@ public class SpectrumView {
 		this.panel.addReferenceAreaYAxis(refArea);
 
 	}
+
 }

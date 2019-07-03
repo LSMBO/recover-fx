@@ -7,6 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 
+import com.compomics.util.Export;
+import com.compomics.util.enumeration.ImageType;
+
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.RecoverFx;
 import fr.lsmbo.msda.recover.gui.Session;
@@ -24,6 +27,7 @@ import fr.lsmbo.msda.recover.gui.model.Spectrum;
 import fr.lsmbo.msda.recover.gui.util.FileUtils;
 import fr.lsmbo.msda.recover.gui.util.TaskRunner;
 import fr.lsmbo.msda.recover.gui.view.MainView;
+import fr.lsmbo.msda.recover.gui.view.SpectrumView;
 import fr.lsmbo.msda.recover.gui.view.dialog.AboutDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ConfirmDialog;
 import fr.lsmbo.msda.recover.gui.view.dialog.ExportInBatchDialog;
@@ -606,4 +610,16 @@ public class RecoverViewModel {
 		Platform.runLater(r);
 	}
 
+	/**
+	 * Export the current chart in the mainview 
+	 */
+	public void exportChart(SpectrumView spectrumView) {
+
+		FileUtils.saveChartAs(file -> {
+			try {
+			} catch (Exception e) {
+
+			}
+		}, stage);
+	}
 }

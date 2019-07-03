@@ -80,6 +80,7 @@ public class MainView extends StackPane {
 	private final SwingNode swingNodeForChart = new SwingNode();
 	private RecoverViewProperty viewProperty = new RecoverViewProperty();
 	private RecoverViewUPNProperty filterLITProperty = new RecoverViewUPNProperty();
+	private SpectrumView spectrumView;
 	// Filtered table
 	private FilteredTableView<Spectrum> filteredTable;
 	// Filtered columns
@@ -206,7 +207,14 @@ public class MainView extends StackPane {
 		saveFiltersToJsonFile.setOnAction((e) -> {
 			model.onSaveFiltersToJsonFile();
 		});
-		settingsMenu.getItems().addAll(showCurrentFilters, loadFiltersFrmJsonFile, saveFiltersToJsonFile);
+		// Export filter parameters
+		MenuItem exportChart = new MenuItem(" Export chart ... ");
+		exportChart.setGraphic(new ImageView(IconResource.getImage(ICON.SAVE)));
+		exportChart.setAccelerator(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN));
+		exportChart.setOnAction((e) -> {
+			model.exportChart(spectrumView);
+		});
+		settingsMenu.getItems().addAll(showCurrentFilters, exportChart, loadFiltersFrmJsonFile, saveFiltersToJsonFile);
 		/* Help menu items */
 		// User guide menu item
 		Menu helpMenu = new Menu(" Help ");
@@ -573,7 +581,7 @@ public class MainView extends StackPane {
 			if (newValue != null) {
 				selectedSpectrum = newValue;
 				// Create the spectrum chart node
-				SpectrumView spectrumView = new SpectrumView(selectedSpectrum);
+				spectrumView = new SpectrumView(selectedSpectrum);
 				// Update the spectrum/fragments properties
 				spectrumTitle.setText(selectedSpectrum.getTitle());
 				spectrumPrecursor.setText(Float.toString(selectedSpectrum.getMz()) + ", "

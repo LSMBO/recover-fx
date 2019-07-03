@@ -177,6 +177,25 @@ public class FileUtils {
 			fileConsumer.accept(file);
 		}
 	}
+	/**
+	 * @param fileConsumer
+	 *            consumer accept the JSON file to save .
+	 * 
+	 * @param primaryStage
+	 *            the parent stage of the file chooser
+	 * 
+	 */
+	public static void saveChartAs(Consumer<File> fileConsumer, Stage stage) {
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setTitle("Save chart");
+		File file = fileChooser.showSaveDialog(stage);
+		if (file != null) {
+			fileConsumer.accept(file);
+		}
+	}
+
 
 	/**
 	 * Browse and show a file
