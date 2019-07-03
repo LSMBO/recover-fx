@@ -33,7 +33,7 @@ public class Session {
 	// median fragment intensity (or average)
 	public static Float CALCULATED_NOISE_VALUE = 150F;
 	// E * median fragment intensity (or average)
-	public static Float LOW_INTENSITY_THRESHOLD = 450F;
+	public static Float LOW_INTENSITY_THRESHOLD = 0F;
 	public static Float HIGH_INTENSITY_THRESHOLD = 2000F; //
 	public static Float TOP_LINE = 2500F;
 

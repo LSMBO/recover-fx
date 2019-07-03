@@ -15,6 +15,7 @@ import com.compomics.util.general.IsotopicDistributionSpectrum;
 import com.compomics.util.gui.interfaces.SpectrumAnnotation;
 import com.compomics.util.gui.spectrum.DefaultSpectrumAnnotation;
 import com.compomics.util.gui.spectrum.GraphicsPanel;
+import com.compomics.util.gui.spectrum.ReferenceArea;
 import com.compomics.util.gui.spectrum.SpectrumPanel;
 import com.compomics.util.interfaces.SpectrumFile;
 
@@ -25,10 +26,11 @@ import fr.lsmbo.msda.recover.gui.model.Spectrum;
  * Create and displays a spectrum view that enables the plotting of a spectrum
  * with specific annotations .
  * 
- * @author aromdhani
+ * @author Aromdhani
  *
  */
 public class SpectrumView {
+
 	/**
 	 * The spectrum to plot
 	 */
@@ -41,7 +43,16 @@ public class SpectrumView {
 	 * The panel that can be embedded in the interface
 	 */
 	private SpectrumPanel panel;
+	/**
+	 * The reference area
+	 */
+	private ReferenceArea refArea;
 
+	/**
+	 * 
+	 * @param spectrumToPlot
+	 *            the spectrum to plot
+	 */
 	public SpectrumView(Spectrum spectrumToPlot) {
 		this.spectrum = spectrumToPlot;
 		this.fragments = spectrumToPlot.getFragments();
@@ -112,10 +123,25 @@ public class SpectrumView {
 			panel.setFilenameColor(Color.BLUE);
 			panel.setDataPointAndLineColor(Color.pink, 500);
 			panel.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+			addReferenceArea();
 		}
 	}
 
 	public SpectrumPanel getSpectrumPanel() {
 		return panel;
+	}
+
+	/**
+	 * Add the threshold value
+	 * 
+	 * @param threshold
+	 *            the threshold to set
+	 */
+	private void addReferenceArea() {
+		ReferenceArea refArea = new ReferenceArea("Threshold", "Noise level", 0,
+				(double) this.spectrum.getLowIntensityThreshold(), Color.GREEN, 0.2f, true, true, true);
+		this.refArea = refArea;
+		this.panel.addReferenceAreaYAxis(refArea);
+
 	}
 }
