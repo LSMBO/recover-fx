@@ -214,7 +214,7 @@ public class MainView extends StackPane {
 		exportChart.setOnAction((e) -> {
 			model.exportChart(spectrumView);
 		});
-		settingsMenu.getItems().addAll(showCurrentFilters, exportChart, loadFiltersFrmJsonFile, saveFiltersToJsonFile);
+		settingsMenu.getItems().addAll(showCurrentFilters, loadFiltersFrmJsonFile, saveFiltersToJsonFile);
 		/* Help menu items */
 		// User guide menu item
 		Menu helpMenu = new Menu(" Help ");
