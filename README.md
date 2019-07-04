@@ -24,5 +24,5 @@ Recover and Recover-fx have been developped by Alexandre Walter, Alexandre Burel
 
 <h3>Screenshot</h3>
 
-![alt text](https://github.com/LSMBO/recover-fx/blob/master/RecoverFX/src/main/resources/images/recover-fx.png)
+![alt text](https://github.com/LSMBO/recover-fx/blob/master/src/main/resources/images/recover-fx.png)
 
