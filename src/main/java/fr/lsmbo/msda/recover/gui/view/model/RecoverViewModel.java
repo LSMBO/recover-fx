@@ -7,9 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.google.jhsheets.filtered.tablecolumn.IFilterableTableColumn;
 
-import com.compomics.util.Export;
-import com.compomics.util.enumeration.ImageType;
-
 import fr.lsmbo.msda.recover.gui.IconResource.ICON;
 import fr.lsmbo.msda.recover.gui.RecoverFx;
 import fr.lsmbo.msda.recover.gui.Session;

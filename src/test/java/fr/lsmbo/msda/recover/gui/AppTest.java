@@ -1,15 +1,7 @@
 package fr.lsmbo.msda.recover.gui;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
 
-import org.junit.Assert;
-
-import fr.lsmbo.msda.recover.gui.io.PeaklistReader;
-import fr.lsmbo.msda.recover.gui.lists.ListOfSpectra;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
