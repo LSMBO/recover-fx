@@ -148,7 +148,7 @@ public class SpectrumView {
 	 *            the threshold to set
 	 */
 	private void addReferenceArea() {
-		ReferenceArea refArea = new ReferenceArea("Threshold", "E * baseline", 0,
+		ReferenceArea refArea = new ReferenceArea("Threshold", "Baseline X Emergence", 0,
 				(double) this.spectrum.getLowIntensityThreshold(), Color.GREEN, 0.2f, true, true, true);
 		this.refArea = refArea;
 		this.panel.addReferenceAreaYAxis(refArea);
