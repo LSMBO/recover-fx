@@ -20,7 +20,13 @@ Once these filters adjusted, they can be applied in batch mode to multiple files
 
 Recover-fx allows reducing resource and time losses during data processing caused by the high number of low quality spectra commonly remaining in peak lists. It also allows more refined searches on selected spectra with potential high informative value.
 
-Recover-fx  requires Java 8
+Usage
+
+Recover-x has been developped in Java and can be used on Windows and Linux.<br>
+Recover-x requires Java 8<br>
+The latest release can be downloaded here: https://github.com/LSMBO/recover-fx/releases<br>
+To run Recover-fx, you can double-click on the script <code>start_recover_fx</code>
+
 
 Recover and Recover-fx have been developped by Alexandre Walter, Alexandre Burel, Aymen Romdhani and Benjamin Lombart at LSMBO, IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site: https://msda.unistra.fr/
 
