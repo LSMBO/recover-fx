@@ -20,7 +20,7 @@ Once these filters adjusted, they can be applied in batch mode to multiple files
 
 Recover-fx allows reducing resource and time losses during data processing caused by the high number of low quality spectra commonly remaining in peak lists. It also allows more refined searches on selected spectra with potential high informative value.
 
-Usage
+**Usage**
 
 Recover-x has been developped in Java and can be used on Windows and Linux.<br>
 Recover-x requires Java 8<br>
