@@ -24,7 +24,7 @@ Recover-fx allows reducing resource and time losses during data processing cause
 
 Recover-x has been developped in Java and can be used on Windows and Linux.<br>
 Recover-x requires Java 8<br>
-The latest release can be downloaded here: https://github.com/LSMBO/recover-fx/releases<br>
+The latest release can be downloaded from here: https://github.com/LSMBO/recover-fx/releases<br>
 To run Recover-fx, you can double-click on the script <code>start_recover_fx</code>
 
 
