@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 /**
- * Creates and displays about Recover software dialog.
+ * Creates and displays about Recover-fx dialog.
  * 
  * @author Aromdhani
  *
@@ -34,9 +34,9 @@ public class AboutDialog extends Dialog<String> {
 		name = Session.RECOVER_RELEASE_NAME;
 		description = Session.RECOVER_RELEASE_DESCRIPTION;
 		version = Session.RECOVER_RELEASE_VERSION;
-		assert name != null : "Software name must not be null or empty";
-		assert description != null : "Software description must not be null or empty";
-		assert version != null : "Software version must not be null or empty";
+		assert name != null : "Software name must not be null nor empty";
+		assert description != null : "Software description must not be null nor empty";
+		assert version != null : "Software version must not be null nor empty";
 		// Create about recover software dialog components
 		StringBuilder softwareProperties = new StringBuilder();
 		softwareProperties.append("\n").append("##name: ").append(name).append("\n").append("##description: ")
