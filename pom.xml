@@ -5,7 +5,7 @@
 
 	<groupId>fr.lsmbo.msda</groupId>
 	<artifactId>recover-fx</artifactId>
-	<version>3.0.2</version>
+	<version>3.0.2-snapshot</version>
 	<description>Recover-fx is a MS/MS spectra viewer/extractor designed to extract "high quality" spectra from peaklist files</description>
 	<properties>
 		<project.build.date>2019-05-29</project.build.date>
