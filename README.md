@@ -25,7 +25,7 @@ Recover-fx allows reducing resource and time losses during data processing cause
 Recover-fx has been developped in Java and can be used on Windows and Linux.<br>
 Recover-fx requires Java 8 at least.<br>
 The latest release can be downloaded from here: https://github.com/LSMBO/recover-fx/releases<br>
-To run Recover-fx, you can double-click on the script <code>start_recover_fx</code>
+To run Recover-fx, you can double-click on the script <code>start_recover_fx.bat</code>(Windows) and <code>start_recover_fx.sh</code>(Unix)
 
 
 Recover and Recover-fx have been developped by Alexandre Walter, Alexandre Burel, Aymen Romdhani and Benjamin Lombart at LSMBO, IPHC UMR7178, CNRS FRANCE. Recover is available on the MSDA web site: https://msda.unistra.fr/
