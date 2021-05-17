@@ -158,12 +158,12 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
-			<version>3.15</version>
+			<version>3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>4.13.2</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
 		<dependency>
@@ -185,17 +185,17 @@
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-excelant</artifactId>
-			<version>3.15</version>
+			<version>3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>3.15</version>
+			<version>3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-scratchpad</artifactId>
-			<version>3.15</version>
+			<version>3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
